@@ -1,4 +1,4 @@
-import { GetProductClassificationTypesResponse, ProductLine } from '@/types/api/sensatta'
+import { ProductLine } from '@/types/api/sensatta'
 import { GetAllStocksResponse, GetAnalyticalAllStocksResponse } from '@/types/api/stock'
 import { SetStateAction, useEffect } from 'react'
 import { SelectedProductLinesByCompany } from '../types/selected-product-lines-by-company'

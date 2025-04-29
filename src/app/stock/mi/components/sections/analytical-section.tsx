@@ -14,6 +14,7 @@ import { SelectedProductLinesByCompany } from '../../types/selected-product-line
 import { MultipleSelectInputControlled } from '../customized/multiple-select-input'
 import { useSetSelectedProductLinesInitialState } from '../../hooks/use-set-selected-product-lines-initial-state'
 import { useGetFilteredAnalyticalStockData } from '../../hooks/use-get-filtered-analytical-stock-data'
+import { useSelectProductLinesFilters } from '../../hooks/use-select-product-lines-filters'
 
 export interface AnalyticalSectionRef {
   getSelectedCompany: () => string | undefined
@@ -54,6 +55,12 @@ export const AnalyticalSection = forwardRef<AnalyticalSectionRef, AnalyticalSect
     })
 
     const filteredData = useGetFilteredAnalyticalStockData({ data, selectedProductLinesByCompany })
+    const { preset: presetProductLineFilters, reset: resetProductLineFilters } =
+      useSelectProductLinesFilters({
+        data,
+        productLines,
+        setSelectedProductLinesByCompany,
+      })
 
     const handleUpdateSelectedProductLines = (params: {
       companyCode: string
@@ -70,6 +77,24 @@ export const AnalyticalSection = forwardRef<AnalyticalSectionRef, AnalyticalSect
         // adiciona novo valor
         return [...state, params]
       })
+    }
+
+    const handleProductLineFilter = (companyCode?: string) => {
+      if (!companyCode) {
+        return
+      }
+
+      const relatedFilter = selectedProductLinesByCompany.find((i) => i.companyCode === companyCode)
+      if (!relatedFilter) {
+        return
+      }
+
+      const haveSomeSelectedFilter = relatedFilter.values.length > 0
+      if (haveSomeSelectedFilter) {
+        return resetProductLineFilters(companyCode)
+      }
+
+      return presetProductLineFilters()
     }
 
     return (
@@ -143,7 +168,14 @@ export const AnalyticalSection = forwardRef<AnalyticalSectionRef, AnalyticalSect
                       }}
                     />
 
-                    <Box sx={{ width: '300px', marginLeft: 'auto' }}>
+                    <Box
+                      sx={{
+                        width: '300px',
+                        marginLeft: 'auto',
+                        display: 'flex',
+                        flexDirection: 'column',
+                      }}
+                    >
                       <MultipleSelectInputControlled
                         size='small'
                         options={
@@ -157,6 +189,19 @@ export const AnalyticalSection = forwardRef<AnalyticalSectionRef, AnalyticalSect
                         setSelectedCategoryByCompany={handleUpdateSelectedProductLines}
                         label='Classificações'
                       />
+                      <Typography
+                        fontSize={'12px'}
+                        sx={{
+                          marginLeft: '4px',
+                          '&:hover': {
+                            color: COLORS.TEXTO,
+                            cursor: 'pointer',
+                          },
+                        }}
+                        onClick={() => handleProductLineFilter(selectedCompany)}
+                      >
+                        Selecionar/Deselecionar tudo
+                      </Typography>
                     </Box>
                   </Box>
                 </Box>
