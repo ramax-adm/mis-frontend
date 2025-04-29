@@ -2,10 +2,10 @@ import { useTabsContext } from '@/contexts/tabs'
 import { Box, BoxProps, Tab, Tabs } from '@mui/material'
 import { ReactNode } from 'react'
 
-interface TabsOptionsProps extends BoxProps {
+interface TabsSelectProps extends BoxProps {
   children: ReactNode
 }
-export function TabsOptions({ children, ...props }: TabsOptionsProps) {
+export function TabsSelect({ children, ...props }: TabsSelectProps) {
   const { currentTab, handleChange } = useTabsContext()
   return (
     <Box sx={{ borderBottom: 1, borderColor: 'divider', ...props.sx }}>

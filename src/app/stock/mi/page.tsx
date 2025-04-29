@@ -2,7 +2,7 @@
 
 import { PageContainer } from '@/components/PageContainer'
 import { Box, Button, Tab, Typography } from '@mui/material'
-import { CardsSection, CardsSectionRef } from './components/sections/cards-section'
+import { ResumeSection, ResumeSectionRef } from './components/sections/resume-section'
 import { PageContainerHeader } from '@/components/PageContainer/header'
 import { Tabs } from '@/components/Tabs'
 import { useGetStockLastUpdatedAt } from '@/services/react-query/queries/stock'
@@ -33,7 +33,7 @@ export default function StockPage() {
   } = useExportStockXlsx()
 
   // refs
-  const resumedSectionRef = useRef<CardsSectionRef>(null)
+  const resumedSectionRef = useRef<ResumeSectionRef>(null)
   const analyticalSectionRef = useRef<AnalyticalSectionRef>(null)
   const tabPanelRef = useRef<TabsPanelRef>(null)
 
@@ -126,20 +126,20 @@ export default function StockPage() {
       {/**
        * TODO:
        *
-       * Mudar TABS.OPTIONS => TABS.SELECT
+       * Mudar TABS.OPTIONS => TABS.SELECT [OK]
        * Deixar cada Tab => Tab.Option
        *
        * Estilização da tab
        */}
       {(isSyncStockWithSensatta || isExportingStockReport) && <LoadingOverlay />}
       <Tabs.Root defaultTab='resumed'>
-        <Tabs.Options>
+        <Tabs.Select>
           <Tab label='Resumo' value={'resumed'} />
           <Tab label='Analitico' value={'analytical'} />
-        </Tabs.Options>
+        </Tabs.Select>
         <Tabs.Content>
           <Tabs.Panel tabName='resumed' ref={tabPanelRef}>
-            <CardsSection ref={resumedSectionRef} />
+            <ResumeSection ref={resumedSectionRef} />
           </Tabs.Panel>
           <Tabs.Panel tabName='analytical' ref={tabPanelRef}>
             <AnalyticalSection
