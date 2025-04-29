@@ -5,5 +5,5 @@ Este projeto trata-se do MIS, principal sistema de informação gerencial da RAM
 - Node 20.18
 - Npm 10.8
 - Typescript
-- NestJS
-- TypeORM
+- NextJS
+- Material UI
