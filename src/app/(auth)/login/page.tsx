@@ -180,7 +180,7 @@ export default function Login() {
           color: '#29323a',
         }}
       >
-        {new Date().getFullYear()} © RAMAX - APP
+        {new Date().getFullYear()} © RAMAX - GROUP - APP
       </Typography>
     </>
   )
