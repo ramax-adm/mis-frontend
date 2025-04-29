@@ -28,7 +28,7 @@ export default function RootPage() {
             color: '#29323a',
           }}
         >
-          {new Date().getFullYear()} © RAMAX
+          {new Date().getFullYear()} © RAMAX - GROUP
         </Typography>
       </div>
     </main>

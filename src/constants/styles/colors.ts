@@ -1,7 +1,9 @@
 export const COLORS = {
   // TODO
   TEXTO: 'rgba(62, 99, 221, 1)',
+  TEXTO_ALTERNATIVO: 'rgba(15, 55, 117, 1)',
   BORDAS: 'rgba(62, 99, 221, 0.3)',
+  BORDAS_ALTERNATIVA: 'rgba(15, 55, 117, 0.3)',
   FUNDO_PRIMARIO: 'rgba(62, 99, 221, 0.3)',
 
   INDICADORES: {

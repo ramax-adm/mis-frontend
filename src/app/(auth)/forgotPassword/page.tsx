@@ -200,7 +200,7 @@ export default function ForgotPassword() {
           color: '#29323a',
         }}
       >
-        {new Date().getFullYear()} © RAMAX
+        {new Date().getFullYear()} © RAMAX - GROUP
       </Typography>
     </Box>
   )
