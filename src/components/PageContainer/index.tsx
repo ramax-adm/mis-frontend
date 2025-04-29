@@ -143,6 +143,7 @@ export const PageContainer = ({ children }: { children: ReactNode }) => {
           display: 'flex',
           flexDirection: 'column',
           width: '100%',
+          height: '100%',
           marginLeft: isMobile ? 0 : 2,
           marginY: 1,
         }}
