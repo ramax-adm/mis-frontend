@@ -101,7 +101,7 @@ const getColumns = (): Column<GetAnalyticalToExpiresByCompanyResponse>[] => {
       },
     },
     {
-      headerName: 'R$/KG base',
+      headerName: 'R$/KG Base',
       maxWidth: '50px',
       type: 'string',
       value: {
