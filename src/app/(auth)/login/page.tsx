@@ -34,7 +34,7 @@ export default function Login() {
       const response = await PostLogin({ email: params.email, password: params.password })
 
       if (response.data.access_token) {
-        localStorage.setItem('@JWT_HASH', response.data.access_token)
+        localStorage.setItem('token', response.data.access_token)
 
         const array = {
           id: response.data.user.id,

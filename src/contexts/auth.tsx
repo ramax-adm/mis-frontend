@@ -2,6 +2,7 @@
 import { GetUserProfile } from '@/services/webApi/user-api'
 import { User, UserRoles } from '@/types/user'
 import { PageRoutes } from '@/utils/appRoutes'
+import { getFromLocalStorage, setToLocalStorage } from '@/utils/storage.utils'
 import { useRouter, usePathname, useParams } from 'next/navigation'
 import React, { createContext, useContext, useEffect, useState } from 'react'
 
@@ -63,7 +64,7 @@ export default function AuthContextProvider({ children }: AuthContextProviderPro
   const params = useParams()
 
   function logoutUser() {
-    const array = {
+    const userPayload = {
       id: '',
       name: '',
       cpf: '',
@@ -72,11 +73,11 @@ export default function AuthContextProvider({ children }: AuthContextProviderPro
       refreshToken: '',
       role: '',
     }
-    localStorage.setItem('@JWT_HASH', '')
-    localStorage.setItem('user', JSON.stringify(array))
+    setToLocalStorage('token', '')
+    setToLocalStorage('user', JSON.stringify(userPayload))
     setLoadingLogin(false)
-    setUser(array)
-    return router.push('/login')
+    setUser(userPayload)
+    return router.push(PageRoutes.login())
   }
 
   /*
@@ -84,15 +85,21 @@ export default function AuthContextProvider({ children }: AuthContextProviderPro
    */
 
   useEffect(() => {
-    const userLocal = JSON.parse(localStorage.getItem('user')!)
-    const token = localStorage.getItem('@JWT_HASH')
-    setUser(userLocal)
-
     if (noAuthRoutes.includes(pathname)) {
       return
     }
 
-    if (!userLocal || userLocal.username === '' || token === '' || !userLocal.isActive) {
+    const storedUser = getFromLocalStorage('user')
+    const storedToken = getFromLocalStorage('token')
+
+    if (!storedUser || !storedToken) {
+      return router.push(PageRoutes.login())
+    }
+
+    const userLocal = JSON.parse(storedUser)
+    setUser(userLocal)
+
+    if (!userLocal || userLocal.username === '' || storedToken === '' || !userLocal.isActive) {
       return router.push(PageRoutes.login())
     }
 
