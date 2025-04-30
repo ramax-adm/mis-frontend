@@ -51,7 +51,7 @@ export const urls = {
 }
 
 export const GetFetch = async (url, params) => {
-  const JWT = localStorage.getItem('@JWT_HASH')
+  const JWT = localStorage.getItem('token')
   api.defaults.headers.authorization = `Bearer ${JWT}`
   const data = await api.get(url, params)
   return data
@@ -63,7 +63,7 @@ export const GetFetchUnauthenticated = async (url, params) => {
 }
 
 export const PostFetch = async (url, params, ...rest) => {
-  const JWT = localStorage.getItem('@JWT_HASH')
+  const JWT = localStorage.getItem('token')
   api.defaults.headers.authorization = `Bearer ${JWT}`
 
   const data = await api.post(url, params, ...rest)
@@ -71,7 +71,7 @@ export const PostFetch = async (url, params, ...rest) => {
 }
 
 export const PutFetch = async (url, params, ...rest) => {
-  const JWT = localStorage.getItem('@JWT_HASH')
+  const JWT = localStorage.getItem('token')
   api.defaults.headers.authorization = `Bearer ${JWT}`
 
   const data = await api.put(url, params, ...rest)
@@ -79,7 +79,7 @@ export const PutFetch = async (url, params, ...rest) => {
 }
 
 export const PatchFetch = async (url, params, ...rest) => {
-  const JWT = localStorage.getItem('@JWT_HASH')
+  const JWT = localStorage.getItem('token')
   api.defaults.headers.authorization = `Bearer ${JWT}`
 
   const data = await api.patch(url, params, ...rest)
@@ -87,7 +87,7 @@ export const PatchFetch = async (url, params, ...rest) => {
 }
 
 export const DeleteFetch = async (url, params) => {
-  const JWT = localStorage.getItem('@JWT_HASH')
+  const JWT = localStorage.getItem('token')
   api.defaults.headers.authorization = `Bearer ${JWT}`
 
   const data = await api.delete(url, params)
