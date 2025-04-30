@@ -23,7 +23,7 @@ export const queryClient = new QueryClient({
           const isUserUnauthorizedError = statusReceived === 401 || statusReceived === 403
 
           if (isUserUnauthorizedError) {
-            localStorage.setItem('@JWT_HASH', '')
+            localStorage.setItem('token', '')
             localStorage.setItem(
               'user',
               JSON.stringify({
