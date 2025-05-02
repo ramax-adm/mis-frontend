@@ -14,6 +14,7 @@ import {
 import { PostSimulateDataResponse } from '@/types/api/cash-flow'
 import { queryKeys } from '../query-keys'
 import { ExportService } from '@/services/export'
+import { toast } from 'sonner'
 
 export const useSimulateCashFlow = () => {
   return useMutation({
@@ -53,6 +54,16 @@ export const useSimulateCashFlow = () => {
       })
 
       return response as PostSimulateDataResponse
+    },
+    onError() {
+      toast.success('Erro', {
+        description: 'Erro ao simular!',
+      })
+    },
+    onSuccess() {
+      toast.success('Sucesso', {
+        description: 'Simulação concluida com sucesso!',
+      })
     },
   })
 }
