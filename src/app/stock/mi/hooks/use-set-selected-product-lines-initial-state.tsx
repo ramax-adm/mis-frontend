@@ -1,7 +1,10 @@
 import { ProductLine } from '@/types/api/sensatta'
 import { GetAllStocksResponse, GetAnalyticalAllStocksResponse } from '@/types/api/stock'
 import { SetStateAction, useEffect } from 'react'
-import { SelectedProductLinesByCompany } from '../types/selected-product-lines-by-company'
+import { getFromLocalStorage } from '@/utils/storage.utils'
+import { STORAGE_KEYS } from '@/constants/app/storage'
+import { safeParse } from '@/utils/string.utils'
+import { SelectedProductLinesByCompany, StockSettings } from '@/types/stock'
 
 interface UseSetSelectedProductLinesInitialStateRequest {
   data?: GetAllStocksResponse[] | GetAnalyticalAllStocksResponse
@@ -17,23 +20,16 @@ export const useSetSelectedProductLinesInitialState = ({
   return useEffect(() => {
     if (!data || !productLines) return
 
-    const values = productLines.map((p) => p.acronym)
-
-    let initialState
-    if (Array.isArray(data)) {
-      initialState = data.map((item) => ({
-        companyCode: item.companyCode,
-        values,
-      }))
-    } else {
-      initialState = [
-        {
-          companyCode: data.companyCode,
-          values,
-        },
-      ]
+    const storedSettings = getFromLocalStorage(STORAGE_KEYS.STOCK_SETTINGS)
+    if (!storedSettings || storedSettings.length === 0) {
+      return
     }
 
-    setSelectedProductLinesByCompany(initialState)
+    const parsedSettings = safeParse(storedSettings) as Partial<StockSettings>
+    const filters = parsedSettings?.productLineFilters
+
+    if (filters) {
+      return setSelectedProductLinesByCompany(filters)
+    }
   }, [data, productLines])
 }
