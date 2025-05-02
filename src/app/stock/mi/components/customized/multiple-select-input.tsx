@@ -5,7 +5,7 @@ import FormControl from '@mui/material/FormControl'
 import ListItemText from '@mui/material/ListItemText'
 import Select, { SelectChangeEvent } from '@mui/material/Select'
 import Checkbox from '@mui/material/Checkbox'
-import { SelectedProductLinesByCompany } from '../../types/selected-product-lines-by-company'
+import { SelectedProductLinesByCompany } from '@/types/stock'
 
 const ITEM_HEIGHT = 48
 const ITEM_PADDING_TOP = 8
