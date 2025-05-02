@@ -11,6 +11,11 @@ export const COLORS = {
     BORDA_PRIMARIO: 'rgba(160, 209, 255, 0.8)',
     FUNDO_SECUNDARIO: 'rgba(255, 0, 0, 0.7)',
     BORDA_SECUNDARIO: 'rgba(255, 0, 0, 0.7)',
+
+    FUNDO_VERMELHO: 'rgba(255, 0, 0, 1)',
+
+    FUNDO_AMARELO: 'rgba(255, 172, 17, 1)',
+    FUNDO_VERDE: 'rgba(0, 146, 13, 1)',
   },
 
   CARDS: {

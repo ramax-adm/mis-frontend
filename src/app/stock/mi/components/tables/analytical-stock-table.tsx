@@ -16,10 +16,13 @@ export function AnalyticalStockTable({ data }: AnalyticalStockTableProps) {
           width: '100%',
         }}
         cellStyles={{
-          padding: 1,
+          paddingX: 1,
+          fontSize: '9px',
+          paddingY: 0.2,
         }}
         headCellStyles={{
           paddingX: 1,
+          fontSize: '10px',
         }}
         columns={columns}
         data={data}
@@ -32,6 +35,7 @@ const getColumns = (): Column<GetAnalyticalStockByCompanyResponse>[] => {
   return [
     {
       headerName: 'Cod. Linha',
+      maxWidth: '20px',
       type: 'string',
       value: {
         first: {
@@ -41,6 +45,7 @@ const getColumns = (): Column<GetAnalyticalStockByCompanyResponse>[] => {
     },
     {
       headerName: 'Linha',
+      maxWidth: '80px',
       type: 'string',
       value: {
         first: {
@@ -50,6 +55,7 @@ const getColumns = (): Column<GetAnalyticalStockByCompanyResponse>[] => {
     },
     {
       headerName: 'Cod. Produto',
+      maxWidth: '20px',
       type: 'string',
       value: {
         first: {
@@ -59,7 +65,7 @@ const getColumns = (): Column<GetAnalyticalStockByCompanyResponse>[] => {
     },
     {
       headerName: 'Produto',
-      maxWidth: '50px',
+      maxWidth: '80px',
       type: 'string',
       value: {
         first: {
@@ -69,6 +75,7 @@ const getColumns = (): Column<GetAnalyticalStockByCompanyResponse>[] => {
     },
     {
       headerName: 'CXs',
+      maxWidth: '30px',
       type: 'string',
       value: {
         first: {
@@ -86,7 +93,8 @@ const getColumns = (): Column<GetAnalyticalStockByCompanyResponse>[] => {
       },
     },
     {
-      headerName: 'R$/KG Base',
+      headerName: '$/KG',
+      maxWidth: '30px',
       type: 'string',
       value: {
         first: {
@@ -94,43 +102,43 @@ const getColumns = (): Column<GetAnalyticalStockByCompanyResponse>[] => {
         },
       },
     },
-    { headerName: 'R$/SP TRUCK', type: 'string', value: { first: { value: 'priceSPTruck' } } },
-    { headerName: 'R$/RJ TRUCK', type: 'string', value: { first: { value: 'priceRJTruck' } } },
-    { headerName: 'R$/PR TRUCK', type: 'string', value: { first: { value: 'pricePRTruck' } } },
-    { headerName: 'R$/SC TRUCK', type: 'string', value: { first: { value: 'priceSCTruck' } } },
-    { headerName: 'R$/MG TRUCK', type: 'string', value: { first: { value: 'priceMGTruck' } } },
-    { headerName: 'R$/BA TRUCK', type: 'string', value: { first: { value: 'priceBATruck' } } },
-    { headerName: 'R$/PE TRUCK', type: 'string', value: { first: { value: 'pricePETruck' } } },
-    { headerName: 'R$/PB TRUCK', type: 'string', value: { first: { value: 'pricePBTruck' } } },
-    { headerName: 'R$/RN TRUCK', type: 'string', value: { first: { value: 'priceRNTruck' } } },
-    { headerName: 'R$/GO TRUCK', type: 'string', value: { first: { value: 'priceGOTruck' } } },
-    { headerName: 'R$/DF TRUCK', type: 'string', value: { first: { value: 'priceDFTruck' } } },
-    { headerName: 'R$/FO TRUCK', type: 'string', value: { first: { value: 'priceFOTruck' } } },
-    { headerName: 'R$/RS TRUCK', type: 'string', value: { first: { value: 'priceRSTruck' } } },
-    { headerName: 'R$/MA TRUCK', type: 'string', value: { first: { value: 'priceMATruck' } } },
-    { headerName: 'R$/MT TRUCK', type: 'string', value: { first: { value: 'priceMTTruck' } } },
-    { headerName: 'R$/MS TRUCK', type: 'string', value: { first: { value: 'priceMSTruck' } } },
-    { headerName: 'R$/PA TRUCK', type: 'string', value: { first: { value: 'pricePATruck' } } },
-    { headerName: 'R$/ES TRUCK', type: 'string', value: { first: { value: 'priceESTruck' } } },
-    { headerName: 'R$/TO TRUCK', type: 'string', value: { first: { value: 'priceTOTruck' } } },
-    { headerName: 'R$/SP CAR', type: 'string', value: { first: { value: 'priceSPCar' } } },
-    { headerName: 'R$/RJ CAR', type: 'string', value: { first: { value: 'priceRJCar' } } },
-    { headerName: 'R$/PR CAR', type: 'string', value: { first: { value: 'pricePRCar' } } },
-    { headerName: 'R$/SC CAR', type: 'string', value: { first: { value: 'priceSCCar' } } },
-    { headerName: 'R$/MG CAR', type: 'string', value: { first: { value: 'priceMGCar' } } },
-    { headerName: 'R$/BA CAR', type: 'string', value: { first: { value: 'priceBACar' } } },
-    { headerName: 'R$/PE CAR', type: 'string', value: { first: { value: 'pricePECar' } } },
-    { headerName: 'R$/PB CAR', type: 'string', value: { first: { value: 'pricePBCar' } } },
-    { headerName: 'R$/RN CAR', type: 'string', value: { first: { value: 'priceRNCar' } } },
-    { headerName: 'R$/GO CAR', type: 'string', value: { first: { value: 'priceGOCar' } } },
-    { headerName: 'R$/DF CAR', type: 'string', value: { first: { value: 'priceDFCar' } } },
-    { headerName: 'R$/FO CAR', type: 'string', value: { first: { value: 'priceFOCar' } } },
-    { headerName: 'R$/RS CAR', type: 'string', value: { first: { value: 'priceRSCar' } } },
-    { headerName: 'R$/MA CAR', type: 'string', value: { first: { value: 'priceMACar' } } },
-    { headerName: 'R$/MT CAR', type: 'string', value: { first: { value: 'priceMTCar' } } },
-    { headerName: 'R$/MS CAR', type: 'string', value: { first: { value: 'priceMSCar' } } },
-    { headerName: 'R$/PA CAR', type: 'string', value: { first: { value: 'pricePACar' } } },
-    { headerName: 'R$/ES CAR', type: 'string', value: { first: { value: 'priceESCar' } } },
-    { headerName: 'R$/TO CAR', type: 'string', value: { first: { value: 'priceTOCar' } } },
+    { headerName: '$/SP TRUCK', type: 'string', value: { first: { value: 'priceSPTruck' } } },
+    { headerName: '$/RJ TRUCK', type: 'string', value: { first: { value: 'priceRJTruck' } } },
+    { headerName: '$/PR TRUCK', type: 'string', value: { first: { value: 'pricePRTruck' } } },
+    { headerName: '$/SC TRUCK', type: 'string', value: { first: { value: 'priceSCTruck' } } },
+    { headerName: '$/MG TRUCK', type: 'string', value: { first: { value: 'priceMGTruck' } } },
+    { headerName: '$/BA TRUCK', type: 'string', value: { first: { value: 'priceBATruck' } } },
+    { headerName: '$/PE TRUCK', type: 'string', value: { first: { value: 'pricePETruck' } } },
+    { headerName: '$/PB TRUCK', type: 'string', value: { first: { value: 'pricePBTruck' } } },
+    { headerName: '$/RN TRUCK', type: 'string', value: { first: { value: 'priceRNTruck' } } },
+    { headerName: '$/GO TRUCK', type: 'string', value: { first: { value: 'priceGOTruck' } } },
+    { headerName: '$/DF TRUCK', type: 'string', value: { first: { value: 'priceDFTruck' } } },
+    { headerName: '$/FO TRUCK', type: 'string', value: { first: { value: 'priceFOTruck' } } },
+    { headerName: '$/RS TRUCK', type: 'string', value: { first: { value: 'priceRSTruck' } } },
+    { headerName: '$/MA TRUCK', type: 'string', value: { first: { value: 'priceMATruck' } } },
+    { headerName: '$/MT TRUCK', type: 'string', value: { first: { value: 'priceMTTruck' } } },
+    { headerName: '$/MS TRUCK', type: 'string', value: { first: { value: 'priceMSTruck' } } },
+    { headerName: '$/PA TRUCK', type: 'string', value: { first: { value: 'pricePATruck' } } },
+    { headerName: '$/ES TRUCK', type: 'string', value: { first: { value: 'priceESTruck' } } },
+    { headerName: '$/TO TRUCK', type: 'string', value: { first: { value: 'priceTOTruck' } } },
+    { headerName: '$/SP CAR', type: 'string', value: { first: { value: 'priceSPCar' } } },
+    { headerName: '$/RJ CAR', type: 'string', value: { first: { value: 'priceRJCar' } } },
+    { headerName: '$/PR CAR', type: 'string', value: { first: { value: 'pricePRCar' } } },
+    { headerName: '$/SC CAR', type: 'string', value: { first: { value: 'priceSCCar' } } },
+    { headerName: '$/MG CAR', type: 'string', value: { first: { value: 'priceMGCar' } } },
+    { headerName: '$/BA CAR', type: 'string', value: { first: { value: 'priceBACar' } } },
+    { headerName: '$/PE CAR', type: 'string', value: { first: { value: 'pricePECar' } } },
+    { headerName: '$/PB CAR', type: 'string', value: { first: { value: 'pricePBCar' } } },
+    { headerName: '$/RN CAR', type: 'string', value: { first: { value: 'priceRNCar' } } },
+    { headerName: '$/GO CAR', type: 'string', value: { first: { value: 'priceGOCar' } } },
+    { headerName: '$/DF CAR', type: 'string', value: { first: { value: 'priceDFCar' } } },
+    { headerName: '$/FO CAR', type: 'string', value: { first: { value: 'priceFOCar' } } },
+    { headerName: '$/RS CAR', type: 'string', value: { first: { value: 'priceRSCar' } } },
+    { headerName: '$/MA CAR', type: 'string', value: { first: { value: 'priceMACar' } } },
+    { headerName: '$/MT CAR', type: 'string', value: { first: { value: 'priceMTCar' } } },
+    { headerName: '$/MS CAR', type: 'string', value: { first: { value: 'priceMSCar' } } },
+    { headerName: '$/PA CAR', type: 'string', value: { first: { value: 'pricePACar' } } },
+    { headerName: '$/ES CAR', type: 'string', value: { first: { value: 'priceESCar' } } },
+    { headerName: '$/TO CAR', type: 'string', value: { first: { value: 'priceTOCar' } } },
   ]
 }

@@ -17,10 +17,13 @@ export function AnalyticalStockToExpiresTable({ data }: AnalyticalStockToExpires
           width: '100%',
         }}
         cellStyles={{
-          padding: 1,
+          paddingX: 1,
+          fontSize: '9px',
+          paddingY: 0.2,
         }}
         headCellStyles={{
           paddingX: 1,
+          fontSize: '10px',
         }}
         columns={columns}
         data={data}
@@ -33,6 +36,7 @@ const getColumns = (): Column<GetAnalyticalToExpiresByCompanyResponse>[] => {
   return [
     {
       headerName: 'Cod. Linha',
+      maxWidth: '20px',
       type: 'string',
       value: {
         first: {
@@ -53,7 +57,7 @@ const getColumns = (): Column<GetAnalyticalToExpiresByCompanyResponse>[] => {
     {
       headerName: 'Cod. Produto',
       type: 'string',
-      maxWidth: '50px',
+      maxWidth: '20px',
       value: {
         first: {
           value: 'productCode',
@@ -72,7 +76,7 @@ const getColumns = (): Column<GetAnalyticalToExpiresByCompanyResponse>[] => {
     },
     {
       headerName: 'CXs',
-      maxWidth: '50px',
+      maxWidth: '30px',
       type: 'string',
       value: {
         first: {
@@ -82,7 +86,7 @@ const getColumns = (): Column<GetAnalyticalToExpiresByCompanyResponse>[] => {
     },
     {
       headerName: 'PCS',
-      maxWidth: '50px',
+      maxWidth: '30px',
       type: 'string',
       value: {
         first: {
@@ -101,8 +105,8 @@ const getColumns = (): Column<GetAnalyticalToExpiresByCompanyResponse>[] => {
       },
     },
     {
-      headerName: 'R$/KG Base',
-      maxWidth: '50px',
+      headerName: '$ Base',
+      maxWidth: '30px',
       type: 'string',
       value: {
         first: {
@@ -111,7 +115,7 @@ const getColumns = (): Column<GetAnalyticalToExpiresByCompanyResponse>[] => {
       },
     },
     {
-      headerName: 'R$/KG Total',
+      headerName: '$ Total',
       maxWidth: '50px',
       type: 'string',
       value: {
@@ -132,7 +136,7 @@ const getColumns = (): Column<GetAnalyticalToExpiresByCompanyResponse>[] => {
     },
     {
       headerName: 'Prazo',
-      maxWidth: '50px',
+      maxWidth: '30px',
       type: 'string',
       conditionalColor: (row: GetAnalyticalToExpiresByCompanyResponse) => {
         if (row.daysToExpires <= 15) {

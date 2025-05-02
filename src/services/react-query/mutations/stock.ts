@@ -2,6 +2,7 @@ import { ExportService } from '@/services/export'
 import { PostExportStockXlsx } from '@/services/webApi/stock-api'
 import { UseExportStockXlsxRequest } from '@/types/mutations/stock'
 import { useMutation } from '@tanstack/react-query'
+import { toast } from 'sonner'
 
 export const useExportStockXlsx = () => {
   return useMutation({
@@ -21,6 +22,16 @@ export const useExportStockXlsx = () => {
       const filenameMatches = contentDispositionHeader.match(/filename=(.+\.xlsx)/)
       const filename = filenameMatches?.[1] || `stock.xlsx`
       await ExportService.toExcel({ filename, data })
+    },
+    onError() {
+      toast.success('Erro', {
+        description: 'Erro ao exportar o arquivo!',
+      })
+    },
+    onSuccess() {
+      toast.success('Sucesso', {
+        description: 'O arquivo foi exportado com sucesso!',
+      })
     },
   })
 }

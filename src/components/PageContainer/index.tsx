@@ -132,7 +132,6 @@ export const PageContainer = ({ children }: { children: ReactNode }) => {
     <Box
       sx={{
         display: 'flex',
-        marging: '20px',
         backgroundColor: '#FAFAFA',
         height: '100%',
       }}
@@ -145,7 +144,7 @@ export const PageContainer = ({ children }: { children: ReactNode }) => {
           width: '100%',
           height: '100%',
           marginLeft: isMobile ? 0 : 2,
-          marginY: 1,
+          marginY: 0.5,
         }}
       >
         {width < 1000 && <BurgerMenu />}

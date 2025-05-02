@@ -1,6 +1,6 @@
 import { GetAllStocksResponse } from '@/types/api/stock'
+import { SelectedProductLinesByCompany } from '@/types/stock'
 import { useMemo } from 'react'
-import { SelectedProductLinesByCompany } from '../types/selected-product-lines-by-company'
 
 interface UseGetFilteredStockDataRequest {
   data?: GetAllStocksResponse[]

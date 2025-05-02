@@ -15,7 +15,7 @@ export function PageContainerHeader({ title, children, ...props }: PageContainer
         ...props?.sx,
       }}
     >
-      <Typography variant='h6' fontWeight={700}>
+      <Typography variant='h6' fontWeight={800} fontSize={'16px'}>
         {title}
       </Typography>
       {children}

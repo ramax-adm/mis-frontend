@@ -8,7 +8,6 @@ import { Tabs } from '@/components/Tabs'
 import { useGetStockLastUpdatedAt } from '@/services/react-query/queries/stock'
 import { useSyncStockWithSensatta } from '@/services/react-query/mutations/sensatta'
 import { LoadingOverlay } from '@/components/Loading/loadingSpinner'
-import { FeedbackAlertSection } from './components/sections/feedback-alert-section'
 import { AnalyticalSection, AnalyticalSectionRef } from './components/sections/analytical-section'
 import { useExportStockXlsx } from '@/services/react-query/mutations/stock'
 import { useRef, useState } from 'react'
@@ -16,28 +15,19 @@ import { TabsPanelRef } from '@/components/Tabs/panel'
 
 export default function StockPage() {
   // states
+  // todo: fix this (use http state)
   const [selectCompanyInputError, setSelectCompanyInputError] = useState(false)
 
+  // queries and mutations
   const { data: stockLastUpdate } = useGetStockLastUpdatedAt()
-  const {
-    mutateAsync: syncStockWithSensatta,
-    isPending: isSyncStockWithSensatta,
-    isError: isSyncStockWithSensattaError,
-    isSuccess: isSyncStockWithSensattaSuccess,
-  } = useSyncStockWithSensatta()
-  const {
-    mutateAsync: exportStockReport,
-    isPending: isExportingStockReport,
-    isError: isExportStockError,
-    isSuccess: isExportStockSuccess,
-  } = useExportStockXlsx()
+  const { mutateAsync: syncStockWithSensatta, isPending: isSyncStockWithSensatta } =
+    useSyncStockWithSensatta()
+  const { mutateAsync: exportStockReport, isPending: isExportingStockReport } = useExportStockXlsx()
 
   // refs
   const resumedSectionRef = useRef<ResumeSectionRef>(null)
   const analyticalSectionRef = useRef<AnalyticalSectionRef>(null)
   const tabPanelRef = useRef<TabsPanelRef>(null)
-
-  // mutations
 
   const handleExportStockReport = async () => {
     if (!tabPanelRef.current) {
@@ -96,11 +86,11 @@ export default function StockPage() {
           title='Estoque - Mercado Interno'
           sx={{ flexDirection: 'column', alignItems: 'flex-start', gap: 0 }}
         >
-          <Typography variant='subtitle2'>
+          <Typography variant='subtitle2' fontSize={'13px'}>
             Ultima atualização: {stockLastUpdate?.parsedUpdatedAt}
           </Typography>
         </PageContainerHeader>
-        <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1, marginTop: 1 }}>
+        <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1 }}>
           <Button variant='contained' size='small' onClick={syncStock}>
             Atualizar c/ SENSATTA
           </Button>
@@ -109,19 +99,6 @@ export default function StockPage() {
           </Button>
         </Box>
       </Box>
-
-      <FeedbackAlertSection
-        isError={isSyncStockWithSensattaError}
-        isSuccess={isSyncStockWithSensattaSuccess}
-        errorMessage='Erro ao atualizar os dados!'
-        successMessage='Dados atualizados com sucesso!'
-      />
-      <FeedbackAlertSection
-        isError={isExportStockError}
-        isSuccess={isExportStockSuccess}
-        errorMessage='Erro ao exportar os dados!'
-        successMessage='Dados exportados com sucesso!'
-      />
 
       {/**
        * TODO:
@@ -132,7 +109,7 @@ export default function StockPage() {
        * Estilização da tab
        */}
       {(isSyncStockWithSensatta || isExportingStockReport) && <LoadingOverlay />}
-      <Tabs.Root defaultTab='resumed'>
+      <Tabs.Root defaultTab='resumed' sx={{ marginTop: -1 }}>
         <Tabs.Select>
           <Tab label='Resumo' value={'resumed'} />
           <Tab label='Analitico' value={'analytical'} />

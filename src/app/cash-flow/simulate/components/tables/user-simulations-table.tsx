@@ -14,12 +14,7 @@ interface UserSimulationsTableProps {
 export function UserSimulationsTable({ simulations, isFetching }: UserSimulationsTableProps) {
   const { mutateAsync: deleteUserSimulation, isPending: isDeletingSimulation } =
     useDeleteUserSimulation()
-  const {
-    mutateAsync: exportSimulation,
-    isPending: isExportingSimulation,
-    isError: isExportSimulateError,
-    error: isExportSimulateErrorMessage,
-  } = useExportXlsx()
+  const { mutateAsync: exportSimulation, isPending: isExportingSimulation } = useExportXlsx()
 
   const onDeleteSimulation = async (id: string) => {
     await deleteUserSimulation(id)
@@ -67,9 +62,6 @@ export function UserSimulationsTable({ simulations, isFetching }: UserSimulation
 
   return (
     <>
-      {isExportSimulateError && (
-        <TransitionAlert severity='error' message={isExportSimulateErrorMessage.message} />
-      )}
       <Table.Root>
         {/** TODO */}
         <Table.Body<any>
