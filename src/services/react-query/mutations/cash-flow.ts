@@ -109,11 +109,19 @@ export const useSaveUserSimulation = () => {
 
       return response
     },
+    onError() {
+      toast.error('Erro', {
+        description: 'Erro ao salvar a simulação!',
+      })
+    },
     onSuccess() {
       queryClient.invalidateQueries({
         queryKey: [queryKeys.CASH_FLOW.GET_USER_SIMULATIONS],
         refetchType: 'all',
         exact: false,
+      })
+      toast.success('Sucesso', {
+        description: 'Sucesso ao salvar a simulação!',
       })
     },
   })
@@ -147,6 +155,16 @@ export const useExportXlsx = () => {
       const filename = filenameMatches?.[1] || `cashflow.xlsx`
       await ExportService.toExcel({ filename, data })
     },
+    onError() {
+      toast.error('Erro', {
+        description: 'Erro ao exportar o arquivo .xlsx',
+      })
+    },
+    onSuccess() {
+      toast.success('Sucesso', {
+        description: 'Sucesso ao exportar o arquivo .xlsx',
+      })
+    },
   })
 }
 
@@ -161,11 +179,20 @@ export const useDeleteUserSimulation = () => {
 
       return response
     },
+    onError() {
+      toast.error('Erro', {
+        description: 'Erro ao remover simulação previa.',
+      })
+    },
     onSuccess() {
       queryClient.invalidateQueries({
         queryKey: [queryKeys.CASH_FLOW.GET_USER_SIMULATIONS],
         refetchType: 'all',
         exact: false,
+      })
+
+      toast.success('Sucesso', {
+        description: 'Sucesso ao remover simulação.',
       })
     },
   })
@@ -182,11 +209,20 @@ export const useDeleteManyUserSimulations = () => {
 
       return response
     },
+    onError() {
+      toast.error('Erro', {
+        description: 'Erro ao remover as simulações do dia.',
+      })
+    },
     onSuccess() {
       queryClient.invalidateQueries({
         queryKey: [queryKeys.CASH_FLOW.GET_USER_SIMULATIONS],
         refetchType: 'all',
         exact: false,
+      })
+
+      toast.success('Sucesso', {
+        description: 'Sucesso ao remover as simulações do dia.',
       })
     },
   })

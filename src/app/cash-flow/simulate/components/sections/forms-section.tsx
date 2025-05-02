@@ -26,12 +26,10 @@ import {
   UseSimulateCashFlowRequest,
 } from '@/types/mutations/cash-flow'
 import { PostSimulateDataResponse } from '@/types/api/cash-flow'
-import { TransitionAlert } from '@/components/Alert/transition-alert'
 import {
   ProjectionControlsFormRef,
   ProjectionControlsInputs,
 } from '../forms/projection-controls-form'
-import { FeedbackAlertSection } from './feedback-alert-section'
 
 export interface SimulateCashFlowFormRef {
   onResetForm: () => void
@@ -49,9 +47,6 @@ interface SimulateCashFlowFormProps {
     unknown
   >
   isSubmitting: boolean
-  isSimulateError: boolean
-  isSimulateSuccess: boolean
-  isSimulateErrorMessage: Error | null
 }
 
 /**
@@ -64,10 +59,7 @@ interface SimulateCashFlowFormProps {
  */
 
 export const SimulateCashFlowForm = forwardRef<SimulateCashFlowFormRef, SimulateCashFlowFormProps>(
-  (
-    { isSubmitting, simulateCashFlow, isSimulateError, isSimulateErrorMessage, isSimulateSuccess },
-    ref,
-  ) => {
+  ({ isSubmitting, simulateCashFlow }, ref) => {
     // refs
     const projecaoFormRef = useRef<ProjectionControlsFormRef>(null)
     const matPrimaFormRef = useRef<RawMaterialFormRef>(null)
@@ -191,14 +183,6 @@ export const SimulateCashFlowForm = forwardRef<SimulateCashFlowFormRef, Simulate
 
     return (
       <>
-        {/** FORM FEEDBACK ALERTS */}
-        <FeedbackAlertSection
-          isError={isSimulateError}
-          isSuccess={isSimulateSuccess}
-          errorMessage={isSimulateErrorMessage?.message ?? ''}
-          successMessage='Simulação concluida com sucesso!'
-        />
-
         {/** CONTROLS  */}
         <Box
           sx={{
@@ -206,6 +190,7 @@ export const SimulateCashFlowForm = forwardRef<SimulateCashFlowFormRef, Simulate
             flexDirection: 'row',
             flexWrap: 'wrap',
             gap: 2,
+            marginTop: 1,
             justifyContent: 'space-between',
             width: { xs: '350px', sm: '430px', md: '820px', xl: '95%' },
           }}
