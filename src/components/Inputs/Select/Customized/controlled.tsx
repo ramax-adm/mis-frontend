@@ -31,6 +31,7 @@ export function ControlledSelect<TValue>({
   id,
   name,
   label,
+  value,
   options,
   loading,
   disabled,
@@ -51,6 +52,7 @@ export function ControlledSelect<TValue>({
         id={id}
         sx={{ flexGrow: 1 }}
         size={size}
+        value={options?.find((opt) => opt.value === value) || null}
         getOptionLabel={(option: SelectOption<TValue>) => option.label || ''}
         isOptionEqualToValue={(options, value) => options.value === value.value}
         disablePortal
