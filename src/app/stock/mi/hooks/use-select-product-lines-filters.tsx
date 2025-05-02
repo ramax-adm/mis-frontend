@@ -1,7 +1,8 @@
 import { GetAllStocksResponse, GetAnalyticalAllStocksResponse } from '@/types/api/stock'
 import { SetStateAction } from 'react'
-import { SelectedProductLinesByCompany } from '../types/selected-product-lines-by-company'
 import { ProductLine } from '@/types/api/sensatta'
+import { storeStockProductLineFilters } from '../utils/store-stock-product-line-filters'
+import { SelectedProductLinesByCompany } from '@/types/stock'
 
 interface UseSelectedProductLinesFiltersRequest {
   selectedProductLinesByCompany?: SelectedProductLinesByCompany[]
@@ -20,41 +21,48 @@ const resetSelectedProductLinesState = (
 
   setSelectedProductLinesByCompany((prev) => {
     const filtered = prev.filter((item) => item.companyCode !== companyCode)
-    return [
+    const updatedState = [
       ...filtered,
       {
         companyCode,
         values,
       },
     ]
+    storeStockProductLineFilters(updatedState)
+    return updatedState
   })
 }
 
-const presetSelectedProductLinesState = ({
-  data,
-  productLines,
-  setSelectedProductLinesByCompany,
-}: UseSelectedProductLinesFiltersRequest) => {
-  if (!data || !productLines) return
+const presetSelectedProductLinesState = (
+  companyCode: string | null = null,
+  { data, productLines, setSelectedProductLinesByCompany }: UseSelectedProductLinesFiltersRequest,
+) => {
+  if (!companyCode || !data || !productLines) return
 
   const values = productLines.map((p) => p.acronym)
 
-  let initialState
-  if (Array.isArray(data)) {
-    initialState = data.map((item) => ({
-      companyCode: item.companyCode,
-      values,
-    }))
-  } else {
-    initialState = [
-      {
-        companyCode: data.companyCode,
-        values,
-      },
-    ]
-  }
+  // Filtra os dados da empresa correspondente
+  const matchedCompanyData = Array.isArray(data)
+    ? data.find((item) => item.companyCode === companyCode)
+    : data.companyCode === companyCode
+      ? data
+      : null
 
-  setSelectedProductLinesByCompany(initialState)
+  if (!matchedCompanyData) return
+
+  const newState = [
+    {
+      companyCode,
+      values,
+    },
+  ]
+
+  setSelectedProductLinesByCompany((prev) => {
+    const filtered = prev.filter((item) => item.companyCode !== companyCode)
+    const updatedState = [...filtered, ...newState]
+    storeStockProductLineFilters(updatedState)
+    return updatedState
+  })
 }
 
 export const useSelectProductLinesFilters = ({
@@ -64,8 +72,8 @@ export const useSelectProductLinesFilters = ({
 }: UseSelectedProductLinesFiltersRequest) => ({
   reset: (companyCode: string | null) =>
     resetSelectedProductLinesState(companyCode, { data, setSelectedProductLinesByCompany }),
-  preset: () =>
-    presetSelectedProductLinesState({
+  preset: (companyCode: string | null = null) =>
+    presetSelectedProductLinesState(companyCode, {
       data,
       productLines,
       setSelectedProductLinesByCompany,

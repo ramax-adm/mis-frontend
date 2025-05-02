@@ -1,4 +1,4 @@
-import { forwardRef, useImperativeHandle, useState } from 'react'
+import { forwardRef, useEffect, useImperativeHandle, useState } from 'react'
 import { DisplayItem } from '@/components/Info/display-item'
 import { ControlledSelect } from '@/components/Inputs/Select/Customized'
 import { LoadingOverlay } from '@/components/Loading/loadingSpinner'
@@ -10,11 +10,14 @@ import { calculateTotalStockWeight } from '../../utils/calculate-total-stock-wei
 import { calculateTotalStockPrice } from '../../utils/calculate-total-stock-price'
 import { AnalyticalStockTable } from '../tables/analytical-stock-table'
 import { AnalyticalStockToExpiresTable } from '../tables/analytical-stock-to-expires-table'
-import { SelectedProductLinesByCompany } from '../../types/selected-product-lines-by-company'
 import { MultipleSelectInputControlled } from '../customized/multiple-select-input'
 import { useSetSelectedProductLinesInitialState } from '../../hooks/use-set-selected-product-lines-initial-state'
 import { useGetFilteredAnalyticalStockData } from '../../hooks/use-get-filtered-analytical-stock-data'
 import { useSelectProductLinesFilters } from '../../hooks/use-select-product-lines-filters'
+import { calculateTotalStockWeightToExpires } from '../../utils/calculate-total-stock-weight-to-expires'
+import { storeStockProductLineFilters } from '../../utils/store-stock-product-line-filters'
+import { useHttpState } from '@/hooks/use-http-state'
+import { SelectedProductLinesByCompany } from '@/types/stock'
 
 export interface AnalyticalSectionRef {
   getSelectedCompany: () => string | undefined
@@ -48,6 +51,14 @@ export const AnalyticalSection = forwardRef<AnalyticalSectionRef, AnalyticalSect
     )
 
     // Hooks
+    const { getState, setState } = useHttpState()
+    useEffect(() => {
+      const company = getState('selectedCompany')
+      if (company) {
+        setSelectedCompany(company)
+      }
+    }, [])
+
     useSetSelectedProductLinesInitialState({
       data,
       productLines,
@@ -62,20 +73,29 @@ export const AnalyticalSection = forwardRef<AnalyticalSectionRef, AnalyticalSect
         setSelectedProductLinesByCompany,
       })
 
+    // functions
+    const handleSelectCompany = (value: string = '') => {
+      setSelectedCompany(value)
+      setState('selectedCompany', value)
+    }
+
     const handleUpdateSelectedProductLines = (params: {
       companyCode: string
       values: string[]
     }) => {
-      setSelectedProductLinesByCompany((state) => {
-        const alreadyExists = state.some((s) => s.companyCode === params.companyCode)
+      setSelectedProductLinesByCompany((prevState) => {
+        let updatedState
+
+        const alreadyExists = prevState.some((s) => s.companyCode === params.companyCode)
 
         if (alreadyExists) {
-          // substitui o valor existente
-          return state.map((s) => (s.companyCode === params.companyCode ? params : s))
+          updatedState = prevState.map((s) => (s.companyCode === params.companyCode ? params : s))
+        } else {
+          updatedState = [...prevState, params]
         }
 
-        // adiciona novo valor
-        return [...state, params]
+        storeStockProductLineFilters(updatedState)
+        return updatedState
       })
     }
 
@@ -94,71 +114,73 @@ export const AnalyticalSection = forwardRef<AnalyticalSectionRef, AnalyticalSect
         return resetProductLineFilters(companyCode)
       }
 
-      return presetProductLineFilters()
+      return presetProductLineFilters(companyCode)
     }
 
     return (
       <Box
         sx={{
-          width: { xs: '350px', sm: '430px', md: '820px', xl: '100%' },
-          marginTop: 2,
+          width: { xs: '350px', sm: '98%' },
+          marginTop: 1,
         }}
       >
         {isFetching && <LoadingOverlay />}
-        <Box sx={{ width: '100%' }}>
-          <Box sx={{ width: '200px' }}>
-            <ControlledSelect
-              id='company'
-              label='Empresa'
-              name='company'
-              size='small'
-              value={selectedCompany}
-              error={selectCompanyInputError}
-              errorMessage='Por favor, selecione uma empresa'
-              onChange={(value) => setSelectedCompany(value)}
-              options={companies?.map((item) => ({
-                key: item.sensattaCode,
-                label: item.name,
-                value: item.sensattaCode,
-              }))}
-            />
-          </Box>
+        <Box sx={{ width: '200px' }}>
+          <ControlledSelect
+            id='company'
+            label='Empresa'
+            name='company'
+            size='small'
+            value={selectedCompany}
+            error={selectCompanyInputError}
+            errorMessage='Por favor, selecione uma empresa'
+            onChange={handleSelectCompany}
+            options={companies?.map((item) => ({
+              key: item.sensattaCode,
+              label: item.name,
+              value: item.sensattaCode,
+            }))}
+          />
         </Box>
 
         {filteredData && (
-          <Grid key={filteredData.companyCode} container gap={1} columns={16} marginTop={1}>
-            <Grid key={filteredData.companyCode} item xs={16} lg={8.9}>
+          <Grid
+            key={filteredData.companyCode.concat('section')}
+            container
+            gap={1}
+            columns={16}
+            marginTop={1}
+          >
+            <Grid key={filteredData.companyCode.concat('stock')} item xs={16} lg={8.9}>
               <Box
                 sx={{
                   display: 'flex',
                   flexDirection: 'column',
-                  gap: 1,
                   backgroundColor: 'white',
-                  paddingX: 1,
-                  paddingY: 2,
+                  padding: 1,
                   border: `1px solid ${COLORS.BORDAS}`,
                   borderRadius: 3,
                 }}
               >
                 <Box>
-                  <Typography variant='body2' fontWeight={700} color={'#3E63DD'} fontSize={'16px'}>
+                  <Typography variant='body2' fontWeight={700} color={'#3E63DD'} fontSize={'14px'}>
                     Estoque
                   </Typography>
                 </Box>
 
                 <Box>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                     <DisplayItem
-                      title='Total KG estoque'
+                      title='Σ KG estoque'
                       content={calculateTotalStockWeight(filteredData.stockData)}
-                      headerFontSize='10px'
-                      contentFontSize='16px'
+                      headerFontSize='9px'
+                      contentFontSize='14px'
                     />
                     <DisplayItem
-                      title='Total R$ estoque'
+                      title='Σ R$ estoque'
                       content={calculateTotalStockPrice(filteredData.stockData)}
-                      headerFontSize='10px'
-                      contentFontSize='16px'
+                      headerFontSize='9px'
+                      contentFontSize='14px'
                       sx={{
                         paddingX: '4px',
                         paddingY: '2px',
@@ -170,7 +192,7 @@ export const AnalyticalSection = forwardRef<AnalyticalSectionRef, AnalyticalSect
 
                     <Box
                       sx={{
-                        width: '300px',
+                        width: '200px',
                         marginLeft: 'auto',
                         display: 'flex',
                         flexDirection: 'column',
@@ -192,7 +214,7 @@ export const AnalyticalSection = forwardRef<AnalyticalSectionRef, AnalyticalSect
                       <Typography
                         fontSize={'12px'}
                         sx={{
-                          marginLeft: '4px',
+                          marginX: 'auto',
                           '&:hover': {
                             color: COLORS.TEXTO,
                             cursor: 'pointer',
@@ -208,44 +230,71 @@ export const AnalyticalSection = forwardRef<AnalyticalSectionRef, AnalyticalSect
                 <AnalyticalStockTable data={filteredData.stockData} />
               </Box>
             </Grid>
-            <Grid key={filteredData.companyCode} item xs={16} lg={6.9}>
+            <Grid key={filteredData.companyCode.concat('to-expires')} item xs={16} lg={6.9}>
               <Box
                 sx={{
                   display: 'flex',
                   flexDirection: 'column',
-                  gap: 1,
+                  gap: 0.5,
                   backgroundColor: 'white',
-                  paddingX: 1,
-                  paddingY: 2,
+                  padding: 1,
                   border: `1px solid ${COLORS.BORDAS}`,
                   borderRadius: 3,
                 }}
               >
                 <Box>
-                  <Typography variant='body2' fontWeight={700} color={'#3E63DD'} fontSize={'16px'}>
+                  <Typography variant='body2' fontWeight={700} color={'#3E63DD'} fontSize={'14px'}>
                     Vencimentos
                   </Typography>
                 </Box>
 
                 <Box>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                     <DisplayItem
-                      title='Total KG estoque'
-                      content={calculateTotalStockWeight(filteredData.stockData)}
-                      headerFontSize='10px'
-                      contentFontSize='16px'
-                    />
-                    <DisplayItem
-                      title='Total R$ estoque'
-                      content={calculateTotalStockPrice(filteredData.stockData)}
-                      headerFontSize='10px'
-                      contentFontSize='16px'
+                      title='KGs FIFO 15 Dias'
+                      content={calculateTotalStockWeightToExpires(
+                        filteredData.toExpiresData,
+                        0,
+                        15,
+                      )}
+                      headerFontSize='9px'
+                      contentFontSize='14px'
                       sx={{
                         paddingX: '4px',
                         paddingY: '2px',
                         borderRadius: '8px',
-                        backgroundColor: COLORS.FUNDO_PRIMARIO,
-                        color: COLORS.TEXTO,
+                        backgroundColor: COLORS.INDICADORES.FUNDO_VERMELHO,
+                        color: '#fff',
+                      }}
+                    />
+                    <DisplayItem
+                      title='KGs FIFO 15-30 Dias'
+                      content={calculateTotalStockWeightToExpires(
+                        filteredData.toExpiresData,
+                        15,
+                        30,
+                      )}
+                      headerFontSize='9px'
+                      contentFontSize='14px'
+                      sx={{
+                        paddingX: '4px',
+                        paddingY: '2px',
+                        borderRadius: '8px',
+                        backgroundColor: COLORS.INDICADORES.FUNDO_AMARELO,
+                        color: '#fff',
+                      }}
+                    />
+                    <DisplayItem
+                      title='KGs FIFO +30 Dias'
+                      content={calculateTotalStockWeightToExpires(filteredData.toExpiresData, 31)}
+                      headerFontSize='9px'
+                      contentFontSize='14px'
+                      sx={{
+                        paddingX: '4px',
+                        paddingY: '2px',
+                        borderRadius: '8px',
+                        backgroundColor: COLORS.INDICADORES.FUNDO_VERDE,
+                        color: '#fff',
                       }}
                     />
                   </Box>

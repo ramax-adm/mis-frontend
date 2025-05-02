@@ -19,19 +19,10 @@ export default function SimulateCashFlowPage() {
   const {
     mutateAsync: simulateCashFlow,
     data: simulationResults,
-    isSuccess: isSimulateSuccess,
     isPending: isSimulating,
-    isError: isSimulateError,
-    error: isSimulateErrorMessage,
   } = useSimulateCashFlow()
 
-  const {
-    mutateAsync: exportSimulation,
-    isPending: isExportingSimulation,
-    isSuccess: isExportSimulateSuccess,
-    isError: isExportSimulateError,
-    error: isExportSimulateErrorMessage,
-  } = useExportXlsx()
+  const { mutateAsync: exportSimulation, isPending: isExportingSimulation } = useExportXlsx()
 
   const simulateFormRef = useRef<SimulateCashFlowFormRef>(null)
 
@@ -72,22 +63,12 @@ export default function SimulateCashFlowPage() {
           </Button>
         </Box>
       </PageContainerHeader>
-      {/** FORM FEEDBACK ALERTS */}
-      <FeedbackAlertSection
-        isError={isExportSimulateError}
-        isSuccess={isExportSimulateSuccess}
-        errorMessage='Erro ao exportar os dados!'
-        successMessage='Dados exportados com sucesso!'
-      />
 
       {/** DATA FORM */}
       <SimulateCashFlowForm
         ref={simulateFormRef}
         simulateCashFlow={simulateCashFlow}
         isSubmitting={isSimulating}
-        isSimulateError={isSimulateError}
-        isSimulateErrorMessage={isSimulateErrorMessage}
-        isSimulateSuccess={isSimulateSuccess}
       />
 
       {isSimulating && <LoadingOverlay />}

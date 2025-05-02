@@ -17,10 +17,13 @@ export function StockToExpiresTable({ data }: StockToExpiresTableProps) {
           width: '100%',
         }}
         cellStyles={{
-          padding: 1,
+          paddingX: 1,
+          fontSize: '9px',
+          paddingY: 0.2,
         }}
         headCellStyles={{
           paddingX: 1,
+          fontSize: '10px',
         }}
         columns={columns}
         data={data}
@@ -33,6 +36,7 @@ const getColumns = (): Column<GetToExpiresByCompanyResponse>[] => {
   return [
     {
       headerName: 'Cod.',
+      maxWidth: '20px',
       type: 'string',
       value: {
         first: {
