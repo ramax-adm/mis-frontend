@@ -13,6 +13,7 @@ import { CustomTheme } from '@/components/Themes/CustomTheme'
 import AppProvider from '@/contexts/context'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { queryClient } from '@/services/react-query/react-query'
+import { Toaster } from 'sonner'
 import './globals.css'
 
 export default function RootLayout({ children }: { children: ReactNode }) {
@@ -32,6 +33,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <ThemeProvider theme={CustomTheme}>
             <QueryClientProvider client={queryClient}>
               <AppProvider>{children}</AppProvider>
+              <Toaster position='top-center' richColors />
             </QueryClientProvider>
           </ThemeProvider>
         </LocalizationProvider>
