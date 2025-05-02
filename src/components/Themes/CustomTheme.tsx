@@ -9,7 +9,44 @@ declare module '@mui/material/Button' {
 }
 
 const CustomTheme = createTheme({
+  typography: {
+    fontSize: 12, // fonte base global (padrão é 14)
+  },
   components: {
+    MuiTypography: {
+      styleOverrides: {
+        root: {
+          fontSize: '0.875rem', // sobrescreve o estilo base do Typography
+        },
+      },
+    },
+    MuiInputBase: {
+      styleOverrides: {
+        inputSizeSmall: {
+          padding: '4px 8px', // controle interno do campo (input)
+        },
+        root: {
+          '&.MuiInputBase-sizeSmall': {
+            minHeight: '32px', // altura do wrapper do TextField
+          },
+        },
+      },
+    },
+    MuiOutlinedInput: {
+      styleOverrides: {
+        input: {
+          padding: '6px 8px',
+        },
+        inputSizeSmall: {
+          padding: '4px 8px', // altura reduzida do conteúdo
+        },
+        root: {
+          '&.MuiOutlinedInput-sizeSmall': {
+            height: '32px', // altura total do campo
+          },
+        },
+      },
+    },
     MuiButton: {
       variants: [
         {

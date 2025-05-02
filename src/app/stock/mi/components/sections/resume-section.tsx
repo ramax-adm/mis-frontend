@@ -11,9 +11,10 @@ import { LoadingOverlay } from '@/components/Loading/loadingSpinner'
 import { MultipleSelectInputControlled } from '../customized/multiple-select-input'
 import { useGetFilteredStockData } from '../../hooks/use-get-filtered-stock-data'
 import { useGetProductLines } from '@/services/react-query/queries/sensatta'
-import { SelectedProductLinesByCompany } from '../../types/selected-product-lines-by-company'
 import { useSetSelectedProductLinesInitialState } from '../../hooks/use-set-selected-product-lines-initial-state'
 import { useSelectProductLinesFilters } from '../../hooks/use-select-product-lines-filters'
+import { storeStockProductLineFilters } from '../../utils/store-stock-product-line-filters'
+import { SelectedProductLinesByCompany } from '@/types/stock'
 
 // Ref Interface
 export interface ResumeSectionRef {
@@ -50,19 +51,25 @@ export const ResumeSection = forwardRef<ResumeSectionRef, ResumeSectionProps>((_
 
   // Functions
   const handleUpdateSelectedProductLines = (params: { companyCode: string; values: string[] }) => {
-    setSelectedProductLinesByCompany((state) => {
-      const alreadyExists = state.some((s) => s.companyCode === params.companyCode)
+    setSelectedProductLinesByCompany((prevState) => {
+      let updatedState
+
+      const alreadyExists = prevState.some((s) => s.companyCode === params.companyCode)
 
       if (alreadyExists) {
-        return state.map((s) => (s.companyCode === params.companyCode ? params : s))
+        updatedState = prevState.map((s) => (s.companyCode === params.companyCode ? params : s))
+      } else {
+        updatedState = [...prevState, params]
       }
 
-      return [...state, params]
+      storeStockProductLineFilters(updatedState)
+      return updatedState
     })
   }
 
   const handleProductLineFilter = (companyCode: string) => {
     const relatedFilter = selectedProductLinesByCompany.find((i) => i.companyCode === companyCode)
+
     if (!relatedFilter) {
       return
     }
@@ -72,7 +79,7 @@ export const ResumeSection = forwardRef<ResumeSectionRef, ResumeSectionProps>((_
       return resetProductLineFilters(companyCode)
     }
 
-    return presetProductLineFilters()
+    return presetProductLineFilters(companyCode)
   }
 
   // Ref expose
@@ -85,51 +92,47 @@ export const ResumeSection = forwardRef<ResumeSectionRef, ResumeSectionProps>((_
     [selectedProductLinesByCompany],
   )
 
-  if (isFetching) {
-    return <LoadingOverlay />
-  }
-
   return (
     <Box
       sx={{
-        width: { xs: '350px', sm: '430px', md: '820px', xl: '100%' },
-        marginTop: 2,
+        width: { xs: '350px', sm: '99%' },
+        marginTop: 1,
       }}
     >
+      {isFetching && <LoadingOverlay />}
+
       <Grid container gap={1} columns={16}>
         {filteredData.map((item) => (
-          <Grid key={item.companyCode} item xs={16} lg={7.9}>
+          <Grid key={item.companyCode} item xs={16} md={7.9}>
             <Box
               sx={{
                 display: 'flex',
                 flexDirection: 'column',
-                gap: 1,
                 backgroundColor: 'white',
-                paddingX: 1,
-                paddingY: 2,
+                padding: 1,
                 border: `1px solid ${COLORS.BORDAS}`,
                 borderRadius: 3,
               }}
             >
               <Box>
-                <Typography variant='body2' fontWeight={700} color={'#3E63DD'} fontSize={'16px'}>
+                <Typography variant='body2' fontWeight={700} color={'#3E63DD'} fontSize={'14px'}>
                   {item.companyName}
                 </Typography>
               </Box>
 
               <Box>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                   <DisplayItem
-                    title='Total KG estoque'
+                    title='Σ KG estoque'
                     content={calculateTotalStockWeight(item.stockData)}
-                    headerFontSize='10px'
-                    contentFontSize='16px'
+                    headerFontSize='9px'
+                    contentFontSize='14px'
                   />
                   <DisplayItem
-                    title='Total R$ estoque'
+                    title='Σ R$ estoque'
                     content={calculateTotalStockPrice(item.stockData)}
-                    headerFontSize='10px'
-                    contentFontSize='16px'
+                    headerFontSize='9px'
+                    contentFontSize='14px'
                     sx={{
                       paddingX: '4px',
                       paddingY: '2px',
@@ -138,14 +141,14 @@ export const ResumeSection = forwardRef<ResumeSectionRef, ResumeSectionProps>((_
                       color: COLORS.TEXTO,
                     }}
                   />
+
                   <Box
-                    key={item.companyCode}
                     sx={{
-                      width: '300px',
+                      width: '200px',
                       marginLeft: 'auto',
                       display: 'flex',
                       flexDirection: 'column',
-                      gap: 1,
+                      gap: 0.5,
                     }}
                   >
                     <MultipleSelectInputControlled
@@ -163,9 +166,9 @@ export const ResumeSection = forwardRef<ResumeSectionRef, ResumeSectionProps>((_
                       label='Classificações'
                     />
                     <Typography
-                      fontSize={'12px'}
+                      fontSize={'10px'}
                       sx={{
-                        marginLeft: '4px',
+                        marginX: 'auto',
                         '&:hover': {
                           color: COLORS.TEXTO,
                           cursor: 'pointer',
@@ -183,7 +186,7 @@ export const ResumeSection = forwardRef<ResumeSectionRef, ResumeSectionProps>((_
                 <Grid item xs={16} lg={7.9}>
                   <StockCard data={item.stockData} />
                 </Grid>
-                <Grid item xs={16} lg={7.8}>
+                <Grid item xs={16} lg={7.4}>
                   <StockToExpireCard data={item.toExpiresData} />
                 </Grid>
               </Grid>

@@ -16,10 +16,13 @@ export function StockTable({ data }: StockTableProps) {
           width: '100%',
         }}
         cellStyles={{
-          padding: 1,
+          paddingX: 1,
+          fontSize: '9px',
+          paddingY: 0.2,
         }}
         headCellStyles={{
           paddingX: 1,
+          fontSize: '10px',
         }}
         columns={columns}
         data={data}
@@ -32,6 +35,7 @@ const getColumns = (): Column<GetStockByCompanyResponse>[] => {
   return [
     {
       headerName: 'Cod.',
+      maxWidth: '20px',
       type: 'string',
       value: {
         first: {
@@ -41,7 +45,7 @@ const getColumns = (): Column<GetStockByCompanyResponse>[] => {
     },
     {
       headerName: 'Produto',
-      maxWidth: '50px',
+      maxWidth: '80px',
       type: 'string',
       value: {
         first: {
@@ -51,6 +55,7 @@ const getColumns = (): Column<GetStockByCompanyResponse>[] => {
     },
     {
       headerName: 'KG',
+      maxWidth: '30px',
       type: 'string',
       value: {
         first: {
@@ -59,7 +64,8 @@ const getColumns = (): Column<GetStockByCompanyResponse>[] => {
       },
     },
     {
-      headerName: 'R$/KG',
+      headerName: '$/KG',
+      maxWidth: '30px',
       type: 'string',
       value: {
         first: {
@@ -68,7 +74,8 @@ const getColumns = (): Column<GetStockByCompanyResponse>[] => {
       },
     },
     {
-      headerName: 'R$ Total',
+      headerName: '$ Total',
+      maxWidth: '30px',
       type: 'string',
       value: {
         first: {
