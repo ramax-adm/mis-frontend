@@ -105,12 +105,22 @@ const getColumns = (): Column<GetAnalyticalToExpiresByCompanyResponse>[] => {
       },
     },
     {
-      headerName: '$ Base',
+      headerName: '$ CAR',
       maxWidth: '30px',
       type: 'string',
       value: {
         first: {
-          value: 'basePrice',
+          value: 'basePriceCar',
+        },
+      },
+    },
+    {
+      headerName: '$ TRUCK',
+      maxWidth: '30px',
+      type: 'string',
+      value: {
+        first: {
+          value: 'basePriceTruck',
         },
       },
     },

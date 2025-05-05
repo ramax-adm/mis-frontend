@@ -93,12 +93,22 @@ const getColumns = (): Column<GetAnalyticalStockByCompanyResponse>[] => {
       },
     },
     {
-      headerName: '$/KG',
+      headerName: '$/KG CAR',
       maxWidth: '30px',
       type: 'string',
       value: {
         first: {
-          value: 'basePrice',
+          value: 'basePriceCar',
+        },
+      },
+    },
+    {
+      headerName: '$/KG TRUCK',
+      maxWidth: '30px',
+      type: 'string',
+      value: {
+        first: {
+          value: 'basePriceTruck',
         },
       },
     },
