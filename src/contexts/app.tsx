@@ -74,7 +74,7 @@ export default function AppProvider({ children }: AppContextProviderProps) {
     {
       title: 'CASH FLOW',
       path: PageRoutes.cashFlow(),
-      role: [userRoles.admin, userRoles.directory],
+      role: [userRoles.admin, userRoles.directory, userRoles.industry],
       icon: FaMoneyBillAlt,
       submenu: false,
     },

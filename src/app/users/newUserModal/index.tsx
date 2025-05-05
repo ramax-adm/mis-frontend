@@ -144,6 +144,7 @@ const NewUserModal = (props: Props) => {
             { label: 'Administrador', value: userRoles.admin, key: userRoles.admin },
             { label: 'Diretoria', value: userRoles.directory, key: userRoles.directory },
             { label: 'Comercial', value: userRoles.commercial, key: userRoles.commercial },
+            { label: 'Industria', value: userRoles.commercial, key: userRoles.industry },
           ]}
         />
 

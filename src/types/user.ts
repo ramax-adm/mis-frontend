@@ -13,6 +13,7 @@ export type UserRoles = {
   admin: string
   commercial: string
   directory: string
+  industry: string
 }
 
 export type UserObject = {
