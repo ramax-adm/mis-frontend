@@ -8,6 +8,7 @@ import { UpdateUser } from '@/services/webApi/user-api'
 import { ControlledSelect } from '@/components/Inputs/Select/Customized'
 import { queryKeys } from '@/services/react-query/query-keys'
 import { User } from '@/types/user'
+import { userRoles } from '@/contexts/auth'
 
 type Props = {
   onClose: () => void
@@ -18,7 +19,7 @@ type Props = {
 const EditUserModal = (props: Props) => {
   const { userData, currentUserRole, onClose } = props
   const [load, setLoad] = useState(false)
-  const [roleSelected, setRoleSelected] = useState<string>('admin')
+  const [roleSelected, setRoleSelected] = useState<string>('')
   const [isActiveSelected, setIsActiveSelected] = useState<string>('ativo')
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [error, setError] = useState<boolean>(false)
@@ -62,6 +63,8 @@ const EditUserModal = (props: Props) => {
   }
 
   const roleHandler = (value: string) => {
+    console.log({ value })
+
     setRoleSelected(value)
   }
   const isActiveHandler = (value: string) => {
@@ -123,12 +126,19 @@ const EditUserModal = (props: Props) => {
 
         <Box sx={{ display: 'flex', gap: 2 }}>
           <FormControl fullWidth>
-            <TextField
-              id={`role`}
+            <ControlledSelect
+              id='role-select'
+              name='role-select'
+              value={roleSelected}
               label='Função'
+              onChange={roleHandler}
               size='small'
-              value={userData?.role || ''}
-              disabled
+              options={[
+                { label: 'Administrador', value: userRoles.admin, key: userRoles.admin },
+                { label: 'Diretoria', value: userRoles.directory, key: userRoles.directory },
+                { label: 'Comercial', value: userRoles.commercial, key: userRoles.commercial },
+                { label: 'Industria', value: userRoles.industry, key: userRoles.industry },
+              ]}
             />
           </FormControl>
         </Box>

@@ -56,7 +56,7 @@ export const useSimulateCashFlow = () => {
       return response as PostSimulateDataResponse
     },
     onError() {
-      toast.success('Erro', {
+      toast.error('Erro', {
         description: 'Erro ao simular!',
       })
     },
