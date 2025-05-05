@@ -1,3 +1,4 @@
+import { GetProductLinesRequest } from '@/types/api/stock'
 import { GetFetch, PostFetch, urls } from '../axios/api-base'
 
 export async function GetProductClassificationTypes() {
@@ -24,8 +25,8 @@ export async function GetProducts() {
   return response.data
 }
 
-export async function GetProductLines() {
-  const response = await GetFetch(urls.SENSATTA.GET_PRODUCTS_LINES)
+export async function GetProductLines({ market }: GetProductLinesRequest) {
+  const response = await GetFetch(urls.SENSATTA.GET_PRODUCTS_LINES, { params: { market } })
 
   return response.data
 }

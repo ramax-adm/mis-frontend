@@ -2,6 +2,7 @@ import { Company, Product, ProductLine } from '@/types/api/sensatta'
 import { useQuery } from '@tanstack/react-query'
 import { queryKeys } from '../query-keys'
 import { GetCompanies, GetProductLines, GetProducts } from '@/services/webApi/sensatta-api'
+import { UseGetProductLinesRequest } from '@/types/queries/stock'
 
 export const useGetCompanies = () => {
   return useQuery<Company[]>({
@@ -17,9 +18,9 @@ export const useGetProducts = () => {
   })
 }
 
-export const useGetProductLines = () => {
+export const useGetProductLines = ({ market }: UseGetProductLinesRequest) => {
   return useQuery<ProductLine[]>({
-    queryKey: [queryKeys.SENSATTA.GET_PRODUCT_LINES],
-    queryFn: async () => await GetProductLines(),
+    queryKey: [queryKeys.SENSATTA.GET_PRODUCT_LINES, market],
+    queryFn: async () => await GetProductLines({ market }),
   })
 }
