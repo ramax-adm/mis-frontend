@@ -15,7 +15,8 @@ export interface GetStockByCompanyResponse {
   boxAmount: string
   quantity: string
   totalWeightInKg: string
-  basePrice: string
+  basePriceCar: string
+  basePriceTruck: string
   totalPrice: string
 }
 
@@ -29,7 +30,8 @@ export interface GetAnalyticalStockByCompanyResponse {
   boxAmount: string
   quantity: string
   totalWeightInKg: string
-  basePrice: string
+  basePriceCar: string
+  basePriceTruck: string
   totalPrice: string
 
   // Truck
@@ -101,7 +103,8 @@ export interface GetAnalyticalToExpiresByCompanyResponse {
   boxAmount: string
   quantity: string
   totalWeightInKg: string
-  basePrice: string
+  basePriceCar: string
+  basePriceTruck: string
   totalPrice: string
   daysToExpires: number
 }
