@@ -64,12 +64,22 @@ const getColumns = (): Column<GetStockByCompanyResponse>[] => {
       },
     },
     {
-      headerName: '$/KG',
+      headerName: '$ CAR',
       maxWidth: '30px',
       type: 'string',
       value: {
         first: {
-          value: 'basePrice',
+          value: 'basePriceCar',
+        },
+      },
+    },
+    {
+      headerName: '$ TRUCK',
+      maxWidth: '30px',
+      type: 'string',
+      value: {
+        first: {
+          value: 'basePriceTruck',
         },
       },
     },
