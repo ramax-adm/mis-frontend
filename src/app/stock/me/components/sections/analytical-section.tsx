@@ -6,19 +6,19 @@ import { COLORS } from '@/constants/styles/colors'
 import { useGetCompanies, useGetProductLines } from '@/services/react-query/queries/sensatta'
 import { useGetAnalyticalAllStocks } from '@/services/react-query/queries/stock'
 import { Box, Grid, Typography } from '@mui/material'
-import { calculateTotalStockWeight } from '../../../_utils/calculate-total-stock-weight'
-import { calculateTotalStockPrice } from '../../../_utils/calculate-total-stock-price'
-import { AnalyticalStockTable } from '../../../_components/tables/analytical-stock-table'
-import { AnalyticalStockToExpiresTable } from '../../../_components/tables/analytical-stock-to-expires-table'
-import { MultipleSelectInputControlled } from '../../../_components/customized/multiple-select-input'
-import { useSetSelectedProductLinesInitialState } from '../../hooks/use-set-selected-product-lines-initial-state'
-import { useGetFilteredAnalyticalStockData } from '../../../_hooks/use-get-filtered-analytical-stock-data'
-import { useSelectProductLinesFilters } from '../../hooks/use-select-product-lines-filters'
-import { calculateTotalStockWeightToExpires } from '../../../_utils/calculate-total-stock-weight-to-expires'
-import { storeStockProductLineFilters } from '../../utils/store-stock-product-line-filters'
 import { useHttpState } from '@/hooks/use-http-state'
 import { SelectedProductLinesByCompany } from '@/types/stock'
 import { StockMarket } from '@/constants/app/stock'
+import { MultipleSelectInputControlled } from '@/app/stock/_components/customized/multiple-select-input'
+import { AnalyticalStockTable } from '@/app/stock/_components/tables/analytical-stock-table'
+import { useGetFilteredAnalyticalStockData } from '@/app/stock/_hooks/use-get-filtered-analytical-stock-data'
+import { calculateTotalStockPrice } from '@/app/stock/_utils/calculate-total-stock-price'
+import { calculateTotalStockWeight } from '@/app/stock/_utils/calculate-total-stock-weight'
+import { calculateTotalStockWeightToExpires } from '@/app/stock/_utils/calculate-total-stock-weight-to-expires'
+import { useSetSelectedProductLinesInitialState } from '../../hooks/use-set-selected-product-lines-initial-state'
+import { useSelectProductLinesFilters } from '../../hooks/use-select-product-lines-filters'
+import { AnalyticalStockToExpiresTable } from '@/app/stock/_components/tables/analytical-stock-to-expires-table'
+import { storeStockProductLineFilters } from '../../utils/store-stock-product-line-filters'
 
 export interface AnalyticalSectionRef {
   getSelectedCompany: () => string | undefined
@@ -36,7 +36,7 @@ export const AnalyticalSection = forwardRef<AnalyticalSectionRef, AnalyticalSect
     >([])
     const [selectedCompany, setSelectedCompany] = useState<string | undefined>()
     const { data: companies } = useGetCompanies()
-    const { data: productLines } = useGetProductLines({ market: StockMarket.MI })
+    const { data: productLines } = useGetProductLines({ market: StockMarket.ME })
     const { data, isFetching } = useGetAnalyticalAllStocks({
       companyCode: selectedCompany,
     })

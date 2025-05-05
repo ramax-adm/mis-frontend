@@ -86,7 +86,12 @@ export default function AppProvider({ children }: AppContextProviderProps) {
       subMenuItems: [
         {
           path: PageRoutes.miStock(),
-          title: 'Estoque MI',
+
+          title: 'Produtos MI',
+        },
+        {
+          path: PageRoutes.meStock(),
+          title: 'Produtos ME',
         },
       ],
     },

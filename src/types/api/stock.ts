@@ -1,3 +1,5 @@
+import { StockMarket } from '@/constants/app/stock'
+
 export interface GetAllStocksResponse {
   companyCode: string
   companyName: string
@@ -123,6 +125,10 @@ export interface GetAnalyticalAllStocksResponse {
 
 export interface GetAnalyticalAllStocksRequest {
   companyCode?: string
+}
+
+export interface GetProductLinesRequest {
+  market?: StockMarket
 }
 
 export interface PostExportStockXlsxRequest {

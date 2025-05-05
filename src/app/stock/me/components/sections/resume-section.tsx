@@ -2,20 +2,20 @@ import { forwardRef, useImperativeHandle, useState } from 'react'
 import { Box, Grid, Typography } from '@mui/material'
 import { DisplayItem } from '@/components/Info/display-item'
 import { COLORS } from '@/constants/styles/colors'
-import { calculateTotalStockPrice } from '../../../_utils/calculate-total-stock-price'
-import { calculateTotalStockWeight } from '../../../_utils/calculate-total-stock-weight'
-import { StockCard } from '../../../_components/cards/stock-card'
-import { StockToExpireCard } from '../../../_components/cards/stock-to-expire-card'
 import { useGetAllStocks } from '@/services/react-query/queries/stock'
 import { LoadingOverlay } from '@/components/Loading/loadingSpinner'
-import { MultipleSelectInputControlled } from '../../../_components/customized/multiple-select-input'
-import { useGetFilteredStockData } from '../../../_hooks/use-get-filtered-stock-data'
 import { useGetProductLines } from '@/services/react-query/queries/sensatta'
+import { SelectedProductLinesByCompany } from '@/types/stock'
+import { StockCard } from '@/app/stock/_components/cards/stock-card'
+import { StockToExpireCard } from '@/app/stock/_components/cards/stock-to-expire-card'
+import { MultipleSelectInputControlled } from '@/app/stock/_components/customized/multiple-select-input'
+import { useGetFilteredStockData } from '@/app/stock/_hooks/use-get-filtered-stock-data'
+import { calculateTotalStockPrice } from '@/app/stock/_utils/calculate-total-stock-price'
+import { calculateTotalStockWeight } from '@/app/stock/_utils/calculate-total-stock-weight'
+import { StockMarket } from '@/constants/app/stock'
 import { useSetSelectedProductLinesInitialState } from '../../hooks/use-set-selected-product-lines-initial-state'
 import { useSelectProductLinesFilters } from '../../hooks/use-select-product-lines-filters'
 import { storeStockProductLineFilters } from '../../utils/store-stock-product-line-filters'
-import { SelectedProductLinesByCompany } from '@/types/stock'
-import { StockMarket } from '@/constants/app/stock'
 
 // Ref Interface
 export interface ResumeSectionRef {
@@ -28,7 +28,7 @@ interface ResumeSectionProps {}
 export const ResumeSection = forwardRef<ResumeSectionRef, ResumeSectionProps>((_, ref) => {
   // Queries
   const { data, isFetching } = useGetAllStocks()
-  const { data: productLines } = useGetProductLines({ market: StockMarket.MI })
+  const { data: productLines } = useGetProductLines({ market: StockMarket.ME })
 
   // States
   const [selectedProductLinesByCompany, setSelectedProductLinesByCompany] = useState<
