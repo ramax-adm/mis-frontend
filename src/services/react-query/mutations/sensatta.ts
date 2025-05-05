@@ -8,7 +8,7 @@ export const useSyncStockWithSensatta = () => {
   return useMutation({
     mutationFn: async () => await PostSyncStockWithSensatta(),
     onError() {
-      toast.success('Erro', {
+      toast.error('Erro', {
         description: 'Erro ao sincronizar com o sensatta!',
       })
     },

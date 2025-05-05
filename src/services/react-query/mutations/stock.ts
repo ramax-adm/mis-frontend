@@ -24,7 +24,7 @@ export const useExportStockXlsx = () => {
       await ExportService.toExcel({ filename, data })
     },
     onError() {
-      toast.success('Erro', {
+      toast.error('Erro', {
         description: 'Erro ao exportar o arquivo!',
       })
     },

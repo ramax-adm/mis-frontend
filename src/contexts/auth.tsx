@@ -24,10 +24,14 @@ export const userRoles: UserRoles = {
   admin: 'admin',
   commercial: 'commercial',
   directory: 'directory',
+  industry: 'industry',
 }
 
 const protectedRoutes: { route: string; role: string[] }[] = [
-  { route: PageRoutes.cashFlow(), role: [userRoles.admin, userRoles.directory] },
+  {
+    route: PageRoutes.cashFlow(),
+    role: [userRoles.admin, userRoles.directory, userRoles.industry],
+  },
   { route: PageRoutes.users(), role: [userRoles.admin, userRoles.directory] },
 ]
 
@@ -35,6 +39,7 @@ const initialRouteByRole = {
   [userRoles.admin]: PageRoutes.home(),
   [userRoles.commercial]: PageRoutes.home(),
   [userRoles.directory]: PageRoutes.home(),
+  [userRoles.industry]: PageRoutes.home(),
 }
 
 const noAuthRoutes = [PageRoutes.login(), PageRoutes.forgotPassword()]
