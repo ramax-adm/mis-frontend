@@ -63,8 +63,6 @@ const EditUserModal = (props: Props) => {
   }
 
   const roleHandler = (value: string) => {
-    console.log({ value })
-
     setRoleSelected(value)
   }
   const isActiveHandler = (value: string) => {
