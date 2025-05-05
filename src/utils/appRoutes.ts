@@ -20,4 +20,7 @@ export class PageRoutes {
   static miStock() {
     return `/stock/mi`
   }
+  static meStock() {
+    return `/stock/me`
+  }
 }

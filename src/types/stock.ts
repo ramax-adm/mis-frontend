@@ -2,4 +2,5 @@ export type SelectedProductLinesByCompany = { companyCode: string; values: strin
 
 export type StockSettings = {
   productLineFilters: SelectedProductLinesByCompany[]
+  meProductLineFilters: SelectedProductLinesByCompany[]
 }
