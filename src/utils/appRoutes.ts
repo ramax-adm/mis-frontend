@@ -14,6 +14,9 @@ export class PageRoutes {
   static cashFlow() {
     return `/cash-flow/simulate`
   }
+  static championCattle() {
+    return `/cash-flow/champion-cattle`
+  }
   static stock() {
     return `/stock`
   }
