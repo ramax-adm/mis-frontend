@@ -18,6 +18,10 @@ export const urls = {
     DELETE_MANY_USER_SIMULATIONS: `${apiLocal}/api/cash-flow`,
     EXPORT_XLSX: `${apiLocal}/api/cash-flow/export-xlsx`,
   },
+  CASH_FLOW_CHAMPION_CATTLE: {
+    POST_SIMULATE_CASH_FLOW_CHAMPION_CATTLE: `${apiLocal}/api/cash-flow/simulate/champion-cattle`,
+    EXPORT_XLSX: `${apiLocal}/api/cash-flow/export-xlsx/champion-cattle`,
+  },
   STOCK: {
     GET_ALL: `${apiLocal}/api/stock`,
     GET_LAST_UPDATED_AT: `${apiLocal}/api/stock/last-update`,

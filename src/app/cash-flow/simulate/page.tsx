@@ -12,7 +12,6 @@ import { UserSimulationsSection } from './components/sections/user-simulation-se
 import { IndicatorsSection } from './components/sections/indicators-section'
 import { GraphsSection } from './components/sections/graphs-section'
 import { UseExportCashFlowSimulationRequest } from '@/types/mutations/cash-flow'
-import { FeedbackAlertSection } from './components/sections/feedback-alert-section'
 
 export default function SimulateCashFlowPage() {
   // mutations
