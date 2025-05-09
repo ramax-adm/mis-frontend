@@ -150,8 +150,8 @@ const SideNav = (props: Props) => {
                     <Typography
                       sx={{
                         display: 'flex',
-                        fontSize: '1rem',
-                        fontWeight: 600,
+                        fontSize: '0.9rem',
+                        fontWeight: 700,
                         fontFamily: 'sans-serif',
                         marginLeft: 2,
                         marginTop: -0.2,
@@ -240,9 +240,9 @@ const MenuItem = ({ item, Icon }: { item: SideNavItem; Icon?: IconType }) => {
                 <Typography
                   sx={{
                     display: 'flex',
-                    fontSize: '1rem',
+                    fontSize: '0.9rem',
                     lineHeight: '1.75rem',
-                    fontWeight: 600,
+                    fontWeight: 700,
                     fontFamily: 'sans-serif',
                     marginLeft: 2,
                   }}
@@ -260,7 +260,7 @@ const MenuItem = ({ item, Icon }: { item: SideNavItem; Icon?: IconType }) => {
               sx={{
                 display: 'flex',
                 marginY: '0.1rem',
-                marginLeft: '2.5rem',
+                marginLeft: '2rem',
                 marginRight: '1rem',
                 flexDirection: 'column',
               }}
@@ -280,7 +280,7 @@ const MenuItem = ({ item, Icon }: { item: SideNavItem; Icon?: IconType }) => {
                       textDecoration: 'none',
                       fontFamily: 'sans-serif',
                       fontWeight: `${pathname.includes(subItem.path) ? 700 : 500}`,
-                      fontSize: '14px',
+                      fontSize: '0.8rem',
                       color: grey[900],
                     }}
                   >
@@ -326,9 +326,9 @@ const MenuItem = ({ item, Icon }: { item: SideNavItem; Icon?: IconType }) => {
               <Typography
                 sx={{
                   display: 'flex',
-                  fontSize: '1rem',
+                  fontSize: '0.9rem',
                   lineHeight: '1.75rem',
-                  fontWeight: 800,
+                  fontWeight: 700,
                   marginLeft: 2,
                 }}
               >

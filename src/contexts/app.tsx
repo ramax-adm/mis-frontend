@@ -76,7 +76,17 @@ export default function AppProvider({ children }: AppContextProviderProps) {
       path: PageRoutes.cashFlow(),
       role: [userRoles.admin, userRoles.directory, userRoles.industry],
       icon: FaMoneyBillAlt,
-      submenu: false,
+      submenu: true,
+      subMenuItems: [
+        {
+          path: PageRoutes.cashFlow(),
+          title: 'Simulador',
+        },
+        {
+          path: PageRoutes.championCattle(),
+          title: 'Boi Campeão',
+        },
+      ],
     },
     {
       title: 'ESTOQUE',
@@ -86,7 +96,6 @@ export default function AppProvider({ children }: AppContextProviderProps) {
       subMenuItems: [
         {
           path: PageRoutes.miStock(),
-
           title: 'Produtos MI',
         },
         {
