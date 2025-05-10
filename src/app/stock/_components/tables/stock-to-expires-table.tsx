@@ -10,25 +10,23 @@ export function StockToExpiresTable({ data }: StockToExpiresTableProps) {
   const columns = getColumns()
 
   return (
-    <Table.Root sx={{ marginY: 0 }}>
-      <Table.Body<any>
-        tableStyles={{
-          height: '450px',
-          width: '100%',
-        }}
-        cellStyles={{
-          paddingX: 1,
-          fontSize: '9px',
-          paddingY: 0.2,
-        }}
-        headCellStyles={{
-          paddingX: 1,
-          fontSize: '10px',
-        }}
-        columns={columns}
-        data={data}
-      />
-    </Table.Root>
+    <CustomizedTable<any>
+      tableStyles={{
+        height: '500px',
+        width: '100%',
+      }}
+      cellStyles={{
+        paddingX: 1,
+        fontSize: '9px',
+        paddingY: 0.2,
+      }}
+      headCellStyles={{
+        paddingX: 1,
+        fontSize: '10px',
+      }}
+      columns={columns}
+      data={data}
+    />
   )
 }
 

@@ -5,7 +5,6 @@ interface CardRootProps extends BoxProps {}
 export function CardRoot(props: CardRootProps) {
   return (
     <Box
-      {...props}
       sx={{
         width: '300px',
         height: '260px',
@@ -20,6 +19,9 @@ export function CardRoot(props: CardRootProps) {
         boxShadow: '4px 4px 8px rgba(0, 0, 0, 0.2)',
         ...props?.sx,
       }}
-    />
+      {...props}
+    >
+      {props.children}
+    </Box>
   )
 }

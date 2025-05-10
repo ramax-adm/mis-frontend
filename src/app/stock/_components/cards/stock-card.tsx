@@ -1,26 +1,27 @@
 import { Card } from '@/components/Card'
 import { StockTable } from '../tables/stock-table'
 import { GetStockByCompanyResponse } from '@/types/api/stock'
+import { Box, Typography } from '@mui/material'
 
 interface StockCardProps {
   data: GetStockByCompanyResponse[]
 }
 export function StockCard({ data }: StockCardProps) {
   return (
-    <Card.Root
+    <Box
       sx={{
         width: '100',
-        height: '480px',
+        height: '520px',
         border: 0,
         boxShadow: 'none',
         gap: 1,
         padding: 0,
       }}
     >
-      <Card.Title>Estoque</Card.Title>
-      <Card.Content>
-        <StockTable data={data} />
-      </Card.Content>
-    </Card.Root>
+      <Typography variant='body2' fontWeight={700} color={'#3E63DD'}>
+        Estoque
+      </Typography>
+      <StockTable data={data} />
+    </Box>
   )
 }
