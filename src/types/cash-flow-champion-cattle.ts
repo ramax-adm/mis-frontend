@@ -172,17 +172,3 @@ export interface MiIncomes {
 }
 
 // SIMULATION RESULTS
-export interface SimulationProductsResponse {}
-
-export interface PostSimulateCashFlowChampionCattleResponse {
-  daily: {
-    miProducts: SimulationProductsResponse
-    meProducts: SimulationProductsResponse
-    bothMarketProducts: SimulationProductsResponse
-  }
-  projected: {
-    miProducts: SimulationProductsResponse
-    meProducts: SimulationProductsResponse
-    bothMarketProducts: SimulationProductsResponse
-  }
-}

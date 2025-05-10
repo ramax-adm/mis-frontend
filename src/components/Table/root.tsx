@@ -4,7 +4,7 @@ import { ReactNode } from 'react'
 interface TableRootProps extends BoxProps {
   children: ReactNode
 }
-export function TableRoot({ ...props }: TableRootProps) {
+export function TableRoot({ children, ...props }: TableRootProps) {
   return (
     <Box
       sx={{
@@ -12,6 +12,8 @@ export function TableRoot({ ...props }: TableRootProps) {
         ...props.sx,
       }}
       {...props}
-    />
+    >
+      {children}
+    </Box>
   )
 }

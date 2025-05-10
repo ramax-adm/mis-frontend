@@ -9,10 +9,20 @@ import {
 } from './components/sections/forms-section'
 import { ProductsSection } from './components/sections/products-section'
 import { GraphsSection } from './components/sections/graphs-section'
+import { useSimulateCashFlowChampionCattle } from '@/services/react-query/mutations/cash-flow-champion-cattle'
+import { LoadingOverlay } from '@/components/Loading/loadingSpinner'
 
 export default function ChampionCattle() {
+  const {
+    mutateAsync: simulateCashFlowChampionCattle,
+    data: simulationResults,
+    isPending: isSimulating,
+  } = useSimulateCashFlowChampionCattle()
+
   const simulateFormRef = useRef<SimulateCashFlowChampionCattleFormRef>(null)
-  const isSubmitting = false
+
+  console.log({ simulationResults })
+
   return (
     <PageContainer>
       <PageContainerHeader title='Boi Campeão'>
@@ -33,7 +43,7 @@ export default function ChampionCattle() {
           <Button
             variant='contained'
             size='small'
-            // disabled={isExportingSimulation}
+            disabled={true}
             // onClick={() => {
             //   onExportSimulation()
             // }}
@@ -43,14 +53,16 @@ export default function ChampionCattle() {
         </Box>
       </PageContainerHeader>
 
+      {isSimulating && <LoadingOverlay />}
+
       {/** DATA FORM */}
       <SimulateCashFlowChampionCattleForm
         ref={simulateFormRef}
-        simulateCashFlow={() => ({}) as any}
-        isSubmitting={isSubmitting}
+        simulateCashFlow={simulateCashFlowChampionCattle}
+        isSubmitting={isSimulating}
       />
 
-      <ProductsSection />
+      <ProductsSection data={simulationResults} />
       <GraphsSection />
     </PageContainer>
   )
