@@ -1,6 +1,8 @@
-import { PostExportXlsxRequest } from '@/types/api/cash-flow'
 import { DeleteFetch, GetFetch, PostFetch, urls } from '../axios/api-base'
-import { PostSimulateCashFlowChampionCattleRequest } from '@/types/api/cash-flow-champion-cattle'
+import {
+  PostSimulateCashFlowChampionCattleRequest,
+  PostExportXlsxRequest,
+} from '@/types/api/cash-flow-champion-cattle'
 
 export async function PostSimulateCashFlowChampionCattle(
   request: PostSimulateCashFlowChampionCattleRequest,

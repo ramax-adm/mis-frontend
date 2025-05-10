@@ -30,6 +30,7 @@ import { MePricesFormRef, MePricesInputs } from '../forms/me-prices-form'
 import { MiPricesFormRef, MiPricesInputs } from '../forms/mi-prices-form'
 import { MeIncomesFormRef, MeIncomesInputs } from '../forms/me-incomes-form'
 import { MiIncomesFormRef, MiIncomesInputs } from '../forms/mi-incomes-form'
+import { PostSimulateCashFlowChampionCattleResponse } from '@/types/api/cash-flow-champion-cattle'
 
 export interface SimulateCashFlowChampionCattleFormRef {
   onResetForm: () => void
@@ -41,7 +42,7 @@ export interface SimulateCashFlowChampionCattleFormRef {
 
 interface SimulateCashFlowFormProps {
   simulateCashFlow: UseMutateAsyncFunction<
-    PostSimulateDataResponse,
+    PostSimulateCashFlowChampionCattleResponse,
     Error,
     UseSimulateCashFlowRequest,
     unknown
@@ -194,7 +195,7 @@ export const SimulateCashFlowChampionCattleForm = forwardRef<
           gap: 2,
           marginTop: 1,
           justifyContent: 'space-between',
-          width: { xs: '350px', sm: '430px', md: '820px', xl: '95%' },
+          width: { xs: '350px', sm: '430px', md: '820px', xl: '98%' },
         }}
       >
         <Box sx={{ display: 'flex', flexDirection: 'column', width: { xl: '350px' }, gap: 3 }}>
