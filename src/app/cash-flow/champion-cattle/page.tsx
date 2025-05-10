@@ -21,8 +21,6 @@ export default function ChampionCattle() {
 
   const simulateFormRef = useRef<SimulateCashFlowChampionCattleFormRef>(null)
 
-  console.log({ simulationResults })
-
   return (
     <PageContainer>
       <PageContainerHeader title='Boi Campeão'>

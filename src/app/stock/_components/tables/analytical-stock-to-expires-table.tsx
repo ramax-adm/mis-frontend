@@ -13,7 +13,7 @@ export function AnalyticalStockToExpiresTable({ data }: AnalyticalStockToExpires
     <Table.Root sx={{ marginY: 0 }}>
       <Table.Body<any>
         tableStyles={{
-          height: '450px',
+          height: '470px',
           width: '100%',
         }}
         cellStyles={{
