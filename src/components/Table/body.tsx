@@ -193,7 +193,7 @@ export function CustomizedTable<T extends Record<string, Value>>({
   }
 
   return (
-    <TableContainer component={Paper}>
+    <TableContainer component={Paper} sx={{ ...tableStyles }}>
       <Table stickyHeader sx={{ ...tableStyles }} aria-label='customized table'>
         <TableHead>
           <TableRow>

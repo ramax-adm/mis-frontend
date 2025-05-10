@@ -12,7 +12,7 @@ export function AnalyticalStockTable({ data }: AnalyticalStockTableProps) {
     <Table.Root sx={{ marginY: 0 }}>
       <Table.Body<any>
         tableStyles={{
-          height: '450px',
+          height: '470px',
           width: '100%',
         }}
         cellStyles={{

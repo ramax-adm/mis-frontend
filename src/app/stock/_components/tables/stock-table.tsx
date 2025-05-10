@@ -1,6 +1,7 @@
 import { Table } from '@/components/Table'
-import { Column } from '@/components/Table/body'
+import { Column, CustomizedTable } from '@/components/Table/body'
 import { GetStockByCompanyResponse } from '@/types/api/stock'
+import { Box } from '@mui/material'
 
 interface StockTableProps {
   data: GetStockByCompanyResponse[]
@@ -9,25 +10,23 @@ export function StockTable({ data }: StockTableProps) {
   const columns = getColumns()
 
   return (
-    <Table.Root sx={{ marginY: 0 }}>
-      <Table.Body<any>
-        tableStyles={{
-          height: '450px',
-          width: '100%',
-        }}
-        cellStyles={{
-          paddingX: 1,
-          fontSize: '9px',
-          paddingY: 0.2,
-        }}
-        headCellStyles={{
-          paddingX: 1,
-          fontSize: '10px',
-        }}
-        columns={columns}
-        data={data}
-      />
-    </Table.Root>
+    <CustomizedTable<any>
+      tableStyles={{
+        height: '500px',
+        width: '100%',
+      }}
+      cellStyles={{
+        paddingX: 1,
+        fontSize: '9px',
+        paddingY: 0.2,
+      }}
+      headCellStyles={{
+        paddingX: 1,
+        fontSize: '10px',
+      }}
+      columns={columns}
+      data={data}
+    />
   )
 }
 

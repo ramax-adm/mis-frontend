@@ -128,6 +128,7 @@ const getColumns = (): Column<SimulateCashFlowChampionCattleItem>[] => {
     },
     {
       headerName: 'Receitas ME',
+      // conditionalColor: () => COLORS.TABELAS.FUNDO_VERDE,
       type: 'string',
       value: {
         first: {
@@ -137,6 +138,7 @@ const getColumns = (): Column<SimulateCashFlowChampionCattleItem>[] => {
     },
     {
       headerName: 'Receitas MI',
+      // conditionalColor: () => COLORS.TABELAS.FUNDO_VERDE,
       type: 'string',
       value: {
         first: {
