@@ -1,14 +1,21 @@
 import { useMutation } from '@tanstack/react-query'
-import { PostExportXlsx, PostSimulateCashFlow } from '../../webApi/cash-flow-api'
 import {
   UseExportCashFlowSimulationRequest,
   UseSimulateCashFlowRequest,
-} from '@/types/mutations/cash-flow'
+} from '@/types/mutations/cash-flow-champion-cattle'
 import { PostSimulateDataResponse } from '@/types/api/cash-flow'
 import { ExportService } from '@/services/export'
 import { toast } from 'sonner'
+import {
+  PostSimulateCashFlowChampionCattle,
+  PostExportXlsx,
+} from '@/services/webApi/cash-flow-champion-cattle-api'
+import {
+  PostSimulateCashFlowChampionCattleRequest,
+  PostSimulateCashFlowChampionCattleResponse,
+} from '@/types/api/cash-flow-champion-cattle'
 
-export const useSimulateCashFlow = () => {
+export const useSimulateCashFlowChampionCattle = () => {
   return useMutation({
     mutationFn: async ({
       projecaoValores,
@@ -33,7 +40,7 @@ export const useSimulateCashFlow = () => {
         rendimentosMi,
       })
 
-      const response = await PostSimulateCashFlow({
+      const response = await PostSimulateCashFlowChampionCattle({
         projecao: projecaoValores,
         matPrima: matPrimaValores,
         me: meValores,
@@ -45,7 +52,7 @@ export const useSimulateCashFlow = () => {
         rendimentosMi,
       })
 
-      return response as PostSimulateDataResponse
+      return response as PostSimulateCashFlowChampionCattleResponse
     },
     onError() {
       toast.error('Erro', {

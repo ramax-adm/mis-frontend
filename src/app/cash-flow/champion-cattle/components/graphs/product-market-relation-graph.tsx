@@ -3,15 +3,7 @@ import { Box, Typography } from '@mui/material'
 
 export function ProductMarketRelationGraph() {
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 2,
-        marginTop: 1,
-        width: { xs: '350px', sm: '430px', md: '820px', xl: '95%' },
-      }}
-    >
+    <Box>
       <Typography variant='h6' fontWeight={700}>
         Relação de R$/KG ME/MI
       </Typography>

@@ -55,7 +55,7 @@ export const DEFAULT_MI_INCOMES_FORM_VALUES = {
   tr: {
     pBananinha: 0.6,
     pCapaFile: 2.85,
-    pContraFile: 12.65,
+    pContraFile: 12.4,
     pCorAlcatra: 6.8,
     pCoxaoDuro: 8,
     pCoxaoMole: 14.35,
@@ -74,7 +74,7 @@ export const DEFAULT_MI_INCOMES_FORM_VALUES = {
 
 export const DEFAULT_ME_INCOMES_FORM_VALUES = {
   dt: {
-    pAcem: 38,
+    pAcem: 33.33,
     pPeito: 8.9,
     pGorduraExt: 1,
     pGorduraInt: 0.2,
@@ -85,7 +85,7 @@ export const DEFAULT_ME_INCOMES_FORM_VALUES = {
   tr: {
     pBananinha: 0.75,
     pLagarto: 3.1,
-    pContraFile: 8.5,
+    pContraFile: 12.4,
     pMusculoMole: 3.3,
     pCoxaoDuro: 6.1,
     pMusculoDuro: 3.2,
@@ -104,7 +104,7 @@ export const DEFAULT_ME_INCOMES_FORM_VALUES = {
 
 export const DEFAULT_MI_PRICES_FORM_VALUES = {
   dt: {
-    pAcem: 22.3,
+    pAcem: 25,
     pCupim: 29.6,
     pMusculo: 19.4,
     pPaleta: 24.9,
@@ -115,7 +115,7 @@ export const DEFAULT_MI_PRICES_FORM_VALUES = {
   tr: {
     pBananinha: 30,
     pCapaFile: 27,
-    pContraFile: 38,
+    pContraFile: 37,
     pCorAlcatra: 37.1,
     pCoxaoDuro: 27.3,
     pCoxaoMole: 29.3,
@@ -134,7 +134,7 @@ export const DEFAULT_MI_PRICES_FORM_VALUES = {
 
 export const DEFAULT_ME_PRICES_FORM_VALUES = {
   dt: {
-    pAcem: 5,
+    pAcem: 4.38,
     pGorduraExt: 2.4,
     pGorduraInt: 7.6,
     pMusculo: 5,
@@ -144,13 +144,13 @@ export const DEFAULT_ME_PRICES_FORM_VALUES = {
   pa: { pCostela: 4 },
   tr: {
     pBananinha: 6.5,
-    pContraFile: 6.2,
+    pContraFile: 6.49,
     pCoxaoDuro: 5.7,
     pCoxaoMole: 5.7,
     pFileMignon: 10.2,
     pFileCostela: 6.2,
     pCorAlcatra: 6.2,
-    pPicanha: 8.5,
+    pPicanha: 10.52,
     pLagarto: 5.7,
     pMusculoMole: 5.7,
     pMusculoDuro: 5.7,
