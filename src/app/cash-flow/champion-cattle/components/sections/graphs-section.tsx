@@ -1,7 +1,12 @@
 import { Box, Typography } from '@mui/material'
 import { ProductMarketRelationGraph } from '../graphs/product-market-relation-graph'
+import { PostSimulateCashFlowChampionCattleResponse } from '@/types/api/cash-flow-champion-cattle'
 
-export function GraphsSection() {
+interface GraphsSectionProps {
+  data: PostSimulateCashFlowChampionCattleResponse | undefined
+}
+
+export function GraphsSection({ data }: GraphsSectionProps) {
   return (
     <Box
       sx={{
@@ -15,7 +20,7 @@ export function GraphsSection() {
       <Typography variant='h6' fontWeight={700} fontSize={'18px'}>
         Graficos
       </Typography>
-      <ProductMarketRelationGraph />
+      <ProductMarketRelationGraph dailyProducts={data?.day} />
     </Box>
   )
 }

@@ -5,6 +5,7 @@ import {
   PostSimulateCashFlowChampionCattleResponse,
   SimulateCashFlowChampionCattleItem,
 } from '@/types/api/cash-flow-champion-cattle'
+import { fromLocaleStringToNumber } from '@/utils/number.utils'
 import { Box, Typography } from '@mui/material'
 
 interface AllMarketsProductsTableProps {
@@ -60,6 +61,8 @@ const getColumns = (): Column<SimulateCashFlowChampionCattleItem>[] => {
   return [
     {
       headerName: 'Produto',
+      conditionalColor: () => COLORS.TABELAS.FLUXO_CINZA,
+      headerColor: COLORS.TABELAS.FLUXO_CINZA_HEADER,
       maxWidth: '50px',
       type: 'string',
       value: {
@@ -70,6 +73,8 @@ const getColumns = (): Column<SimulateCashFlowChampionCattleItem>[] => {
     },
     {
       headerName: 'Quarteio',
+      conditionalColor: () => COLORS.TABELAS.FLUXO_CINZA,
+      headerColor: COLORS.TABELAS.FLUXO_CINZA_HEADER,
       maxWidth: '30px',
       type: 'string',
       value: {
@@ -80,6 +85,8 @@ const getColumns = (): Column<SimulateCashFlowChampionCattleItem>[] => {
     },
     {
       headerName: '% Rend ME',
+      conditionalColor: () => COLORS.TABELAS.FLUXO_CINZA,
+      headerColor: COLORS.TABELAS.FLUXO_CINZA_HEADER,
       type: 'string',
       value: {
         first: {
@@ -89,6 +96,8 @@ const getColumns = (): Column<SimulateCashFlowChampionCattleItem>[] => {
     },
     {
       headerName: '% Rend MI',
+      conditionalColor: () => COLORS.TABELAS.FLUXO_CINZA,
+      headerColor: COLORS.TABELAS.FLUXO_CINZA_HEADER,
       type: 'string',
       value: {
         first: {
@@ -98,6 +107,8 @@ const getColumns = (): Column<SimulateCashFlowChampionCattleItem>[] => {
     },
     {
       headerName: 'R$ ME',
+      conditionalColor: () => COLORS.TABELAS.FLUXO_CINZA,
+      headerColor: COLORS.TABELAS.FLUXO_CINZA_HEADER,
       type: 'string',
       value: {
         first: {
@@ -107,6 +118,8 @@ const getColumns = (): Column<SimulateCashFlowChampionCattleItem>[] => {
     },
     {
       headerName: 'R$ MI',
+      conditionalColor: () => COLORS.TABELAS.FLUXO_CINZA,
+      headerColor: COLORS.TABELAS.FLUXO_CINZA_HEADER,
       type: 'string',
       value: {
         first: {
@@ -116,6 +129,8 @@ const getColumns = (): Column<SimulateCashFlowChampionCattleItem>[] => {
     },
     {
       headerName: 'KG Prod. ME',
+      conditionalColor: () => COLORS.TABELAS.FUNDO_AZUL,
+      headerColor: COLORS.TABELAS.FUNDO_AZUL_HEADER,
       type: 'string',
       value: {
         first: {
@@ -125,6 +140,8 @@ const getColumns = (): Column<SimulateCashFlowChampionCattleItem>[] => {
     },
     {
       headerName: 'KG Prod. MI',
+      conditionalColor: () => COLORS.TABELAS.FUNDO_AZUL,
+      headerColor: COLORS.TABELAS.FUNDO_AZUL_HEADER,
       type: 'string',
       value: {
         first: {
@@ -134,6 +151,8 @@ const getColumns = (): Column<SimulateCashFlowChampionCattleItem>[] => {
     },
     {
       headerName: 'Receitas ME',
+      conditionalColor: () => COLORS.TABELAS.FUNDO_VERDE,
+      headerColor: COLORS.TABELAS.FUNDO_VERDE_HEADER,
       type: 'string',
       value: {
         first: {
@@ -143,6 +162,8 @@ const getColumns = (): Column<SimulateCashFlowChampionCattleItem>[] => {
     },
     {
       headerName: 'Receitas MI',
+      conditionalColor: () => COLORS.TABELAS.FUNDO_VERDE,
+      headerColor: COLORS.TABELAS.FUNDO_VERDE_HEADER,
       type: 'string',
       value: {
         first: {
@@ -152,6 +173,8 @@ const getColumns = (): Column<SimulateCashFlowChampionCattleItem>[] => {
     },
     {
       headerName: 'Compra Gado ME',
+      conditionalColor: () => COLORS.TABELAS.FUNDO_VERMELHO,
+      headerColor: COLORS.TABELAS.FUNDO_VERMELHO_HEADER,
       type: 'string',
       value: {
         first: {
@@ -161,6 +184,8 @@ const getColumns = (): Column<SimulateCashFlowChampionCattleItem>[] => {
     },
     {
       headerName: 'Compra Gado MI',
+      conditionalColor: () => COLORS.TABELAS.FUNDO_VERMELHO,
+      headerColor: COLORS.TABELAS.FUNDO_VERMELHO_HEADER,
       type: 'string',
       value: {
         first: {
@@ -170,6 +195,8 @@ const getColumns = (): Column<SimulateCashFlowChampionCattleItem>[] => {
     },
     {
       headerName: 'Operação ME',
+      conditionalColor: () => COLORS.TABELAS.FUNDO_VERMELHO,
+      headerColor: COLORS.TABELAS.FUNDO_VERMELHO_HEADER,
       type: 'string',
       value: {
         first: {
@@ -179,6 +206,8 @@ const getColumns = (): Column<SimulateCashFlowChampionCattleItem>[] => {
     },
     {
       headerName: 'Operação MI',
+      conditionalColor: () => COLORS.TABELAS.FUNDO_VERMELHO,
+      headerColor: COLORS.TABELAS.FUNDO_VERMELHO_HEADER,
       type: 'string',
       value: {
         first: {
@@ -188,6 +217,8 @@ const getColumns = (): Column<SimulateCashFlowChampionCattleItem>[] => {
     },
     {
       headerName: 'Vendas ME',
+      conditionalColor: () => COLORS.TABELAS.FUNDO_VERMELHO,
+      headerColor: COLORS.TABELAS.FUNDO_VERMELHO_HEADER,
       type: 'string',
       value: {
         first: {
@@ -197,6 +228,8 @@ const getColumns = (): Column<SimulateCashFlowChampionCattleItem>[] => {
     },
     {
       headerName: 'Vendas MI',
+      conditionalColor: () => COLORS.TABELAS.FUNDO_VERMELHO,
+      headerColor: COLORS.TABELAS.FUNDO_VERMELHO_HEADER,
       type: 'string',
       value: {
         first: {
@@ -206,6 +239,8 @@ const getColumns = (): Column<SimulateCashFlowChampionCattleItem>[] => {
     },
     {
       headerName: 'Custo Total ME',
+      conditionalColor: () => COLORS.TABELAS.FUNDO_VERMELHO,
+      headerColor: COLORS.TABELAS.FUNDO_VERMELHO_HEADER,
       type: 'string',
       value: {
         first: {
@@ -215,6 +250,8 @@ const getColumns = (): Column<SimulateCashFlowChampionCattleItem>[] => {
     },
     {
       headerName: 'Custo Total MI',
+      conditionalColor: () => COLORS.TABELAS.FUNDO_VERMELHO,
+      headerColor: COLORS.TABELAS.FUNDO_VERMELHO_HEADER,
       type: 'string',
       value: {
         first: {
@@ -224,6 +261,7 @@ const getColumns = (): Column<SimulateCashFlowChampionCattleItem>[] => {
     },
     {
       headerName: 'Resultado ME',
+
       type: 'string',
       value: {
         first: {
@@ -233,6 +271,16 @@ const getColumns = (): Column<SimulateCashFlowChampionCattleItem>[] => {
     },
     {
       headerName: 'Resultado ME/KG',
+      conditionalColor: (row: SimulateCashFlowChampionCattleItem) => {
+        const meResultKg = fromLocaleStringToNumber(
+          row.finalResultMeKg.replace(/-?\s*R\$\s?/, (match) => (match.includes('-') ? '-' : '')),
+        )
+        const miResultKg = fromLocaleStringToNumber(
+          row.finalResultMiKg.replace(/-?\s*R\$\s?/, (match) => (match.includes('-') ? '-' : '')),
+        )
+
+        return meResultKg > miResultKg ? 'rgba(0, 146, 13, 0.5)' : ''
+      },
       type: 'string',
       value: {
         first: {
@@ -251,6 +299,16 @@ const getColumns = (): Column<SimulateCashFlowChampionCattleItem>[] => {
     },
     {
       headerName: 'Resultado MI/KG',
+      conditionalColor: (row: SimulateCashFlowChampionCattleItem) => {
+        const meResultKg = fromLocaleStringToNumber(
+          row.finalResultMeKg.replace(/-?\s*R\$\s?/, (match) => (match.includes('-') ? '-' : '')),
+        )
+        const miResultKg = fromLocaleStringToNumber(
+          row.finalResultMiKg.replace(/-?\s*R\$\s?/, (match) => (match.includes('-') ? '-' : '')),
+        )
+
+        return miResultKg > meResultKg ? 'rgba(0, 146, 13, 0.5)' : ''
+      },
       type: 'string',
       value: {
         first: {
