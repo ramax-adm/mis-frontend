@@ -27,6 +27,7 @@ export type Column<T extends object> = {
   trueMessage?: string
   falseMessage?: string
   conditionalColor?: string | ((value: T) => string)
+  headerColor?: string
   noData?: string
 }
 
@@ -201,7 +202,12 @@ export function CustomizedTable<T extends Record<string, Value>>({
               columns.map((column) => (
                 <TableCell
                   size='small'
-                  sx={{ fontSize: '12px', fontWeight: 'bold', ...headCellStyles }}
+                  sx={{
+                    fontSize: '12px',
+                    fontWeight: 'bold',
+                    backgroundColor: column.headerColor,
+                    ...headCellStyles,
+                  }}
                   key={column.headerName}
                   align='left'
                 >

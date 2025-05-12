@@ -61,6 +61,8 @@ export const COLORS = {
     ENTRADAS_LINHA: 'rgba(0, 146, 13, 1)',
     ENTRADAS_FUNDO: 'rgba(0, 146, 13, 0.2)',
     FLUXO_FUNDO: 'rgba(0, 0, 0, 0.5)',
+    FUNDO_PRIMARIO: 'rgba(15, 55, 117, 1)',
+    FUNDO_SECUNDARIO: '#ff5722',
   },
 
   MENU: {
@@ -70,8 +72,14 @@ export const COLORS = {
   },
 
   TABELAS: {
-    FUNDO_VERDE: 'rgba(0, 146, 13, 0.3)',
+    FLUXO_CINZA: 'rgba(0, 0, 0, 0.1)',
+    FLUXO_CINZA_HEADER: '#bdbdbd',
+    FUNDO_VERDE: 'rgba(0, 146, 13, 0.2)',
+    FUNDO_VERDE_HEADER: '#66bb6a',
     FUNDO_AMARELO: 'rgba(255, 172, 17, 0.3)',
     FUNDO_VERMELHO: 'rgba(255, 0, 0, 0.2)',
+    FUNDO_VERMELHO_HEADER: '#ef5350',
+    FUNDO_AZUL: 'rgba(9, 71, 128, 0.1)',
+    FUNDO_AZUL_HEADER: '#5c6bc0',
   },
 }
