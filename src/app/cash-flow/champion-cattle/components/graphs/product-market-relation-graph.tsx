@@ -8,7 +8,7 @@ interface ProductMarketRelationGraphProps {
   dailyProducts?: PostSimulateCashFlowChampionCattleResponse['day']
 }
 export function ProductMarketRelationGraph({ dailyProducts }: ProductMarketRelationGraphProps) {
-  const { width } = useAppContext()
+  const { width, isCollapsed: isSideMenuOpen } = useAppContext()
   const data = getData(dailyProducts)
 
   return (
@@ -31,7 +31,7 @@ export function ProductMarketRelationGraph({ dailyProducts }: ProductMarketRelat
       </Typography>
       <Box>
         <BarChart
-          width={width - 300}
+          width={width * (isSideMenuOpen ? 0.8 : 0.85)}
           height={370}
           data={data}
           margin={{
