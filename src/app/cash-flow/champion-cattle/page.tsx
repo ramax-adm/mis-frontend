@@ -61,7 +61,7 @@ export default function ChampionCattle() {
       />
 
       <ProductsSection data={simulationResults} />
-      <GraphsSection />
+      <GraphsSection data={simulationResults} />
     </PageContainer>
   )
 }
