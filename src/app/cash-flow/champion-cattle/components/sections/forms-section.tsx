@@ -195,7 +195,7 @@ export const SimulateCashFlowChampionCattleForm = forwardRef<
           gap: 2,
           marginTop: 1,
           justifyContent: 'space-between',
-          width: { xs: '350px', sm: '430px', md: '820px', xl: '98%' },
+          width: { xs: '350px', sm: '98%' },
         }}
       >
         <Box sx={{ display: 'flex', flexDirection: 'column', width: { xl: '350px' }, gap: 3 }}>
