@@ -49,7 +49,7 @@ const SideNav = (props: Props) => {
           alignItems: 'center',
           cursor: 'pointer',
           transform: 'translateX(50%)',
-          fontSize: '1.25rem',
+          fontSize: '1.5rem',
         }}
         onClick={toggleSidebarcollapse}
       >
@@ -143,17 +143,24 @@ const SideNav = (props: Props) => {
                     width: '100%',
                   }}
                 >
-                  <span style={{ display: 'inline-block', fontSize: '1.2rem', marginTop: 2 }}>
+                  <span
+                    style={{
+                      display: 'inline-block',
+                      fontSize: '1.2rem',
+                      marginTop: 2,
+                      marginLeft: '0.2rem',
+                    }}
+                  >
                     <RiLogoutBoxFill />
                   </span>
                   {isCollapsed && (
                     <Typography
                       sx={{
                         display: 'flex',
-                        fontSize: '0.9rem',
+                        fontSize: '0.8rem',
                         fontWeight: 700,
                         fontFamily: 'sans-serif',
-                        marginLeft: 2,
+                        marginLeft: 1.5,
                         marginTop: -0.2,
                       }}
                     >
@@ -211,7 +218,7 @@ const MenuItem = ({ item, Icon }: { item: SideNavItem; Icon?: IconType }) => {
             onClick={toggleSubMenu}
             sx={{
               display: 'flex',
-              paddingX: '0.2rem',
+              paddingX: '0.1rem',
               paddingY: '4px',
               flexDirection: 'row',
               justifyContent: 'space-between',
@@ -230,7 +237,7 @@ const MenuItem = ({ item, Icon }: { item: SideNavItem; Icon?: IconType }) => {
               }}
             >
               {item.icon && Icon ? (
-                <span style={{ display: 'inline-block', fontSize: '1rem' }}>
+                <span style={{ display: 'inline-block', fontSize: '1.2rem', marginLeft: '0.2rem' }}>
                   <Icon />
                 </span>
               ) : (
@@ -240,11 +247,11 @@ const MenuItem = ({ item, Icon }: { item: SideNavItem; Icon?: IconType }) => {
                 <Typography
                   sx={{
                     display: 'flex',
-                    fontSize: '0.9rem',
+                    fontSize: '0.8rem',
                     lineHeight: '1.75rem',
                     fontWeight: 700,
                     fontFamily: 'sans-serif',
-                    marginLeft: 2,
+                    marginLeft: 1.5,
                   }}
                 >
                   {item.title}
@@ -280,7 +287,7 @@ const MenuItem = ({ item, Icon }: { item: SideNavItem; Icon?: IconType }) => {
                       textDecoration: 'none',
                       fontFamily: 'sans-serif',
                       fontWeight: `${pathname.includes(subItem.path) ? 700 : 500}`,
-                      fontSize: '0.8rem',
+                      fontSize: '0.75rem',
                       color: grey[900],
                     }}
                   >
@@ -294,13 +301,25 @@ const MenuItem = ({ item, Icon }: { item: SideNavItem; Icon?: IconType }) => {
       ) : (
         <Box
           sx={{
+            display: 'flex',
             paddingX: '0.1rem',
             paddingY: '4px',
-            borderRadius: '6px',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            borderRadius: '0.5rem',
             width: '100%',
             backgroundColor: item.path === location.pathname ? 'rgba(62, 99, 221, 0.3)' : '',
             '&:hover': { backgroundColor: 'rgba(62, 99, 221, 0.2)' },
           }}
+          // sx={{
+          //   paddingX: '0.1rem',
+          //   paddingY: '4px',
+          //   borderRadius: '0.5rem',
+          //   width: '100%',
+
+          //   '&:hover': { backgroundColor: 'rgba(62, 99, 221, 0.2)' },
+          // }}
         >
           <Link
             href={item.path}
@@ -316,7 +335,7 @@ const MenuItem = ({ item, Icon }: { item: SideNavItem; Icon?: IconType }) => {
             }}
           >
             {item.icon && Icon ? (
-              <span style={{ display: 'inline-block', fontSize: '1.2rem' }}>
+              <span style={{ display: 'inline-block', fontSize: '1.2rem', marginLeft: '0.2rem' }}>
                 <Icon />
               </span>
             ) : (
@@ -326,10 +345,11 @@ const MenuItem = ({ item, Icon }: { item: SideNavItem; Icon?: IconType }) => {
               <Typography
                 sx={{
                   display: 'flex',
-                  fontSize: '0.9rem',
+                  fontSize: '0.8rem',
                   lineHeight: '1.75rem',
                   fontWeight: 700,
-                  marginLeft: 2,
+                  fontFamily: 'sans-serif',
+                  marginLeft: 1.5,
                 }}
               >
                 {item.title}
