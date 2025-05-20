@@ -7,6 +7,10 @@ import { IconType } from 'react-icons'
 import { FaMoneyBillAlt } from 'react-icons/fa'
 import { PageRoutes } from '@/utils/appRoutes'
 import { userRoles } from './auth'
+import { RiMoneyDollarCircleFill } from 'react-icons/ri'
+import { PiCrownFill } from 'react-icons/pi'
+import { IoLayers } from 'react-icons/io5'
+import { IoLayersSharp } from 'react-icons/io5'
 
 type AppContextProviderProps = {
   children: React.ReactNode
@@ -60,7 +64,7 @@ export default function AppProvider({ children }: AppContextProviderProps) {
     {
       name: 'ESTOQUE',
       href: PageRoutes.stock(),
-      icon: LuLayers,
+      icon: IoLayersSharp,
     },
     {
       name: 'USUARIOS',
@@ -75,23 +79,20 @@ export default function AppProvider({ children }: AppContextProviderProps) {
       title: 'CASH FLOW',
       path: PageRoutes.cashFlow(),
       role: [userRoles.admin, userRoles.directory, userRoles.industry],
-      icon: FaMoneyBillAlt,
-      submenu: true,
-      subMenuItems: [
-        {
-          path: PageRoutes.cashFlow(),
-          title: 'Simulador',
-        },
-        {
-          path: PageRoutes.championCattle(),
-          title: 'Boi Campeão',
-        },
-      ],
+      icon: RiMoneyDollarCircleFill,
+      submenu: false,
+    },
+    {
+      title: 'BOI CAMPEÃO',
+      path: PageRoutes.championCattle(),
+      role: [userRoles.admin, userRoles.directory, userRoles.industry],
+      icon: PiCrownFill,
+      submenu: false,
     },
     {
       title: 'ESTOQUE',
       path: PageRoutes.stock(),
-      icon: LuLayers,
+      icon: IoLayersSharp,
       submenu: true,
       subMenuItems: [
         {
