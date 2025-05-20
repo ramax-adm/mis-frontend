@@ -88,6 +88,9 @@ export default function StockPage() {
           <Typography variant='subtitle2' fontSize={'13px'}>
             Ultima atualização: {stockLastUpdate?.parsedUpdatedAt}
           </Typography>
+          <Typography variant='subtitle2' fontSize={'13px'}>
+            Ultima atualização DATAVALE: {stockLastUpdate?.parsedExternalUpdatedAt}
+          </Typography>
         </PageContainerHeader>
         <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1 }}>
           <Button variant='contained' size='small' onClick={syncStock}>

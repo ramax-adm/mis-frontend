@@ -113,7 +113,9 @@ export interface GetAnalyticalToExpiresByCompanyResponse {
 
 export interface GetStockLastUpdatedAtResponse {
   parsedUpdatedAt: string
+  parsedExternalUpdatedAt: string
   updatedAt: Date
+  externalUpdatedAt: Date
 }
 
 export interface GetAnalyticalAllStocksResponse {
