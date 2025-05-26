@@ -30,7 +30,6 @@ export const urls = {
 
     // ANALITICO
     GET_ALL_ANALITICAL: `${apiLocal}/api/stock/analytical`,
-
     POST_EXPORT_XLSX: `${apiLocal}/api/stock/export-xlsx`,
   },
   SENSATTA: {
@@ -46,7 +45,10 @@ export const urls = {
     POST_USER: `${apiLocal}/api/user`,
     PATCH_USER: `${apiLocal}/api/user/:id`,
   },
-
+  UPLOAD: {
+    FIND_ALL: `${apiLocal}/api/upload`,
+    FIND_BY_NAME: `${apiLocal}/api/upload`,
+  },
   UTILS: {
     GET_UFS: `${apiLocal}/api/utils/ufs`,
     GET_CITIES_BY_UF:

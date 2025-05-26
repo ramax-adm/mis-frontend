@@ -11,6 +11,12 @@ export class PageRoutes {
   static users() {
     return `/users`
   }
+  static uploads() {
+    return `/uploads`
+  }
+  static others() {
+    return ``
+  }
   static cashFlow() {
     return `/cash-flow/simulate`
   }

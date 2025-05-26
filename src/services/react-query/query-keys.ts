@@ -16,6 +16,10 @@ export const queryKeys = {
     GET_ANALYTICAL_ALL: 'get-all-analytical-stocks',
     GET_LAST_UPDATED_AT: 'stock-updated-at',
   },
+  UPLOAD: {
+    FIND_ALL: 'find-all-upload-files',
+    FIND_BY_TYPE: 'find-by-type-upload-files-',
+  },
   USERS: {
     FIND_ALL: 'users',
   },

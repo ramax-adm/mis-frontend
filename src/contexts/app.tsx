@@ -11,6 +11,8 @@ import { RiMoneyDollarCircleFill } from 'react-icons/ri'
 import { PiCrownFill } from 'react-icons/pi'
 import { IoLayers } from 'react-icons/io5'
 import { IoLayersSharp } from 'react-icons/io5'
+import { MdMore } from 'react-icons/md'
+import { FaCirclePlus } from 'react-icons/fa6'
 
 type AppContextProviderProps = {
   children: React.ReactNode
@@ -55,24 +57,7 @@ export default function AppProvider({ children }: AppContextProviderProps) {
 
   const isMobile = width <= 768
 
-  const menuItems: MenuItem = [
-    {
-      name: 'CASH FLOW',
-      href: PageRoutes.cashFlow(),
-      icon: FaMoneyBillAlt,
-    },
-    {
-      name: 'ESTOQUE',
-      href: PageRoutes.stock(),
-      icon: IoLayersSharp,
-    },
-    {
-      name: 'USUARIOS',
-      href: PageRoutes.users(),
-      icon: HiMiniUsers,
-    },
-    // END SUBMENU
-  ]
+  const menuItems: MenuItem = []
 
   const NAV_ITEMS: SideNavItem[] = [
     {
@@ -106,12 +91,29 @@ export default function AppProvider({ children }: AppContextProviderProps) {
       ],
     },
     {
-      title: 'USUARIOS',
-      path: PageRoutes.users(),
+      title: 'OUTROS',
+      path: PageRoutes.others(),
       role: [userRoles.admin, userRoles.directory],
-      icon: HiMiniUsers,
-      submenu: false,
+      icon: FaCirclePlus,
+      submenu: true,
+      subMenuItems: [
+        {
+          path: PageRoutes.users(),
+          title: 'Usuarios',
+        },
+        {
+          path: PageRoutes.uploads(),
+          title: 'Uploads',
+        },
+      ],
     },
+    // {
+    //   title: 'USUARIOS',
+    //   path: PageRoutes.users(),
+    //   role: [userRoles.admin, userRoles.directory],
+    //   icon: HiMiniUsers,
+    //   submenu: false,
+    // },
   ]
 
   const toggleSidebarcollapse = () => {
