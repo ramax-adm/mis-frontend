@@ -18,9 +18,6 @@ export function ProductsSection({ data }: ProductsSectionProps) {
         width: { xs: '350px', sm: '98%' },
       }}
     >
-      <Typography variant='h6' fontWeight={700} fontSize={'18px'}>
-        Resultados
-      </Typography>
       <AllMarketsProductsTable dailyProducts={data?.day} projectedProducts={data?.projected} />
       <MeProductsTable dailyProducts={data?.day} projectedProducts={data?.projected} />
       <MiProductsTable dailyProducts={data?.day} projectedProducts={data?.projected} />

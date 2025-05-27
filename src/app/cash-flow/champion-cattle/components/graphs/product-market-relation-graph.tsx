@@ -3,7 +3,16 @@ import { useAppContext } from '@/contexts/app'
 import { PostSimulateCashFlowChampionCattleResponse } from '@/types/api/cash-flow-champion-cattle'
 import { fromLocaleStringToNumber } from '@/utils/number.utils'
 import { Box, Typography } from '@mui/material'
-import { Bar, BarChart, Legend, Tooltip, XAxis, YAxis } from 'recharts'
+import {
+  Bar,
+  BarChart,
+  LabelList,
+  Legend,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from 'recharts'
 interface ProductMarketRelationGraphProps {
   dailyProducts?: PostSimulateCashFlowChampionCattleResponse['day']
 }
@@ -15,7 +24,7 @@ export function ProductMarketRelationGraph({ dailyProducts }: ProductMarketRelat
     <Box
       sx={{
         width: '100%',
-        height: '400px',
+        height: '600px',
         display: 'grid',
         backgroundColor: 'white',
         border: `1px solid ${COLORS.BORDAS}`,
@@ -29,24 +38,25 @@ export function ProductMarketRelationGraph({ dailyProducts }: ProductMarketRelat
       <Typography variant='body2' fontWeight={700} color={'#3E63DD'}>
         Relação de R$/KG ME/MI
       </Typography>
-      <Box>
+      <ResponsiveContainer width={'100%'} height={570}>
         <BarChart
-          width={width * (isSideMenuOpen ? 0.8 : 0.85)}
-          height={370}
           data={data}
           margin={{
             left: -20,
             right: 10,
           }}
         >
-          <XAxis dataKey='productName' tickLine={false} fontFamily='roboto' fontSize={12} />
-          <YAxis tickLine={false} fontFamily='roboto' fontSize={12} />
+          <XAxis dataKey='productName' tickLine={false} fontFamily='roboto' fontSize={10} />
           <Tooltip content={<CustomTooltip />} />
           <Legend formatter={renderLegend} />
-          <Bar dataKey='meResultKg' fill={COLORS.GRAFICOS.FUNDO_PRIMARIO} />
-          <Bar dataKey='miResultKg' fill={COLORS.GRAFICOS.FUNDO_SECUNDARIO} />
+          <Bar dataKey='meResultKg' fill={COLORS.GRAFICOS.FUNDO_PRIMARIO}>
+            <LabelList dataKey='meResultKg' position='top' fontSize={'10px'} fontWeight={700} />
+          </Bar>
+          <Bar dataKey='miResultKg' fill={COLORS.GRAFICOS.FUNDO_SECUNDARIO}>
+            <LabelList dataKey='miResultKg' position='top' fontSize={'10px'} fontWeight={700} />
+          </Bar>
         </BarChart>
-      </Box>
+      </ResponsiveContainer>
     </Box>
   )
 }

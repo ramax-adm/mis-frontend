@@ -5,8 +5,6 @@ export interface ProjectionControls {
 
 export interface RawMaterialControls {
   cbs: number
-  diasPagamento: number
-  diasPagamentoFrete: number
   pDt: number
   pPa: number
   pTr: number
@@ -20,20 +18,15 @@ export interface Operation {
   precoEmbalagem: number
   precoMod: number
   tipoArrend: string
-  diasPagamentoProdutos: number
 }
 
 export interface MiControls {
   pComissoesMi: number
   pImpostosMi: number
   precoFreteMi: number
-  vendasMiDias: number
 }
 
 export interface MeControls {
-  vendasMeDias: number
-  pAntecipacaoMe: number
-  diasPosicao: number
   ptax: number
   precoFreteRodoviario: number
   precoPorto: number
@@ -172,3 +165,7 @@ export interface MiIncomes {
 }
 
 // SIMULATION RESULTS
+export enum TipoArrendEnum {
+  KG_ENTRADA = 'KG_ENTRADA',
+  KG_SAIDA = 'KG_SAIDA',
+}

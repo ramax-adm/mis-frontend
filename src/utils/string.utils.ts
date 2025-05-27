@@ -24,3 +24,17 @@ export function safeParse(raw?: string) {
 export function stringify(raw: Object) {
   return JSON.stringify(raw)
 }
+
+export function toCurrency(value?: number) {
+  return Intl.NumberFormat('pt-br', {
+    style: 'currency',
+    currency: 'BRL',
+  }).format(value || 0)
+}
+
+export function toLocaleString(value: number, nb: number = 0) {
+  return value.toLocaleString('pt-BR', {
+    minimumFractionDigits: nb,
+    maximumFractionDigits: nb,
+  })
+}

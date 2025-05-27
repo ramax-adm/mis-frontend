@@ -9,10 +9,10 @@ import {
   DEFAULT_RAW_MATERIAL_FORM_VALUES,
 } from '@/constants/app/cash-flow-champion-cattle'
 import { useGetArrendTypes } from '@/services/react-query/queries/cash-flow'
-import { Operation, RawMaterialControls } from '@/types/cash-flow'
+import { Operation, TipoArrendEnum } from '@/types/cash-flow-champion-cattle'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Button, FormControl, Grid, InputAdornment, TextField, Typography } from '@mui/material'
-import { forwardRef, useImperativeHandle, useRef } from 'react'
+import { forwardRef, useEffect, useImperativeHandle, useRef } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
@@ -26,9 +26,6 @@ const operationFormSchema = z.object({
     .number({ message: 'Insira um numero valido' })
     .refine((value) => value > 0, 'Insira um preço maior que 0'),
   tipoArrend: z.string(),
-  diasPagamentoProdutos: z.coerce
-    .number({ message: 'Insira um numero valido' })
-    .refine((value) => value > 0, 'Insira qtd de dias maior que 0'),
 })
 
 export type OperationFormSchema = z.infer<typeof operationFormSchema>
@@ -63,7 +60,11 @@ export const OperationInputs = forwardRef<OperationFormRef, OperationInputsProps
       setOperacaoValores(data)
     }
 
-    const { data: tiposArrend } = useGetArrendTypes()
+    // const { data: tiposArrend } = useGetArrendTypes()
+
+    // useEffect(() => {
+    //   setValue('tipoArrend', 'KG_ENTRADA')
+    // }, [])
 
     return (
       <Grid
@@ -101,7 +102,16 @@ export const OperationInputs = forwardRef<OperationFormRef, OperationInputsProps
             name='tipoArrend'
             control={control}
             error={errors.tipoArrend}
-            options={tiposArrend?.map((item, index) => ({
+            options={[
+              {
+                label: 'KG Entrada',
+                value: TipoArrendEnum.KG_ENTRADA,
+              },
+              {
+                label: 'KG Saída',
+                value: TipoArrendEnum.KG_SAIDA,
+              },
+            ]?.map((item, index) => ({
               key: index,
               label: item.label,
               value: item.value,
@@ -109,15 +119,6 @@ export const OperationInputs = forwardRef<OperationFormRef, OperationInputsProps
           />
         </Grid>
 
-        <Grid item xs={5}>
-          <FloatInput
-            label='Dias PGT'
-            size='small'
-            name='diasPagamentoProdutos'
-            control={control}
-            error={errors.diasPagamentoProdutos}
-          />
-        </Grid>
         <Grid item xs={5}>
           <FloatInput
             label='Embalagem'
