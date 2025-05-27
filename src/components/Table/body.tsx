@@ -27,6 +27,7 @@ export type Column<T extends object> = {
   trueMessage?: string
   falseMessage?: string
   conditionalColor?: string | ((value: T) => string)
+  conditionalFontColor?: string | ((value: T) => string)
   headerColor?: string
   noData?: string
 }
@@ -58,6 +59,18 @@ export function CustomizedTable<T extends Record<string, Value>>({
     }
 
     return column?.conditionalColor
+  }
+
+  function getConditionalFontColor(column: Column<T>, value: T) {
+    if (!column?.conditionalFontColor) {
+      return ''
+    }
+
+    if (typeof column.conditionalFontColor === 'function') {
+      return (column.conditionalFontColor as (value: T) => string)(value)
+    }
+
+    return column?.conditionalFontColor
   }
 
   function createNewData(column: Column<T>, value: T) {
@@ -235,6 +248,7 @@ export function CustomizedTable<T extends Record<string, Value>>({
                     fontSize: '10px',
                     maxWidth: column.maxWidth ?? '',
                     backgroundColor: getConditionalColor(column, row),
+                    color: getConditionalFontColor(column, row),
                     ...cellStyles,
                   }}
                   key={index}

@@ -19,6 +19,7 @@ type Props<T extends FieldValues> = {
   loading?: boolean
   required?: boolean
   sx?: SxProps
+  defaultValue?: string
   size?: 'small' | 'medium'
 }
 
@@ -33,6 +34,7 @@ export function UncontroledSelect<T extends FieldValues>({
   readonly,
   loading,
   required,
+  defaultValue,
   sx,
   size = 'medium',
 }: Props<T>) {
@@ -63,6 +65,7 @@ export function UncontroledSelect<T extends FieldValues>({
               isOptionEqualToValue={(option: string | number, value) => {
                 return value === '' || value === undefined || option === value
               }}
+              defaultValue={defaultValue}
               disablePortal
               loading={loading}
               options={options?.map((option) => option.value) || []}

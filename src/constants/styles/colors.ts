@@ -8,6 +8,7 @@ export const COLORS = {
 
   INDICADORES: {
     FUNDO_PRIMARIO: 'rgba(160, 209, 255, 1)',
+    FUNDO_ALTERNATIVO: 'rgba(62, 99, 221, 1)',
     BORDA_PRIMARIO: 'rgba(160, 209, 255, 0.8)',
     FUNDO_SECUNDARIO: 'rgba(255, 0, 0, 0.7)',
     BORDA_SECUNDARIO: 'rgba(255, 0, 0, 0.7)',

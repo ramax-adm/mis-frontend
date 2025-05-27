@@ -13,10 +13,6 @@ import { z } from 'zod'
 // schema do zod
 const rawMaterialFormSchema = z.object({
   cbs: z.coerce.number({ message: 'Insira um numero valido' }),
-  diasPagamento: z.coerce.number({ message: 'Insira um numero valido' }),
-  diasPagamentoFrete: z.coerce
-    .number({ message: 'Insira um numero valido' })
-    .refine((value) => value > 0, 'Insira a quantidade de dias maior que 0'),
   pDt: z.coerce.number({ message: 'Insira um numero valido' }),
   pPa: z.coerce.number({ message: 'Insira um numero valido' }),
   pTr: z.coerce.number({ message: 'Insira um numero valido' }),
@@ -90,15 +86,6 @@ export const RawMaterialInputs = forwardRef<RawMaterialFormRef, RawMaterialInput
             endAdornment={<InputAdornment position='end'>@</InputAdornment>}
           />
         </Grid>
-        <Grid item xs={5}>
-          <NumberInput
-            label='Dias PGT Cmp.'
-            size='small'
-            name='diasPagamento'
-            control={control}
-            error={errors.diasPagamento}
-          />
-        </Grid>
 
         <Grid item xs={5}>
           <FloatInput
@@ -108,15 +95,6 @@ export const RawMaterialInputs = forwardRef<RawMaterialFormRef, RawMaterialInput
             control={control}
             error={errors.precoFreteKg}
             endAdornment={<InputAdornment position='end'>R$</InputAdornment>}
-          />
-        </Grid>
-        <Grid item xs={5}>
-          <NumberInput
-            label='Dias PGT Frt.'
-            size='small'
-            name='diasPagamentoFrete'
-            control={control}
-            error={errors.diasPagamentoFrete}
           />
         </Grid>
         <Grid item xs={5}>
