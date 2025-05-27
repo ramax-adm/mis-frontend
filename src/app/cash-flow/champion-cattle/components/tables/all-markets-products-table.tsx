@@ -1,11 +1,11 @@
-import { Table } from '@/components/Table'
 import { Column, CustomizedTable } from '@/components/Table/body'
 import { COLORS } from '@/constants/styles/colors'
 import {
   PostSimulateCashFlowChampionCattleResponse,
   SimulateCashFlowChampionCattleItem,
 } from '@/types/api/cash-flow-champion-cattle'
-import { fromLocaleStringToNumber } from '@/utils/number.utils'
+import { fromLocaleStringToNumber, nb2, toLocaleString } from '@/utils/number.utils'
+import { toCurrency } from '@/utils/string.utils'
 import { Box, Typography } from '@mui/material'
 
 interface AllMarketsProductsTableProps {
@@ -20,6 +20,7 @@ export function AllMarketsProductsTable({
   projectedProducts,
 }: AllMarketsProductsTableProps) {
   const columns = getColumns()
+  const totals = sumProductTotals(dailyProducts?.bothMarketProducts)
   return (
     <Box
       sx={{
@@ -53,6 +54,92 @@ export function AllMarketsProductsTable({
           fontSize: '10px',
         }}
       />
+      <Box sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', width: '100%', gap: 2 }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', padding: 1 }}>
+          <Typography fontSize={'10px'}>KG Prod ME</Typography>
+          <Typography fontSize={'12px'} fontWeight={700}>
+            {toLocaleString(totals.totalMeKgProducted)}
+          </Typography>
+        </Box>
+        <Box sx={{ display: 'flex', flexDirection: 'column', padding: 1 }}>
+          <Typography fontSize={'10px'}>KG Prod MI</Typography>
+          <Typography fontSize={'12px'} fontWeight={700}>
+            {toLocaleString(totals.totalMiKgProducted)}
+          </Typography>
+        </Box>
+        <Box sx={{ display: 'flex', flexDirection: 'column', padding: 1 }}>
+          <Typography fontSize={'10px'}>Receitas ME</Typography>
+          <Typography fontSize={'12px'} fontWeight={700}>
+            {toCurrency(totals.totalMeInbound)}
+          </Typography>
+        </Box>
+        <Box sx={{ display: 'flex', flexDirection: 'column', padding: 1 }}>
+          <Typography fontSize={'10px'}>Receitas MI</Typography>
+          <Typography fontSize={'12px'} fontWeight={700}>
+            {toCurrency(totals.totalMiInbound)}
+          </Typography>
+        </Box>
+        <Box sx={{ display: 'flex', flexDirection: 'column', padding: 1 }}>
+          <Typography fontSize={'10px'}>Compra Gado ME</Typography>
+          <Typography fontSize={'12px'} fontWeight={700}>
+            {toCurrency(totals.totalMeBuy)}
+          </Typography>
+        </Box>
+        <Box sx={{ display: 'flex', flexDirection: 'column', padding: 1 }}>
+          <Typography fontSize={'10px'}>Compra Gado MI</Typography>
+          <Typography fontSize={'12px'} fontWeight={700}>
+            {toCurrency(totals.totalMiBuy)}
+          </Typography>
+        </Box>
+        <Box sx={{ display: 'flex', flexDirection: 'column', padding: 1 }}>
+          <Typography fontSize={'10px'}>Operação ME</Typography>
+          <Typography fontSize={'12px'} fontWeight={700}>
+            {toCurrency(totals.totalMeOperationCosts)}
+          </Typography>
+        </Box>
+        <Box sx={{ display: 'flex', flexDirection: 'column', padding: 1 }}>
+          <Typography fontSize={'10px'}>Operação Mi</Typography>
+          <Typography fontSize={'12px'} fontWeight={700}>
+            {toCurrency(totals.totalMiOperationCosts)}
+          </Typography>
+        </Box>
+        <Box sx={{ display: 'flex', flexDirection: 'column', padding: 1 }}>
+          <Typography fontSize={'10px'}>Vendas ME</Typography>
+          <Typography fontSize={'12px'} fontWeight={700}>
+            {toCurrency(totals.totalMeSalles)}
+          </Typography>
+        </Box>
+        <Box sx={{ display: 'flex', flexDirection: 'column', padding: 1 }}>
+          <Typography fontSize={'10px'}>Vendas MI</Typography>
+          <Typography fontSize={'12px'} fontWeight={700}>
+            {toCurrency(totals.totalMiSalles)}
+          </Typography>
+        </Box>
+        <Box sx={{ display: 'flex', flexDirection: 'column', padding: 1 }}>
+          <Typography fontSize={'10px'}>Custo Total ME</Typography>
+          <Typography fontSize={'12px'} fontWeight={700}>
+            {toCurrency(totals.totalMeCosts)}
+          </Typography>
+        </Box>
+        <Box sx={{ display: 'flex', flexDirection: 'column', padding: 1 }}>
+          <Typography fontSize={'10px'}>Custo Total MI</Typography>
+          <Typography fontSize={'12px'} fontWeight={700}>
+            {toCurrency(totals.totalMiCosts)}
+          </Typography>
+        </Box>
+        <Box sx={{ display: 'flex', flexDirection: 'column', padding: 1 }}>
+          <Typography fontSize={'10px'}>Resultado ME</Typography>
+          <Typography fontSize={'12px'} fontWeight={700}>
+            {toCurrency(totals.totalMeResult)}
+          </Typography>
+        </Box>
+        <Box sx={{ display: 'flex', flexDirection: 'column', padding: 1 }}>
+          <Typography fontSize={'10px'}>Resultado MI</Typography>
+          <Typography fontSize={'12px'} fontWeight={700}>
+            {toCurrency(totals.totalMiResult)}
+          </Typography>
+        </Box>
+      </Box>
     </Box>
   )
 }
@@ -281,6 +368,16 @@ const getColumns = (): Column<SimulateCashFlowChampionCattleItem>[] => {
 
         return meResultKg > miResultKg ? 'rgba(0, 146, 13, 0.5)' : ''
       },
+      conditionalFontColor: (row: SimulateCashFlowChampionCattleItem) => {
+        const result = fromLocaleStringToNumber(
+          row.finalResultMeKg
+            .replace(/\s/g, '') // remove espaços
+            .replace(/^-\s*R\$/, '-') // trata apenas "- R$"
+            .replace(/^R\$/, ''), // remove só "R$" (sem sinal)
+        )
+
+        return result < 0 ? 'rgba(255, 0, 0, 1)' : ''
+      },
       type: 'string',
       value: {
         first: {
@@ -309,6 +406,16 @@ const getColumns = (): Column<SimulateCashFlowChampionCattleItem>[] => {
 
         return miResultKg > meResultKg ? 'rgba(0, 146, 13, 0.5)' : ''
       },
+      conditionalFontColor: (row: SimulateCashFlowChampionCattleItem) => {
+        const result = fromLocaleStringToNumber(
+          row.finalResultMiKg
+            .replace(/\s/g, '') // remove espaços
+            .replace(/^-\s*R\$/, '-') // trata apenas "- R$"
+            .replace(/^R\$/, ''), // remove só "R$" (sem sinal)
+        )
+
+        return result < 0 ? 'rgba(255, 0, 0, 1)' : ''
+      },
       type: 'string',
       value: {
         first: {
@@ -317,4 +424,100 @@ const getColumns = (): Column<SimulateCashFlowChampionCattleItem>[] => {
       },
     },
   ]
+}
+
+const sumProductTotals = (data: SimulateCashFlowChampionCattleItem[] = []) => {
+  const parsedData = data.map((item) => ({
+    meProduction: fromLocaleStringToNumber(item.meProduction),
+    miProduction: fromLocaleStringToNumber(item.miProduction),
+    meTotalInbound: fromLocaleStringToNumber(
+      item.meTotalInbound
+        .replace(/\s/g, '') // remove espaços
+        .replace(/^-\s*R\$/, '-') // trata apenas "- R$"
+        .replace(/^R\$/, ''), // remove só "R$" (sem sinal)
+    ),
+    miTotalInbound: fromLocaleStringToNumber(
+      item.miTotalInbound
+        .replace(/\s/g, '') // remove espaços
+        .replace(/^-\s*R\$/, '-') // trata apenas "- R$"
+        .replace(/^R\$/, ''), // remove só "R$" (sem sinal)
+    ),
+    meBuyCosts: fromLocaleStringToNumber(
+      item.meBuyCosts
+        .replace(/\s/g, '') // remove espaços
+        .replace(/^-\s*R\$/, '-') // trata apenas "- R$"
+        .replace(/^R\$/, ''), // remove só "R$" (sem sinal)
+    ),
+    miBuyCosts: fromLocaleStringToNumber(
+      item.miBuyCosts
+        .replace(/\s/g, '') // remove espaços
+        .replace(/^-\s*R\$/, '-') // trata apenas "- R$"
+        .replace(/^R\$/, ''), // remove só "R$" (sem sinal)
+    ),
+    meOperationCosts: fromLocaleStringToNumber(
+      item.meOperationCosts
+        .replace(/\s/g, '') // remove espaços
+        .replace(/^-\s*R\$/, '-') // trata apenas "- R$"
+        .replace(/^R\$/, ''), // remove só "R$" (sem sinal)
+    ),
+    miOperationCosts: fromLocaleStringToNumber(
+      item.miOperationCosts
+        .replace(/\s/g, '') // remove espaços
+        .replace(/^-\s*R\$/, '-') // trata apenas "- R$"
+        .replace(/^R\$/, ''), // remove só "R$" (sem sinal)
+    ),
+    totalMeSalles: fromLocaleStringToNumber(
+      item.totalMeSalles
+        .replace(/\s/g, '') // remove espaços
+        .replace(/^-\s*R\$/, '-') // trata apenas "- R$"
+        .replace(/^R\$/, ''), // remove só "R$" (sem sinal)
+    ),
+    totalMiSalles: fromLocaleStringToNumber(
+      item.totalMiSalles
+        .replace(/\s/g, '') // remove espaços
+        .replace(/^-\s*R\$/, '-') // trata apenas "- R$"
+        .replace(/^R\$/, ''), // remove só "R$" (sem sinal)
+    ),
+    meTotalCosts: fromLocaleStringToNumber(
+      item.meTotalCosts
+        .replace(/\s/g, '') // remove espaços
+        .replace(/^-\s*R\$/, '-') // trata apenas "- R$"
+        .replace(/^R\$/, ''), // remove só "R$" (sem sinal)
+    ),
+    miTotalCosts: fromLocaleStringToNumber(
+      item.miTotalCosts
+        .replace(/\s/g, '') // remove espaços
+        .replace(/^-\s*R\$/, '-') // trata apenas "- R$"
+        .replace(/^R\$/, ''), // remove só "R$" (sem sinal)
+    ),
+    finalResultMe: fromLocaleStringToNumber(
+      item.finalResultMe
+        .replace(/\s/g, '') // remove espaços
+        .replace(/^-\s*R\$/, '-') // trata apenas "- R$"
+        .replace(/^R\$/, ''), // remove só "R$" (sem sinal)
+    ),
+    finalResultMi: fromLocaleStringToNumber(
+      item.finalResultMi
+        .replace(/\s/g, '') // remove espaços
+        .replace(/^-\s*R\$/, '-') // trata apenas "- R$"
+        .replace(/^R\$/, ''), // remove só "R$" (sem sinal)
+    ),
+  }))
+
+  return {
+    totalMeKgProducted: nb2(parsedData.reduce((acc, item) => acc + item.meProduction, 0)),
+    totalMiKgProducted: nb2(parsedData.reduce((acc, item) => acc + item.miProduction, 0)),
+    totalMeInbound: nb2(parsedData.reduce((acc, item) => acc + item.meTotalInbound, 0)),
+    totalMiInbound: nb2(parsedData.reduce((acc, item) => acc + item.miTotalInbound, 0)),
+    totalMeBuy: nb2(parsedData.reduce((acc, item) => acc + item.meBuyCosts, 0)),
+    totalMiBuy: nb2(parsedData.reduce((acc, item) => acc + item.miBuyCosts, 0)),
+    totalMeOperationCosts: nb2(parsedData.reduce((acc, item) => acc + item.meOperationCosts, 0)),
+    totalMiOperationCosts: nb2(parsedData.reduce((acc, item) => acc + item.miOperationCosts, 0)),
+    totalMeSalles: nb2(parsedData.reduce((acc, item) => acc + item.totalMeSalles, 0)),
+    totalMiSalles: nb2(parsedData.reduce((acc, item) => acc + item.totalMiSalles, 0)),
+    totalMeCosts: nb2(parsedData.reduce((acc, item) => acc + item.meTotalCosts, 0)),
+    totalMiCosts: nb2(parsedData.reduce((acc, item) => acc + item.miTotalCosts, 0)),
+    totalMeResult: nb2(parsedData.reduce((acc, item) => acc + item.finalResultMe, 0)),
+    totalMiResult: nb2(parsedData.reduce((acc, item) => acc + item.finalResultMi, 0)),
+  }
 }

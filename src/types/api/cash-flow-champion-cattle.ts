@@ -79,6 +79,15 @@ export interface SimulateCashFlowChampionCattleItem {
   finalResultMi: string
   finalResultMiKg: string
 }
+
+export interface SimulateCashFlowChampionCattleTotals {
+  entries: {
+    totalEntriesInKg: string
+    totalDtEntriesInKg: string
+    totalPaEntriesInKg: string
+    totalTrEntriesInKg: string
+  }
+}
 export interface PostSimulateCashFlowChampionCattleResponse {
   day: {
     miProducts: SimulateCashFlowChampionCattleItem[]
@@ -90,4 +99,5 @@ export interface PostSimulateCashFlowChampionCattleResponse {
     meProducts: SimulateCashFlowChampionCattleItem[]
     bothMarketProducts: SimulateCashFlowChampionCattleItem[]
   }
+  totals: SimulateCashFlowChampionCattleTotals
 }

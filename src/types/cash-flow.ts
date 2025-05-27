@@ -384,3 +384,8 @@ export interface DailyFlowProjection {
 export interface ProjectionControls {
   diasProjecao: number
 }
+
+export enum TipoArrendEnum {
+  KG_ENTRADA = 'KG_ENTRADA',
+  KG_SAIDA = 'KG_SAIDA',
+}
