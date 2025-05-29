@@ -16,6 +16,10 @@ export const queryKeys = {
     GET_ANALYTICAL_ALL: 'get-all-analytical-stocks',
     GET_LAST_UPDATED_AT: 'stock-updated-at',
   },
+  FREIGHTS: {
+    GET_CATTLE_PURCHASE_FREIGHTS_ANALYTICAL: 'get-all-analytical-cattle-purchase-freights',
+    GET_LAST_UPDATED_AT: 'freights-updated-at',
+  },
   USERS: {
     FIND_ALL: 'users',
   },
