@@ -19,8 +19,6 @@ export function CattleFreightsTable({ companyCode, startDate, endDate }: CattleF
       endDate: endDate ? new Date(endDate) : null,
     })
 
-  console.log({ isFetchingCattleFreights })
-
   if (isFetchingCattleFreights) {
     return <LoadingOverlay />
   }
