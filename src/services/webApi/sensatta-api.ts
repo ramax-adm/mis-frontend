@@ -13,6 +13,12 @@ export async function PostSyncStockWithSensatta() {
   return response.data
 }
 
+export async function PostSyncFreightsWithSensatta() {
+  const response = await PostFetch(urls.SENSATTA.POST_SYNC_FREIGHTS)
+
+  return response.data
+}
+
 export async function GetCompanies() {
   const response = await GetFetch(urls.SENSATTA.GET_COMPANIES)
 
