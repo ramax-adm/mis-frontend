@@ -38,11 +38,7 @@ api.interceptors.response.use(
       let errorMessage =
         'Ocorreu um erro inesperado no sistema. Por favor, tente novamente mais tarde.'
 
-      console.log({ error })
-
       if (error.response) {
-        console.log('aqui')
-
         const { status, data } = error.response
 
         const currentMessage = messages[status]
