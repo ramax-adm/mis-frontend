@@ -2,19 +2,18 @@ import { Box, Chip, FormControl, Typography } from '@mui/material'
 import { blue } from '@mui/material/colors'
 import { ChangeEvent, DragEvent, useRef, useState } from 'react'
 import { Path, useFormContext } from 'react-hook-form'
-import { CustomFile } from './CustomFile'
 import { FeedbackAlert } from '@/components/FeedbackAlert'
 import { COLORS } from '@/constants/styles/colors'
 
 interface FileValues {
-  [key: string]: File[]
+  [key: string]: any[]
 }
 interface FormFileInputProps {
   formField: Path<FileValues>
   placeholder?: string
   multiple?: boolean
-  defaultFiles?: CustomFile[]
-  onRemoveExistingFile?: (file: CustomFile) => void
+  defaultFiles?: any[]
+  onRemoveExistingFile?: (file: any) => void
 }
 export function UncontrolledFormFileInput({
   placeholder,
@@ -33,27 +32,27 @@ export function UncontrolledFormFileInput({
   const [error, setError] = useState('')
   const inputRef = useRef<HTMLInputElement>(null)
 
-  const attachments: File[] = watch(formField)
+  const attachments: any[] = watch(formField)
   const [savedFiles, setSavedFiles] = useState(defaultFiles ?? [])
   const allFiles = [...savedFiles, ...Array.from(attachments ?? [])]
 
   const handleRemoveFile = (idx: number): void => {
     const currentFile = allFiles[idx]
 
-    if (currentFile instanceof CustomFile) {
-      setSavedFiles((files) => files.filter((f) => f.id !== currentFile.id))
-      onRemoveExistingFile && onRemoveExistingFile(currentFile)
-    } else {
-      const dataTransfer = new DataTransfer()
-      const newFileList = allFiles.filter((_, i) => i !== idx)
-      newFileList.forEach((file) => dataTransfer.items.add(file))
+    // if (currentFile instanceof CustomFile) {
+    //   setSavedFiles((files) => files.filter((f) => f.id !== currentFile.id))
+    //   onRemoveExistingFile && onRemoveExistingFile(currentFile)
+    // } else {
+    const dataTransfer = new DataTransfer()
+    const newFileList = allFiles.filter((_, i) => i !== idx)
+    newFileList.forEach((file) => dataTransfer.items.add(file))
 
-      setValue(formField, newFileList)
+    setValue(formField, newFileList)
 
-      if (inputRef.current) {
-        inputRef.current.files = dataTransfer.files
-      }
+    if (inputRef.current) {
+      inputRef.current.files = dataTransfer.files
     }
+    // }
   }
 
   const handleDrop = (e: DragEvent<HTMLDivElement>) => {
