@@ -3,6 +3,7 @@ import { GetUserProfile } from '@/services/webApi/user-api'
 import { User, UserRoles } from '@/types/user'
 import { PageRoutes } from '@/utils/appRoutes'
 import { getFromLocalStorage, setToLocalStorage } from '@/utils/storage.utils'
+import { AxiosError } from 'axios'
 import { useRouter, usePathname, useParams } from 'next/navigation'
 import React, { createContext, useContext, useEffect, useState } from 'react'
 
@@ -133,7 +134,15 @@ export default function AuthContextProvider({ children }: AuthContextProviderPro
         if (!profile.data.isActive) {
           return logoutUser()
         }
-      } catch (error) {}
+      } catch (error) {
+        console.log(error)
+
+        if (error instanceof AxiosError) {
+          if (error.status == 401) {
+            return logoutUser()
+          }
+        }
+      }
     }
     getProfile()
     // eslint-disable-next-line react-hooks/exhaustive-deps
