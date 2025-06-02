@@ -8,7 +8,8 @@ import {
   DEFAULT_OPERATION_FORM_VALUES,
   DEFAULT_RAW_MATERIAL_FORM_VALUES,
 } from '@/constants/app/cash-flow-champion-cattle'
-import { MiControls, Operation, RawMaterialControls } from '@/types/cash-flow'
+import { Operation, RawMaterialControls } from '@/types/cash-flow'
+import { MiControls } from '@/types/cash-flow-champion-cattle'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Button, FormControl, Grid, InputAdornment, TextField, Typography } from '@mui/material'
 import { forwardRef, useImperativeHandle, useRef } from 'react'
@@ -22,9 +23,6 @@ const miFormSchema = z.object({
   precoFreteMi: z.coerce
     .number({ message: 'Insira um numero valido' })
     .refine((value) => value > 0, 'Insira um preço maior que 0'),
-  vendasMiDias: z.coerce
-    .number({ message: 'Insira um numero valido' })
-    .refine((value) => value > 0, 'Insira qtd de dias maior que 0'),
 })
 
 export type MiFormSchema = z.infer<typeof miFormSchema>
@@ -106,15 +104,6 @@ export const MiInputs = forwardRef<MiFormRef, MiInputsProps>(
             control={control}
             error={errors.precoFreteMi}
             endAdornment={<InputAdornment position='end'>R$</InputAdornment>}
-          />
-        </Grid>
-        <Grid item xs={5}>
-          <NumberInput
-            label='Vendas dias'
-            size='small'
-            name='vendasMiDias'
-            control={control}
-            error={errors.vendasMiDias}
           />
         </Grid>
 

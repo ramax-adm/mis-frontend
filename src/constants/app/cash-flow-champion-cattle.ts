@@ -3,8 +3,6 @@ export const DEFAULT_PROJECTION_FORM_VALUES = {
 }
 export const DEFAULT_RAW_MATERIAL_FORM_VALUES = {
   cbs: 100,
-  diasPagamento: 2,
-  diasPagamentoFrete: 15,
   pDt: 40.0,
   pPa: 13.0,
   pTr: 47.0,
@@ -14,24 +12,19 @@ export const DEFAULT_RAW_MATERIAL_FORM_VALUES = {
 }
 
 export const DEFAULT_OPERATION_FORM_VALUES = {
-  arredKg: 0,
+  arredKg: 0.5,
   precoEmbalagem: 0.45,
   precoMod: 0.4,
-  tipoArrend: '',
-  diasPagamentoProdutos: 24,
+  tipoArrend: 'KG_ENTRADA',
 }
 
 export const DEFAULT_MI_CONTROLS_FORM_VALUES = {
   pComissoesMi: 0.7,
   pImpostosMi: 1.8,
   precoFreteMi: 1.25,
-  vendasMiDias: 10,
 }
 
 export const DEFAULT_ME_CONTROLS_FORM_VALUES = {
-  vendasMeDias: 10,
-  pAntecipacaoMe: 40,
-  diasPosicao: 30,
   ptax: 5.7,
   precoFreteRodoviario: 0.75,
   precoPorto: 0.25,

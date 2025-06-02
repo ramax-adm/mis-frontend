@@ -9,7 +9,7 @@ import { PageRoutes } from '@/utils/appRoutes'
 import { userRoles } from './auth'
 import { RiMoneyDollarCircleFill } from 'react-icons/ri'
 import { PiCrownFill } from 'react-icons/pi'
-import { IoLayers } from 'react-icons/io5'
+import { MdLocalShipping } from 'react-icons/md'
 import { IoLayersSharp } from 'react-icons/io5'
 import { MdMore } from 'react-icons/md'
 import { FaCirclePlus } from 'react-icons/fa6'
@@ -87,6 +87,18 @@ export default function AppProvider({ children }: AppContextProviderProps) {
         {
           path: PageRoutes.meStock(),
           title: 'Produtos ME',
+        },
+      ],
+    },
+    {
+      title: 'FRETES',
+      path: PageRoutes.freights(),
+      icon: MdLocalShipping,
+      submenu: true,
+      subMenuItems: [
+        {
+          path: PageRoutes.cattlePurchaseFreights(),
+          title: 'Compra Gado',
         },
       ],
     },

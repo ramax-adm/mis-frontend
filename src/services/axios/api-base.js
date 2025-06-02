@@ -22,6 +22,10 @@ export const urls = {
     POST_SIMULATE_CASH_FLOW_CHAMPION_CATTLE: `${apiLocal}/api/cash-flow/simulate/champion-cattle`,
     EXPORT_XLSX: `${apiLocal}/api/cash-flow/export-xlsx/champion-cattle`,
   },
+  FREIGHTS: {
+    GET_ANALYTICAL_CATTLE_PURCHASE_FREIGHTS: `${apiLocal}/api/freights/cattle-purchase-freights/analytical`,
+    GET_LAST_UPDATED_AT: `${apiLocal}/api/freights/last-update`,
+  },
   STOCK: {
     GET_ALL: `${apiLocal}/api/stock`,
     GET_LAST_UPDATED_AT: `${apiLocal}/api/stock/last-update`,
@@ -38,6 +42,7 @@ export const urls = {
     GET_PRODUCTS_LINES: `${apiLocal}/api/sensatta/product-line`,
     GET_PRODUCT_CLASSIFICATION_TYPES: `${apiLocal}/api/sensatta/product/classification-types`,
     POST_SYNC_STOCK: `${apiLocal}/api/sensatta/stock/sync`,
+    POST_SYNC_FREIGHTS: `${apiLocal}/api/sensatta/freights/sync`,
   },
   USER: {
     GET_USERS: `${apiLocal}/api/user`,

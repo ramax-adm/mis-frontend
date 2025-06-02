@@ -10,3 +10,7 @@ export function fromLocaleStringToNumber(value: string) {
   const normalized = value.replace(/\./g, '').replace(',', '.')
   return Number(normalized)
 }
+
+export function nb2(value: number) {
+  return Number(value.toFixed(2))
+}

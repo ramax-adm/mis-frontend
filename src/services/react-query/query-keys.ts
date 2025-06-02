@@ -20,6 +20,10 @@ export const queryKeys = {
     FIND_ALL: 'find-all-upload-files',
     FIND_BY_TYPE: 'find-by-type-upload-files-',
   },
+  FREIGHTS: {
+    GET_CATTLE_PURCHASE_FREIGHTS_ANALYTICAL: 'get-all-analytical-cattle-purchase-freights',
+    GET_LAST_UPDATED_AT: 'freights-updated-at',
+  },
   USERS: {
     FIND_ALL: 'users',
   },

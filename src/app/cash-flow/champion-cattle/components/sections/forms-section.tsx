@@ -199,12 +199,12 @@ export const SimulateCashFlowChampionCattleForm = forwardRef<
         }}
       >
         <Box sx={{ display: 'flex', flexDirection: 'column', width: { xl: '350px' }, gap: 3 }}>
-          <ProjectionControlsInputs
+          {/* <ProjectionControlsInputs
             onSimulate={onSimulate}
             isSubmitting={isSubmitting}
             setProjecaoValores={setProjecaoValores}
             ref={projecaoFormRef}
-          />
+          /> */}
           <RawMaterialInputs
             onSimulate={onSimulate}
             isSubmitting={isSubmitting}

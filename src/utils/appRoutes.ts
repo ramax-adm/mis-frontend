@@ -17,12 +17,16 @@ export class PageRoutes {
   static others() {
     return ``
   }
+
+  // cash flow
   static cashFlow() {
     return `/cash-flow/simulate`
   }
   static championCattle() {
     return `/cash-flow/champion-cattle`
   }
+
+  // stock
   static stock() {
     return `/stock`
   }
@@ -31,5 +35,13 @@ export class PageRoutes {
   }
   static meStock() {
     return `/stock/me`
+  }
+
+  // freights
+  static freights() {
+    return `/freights`
+  }
+  static cattlePurchaseFreights() {
+    return `/freights/cattle-purchase-freights`
   }
 }

@@ -1,7 +1,7 @@
 import { FloatInput } from '@/components/Inputs/FloatInput'
 import { NumberInput } from '@/components/Inputs/NumberInput'
 import { DEFAULT_ME_CONTROLS_FORM_VALUES } from '@/constants/app/cash-flow-champion-cattle'
-import { MeControls, MiControls, Operation, RawMaterialControls } from '@/types/cash-flow'
+import { MeControls } from '@/types/cash-flow-champion-cattle'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Button, FormControl, Grid, InputAdornment, TextField, Typography } from '@mui/material'
 import { forwardRef, useImperativeHandle, useRef } from 'react'
@@ -10,9 +10,6 @@ import { z } from 'zod'
 
 // schema do zod
 const meFormSchema = z.object({
-  vendasMeDias: z.coerce.number(),
-  pAntecipacaoMe: z.coerce.number(),
-  diasPosicao: z.coerce.number().refine((value) => value > 0, 'Insira qtd de dias maior que 0'),
   ptax: z.coerce.number().refine((value) => value > 0, 'Insira valor maior que 0'),
   precoFreteRodoviario: z.coerce.number().refine((value) => value > 0, 'Insira valor maior que 0'),
   precoPorto: z.coerce.number().refine((value) => value > 0, 'Insira valor maior que 0'),
@@ -70,34 +67,6 @@ export const MeInputs = forwardRef<MeFormRef, MeInputsProps>(
           <Typography variant='body2' fontWeight={700} color={'#3E63DD'}>
             Dados de ME
           </Typography>
-        </Grid>
-        <Grid item xs={5}>
-          <FloatInput
-            label='Vendas dias'
-            size='small'
-            name='vendasMeDias'
-            control={control}
-            error={errors.vendasMeDias}
-          />
-        </Grid>
-        <Grid item xs={5}>
-          <FloatInput
-            label='Antecip.'
-            size='small'
-            name='pAntecipacaoMe'
-            control={control}
-            error={errors.pAntecipacaoMe}
-            endAdornment={<InputAdornment position='end'>%</InputAdornment>}
-          />
-        </Grid>
-        <Grid item xs={5}>
-          <NumberInput
-            label='Dias posição'
-            size='small'
-            name='diasPosicao'
-            control={control}
-            error={errors.diasPosicao}
-          />
         </Grid>
         <Grid item xs={5}>
           <FloatInput
