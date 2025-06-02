@@ -4,6 +4,7 @@ import { ChangeEvent, DragEvent, useRef, useState } from 'react'
 import { Path, useFormContext } from 'react-hook-form'
 import { CustomFile } from './CustomFile'
 import { FeedbackAlert } from '@/components/FeedbackAlert'
+import { COLORS } from '@/constants/styles/colors'
 
 interface FileValues {
   [key: string]: File[]
@@ -121,7 +122,7 @@ export function UncontrolledFormFileInput({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        border: `3px dashed ${blue[100]}`,
+        border: `4px dashed rgba(62, 99, 221, 1)`,
         width: '100%',
         borderRadius: 2,
         paddingTop: 3,
@@ -130,7 +131,7 @@ export function UncontrolledFormFileInput({
       <FormControl
         sx={{
           width: '80%',
-          minHeight: '10rem',
+          minHeight: '8rem',
           textAlign: 'center',
           display: 'flex',
           flexDirection: 'column',
@@ -153,9 +154,9 @@ export function UncontrolledFormFileInput({
             >
               <Typography
                 sx={{
-                  padding: 2,
-                  borderRadius: 3,
-                  backgroundColor: blue[500],
+                  padding: 1,
+                  borderRadius: 1,
+                  backgroundColor: 'rgba(62, 99, 221, 1)',
                   color: 'white',
                   cursor: 'pointer',
                 }}
@@ -173,7 +174,10 @@ export function UncontrolledFormFileInput({
               onChange={handleChange}
             />
           </label>
-          <Box sx={{ padding: 2 }}> ou arraste arquivos para upload</Box>
+          <Box sx={{ padding: 2, fontFamily: 'roboto', fontSize: '12px' }}>
+            {' '}
+            ou arraste arquivos para upload
+          </Box>
         </Box>
         <FeedbackAlert.Root sx={{ marginY: 2 }}>
           <FeedbackAlert.Content mutationState={error ? 'error' : 'idle'}>

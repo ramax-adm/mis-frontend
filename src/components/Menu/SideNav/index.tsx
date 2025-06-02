@@ -266,7 +266,7 @@ const MenuItem = ({ item, Icon }: { item: SideNavItem; Icon?: IconType }) => {
             <Box
               sx={{
                 display: 'flex',
-                marginY: '0.1rem',
+
                 marginLeft: '2rem',
                 marginRight: '1rem',
                 flexDirection: 'column',
@@ -279,8 +279,8 @@ const MenuItem = ({ item, Icon }: { item: SideNavItem; Icon?: IconType }) => {
                     href={subItem.path}
                     style={{
                       display: 'flex',
-                      padding: '0.5rem',
-                      marginLeft: '1rem',
+                      padding: '0.3rem',
+                      marginLeft: '0.5rem',
                       flexDirection: 'row',
                       alignItems: 'center',
                       borderRadius: '0.5rem',
