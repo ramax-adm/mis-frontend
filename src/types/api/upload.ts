@@ -7,8 +7,13 @@ export interface GetUploadFilesRequest {
 export interface GetUploadFilesResponse {
   uploadFile: UploadFile
   inputs: {
-    key: string
+    id: string
+    type: string
     label: string
-    value: string | number
+    options: {
+      key: string
+      label: string
+      value: string | number
+    }[]
   }[]
 }

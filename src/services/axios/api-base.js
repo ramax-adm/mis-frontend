@@ -53,6 +53,7 @@ export const urls = {
   UPLOAD: {
     FIND_ALL: `${apiLocal}/api/upload`,
     FIND_BY_NAME: `${apiLocal}/api/upload`,
+    POST_UPLOAD: `${apiLocal}/api/upload`,
   },
   UTILS: {
     GET_UFS: `${apiLocal}/api/utils/ufs`,

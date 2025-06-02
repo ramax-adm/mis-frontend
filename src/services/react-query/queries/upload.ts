@@ -22,5 +22,6 @@ export const useGetUploadFileWithInputs = ({ type }: UseGetUploadFileWithInputsR
       const response = await GetUploadFileWithInputs({ type })
       return response
     },
+    enabled: !!type,
   })
 }

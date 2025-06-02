@@ -1,18 +1,20 @@
 'use client'
+import { UncontrolledFormFileInput } from '@/components/Inputs/FormFileInput'
 import { UncontroledSelect } from '@/components/Inputs/Select/Customized'
 import { PageContainer } from '@/components/PageContainer'
 import { PageContainerHeader } from '@/components/PageContainer/header'
+import { useUploadFile } from '@/services/react-query/mutations/upload'
 import {
   useGetUploadFiles,
   useGetUploadFileWithInputs,
 } from '@/services/react-query/queries/upload'
 import { UploadTypeEnum } from '@/types/upload'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Box, FormControl, FormHelperText, TextField, Typography } from '@mui/material'
+import { Box, Button, FormControl, FormHelperText, TextField, Typography } from '@mui/material'
 import { DatePicker } from '@mui/x-date-pickers'
 import { register } from 'module'
 import { report } from 'process'
-import { Controller, FieldError, useForm } from 'react-hook-form'
+import { Controller, FieldError, FormProvider, useForm } from 'react-hook-form'
 import { z } from 'zod'
 
 export default function UploadsPage() {
@@ -27,10 +29,15 @@ export default function UploadsPage() {
   const uploadTypeSelected = watch('uploadType') as UploadTypeEnum
 
   const { data: uploadFiles } = useGetUploadFiles()
-  const { data: uploadFile } = useGetUploadFileWithInputs({ type: uploadTypeSelected })
+  const { data: uploadFileWithInputs } = useGetUploadFileWithInputs({ type: uploadTypeSelected })
+  const { mutateAsync: uploadFile, isPending: isUploadingFile } = useUploadFile({
+    uploadFileWithInputs,
+  })
 
-  const handleUpload = (data: Record<string, any>) => {
-    alert(JSON.stringify(data, null, 2))
+  const inputs = uploadFileWithInputs?.inputs
+
+  const handleUpload = async (data: Record<string, any>) => {
+    await uploadFile(data)
   }
 
   return (
@@ -43,7 +50,7 @@ export default function UploadsPage() {
             marginTop: 1,
           }}
         >
-          <Typography fontSize={12} fontWeight={700} sx={{ marginBottom: 0.5 }}>
+          <Typography fontSize={12} fontWeight={700} sx={{ marginBottom: 1 }}>
             Selecione um tipo de arquivo
           </Typography>
           <UncontroledSelect
@@ -60,7 +67,7 @@ export default function UploadsPage() {
           />
         </Box>
 
-        {uploadFile?.inputs && (
+        {inputs && (
           <form
             style={{
               width: '100%',
@@ -68,87 +75,99 @@ export default function UploadsPage() {
             }}
             onSubmit={handleSubmit(handleUpload)}
           >
-            <Typography variant='body1' sx={{ fontWeight: '500' }}>
-              Inputs
-            </Typography>
-
-            <Box
-              sx={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(3,1fr);',
-                gap: 2,
-                alignItems: 'center',
-                marginY: 2,
-              }}
-            >
-              {/* {uploadFile?.inputs.map((input) => {
-                const filterName = filter.id
-                switch (input.type) {
-                  case 'select':
-                    return (
-                      <UncontroledSelect
-                        id={filterName}
-                        name={filterName}
-                        label={input.label}
-                        control={control}
-                        options={input.options}
-                        error={errors[filterName] as FieldError}
-                      />
-                    )
-                  case 'date':
-                    return (
-                      <FormControl>
-                        <Controller
-                          name={filterName}
+            <FormProvider {...formMethods}>
+              <Box
+                sx={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(3,1fr);',
+                  gap: 1,
+                  alignItems: 'center',
+                  marginY: 2,
+                }}
+              >
+                <Box sx={{ gridColumn: '1/4' }}>
+                  <Typography fontSize={12} fontWeight={700} sx={{ marginBottom: 0.5 }}>
+                    Inputs
+                  </Typography>
+                </Box>
+                {inputs.map((input) => {
+                  const inputName = input.id
+                  switch (input.type) {
+                    case 'select':
+                      return (
+                        <UncontroledSelect
+                          id={inputName}
+                          name={inputName}
+                          label={input.label}
                           control={control}
-                          render={({ field }) => {
-                            return (
-                              <DatePicker
-                                {...field}
-                                label={input.label}
-                                format='DD/MM/YYYY'
-                                slotProps={{
-                                  textField: { size: 'medium' },
-                                }}
-                                onChange={(value) => {
-                                  if (!value || isNaN(new Date(value).getTime())) {
-                                    field.onChange(null)
-                                    return
-                                  }
+                          options={input.options}
+                          size='small'
+                          error={errors[inputName] as FieldError}
+                        />
+                      )
+                    case 'date':
+                      return (
+                        <FormControl>
+                          <Controller
+                            name={inputName}
+                            control={control}
+                            render={({ field }) => {
+                              return (
+                                <DatePicker
+                                  {...field}
+                                  label={input.label}
+                                  format='DD/MM/YYYY'
+                                  slotProps={{
+                                    textField: { size: 'small' },
+                                  }}
+                                  onChange={(value) => {
+                                    if (!value || isNaN(new Date(value).getTime())) {
+                                      field.onChange(null)
+                                      return
+                                    }
 
-                                  field.onChange(value)
-                                }}
-                              />
-                            )
-                          }}
-                        />
-                        {errors[filterName] && (
-                          <FormHelperText style={{ fontSize: 12, color: '#dc2626' }}>
-                            {errors[filterName]?.message as string}
-                          </FormHelperText>
-                        )}
-                      </FormControl>
-                    )
-                  case 'text':
-                  default:
-                    return (
-                      <FormControl>
-                        <TextField
-                          {...register(filterName)}
-                          label={filter.label}
-                          error={!!errors[filterName]}
-                          required={filter.required}
-                        />
-                        {errors[filterName] && (
-                          <FormHelperText style={{ fontSize: 12, color: '#dc2626' }}>
-                            {errors[filterName]?.message as string}
-                          </FormHelperText>
-                        )}
-                      </FormControl>
-                    )
-                }
-              })} */}
-            </Box>
+                                    field.onChange(value)
+                                  }}
+                                />
+                              )
+                            }}
+                          />
+                          {errors[inputName] && (
+                            <FormHelperText style={{ fontSize: 12, color: '#dc2626' }}>
+                              {errors[inputName]?.message as string}
+                            </FormHelperText>
+                          )}
+                        </FormControl>
+                      )
+                    case 'text':
+                    default:
+                      return (
+                        <FormControl>
+                          <TextField
+                            {...register(inputName)}
+                            label={input.label}
+                            error={!!errors[inputName]}
+                            size='small'
+                          />
+                          {errors[inputName] && (
+                            <FormHelperText style={{ fontSize: 12, color: '#dc2626' }}>
+                              {errors[inputName]?.message as string}
+                            </FormHelperText>
+                          )}
+                        </FormControl>
+                      )
+                  }
+                })}
+              </Box>
+              <Box sx={{ width: '99%', marginY: 1 }}>
+                <UncontrolledFormFileInput formField='files' multiple={false} />
+              </Box>
+              <Box>
+                <Button variant='contained' size='small' type='submit' disabled={isUploadingFile}>
+                  Fazer Upload
+                </Button>
+              </Box>
+            </FormProvider>
           </form>
         )}
       </PageContainer>
