@@ -1,3 +1,9 @@
+export interface GetCattleFreightsStatusesResponse {
+  label: string
+  value: string
+  key: string
+}
+
 export interface GetFreightsLastUpdatedAtResponse {
   parsedUpdatedAt: string
   updatedAt: Date
@@ -7,6 +13,8 @@ export interface GetAnalyticalCattlePurchaseFreightsRequest {
   startDate: Date
   endDate: Date
   companyCode: string
+  status?: string | null
+  freightCompany?: string | null
 }
 
 export interface GetAnalyticalCattlePurchaseFreightsResponse {
@@ -18,13 +26,18 @@ export interface GetAnalyticalCattlePurchaseFreightsResponse {
     freightCompanyName: string
     supplierName: string
     cattleAdvisorName: string
+    freightTransportPlate: string
+    freightTransportType: string
     feedlotName: string
+    feedlotKmDistance: number
     negotiatedKmDistance: number
-    nfCattleQuantity: number
+    cattleQuantity: number
     referenceFreightTablePrice: number
     negotiatedFreightPrice: number
     priceKm: number
     priceKmCattleQuantity: number
+    entryNf: string
+    complementNf: string
   }[]
   parsedData: {
     slaughterDate: string
@@ -34,13 +47,18 @@ export interface GetAnalyticalCattlePurchaseFreightsResponse {
     freightCompanyName: string
     supplierName: string
     cattleAdvisorName: string
+    freightTransportPlate: string
+    freightTransportType: string
     feedlotName: string
+    feedlotKmDistance: string
     negotiatedKmDistance: string
-    nfCattleQuantity: string
+    cattleQuantity: string
     referenceFreightTablePrice: string
     negotiatedFreightPrice: string
     priceKm: string
     priceKmCattleQuantity: string
+    entryNf: string
+    complementNf: string
   }[]
   totals: {
     openFreights: {
@@ -52,5 +70,15 @@ export interface GetAnalyticalCattlePurchaseFreightsResponse {
       cattleQuantity: number
       price: number
     }
+  }
+}
+
+export interface PostExportCattlePurchaseFreightsXlsxRequest {
+  filters: {
+    companyCode: string
+    startDate: Date
+    endDate: Date
+    status?: string
+    freightCompany?: string
   }
 }

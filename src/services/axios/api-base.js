@@ -23,8 +23,10 @@ export const urls = {
     EXPORT_XLSX: `${apiLocal}/api/cash-flow/export-xlsx/champion-cattle`,
   },
   FREIGHTS: {
-    GET_ANALYTICAL_CATTLE_PURCHASE_FREIGHTS: `${apiLocal}/api/freights/cattle-purchase-freights/analytical`,
     GET_LAST_UPDATED_AT: `${apiLocal}/api/freights/last-update`,
+    GET_ANALYTICAL_CATTLE_PURCHASE_FREIGHTS: `${apiLocal}/api/freights/cattle-purchase-freights/analytical`,
+    GET_CATTLE_PURCHASE_FREIGHTS_STATUSES: `${apiLocal}/api/freights/cattle-purchase-freights/statuses`,
+    POST_EXPORT_XLSX: `${apiLocal}/api/freights/cattle-purchase-freights/export-xlsx`,
   },
   STOCK: {
     GET_ALL: `${apiLocal}/api/stock`,
@@ -38,6 +40,7 @@ export const urls = {
   },
   SENSATTA: {
     GET_COMPANIES: `${apiLocal}/api/sensatta/company`,
+    GET_FREIGHT_COMPANIES: `${apiLocal}/api/sensatta/freight-companies`,
     GET_PRODUCTS: `${apiLocal}/api/sensatta/product`,
     GET_PRODUCTS_LINES: `${apiLocal}/api/sensatta/product-line`,
     GET_PRODUCT_CLASSIFICATION_TYPES: `${apiLocal}/api/sensatta/product/classification-types`,

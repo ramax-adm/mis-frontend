@@ -2,10 +2,12 @@ import { useQuery } from '@tanstack/react-query'
 import { queryKeys } from '../query-keys'
 import {
   GetAnalyticalCattlePurchaseFreights,
+  GetCattleFreightsStatuses,
   GetFreightsLastUpdatedAt,
 } from '@/services/webApi/freights-api'
 import {
   GetAnalyticalCattlePurchaseFreightsResponse,
+  GetCattleFreightsStatusesResponse,
   GetFreightsLastUpdatedAtResponse,
 } from '@/types/api/freights'
 import { UseGetAnalyticalCattlePurchaseFreights } from '@/types/queries/freights'
@@ -22,10 +24,24 @@ export const useGetFreightsLastUpdatedAt = () => {
   })
 }
 
+export const useGetCattleFreightsStatuses = () => {
+  return useQuery<GetCattleFreightsStatusesResponse[]>({
+    queryKey: [queryKeys.FREIGHTS.GET_CATTLE_PURCHASE_FREIGHTS_STATUSES],
+    queryFn: async () => {
+      const response = await GetCattleFreightsStatuses()
+
+      return response
+    },
+    refetchOnWindowFocus: false,
+  })
+}
+
 export const useGetAnalyticalCattlePurchaseFreights = ({
   startDate,
   endDate,
   companyCode,
+  status,
+  freightCompany,
 }: UseGetAnalyticalCattlePurchaseFreights) => {
   return useQuery<GetAnalyticalCattlePurchaseFreightsResponse>({
     queryKey: [
@@ -33,15 +49,20 @@ export const useGetAnalyticalCattlePurchaseFreights = ({
       startDate,
       endDate,
       companyCode,
+      status,
+      freightCompany,
     ],
     queryFn: async () => {
-      if (!startDate || !endDate || !companyCode) {
+      const isMainFiltersChoosed = !!startDate && !!endDate && !!companyCode
+      if (!isMainFiltersChoosed) {
         return
       }
       const response = await GetAnalyticalCattlePurchaseFreights({
         startDate,
         endDate,
         companyCode,
+        status,
+        freightCompany,
       })
 
       return response
