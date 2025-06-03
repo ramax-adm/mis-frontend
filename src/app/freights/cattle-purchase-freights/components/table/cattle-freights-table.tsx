@@ -1,6 +1,5 @@
 import { LoadingOverlay } from '@/components/Loading/loadingSpinner'
 import { Column, CustomizedTable } from '@/components/Table/body'
-import { useHttpState } from '@/hooks/use-http-state'
 import { useGetAnalyticalCattlePurchaseFreights } from '@/services/react-query/queries/freights'
 import { GetAnalyticalCattlePurchaseFreightsResponse } from '@/types/api/freights'
 import { Box, Typography } from '@mui/material'
@@ -9,14 +8,24 @@ interface CattleFreightsTableProps {
   companyCode: string | null
   startDate: Date | null
   endDate: Date | null
+  status: string | null
+  freightCompany: string | null
 }
-export function CattleFreightsTable({ companyCode, startDate, endDate }: CattleFreightsTableProps) {
+export function CattleFreightsTable({
+  companyCode,
+  startDate,
+  endDate,
+  status,
+  freightCompany,
+}: CattleFreightsTableProps) {
   const columns = getColumns()
   const { data: cattleFreights, isFetching: isFetchingCattleFreights } =
     useGetAnalyticalCattlePurchaseFreights({
       companyCode,
       startDate: startDate ? new Date(startDate) : null,
       endDate: endDate ? new Date(endDate) : null,
+      status,
+      freightCompany,
     })
 
   if (isFetchingCattleFreights) {
@@ -38,7 +47,7 @@ export function CattleFreightsTable({ companyCode, startDate, endDate }: CattleF
       >
         <Box
           sx={{
-            marginTop: 2,
+            marginTop: 1,
             padding: '2px',
             borderRadius: '4px',
             backgroundColor: 'rgba(190, 23, 23, 0.2)',
@@ -65,7 +74,7 @@ export function CattleFreightsTable({ companyCode, startDate, endDate }: CattleF
         </Box>
         <Box
           sx={{
-            marginTop: 2,
+            marginTop: 1,
             padding: '2px',
             borderRadius: '4px',
             backgroundColor: 'rgba(27, 94, 32, 0.2)',
@@ -98,7 +107,7 @@ export function CattleFreightsTable({ companyCode, startDate, endDate }: CattleF
         </Box>
       </Box>
 
-      <Box sx={{ height: '600px', marginTop: 2 }}>
+      <Box sx={{ height: 'calc(100vh - 250px);', marginTop: 1 }}>
         <CustomizedTable<any>
           tableStyles={{
             height: '100%',
@@ -134,7 +143,7 @@ const getColumns = (): Column<GetAnalyticalCattlePurchaseFreightsResponse>[] => 
     },
     {
       headerName: 'Empresa',
-      maxWidth: '80px',
+      // maxWidth: '80px',
       type: 'string',
       value: {
         first: {
@@ -154,7 +163,7 @@ const getColumns = (): Column<GetAnalyticalCattlePurchaseFreightsResponse>[] => 
     },
     {
       headerName: 'Status',
-      maxWidth: '30px',
+      maxWidth: '40px',
       type: 'string',
       value: {
         first: {
@@ -193,6 +202,26 @@ const getColumns = (): Column<GetAnalyticalCattlePurchaseFreightsResponse>[] => 
       },
     },
     {
+      headerName: 'Placa',
+      //   maxWidth: '30px',
+      type: 'string',
+      value: {
+        first: {
+          value: 'freightTransportPlate',
+        },
+      },
+    },
+    {
+      headerName: 'Frota',
+      //   maxWidth: '30px',
+      type: 'string',
+      value: {
+        first: {
+          value: 'freightTransportType',
+        },
+      },
+    },
+    {
       headerName: 'Fazenda',
       //   maxWidth: '30px',
       type: 'string',
@@ -203,7 +232,17 @@ const getColumns = (): Column<GetAnalyticalCattlePurchaseFreightsResponse>[] => 
       },
     },
     {
-      headerName: 'KMs',
+      headerName: 'KM Propriedade',
+      //   maxWidth: '30px',
+      type: 'string',
+      value: {
+        first: {
+          value: 'feedlotKmDistance',
+        },
+      },
+    },
+    {
+      headerName: 'KM Negociado',
       //   maxWidth: '30px',
       type: 'string',
       value: {
@@ -218,7 +257,7 @@ const getColumns = (): Column<GetAnalyticalCattlePurchaseFreightsResponse>[] => 
       type: 'string',
       value: {
         first: {
-          value: 'nfCattleQuantity',
+          value: 'cattleQuantity',
         },
       },
     },
@@ -234,7 +273,7 @@ const getColumns = (): Column<GetAnalyticalCattlePurchaseFreightsResponse>[] => 
     },
     {
       headerName: 'R$ Frete',
-      //   maxWidth: '30px',
+      maxWidth: '50px',
       type: 'string',
       value: {
         first: {
@@ -244,7 +283,7 @@ const getColumns = (): Column<GetAnalyticalCattlePurchaseFreightsResponse>[] => 
     },
     {
       headerName: 'R$/KM',
-      //   maxWidth: '30px',
+      maxWidth: '30px',
       type: 'string',
       value: {
         first: {
@@ -254,7 +293,7 @@ const getColumns = (): Column<GetAnalyticalCattlePurchaseFreightsResponse>[] => 
     },
     {
       headerName: 'R$/KM/CBS',
-      //   maxWidth: '30px',
+      maxWidth: '50px',
       type: 'string',
       value: {
         first: {
@@ -262,15 +301,24 @@ const getColumns = (): Column<GetAnalyticalCattlePurchaseFreightsResponse>[] => 
         },
       },
     },
-    {
-      headerName: 'NF Complemento',
-      //   maxWidth: '30px',
-      type: 'string',
-      value: {
-        first: {
-          value: 'complementNf',
-        },
-      },
-    },
+    // {
+    //   headerName: 'NFs',
+    //   type: 'string',
+    //   value: {
+    //     first: {
+    //       value: 'entryNf',
+    //     },
+    //   },
+    // },
+    // {
+    //   headerName: 'NF Complemento',
+    //   maxWidth: '50px',
+    //   type: 'string',
+    //   value: {
+    //     first: {
+    //       value: 'complementNf',
+    //     },
+    //   },
+    // },
   ]
 }

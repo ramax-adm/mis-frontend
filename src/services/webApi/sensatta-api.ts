@@ -31,6 +31,12 @@ export async function GetProducts() {
   return response.data
 }
 
+export async function GetFreightsCompanies() {
+  const response = await GetFetch(urls.SENSATTA.GET_FREIGHT_COMPANIES)
+
+  return response.data
+}
+
 export async function GetProductLines({ market }: GetProductLinesRequest) {
   const response = await GetFetch(urls.SENSATTA.GET_PRODUCTS_LINES, { params: { market } })
 
