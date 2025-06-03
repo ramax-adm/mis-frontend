@@ -6,9 +6,10 @@ export const queryKeys = {
     GET_ARREND_TYPES: 'arrend-types',
   },
   SENSATTA: {
-    GET_COMPANIES: `companies`,
-    GET_PRODUCT: `products`,
-    GET_PRODUCT_LINES: `product-lines`,
+    GET_COMPANIES: 'companies',
+    GET_FREIGHT_COMPANIES: 'freight-companies',
+    GET_PRODUCT: 'products',
+    GET_PRODUCT_LINES: 'product-lines',
     GET_PRODUCT_CLASSIFICATION_TYPES: 'product-classification-types',
   },
   STOCK: {
@@ -22,6 +23,7 @@ export const queryKeys = {
   },
   FREIGHTS: {
     GET_CATTLE_PURCHASE_FREIGHTS_ANALYTICAL: 'get-all-analytical-cattle-purchase-freights',
+    GET_CATTLE_PURCHASE_FREIGHTS_STATUSES: 'get-cattle-purchase-freights-statuses',
     GET_LAST_UPDATED_AT: 'freights-updated-at',
   },
   USERS: {

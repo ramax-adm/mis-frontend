@@ -1,29 +1,23 @@
 'use client'
 import { DateInput } from '@/components/Inputs/DateInput'
 import { UncontroledSelect } from '@/components/Inputs/Select/Customized'
-import { LoadingOverlay } from '@/components/Loading/loadingSpinner'
 import { PageContainer } from '@/components/PageContainer'
-import { PageContainerHeader } from '@/components/PageContainer/header'
-import { Column, CustomizedTable } from '@/components/Table/body'
-import { useHttpState } from '@/hooks/use-http-state'
-import { useSyncFreightsWithSensatta } from '@/services/react-query/mutations/sensatta'
-import {
-  useGetAnalyticalCattlePurchaseFreights,
-  useGetFreightsLastUpdatedAt,
-} from '@/services/react-query/queries/freights'
-import { useGetCompanies } from '@/services/react-query/queries/sensatta'
-import { GetAnalyticalCattlePurchaseFreightsResponse } from '@/types/api/freights'
-import { formatToInternationalDate } from '@/utils/formatToDate'
+import { useGetCattleFreightsStatuses } from '@/services/react-query/queries/freights'
+import { useGetCompanies, useGetFreightCompanies } from '@/services/react-query/queries/sensatta'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Box, Button, Typography } from '@mui/material'
-import { useEffect } from 'react'
+import { Box, Typography } from '@mui/material'
 import { useForm } from 'react-hook-form'
-import { z } from 'zod'
 import { CattleFreightsTable } from './components/table/cattle-freights-table'
+import { RadioInput } from '@/components/Inputs/RadioInput'
+import { z } from 'zod'
+import { CattleFreightsHeader } from './components/header/cattle-freights-header'
+
 const getCattlePurchaseFreightsFormSchema = z.object({
   companyCode: z.string(),
   startDate: z.date(),
   endDate: z.date(),
+  status: z.string(),
+  freightCompany: z.string(),
 })
 type GetCattlePurchaseFreightsFormSchema = z.infer<typeof getCattlePurchaseFreightsFormSchema>
 export default function CattlePurchaseFreightsPage() {
@@ -33,32 +27,30 @@ export default function CattlePurchaseFreightsPage() {
       companyCode: '',
       startDate: new Date(),
       endDate: new Date(),
+      status: '',
+      freightCompany: '',
     },
   })
 
   const companyCode = watch('companyCode')
   const startDate = watch('startDate')
   const endDate = watch('endDate')
+  const status = watch('status')
+  const freightCompany = watch('freightCompany')
 
-  const { data: freightsLastUpdate } = useGetFreightsLastUpdatedAt()
-  const { mutateAsync: syncFreightsWithSensatta, isPending: isSyncFreightsWithSensatta } =
-    useSyncFreightsWithSensatta()
-
+  const { data: statuses } = useGetCattleFreightsStatuses()
   const { data: companies } = useGetCompanies()
+  const { data: freightCompanies } = useGetFreightCompanies()
 
-  //   const { setState } = useHttpState()
-
-  //   useEffect(() => {
-  //     console.log('executando useeffect', { companyCode, startDate, endDate })
-
-  //     setState('company', companyCode)
-  //     // setState('startDate', formatToInternationalDate(startDate))
-  //     // setState('endDate', formatToInternationalDate(endDate))
-  //   }, [companyCode, startDate, endDate])
-
-  const syncFreights = async () => await syncFreightsWithSensatta()
   return (
     <PageContainer>
+      <CattleFreightsHeader
+        companyCode={companyCode}
+        endDate={endDate}
+        freightCompany={freightCompany}
+        startDate={startDate}
+        status={status}
+      />
       <Box
         sx={{
           width: '100%',
@@ -66,30 +58,7 @@ export default function CattlePurchaseFreightsPage() {
           flexDirection: { xs: 'column', md: 'row' },
           alignItems: { md: 'center' },
           gap: 1,
-        }}
-      >
-        <PageContainerHeader
-          title='Fretes - Compra de Gado'
-          sx={{ flexDirection: 'column', alignItems: 'flex-start', gap: 0 }}
-        >
-          <Typography variant='subtitle2' fontSize={'13px'}>
-            Ultima atualização: {freightsLastUpdate?.parsedUpdatedAt}
-          </Typography>
-        </PageContainerHeader>
-        <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1 }}>
-          <Button variant='contained' size='small' onClick={syncFreights}>
-            Atualizar c/ SENSATTA
-          </Button>
-        </Box>
-      </Box>
-      {isSyncFreightsWithSensatta && <LoadingOverlay />}
-      <Box
-        sx={{
-          width: '100%',
-          display: 'flex',
-          flexDirection: { xs: 'column', md: 'row' },
-          alignItems: { md: 'center' },
-          gap: 1,
+          marginTop: 1,
         }}
       >
         <UncontroledSelect
@@ -121,7 +90,40 @@ export default function CattlePurchaseFreightsPage() {
         />
       </Box>
 
-      <CattleFreightsTable companyCode={companyCode} startDate={startDate} endDate={endDate} />
+      <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
+        <RadioInput
+          control={control}
+          emptyMessage='Sem Opções'
+          label='Status'
+          name='status'
+          options={statuses}
+        />
+        <Box sx={{ display: 'flex', flexDirection: 'column', width: '200px' }}>
+          <Typography fontSize={'12px'} fontWeight={700}>
+            Transportadora
+          </Typography>
+          <UncontroledSelect
+            size='small'
+            control={control}
+            id='freight-company'
+            name='freightCompany'
+            label='Transportadora'
+            options={freightCompanies?.map((item) => ({
+              label: item.sensattaname,
+              value: item.sensattacode,
+              key: item.sensattacode,
+            }))}
+          />
+        </Box>
+      </Box>
+
+      <CattleFreightsTable
+        companyCode={companyCode}
+        startDate={startDate}
+        endDate={endDate}
+        status={status}
+        freightCompany={freightCompany}
+      />
     </PageContainer>
   )
 }
