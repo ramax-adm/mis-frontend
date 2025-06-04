@@ -61,6 +61,10 @@ export interface GetAnalyticalCattlePurchaseFreightsResponse {
     complementNf: string
   }[]
   totals: {
+    noFreights: {
+      amount: number
+      cattleQuantity: number
+    }
     openFreights: {
       amount: number
       cattleQuantity: number
