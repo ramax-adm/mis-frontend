@@ -77,6 +77,33 @@ export function CattleFreightsTable({
             marginTop: 1,
             padding: '2px',
             borderRadius: '4px',
+            backgroundColor: '#ffe0b2',
+            color: '#e65100',
+          }}
+        >
+          <Typography fontWeight={700} fontSize={'12px'}>
+            Sem Fretes
+          </Typography>
+          <Box sx={{ display: 'inline-flex', gap: 2 }}>
+            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+              <Typography fontSize={'9px'}>Qtd.</Typography>
+              <Typography fontSize={'14px'} fontWeight={700}>
+                {cattleFreights.totals.noFreights.amount}
+              </Typography>
+            </Box>
+            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+              <Typography fontSize={'9px'}>Σ Cbs</Typography>
+              <Typography fontSize={'14px'} fontWeight={700}>
+                {cattleFreights.totals.noFreights.cattleQuantity}
+              </Typography>
+            </Box>
+          </Box>
+        </Box>
+        <Box
+          sx={{
+            marginTop: 1,
+            padding: '2px',
+            borderRadius: '4px',
             backgroundColor: 'rgba(27, 94, 32, 0.2)',
             color: '#1B5E20',
           }}
