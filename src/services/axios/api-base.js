@@ -25,6 +25,7 @@ export const urls = {
   FREIGHTS: {
     GET_LAST_UPDATED_AT: `${apiLocal}/api/freights/last-update`,
     GET_ANALYTICAL_CATTLE_PURCHASE_FREIGHTS: `${apiLocal}/api/freights/cattle-purchase-freights/analytical`,
+    GET_RESUME_CATTLE_PURCHASE_FREIGHTS: `${apiLocal}/api/freights/cattle-purchase-freights/resume`,
     GET_CATTLE_PURCHASE_FREIGHTS_STATUSES: `${apiLocal}/api/freights/cattle-purchase-freights/statuses`,
     POST_EXPORT_XLSX: `${apiLocal}/api/freights/cattle-purchase-freights/export-xlsx`,
   },

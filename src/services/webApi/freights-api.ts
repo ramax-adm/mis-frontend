@@ -1,5 +1,6 @@
 import {
   GetAnalyticalCattlePurchaseFreightsRequest,
+  GetResumeCattlePurchaseFreightsRequest,
   PostExportCattlePurchaseFreightsXlsxRequest,
 } from '@/types/api/freights'
 import { GetFetch, PostFetch, urls } from '../axios/api-base'
@@ -25,6 +26,18 @@ export async function GetAnalyticalCattlePurchaseFreights({
 }: GetAnalyticalCattlePurchaseFreightsRequest) {
   const response = await GetFetch(urls.FREIGHTS.GET_ANALYTICAL_CATTLE_PURCHASE_FREIGHTS, {
     params: { startDate, endDate, companyCode, status, freightCompany },
+  })
+
+  return response.data
+}
+
+export async function GetResumeCattlePurchaseFreights({
+  startDate,
+  endDate,
+  companyCode,
+}: GetResumeCattlePurchaseFreightsRequest) {
+  const response = await GetFetch(urls.FREIGHTS.GET_RESUME_CATTLE_PURCHASE_FREIGHTS, {
+    params: { startDate, endDate, companyCode },
   })
 
   return response.data
