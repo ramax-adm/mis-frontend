@@ -6,40 +6,21 @@ import { useGetFreightsLastUpdatedAt } from '@/services/react-query/queries/frei
 import { Box, Button, Typography } from '@mui/material'
 
 interface CattleFreightsHeaderProps {
-  companyCode: string
-  startDate: Date
-  endDate: Date
-  status: string
-  freightCompany: string
+  exportFreights: () => Promise<void>
+  syncFreights: () => Promise<void>
+  isSyncFreightsWithSensatta: boolean
+  isExportingFreightsReport: boolean
 }
 export function CattleFreightsHeader({
-  companyCode,
-  endDate,
-  freightCompany,
-  startDate,
-  status,
+  exportFreights,
+  syncFreights,
+  isExportingFreightsReport,
+  isSyncFreightsWithSensatta,
 }: CattleFreightsHeaderProps) {
   const { data: freightsLastUpdate } = useGetFreightsLastUpdatedAt()
 
-  const { mutateAsync: syncFreightsWithSensatta, isPending: isSyncFreightsWithSensatta } =
-    useSyncFreightsWithSensatta()
-  const { mutateAsync: exportFreightsReport, isPending: isExportingFreightsReport } =
-    useExportCattlePurchaseFreightsXlsx()
-
-  const syncFreights = async () => await syncFreightsWithSensatta()
-  const exportFreights = async () =>
-    await exportFreightsReport({
-      selectedCompany: companyCode,
-      startDate,
-      endDate,
-      freightCompany,
-      status,
-    })
-
   return (
     <>
-      {(isSyncFreightsWithSensatta || isExportingFreightsReport) && <LoadingOverlay />}
-
       <Box
         sx={{
           width: '100%',
