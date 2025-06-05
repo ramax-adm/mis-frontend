@@ -7,6 +7,10 @@ export function formatToDate(value: Date) {
   return dayjs(value).format('DD/MM/YYYY')
 }
 
+export function formatToDateMinified(value: Date) {
+  return dayjs(value).format('DD/MM')
+}
+
 export function formatToInternationalDate(date: Date | Dayjs | null) {
   if (!date) date = new Date()
   return dayjs(date).format('YYYY-MM-DD')

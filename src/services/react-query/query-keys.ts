@@ -23,6 +23,7 @@ export const queryKeys = {
   },
   FREIGHTS: {
     GET_CATTLE_PURCHASE_FREIGHTS_ANALYTICAL: 'get-all-analytical-cattle-purchase-freights',
+    GET_CATTLE_PURCHASE_FREIGHTS_RESUME: 'get-all-resume-cattle-purchase-freights',
     GET_CATTLE_PURCHASE_FREIGHTS_STATUSES: 'get-cattle-purchase-freights-statuses',
     GET_LAST_UPDATED_AT: 'freights-updated-at',
   },
