@@ -34,6 +34,7 @@ export interface GetAnalyticalCattlePurchaseFreightsResponse {
     cattleQuantity: number
     referenceFreightTablePrice: number
     negotiatedFreightPrice: number
+    difPrice: number
     priceKm: number
     priceKmCattleQuantity: number
     entryNf: string
@@ -55,6 +56,7 @@ export interface GetAnalyticalCattlePurchaseFreightsResponse {
     cattleQuantity: string
     referenceFreightTablePrice: string
     negotiatedFreightPrice: string
+    difPrice: string
     priceKm: string
     priceKmCattleQuantity: string
     entryNf: string
@@ -73,6 +75,8 @@ export interface GetAnalyticalCattlePurchaseFreightsResponse {
       amount: number
       cattleQuantity: number
       price: number
+      tablePrice: number
+      difPrice: number
     }
   }
 }

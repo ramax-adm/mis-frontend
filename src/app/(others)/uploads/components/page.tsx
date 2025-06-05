@@ -39,7 +39,7 @@ export default function UploadsPage() {
   return (
     <>
       <PageContainer>
-        <PageContainerHeader title='Uploads'></PageContainerHeader>
+        <PageContainerHeader title='Uploads' />
 
         <Box
           sx={{

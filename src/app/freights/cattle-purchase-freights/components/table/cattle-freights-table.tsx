@@ -125,9 +125,22 @@ export function CattleFreightsTable({
               </Typography>
             </Box>
             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+              <Typography fontSize={'9px'}>Σ R$ Tabela</Typography>
+              <Typography fontSize={'14px'} fontWeight={700}>
+                {cattleFreights.totals.closedFreights.tablePrice}
+              </Typography>
+            </Box>
+            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
               <Typography fontSize={'9px'}>Σ R$ Frete</Typography>
               <Typography fontSize={'14px'} fontWeight={700}>
                 {cattleFreights.totals.closedFreights.price}
+              </Typography>
+            </Box>
+
+            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+              <Typography fontSize={'9px'}>R$ Dif. Tabela/Frete</Typography>
+              <Typography fontSize={'14px'} fontWeight={700}>
+                {cattleFreights.totals.closedFreights.difPrice}
               </Typography>
             </Box>
           </Box>
@@ -305,6 +318,16 @@ const getColumns = (): Column<GetAnalyticalCattlePurchaseFreightsResponse>[] => 
       value: {
         first: {
           value: 'negotiatedFreightPrice',
+        },
+      },
+    },
+    {
+      headerName: 'R$ Dif',
+      maxWidth: '50px',
+      type: 'string',
+      value: {
+        first: {
+          value: 'difPrice',
         },
       },
     },
