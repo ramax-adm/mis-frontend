@@ -15,6 +15,7 @@ export function CattleQuantityByDayCard({ data }: CattleQuantityByDayCardProps) 
   return (
     <FreightsCustomizedCard
       cardTitle='Qtd. cabeças transportadas (Dia)'
+
       sx={{ height: '200px', padding: 0.5 }}
     >
       {haveSomeData && (

@@ -37,6 +37,7 @@ export function PriceByFreightCompanyCard({ data }: PriceByFreightCompanyCardPro
               dataKey='price'
               type='number'
               tickFormatter={(value) => 'R$ '.concat(toLocaleString(value))}
+
               axisLine={false}
               tickLine={false}
               fontFamily='roboto'
