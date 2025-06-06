@@ -137,6 +137,9 @@ export interface ResumeFreightStatus {
 
 export interface FreightOverPriceTableItem {
   date: string
+  purchaseCattleOrderId: string
+  freightCompany: string
+  cattleAdvisor: string
   cattleQuantity: number
   negotiatedPrice: number
   tablePrice: number

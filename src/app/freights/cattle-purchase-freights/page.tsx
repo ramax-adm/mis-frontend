@@ -100,7 +100,7 @@ export default function CattlePurchaseFreightsPage() {
           display: 'flex',
           flexDirection: { xs: 'column', md: 'row' },
           alignItems: { md: 'center' },
-          gap: 1,
+          gap: 2,
           marginTop: 1,
         }}
       >
@@ -109,7 +109,7 @@ export default function CattlePurchaseFreightsPage() {
           label='Empresa'
           name='companyCode'
           size='small'
-          sx={{ width: '200px' }}
+          sx={{ width: { xs: '100%', md: '200px' } }}
           control={control}
           options={companies?.map((item) => ({
             key: item.sensattaCode,
@@ -122,14 +122,14 @@ export default function CattlePurchaseFreightsPage() {
           name='startDate'
           control={control}
           size='small'
-          sx={{ width: '200px' }}
+          sx={{ width: { xs: '100%', md: '200px' } }}
         />
         <DateInput
           label='Dt. Fim'
           name='endDate'
           control={control}
           size='small'
-          sx={{ width: '200px' }}
+          sx={{ width: { xs: '100%', md: '200px' } }}
         />
       </Box>
 

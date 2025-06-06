@@ -27,7 +27,7 @@ export function QuantityFreightsOpenByFreightCompanyCard({
 
   return (
     <FreightsCustomizedCard
-      cardTitle='Fretes ABERTOS p/ Transportadora'
+      cardTitle='Concentração de fretes ABERTOS p/ Transportadora'
       sx={{ height: '200px', padding: 0.5 }}
     >
       {haveSomeData && <QuantityFreightsOpenByFreightCompanyGraph data={data} />}

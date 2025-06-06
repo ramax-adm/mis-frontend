@@ -28,17 +28,21 @@ export function PriceByFreightCompanyCard({ data }: PriceByFreightCompanyCardPro
     >
       {haveSomeData && (
         <ResponsiveContainer width={'100%'} height='100%'>
-          <BarChart data={dataTransposed} layout='vertical' margin={{ top: 10, right: 5, left: 5 }}>
+          <BarChart
+            data={dataTransposed}
+            layout='vertical'
+            margin={{ top: 10, left: 30, right: 5 }}
+          >
             <XAxis
               dataKey='price'
               type='number'
-              tickFormatter={(value) =>
-                'R$ '.concat(toLocaleString(value / 1000000, 2)).concat(' MM')
-              }
+              tickFormatter={(value) => 'R$ '.concat(toLocaleString(value))}
+
               axisLine={false}
               tickLine={false}
               fontFamily='roboto'
-              fontSize={'9px'}
+              width={50}
+              fontSize={'8px'}
             />
             <YAxis
               dataKey='company'
@@ -46,17 +50,32 @@ export function PriceByFreightCompanyCard({ data }: PriceByFreightCompanyCardPro
               axisLine={false}
               tickLine={false}
               fontFamily='roboto'
-              fontSize={'9px'}
+              fontSize={8}
               fontWeight={500}
-              tickFormatter={(value) => value.substring(0, 10).concat('...')}
-              textAnchor='end'
+              tick={({ x, y, payload }) => {
+                return (
+                  <text
+                    x={x - 80} // desloca à esquerda
+                    y={y}
+                    dy={4}
+                    textAnchor='start'
+                    fontSize={8}
+                    fontFamily='roboto'
+                    fontWeight={500}
+                  >
+                    {payload.value.length > 20
+                      ? payload.value.substring(0, 15) + '...'
+                      : payload.value}
+                  </text>
+                )
+              }}
             />
 
             <Tooltip content={<CustomTooltip />} />
             <CartesianGrid horizontal={false} />
             <Bar dataKey='price' fill='#0B2B5E'>
               {dataTransposed.map((d) => (
-                <Cell key={d.price} fill={'#0B2B5E'} radius={4} />
+                <Cell key={d.price} fill={'#0B2B5E'} radius={2} />
               ))}
             </Bar>
           </BarChart>
