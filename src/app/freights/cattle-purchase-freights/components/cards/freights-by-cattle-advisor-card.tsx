@@ -15,10 +15,7 @@ interface FreightsByCattleAdvisorCardProps {
 export function FreightsByCattleAdvisorCard({ data }: FreightsByCattleAdvisorCardProps) {
   const haveSomeData = data.length > 0
   return (
-    <FreightsCustomizedCard
-      cardTitle='Assessor'
-      sx={{ width: '45%', height: '300px', paddingX: 1 }}
-    >
+    <FreightsCustomizedCard cardTitle='Assessor' sx={{ height: '300px', paddingX: 1 }}>
       {haveSomeData && <FreightByCattleAdvisorTable data={data} />}
       {!haveSomeData && (
         <Alert severity='info' sx={{ marginY: 'auto', marginX: 2 }}>

@@ -32,6 +32,18 @@ export function toCurrency(value?: number) {
   }).format(value || 0)
 }
 
+export function toPercent(value?: number) {
+  if (!value) {
+    return '0 %'
+  }
+  return (value * 100)
+    .toLocaleString('pt-BR', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    })
+    .concat('%')
+}
+
 export function toLocaleString(value: number, nb: number = 0) {
   return value.toLocaleString('pt-BR', {
     minimumFractionDigits: nb,

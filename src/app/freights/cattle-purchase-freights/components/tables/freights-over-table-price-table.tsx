@@ -12,13 +12,15 @@ interface FreightsOverPriceTableProps {
   data: FreightOverPriceTableItem[]
 }
 export function FreightsOverPriceTable({ data }: FreightsOverPriceTableProps) {
-  const parsedData = data.map((item) => ({
-    ...item,
-    negotiatedPrice: toLocaleString(item.negotiatedPrice),
-    tablePrice: toLocaleString(item.tablePrice),
-    difPrice: toLocaleString(item.difPrice),
-  }))
   const columns = getColumns()
+  const parsedData = data
+    .sort((a, b) => b.difPrice - a.difPrice)
+    .map((item) => ({
+      ...item,
+      negotiatedPrice: toLocaleString(item.negotiatedPrice),
+      tablePrice: toLocaleString(item.tablePrice),
+      difPrice: toLocaleString(item.difPrice),
+    }))
 
   return (
     <Box sx={{ marginTop: 1 }}>
@@ -29,12 +31,12 @@ export function FreightsOverPriceTable({ data }: FreightsOverPriceTableProps) {
         }}
         cellStyles={{
           paddingX: 1,
-          fontSize: '10px',
+          fontSize: '9px',
           paddingY: 0.2,
         }}
         headCellStyles={{
           paddingX: 1,
-          fontSize: '11px',
+          fontSize: '10px',
         }}
         columns={columns}
         data={parsedData}
@@ -54,6 +56,36 @@ const getColumns = (): Column<FreightOverPriceTableItem>[] => {
         },
       },
     },
+    {
+      headerName: 'Cod OC',
+      // maxWidth: '80px',
+      type: 'string',
+      value: {
+        first: {
+          value: 'purchaseCattleOrderId',
+        },
+      },
+    },
+    // {
+    //   headerName: 'Transportadora',
+    //   // maxWidth: '80px',
+    //   type: 'string',
+    //   value: {
+    //     first: {
+    //       value: 'freightCompany',
+    //     },
+    //   },
+    // },
+    // {
+    //   headerName: 'Assessor',
+    //   // maxWidth: '80px',
+    //   type: 'string',
+    //   value: {
+    //     first: {
+    //       value: 'cattleAdvisor',
+    //     },
+    //   },
+    // },
     {
       headerName: 'Cbs',
       // maxWidth: '80px',
@@ -85,7 +117,7 @@ const getColumns = (): Column<FreightOverPriceTableItem>[] => {
       },
     },
     {
-      headerName: 'Dif.',
+      headerName: 'Dif. R$',
       type: 'string',
       value: {
         first: {
