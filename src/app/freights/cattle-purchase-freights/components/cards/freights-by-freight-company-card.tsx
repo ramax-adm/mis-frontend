@@ -10,10 +10,7 @@ interface FreightsByFreightCompanyCardProps {
 export function FreightsByFreightCompanyCard({ data }: FreightsByFreightCompanyCardProps) {
   const haveSomeData = data.length > 0
   return (
-    <FreightsCustomizedCard
-      cardTitle='Transportadora'
-      sx={{ width: '45%', height: '300px', paddingX: 1 }}
-    >
+    <FreightsCustomizedCard cardTitle='Transportadora' sx={{ height: '300px', paddingX: 1 }}>
       {haveSomeData && <FreightByFreightCompanyTable data={data} />}
       {!haveSomeData && (
         <Alert severity='info' sx={{ marginY: 'auto', marginX: 2 }}>

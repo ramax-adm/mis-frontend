@@ -147,7 +147,7 @@ export function CattleFreightsTable({
         </Box>
       </Box>
 
-      <Box sx={{ height: 'calc(100vh - 250px);', marginTop: 1 }}>
+      <Box sx={{ height: 'calc(100vh - 300px);', marginTop: 1 }}>
         <CustomizedTable<any>
           tableStyles={{
             height: '100%',

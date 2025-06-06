@@ -11,7 +11,7 @@ export function FreightsOverPriceTableCard({ data }: FreightsOverPriceTableCardP
   return (
     <FreightsCustomizedCard
       cardTitle='Fora do preço de tabela'
-      sx={{ width: '45%', height: '300px', paddingX: 1 }}
+      sx={{ height: '300px', paddingX: 1 }}
     >
       {haveSomeData && <FreightsOverPriceTable data={data} />}
       {!haveSomeData && (

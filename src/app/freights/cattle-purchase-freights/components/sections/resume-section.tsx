@@ -39,7 +39,7 @@ export function CattlePurchaseFreightsResumeSection({
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, marginTop: 0.5 }}>
       <Grid container spacing={1}>
         {/** Totais p/ Status */}
-        <Grid item xs={12} md={3.6}>
+        <Grid item xs={12} md={4}>
           <QuantityFreightsByStatusCard data={resumedFreights.status} />
         </Grid>
 
@@ -57,28 +57,27 @@ export function CattlePurchaseFreightsResumeSection({
         </Grid>
       </Grid>
       <Grid container spacing={1}>
-        {/** Totais p/ Status */}
-        <Grid item xs={4}>
+        <Grid item xs={12} md={6}>
+          <CattleQuantityByDayCard data={resumedFreights.day} />
+        </Grid>
+        <Grid item xs={12} md={6}>
           <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 1 }}>
-            <CattleQuantityByDayCard data={resumedFreights.day} />
             <PriceByFreightCompanyCard data={resumedFreights.priceByFreightCompany} />
           </Box>
         </Grid>
-        <Grid item xs={8}>
-          <Box
-            sx={{
-              display: 'flex',
-              width: '100%',
-              gap: 1,
-              flexDirection: 'row',
-              flexWrap: 'wrap',
-            }}
-          >
-            <FreightsOverPriceTableCard data={resumedFreights.freightsOverPriceTable} />
-            <FreightsByFreightCompanyCard data={resumedFreights.freightsByFreightCompany} />
-            <FreightsByCattleAdvisorCard data={resumedFreights.freightsByCattleAdvisor} />
-            <FreightsByFreightTypeCard data={resumedFreights.freightsByFreightType} />
-          </Box>
+      </Grid>
+      <Grid container spacing={1}>
+        <Grid item xs={12} md={3}>
+          <FreightsOverPriceTableCard data={resumedFreights.freightsOverPriceTable} />
+        </Grid>
+        <Grid item xs={12} md={3}>
+          <FreightsByFreightCompanyCard data={resumedFreights.freightsByFreightCompany} />
+        </Grid>
+        <Grid item xs={12} md={3}>
+          <FreightsByCattleAdvisorCard data={resumedFreights.freightsByCattleAdvisor} />
+        </Grid>
+        <Grid item xs={12} md={3}>
+          <FreightsByFreightTypeCard data={resumedFreights.freightsByFreightType} />
         </Grid>
       </Grid>
     </Box>

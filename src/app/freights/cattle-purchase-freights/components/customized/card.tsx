@@ -12,6 +12,8 @@ export function FreightsCustomizedCard(props: FreightsCustomizedCardProps) {
         flexDirection: 'column',
         borderRadius: '6px',
         border: `1px solid ${COLORS.BORDAS}`,
+        backgroundColor: 'white',
+        boxShadow: '4px 4px 8px rgba(0, 0, 0, 0.2)',
         ...props?.sx,
       }}
     >
