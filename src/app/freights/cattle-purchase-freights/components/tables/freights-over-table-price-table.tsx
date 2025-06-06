@@ -57,6 +57,36 @@ const getColumns = (): Column<FreightOverPriceTableItem>[] => {
       },
     },
     {
+      headerName: 'Cod OC',
+      // maxWidth: '80px',
+      type: 'string',
+      value: {
+        first: {
+          value: 'purchaseCattleOrderId',
+        },
+      },
+    },
+    // {
+    //   headerName: 'Transportadora',
+    //   // maxWidth: '80px',
+    //   type: 'string',
+    //   value: {
+    //     first: {
+    //       value: 'freightCompany',
+    //     },
+    //   },
+    // },
+    // {
+    //   headerName: 'Assessor',
+    //   // maxWidth: '80px',
+    //   type: 'string',
+    //   value: {
+    //     first: {
+    //       value: 'cattleAdvisor',
+    //     },
+    //   },
+    // },
+    {
       headerName: 'Cbs',
       // maxWidth: '80px',
       type: 'string',

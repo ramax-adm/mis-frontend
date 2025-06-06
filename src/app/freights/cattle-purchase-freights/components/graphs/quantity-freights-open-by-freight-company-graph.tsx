@@ -32,7 +32,7 @@ export function QuantityFreightsOpenByFreightCompanyGraph({
           data={dataTransposed}
           cx='50%'
           cy='50%'
-          outerRadius={70}
+          outerRadius={75}
           strokeWidth={1.5}
           onMouseEnter={(_, index) => setHoveredIndex(index)}
           onMouseLeave={() => setHoveredIndex(null)}
@@ -71,7 +71,7 @@ export function QuantityFreightsOpenByFreightCompanyGraph({
           ))}
         </Pie>
         <Tooltip content={<CustomTooltip />} />
-        <Legend layout='vertical' align='right' verticalAlign='middle' content={<CustomLegend />} />
+        <Legend layout='vertical' align='right' verticalAlign='top' content={<CustomLegend />} />
       </PieChart>
     </ResponsiveContainer>
   )
@@ -85,46 +85,54 @@ const getData = ({ data }: QuantityFreightsOpenByFreightCompanyGraphProps) => {
     response.push({ name: key, value: data[key].percent, quantity: data[key].quantity })
   }
 
-  return response
+  return response.sort((a, b) => b.quantity - a.quantity)
 }
 
 const CustomLegend: React.FC<LegendProps> = ({ payload }) => {
   if (!payload) return null
 
   return (
-    <ul
+    <table
       style={{
-        listStyle: 'none',
-        padding: 0,
-        margin: 0,
-        width: 150,
-        height: 150,
-        overflowY: 'scroll',
+        height: '100%',
+        display: 'block', // Permite scroll na tabela
+        fontFamily: 'roboto',
+        fontSize: '9px',
+        borderCollapse: 'collapse',
       }}
     >
-      {payload.map((entry: any, index) => (
-        <li
-          key={`item-${index}`}
-          style={{
-            marginBottom: 8,
-            display: 'flex',
-            alignItems: 'center',
-            gap: 2,
-          }}
-        >
-          <div
-            style={{
-              width: 9,
-              height: 9,
-              backgroundColor: entry.color,
-            }}
-          />
-          <span style={{ fontFamily: 'roboto', fontSize: '9px', width: '90px' }}>
-            {entry.payload.name}: {entry.payload.quantity}
-          </span>
-        </li>
-      ))}
-    </ul>
+      <thead style={{ position: 'sticky', top: 0 }}>
+        <tr style={{ display: 'flex', gap: 2 }}>
+          <th style={{ width: 15, textAlign: 'center' }}></th>
+          <th style={{ width: 120, textAlign: 'left' }}>Transportadora</th>
+          <th style={{ width: 50, textAlign: 'left' }}>Qtd.</th>
+          <th style={{ width: 50, textAlign: 'left' }}>%</th>
+        </tr>
+      </thead>
+      <tbody style={{ display: 'block', height: '90%', overflowY: 'auto' }}>
+        {payload.map((entry: any, index: number) => (
+          <tr
+            key={`item-${index}`}
+            style={{ display: 'flex', alignItems: 'center', gap: 2, marginTop: 2, marginBottom: 2 }}
+          >
+            <td style={{ width: 15, textAlign: 'center' }}>
+              <div
+                style={{
+                  width: 9,
+                  height: 9,
+                  backgroundColor: entry.color,
+                  display: 'inline-block',
+                  borderRadius: '50%',
+                }}
+              />
+            </td>
+            <td style={{ width: 120 }}>{entry.payload.name}</td>
+            <td style={{ width: 50 }}>{entry.payload.quantity}</td>
+            <td style={{ width: 50 }}>{toPercent(entry.payload.value)}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
   )
 }
 

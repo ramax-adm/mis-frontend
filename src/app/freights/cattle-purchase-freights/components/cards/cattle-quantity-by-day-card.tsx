@@ -14,7 +14,7 @@ export function CattleQuantityByDayCard({ data }: CattleQuantityByDayCardProps) 
 
   return (
     <FreightsCustomizedCard
-      cardTitle='Qtd. cabeças transportadas'
+      cardTitle='Qtd. cabeças transportadas (Dia)'
       sx={{ height: '200px', padding: 0.5 }}
     >
       {haveSomeData && (
@@ -22,20 +22,26 @@ export function CattleQuantityByDayCard({ data }: CattleQuantityByDayCardProps) 
           <AreaChart
             data={dataTransposed}
             margin={{
-              top: 10,
+              top: 20,
+              left: -30,
               right: 10,
-              left: 10,
-              bottom: 5,
             }}
           >
             <XAxis
               dataKey='date'
-              fontSize={'9px'}
+              fontSize={'8px'}
               fontFamily='roboto'
               fontWeight={500}
               tickLine={false}
               axisLine={false}
               interval={4}
+            />
+            <YAxis
+              dataKey='cattleQuantity'
+              fontSize={'8px'}
+              fontFamily='roboto'
+              fontWeight={500}
+              axisLine={false}
             />
             <defs>
               <linearGradient id='fillDesktop' x1='0' y1='0' x2='0' y2='1'>

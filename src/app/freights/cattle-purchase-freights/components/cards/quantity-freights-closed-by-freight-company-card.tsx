@@ -17,7 +17,7 @@ export function QuantityFreightsClosedByFreightCompanyCard({
 
   return (
     <FreightsCustomizedCard
-      cardTitle='Fretes FECHADOS p/ Transportadora'
+      cardTitle='Concentração de fretes FECHADOS p/ Transportadora'
       sx={{ height: '200px', padding: 0.5 }}
     >
       {haveSomeData && <QuantityFreightsClosedByFreightCompanyGraph data={data} />}

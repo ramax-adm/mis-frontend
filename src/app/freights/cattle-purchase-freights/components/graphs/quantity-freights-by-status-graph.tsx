@@ -20,10 +20,10 @@ export function QuantityFreightsByStatusGraph({ data }: QuantityFreightsByStatus
         <Pie
           dataKey='value'
           data={dataTransposed}
-          cx='50%'
+          cx='60%'
           cy='50%'
-          outerRadius={70}
-          innerRadius={50}
+          outerRadius={55}
+          innerRadius={35}
           strokeWidth={1.5}
           onMouseEnter={(_, index) => setHoveredIndex(index)}
           onMouseLeave={() => setHoveredIndex(null)}
@@ -63,7 +63,7 @@ export function QuantityFreightsByStatusGraph({ data }: QuantityFreightsByStatus
         </Pie>
 
         <Tooltip content={<CustomTooltip />} />
-        <Legend layout='vertical' align='right' verticalAlign='middle' content={<CustomLegend />} />
+        <Legend layout='vertical' align='right' verticalAlign='top' content={<CustomLegend />} />
       </PieChart>
     </ResponsiveContainer>
   )
@@ -97,7 +97,7 @@ const CustomLegend: React.FC<LegendProps> = ({ payload }) => {
         listStyle: 'none',
         padding: 0,
         margin: 0,
-        width: 100,
+        width: 80,
       }}
     >
       {payload.map((entry: any, index) => (
