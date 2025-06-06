@@ -172,8 +172,8 @@ export interface FreightByFreightTypeItem {
 export interface GetResumeCattlePurchaseFreightsResponse {
   totals: ResumeFreightTotals
   status: ResumeFreightStatus
-  quantityClosedByFreightCompany: Record<string, number>
-  quantityActiveByFreightCompany: Record<string, number>
+  quantityClosedByFreightCompany: Record<string, { quantity: number; percent: number }>
+  quantityActiveByFreightCompany: Record<string, { quantity: number; percent: number }>
   day: Record<string, number>
   priceByFreightCompany: Record<string, number>
   freightsOverPriceTable: FreightOverPriceTableItem[]

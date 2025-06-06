@@ -12,7 +12,6 @@ import {
 } from 'recharts'
 import { FreightsCustomizedCard } from '../customized/card'
 import { Alert, Box, Typography } from '@mui/material'
-import { COLORS } from '@/constants/styles/colors'
 import { toLocaleString } from '@/utils/string.utils'
 
 interface PriceByFreightCompanyCardProps {
@@ -25,7 +24,7 @@ export function PriceByFreightCompanyCard({ data }: PriceByFreightCompanyCardPro
   return (
     <FreightsCustomizedCard
       cardTitle='Valor R$ p/ Transportadora'
-      sx={{ height: '300px', paddingX: 1 }}
+      sx={{ height: '200px', padding: 0.5 }}
     >
       {haveSomeData && (
         <ResponsiveContainer width={'100%'} height='100%'>
@@ -33,7 +32,9 @@ export function PriceByFreightCompanyCard({ data }: PriceByFreightCompanyCardPro
             <XAxis
               dataKey='price'
               type='number'
-              tickFormatter={(value) => toLocaleString(value / 1000000, 2).concat(' MM')}
+              tickFormatter={(value) =>
+                'R$ '.concat(toLocaleString(value / 1000000, 2)).concat(' MM')
+              }
               axisLine={false}
               tickLine={false}
               fontFamily='roboto'
@@ -53,7 +54,7 @@ export function PriceByFreightCompanyCard({ data }: PriceByFreightCompanyCardPro
 
             <Tooltip content={<CustomTooltip />} />
             <CartesianGrid horizontal={false} />
-            <Bar dataKey='price' fill='#0B2B5E' barSize={20}>
+            <Bar dataKey='price' fill='#0B2B5E'>
               {dataTransposed.map((d) => (
                 <Cell key={d.price} fill={'#0B2B5E'} radius={4} />
               ))}

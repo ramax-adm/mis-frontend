@@ -15,10 +15,7 @@ interface FreightsByFreightTypeCardProps {
 export function FreightsByFreightTypeCard({ data }: FreightsByFreightTypeCardProps) {
   const haveSomeData = data.length > 0
   return (
-    <FreightsCustomizedCard
-      cardTitle='Tipo Transporte'
-      sx={{ width: '45%', height: '300px', paddingX: 1 }}
-    >
+    <FreightsCustomizedCard cardTitle='Tipo Transporte' sx={{ height: '300px', paddingX: 1 }}>
       {haveSomeData && <FreightByFreightTypeTable data={data} />}
       {!haveSomeData && (
         <Alert severity='info' sx={{ marginY: 'auto', marginX: 2 }}>

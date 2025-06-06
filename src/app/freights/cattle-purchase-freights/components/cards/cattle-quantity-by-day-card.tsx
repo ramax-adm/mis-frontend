@@ -15,7 +15,7 @@ export function CattleQuantityByDayCard({ data }: CattleQuantityByDayCardProps) 
   return (
     <FreightsCustomizedCard
       cardTitle='Qtd. cabeças transportadas'
-      sx={{ height: '300px', paddingX: 1 }}
+      sx={{ height: '200px', padding: 0.5 }}
     >
       {haveSomeData && (
         <ResponsiveContainer width='100%' height='100%'>
@@ -25,7 +25,7 @@ export function CattleQuantityByDayCard({ data }: CattleQuantityByDayCardProps) 
               top: 10,
               right: 10,
               left: 10,
-              bottom: -5,
+              bottom: 5,
             }}
           >
             <XAxis
