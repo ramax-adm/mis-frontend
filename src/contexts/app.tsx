@@ -11,7 +11,7 @@ import { RiMoneyDollarCircleFill } from 'react-icons/ri'
 import { PiCrownFill } from 'react-icons/pi'
 import { MdLocalShipping } from 'react-icons/md'
 import { IoLayersSharp } from 'react-icons/io5'
-import { MdMore } from 'react-icons/md'
+import { IoPeople } from 'react-icons/io5'
 import { FaCirclePlus } from 'react-icons/fa6'
 
 type AppContextProviderProps = {
@@ -99,6 +99,18 @@ export default function AppProvider({ children }: AppContextProviderProps) {
         {
           path: PageRoutes.cattlePurchaseFreights(),
           title: 'Compra Gado',
+        },
+      ],
+    },
+    {
+      title: 'RH',
+      path: PageRoutes.humanResources(),
+      icon: IoPeople,
+      submenu: true,
+      subMenuItems: [
+        {
+          path: PageRoutes.humanResourcesHours(),
+          title: 'Horas Extras',
         },
       ],
     },

@@ -5,6 +5,12 @@ export const queryKeys = {
     GET_USER_SIMULATIONS: 'user-simulations',
     GET_ARREND_TYPES: 'arrend-types',
   },
+  HUMAN_RESOURCES: {
+    GET_DATES: 'human-resources-hours-dates',
+    GET_DEPARTMENTS: 'human-resources-hours-departments',
+    GET_EMPLOYEES: 'human-resources-hours-employees',
+    GET_RESUME_DATA: 'human-resources-hours-resume-data',
+  },
   SENSATTA: {
     GET_COMPANIES: 'companies',
     GET_FREIGHT_COMPANIES: 'freight-companies',
