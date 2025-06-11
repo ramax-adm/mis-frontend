@@ -29,6 +29,10 @@ export const urls = {
     GET_CATTLE_PURCHASE_FREIGHTS_STATUSES: `${apiLocal}/api/freights/cattle-purchase-freights/statuses`,
     POST_EXPORT_XLSX: `${apiLocal}/api/freights/cattle-purchase-freights/export-xlsx`,
   },
+  HUMAN_RESOURCES: {
+    GET_DATES: `${apiLocal}/api/human-resources-hours/dates`,
+    GET_RESUME_DATA: `${apiLocal}/api/human-resources-hours/resume`,
+  },
   STOCK: {
     GET_ALL: `${apiLocal}/api/stock`,
     GET_LAST_UPDATED_AT: `${apiLocal}/api/stock/last-update`,
