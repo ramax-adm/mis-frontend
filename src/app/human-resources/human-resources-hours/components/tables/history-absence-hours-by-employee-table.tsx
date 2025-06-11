@@ -1,16 +1,20 @@
 import { Column, CustomizedTable } from '@/components/Table/body'
 import { FreightByCattleAdvisorItem, FreightByFreightCompanyItem } from '@/types/api/freights'
-import { ExtraHoursByEmployeeItem } from '@/types/api/human-resources-hours'
+import {
+  ExtraHoursByEmployeeItem,
+  HistoryAbsenceHoursByEmployeeItem,
+  HistoryExtraHoursByEmployeeItem,
+} from '@/types/api/human-resources-hours'
 import { toLocaleString } from '@/utils/string.utils'
 import { Box, Typography } from '@mui/material'
 
-interface ExtraHoursByEmployeeTableProps {
-  data: ExtraHoursByEmployeeItem[]
+interface HistoryAbsenceHoursByEmployeeTableProps {
+  data: HistoryAbsenceHoursByEmployeeItem[]
 }
-export function ExtraHoursByEmployeeTable({ data }: ExtraHoursByEmployeeTableProps) {
+export function HistoryAbsenceHoursByEmployeeTable({
+  data,
+}: HistoryAbsenceHoursByEmployeeTableProps) {
   const columns = getColumns()
-
-  data.sort((a, b) => b.extraHoursInSeconds - a.extraHoursInSeconds)
 
   return (
     <Box sx={{ marginTop: 1 }}>
@@ -34,7 +38,7 @@ export function ExtraHoursByEmployeeTable({ data }: ExtraHoursByEmployeeTablePro
     </Box>
   )
 }
-const getColumns = (): Column<ExtraHoursByEmployeeItem>[] => {
+const getColumns = (): Column<HistoryAbsenceHoursByEmployeeItem>[] => {
   return [
     {
       headerName: 'Funcionario',
@@ -60,7 +64,7 @@ const getColumns = (): Column<ExtraHoursByEmployeeItem>[] => {
       type: 'string',
       value: {
         first: {
-          value: 'extraHours',
+          value: 'absenceHours',
         },
       },
     },

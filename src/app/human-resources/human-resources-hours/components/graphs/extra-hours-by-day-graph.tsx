@@ -29,7 +29,7 @@ export function ExtraHoursByDayGraph({ data }: ExtraHoursByDayGraphProps) {
 
   return (
     <ResponsiveContainer width={'100%'} height='100%'>
-      <BarChart data={dataTransposed} margin={{ top: 10, right: 5 }}>
+      <BarChart data={dataTransposed} margin={{ top: 10, right: 5, left: -20 }}>
         <XAxis
           dataKey='date'
           axisLine={false}
@@ -96,7 +96,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
         }}
         className='custom-tooltip'
       >
-        <Typography variant='caption'>{`${label}`}</Typography>
+        <Typography variant='caption'>{`${formatToDate(new Date(label))}`}</Typography>
         {payload.map((item: any, index: number) => {
           return (
             <Typography

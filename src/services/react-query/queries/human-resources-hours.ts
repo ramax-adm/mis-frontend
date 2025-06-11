@@ -2,14 +2,11 @@ import { useQuery } from '@tanstack/react-query'
 import { queryKeys } from '../query-keys'
 import {
   GetHumanResourcesHoursAvailableDates,
+  GetHumanResourcesHoursDepartments,
+  GetHumanResourcesHoursEmployees,
   GetHumanResourcesHoursResumeData,
 } from '@/services/webApi/human-resources-hours-api'
-import {
-  GetHumanResourceHoursResumeDataResponse,
-  HumanResourceHoursResumeDayResponse,
-  HumanResourceHoursResumeHistoryResponse,
-  HumanResourceHoursResumeTotalsResponse,
-} from '@/types/api/human-resources-hours'
+import { GetHumanResourceHoursResumeDataResponse } from '@/types/api/human-resources-hours'
 
 export const useGetHumanResourcesHoursAvailableDates = ({
   companyCode,
@@ -20,6 +17,32 @@ export const useGetHumanResourcesHoursAvailableDates = ({
     queryKey: [queryKeys.HUMAN_RESOURCES.GET_DATES, companyCode],
     queryFn: async () => {
       const response = await GetHumanResourcesHoursAvailableDates({ companyCode })
+      return response
+    },
+  })
+}
+
+export const useGetHumanResourcesHoursDepartments = ({ companyCode }: { companyCode: string }) => {
+  return useQuery<{ department: string }[]>({
+    queryKey: [queryKeys.HUMAN_RESOURCES.GET_DEPARTMENTS, companyCode],
+    queryFn: async () => {
+      const response = await GetHumanResourcesHoursDepartments({ companyCode })
+      return response
+    },
+  })
+}
+
+export const useGetHumanResourcesHoursEmployees = ({
+  companyCode,
+  department = '',
+}: {
+  companyCode: string
+  department?: string
+}) => {
+  return useQuery<{ employeeName: string }[]>({
+    queryKey: [queryKeys.HUMAN_RESOURCES.GET_EMPLOYEES, companyCode, department],
+    queryFn: async () => {
+      const response = await GetHumanResourcesHoursEmployees({ companyCode, department })
       return response
     },
   })

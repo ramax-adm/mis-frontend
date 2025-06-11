@@ -31,6 +31,8 @@ export const urls = {
   },
   HUMAN_RESOURCES: {
     GET_DATES: `${apiLocal}/api/human-resources-hours/dates`,
+    GET_DEPARTMENTS: `${apiLocal}/api/human-resources-hours/departments`,
+    GET_EMPLOYEES: `${apiLocal}/api/human-resources-hours/employees`,
     GET_RESUME_DATA: `${apiLocal}/api/human-resources-hours/resume`,
   },
   STOCK: {

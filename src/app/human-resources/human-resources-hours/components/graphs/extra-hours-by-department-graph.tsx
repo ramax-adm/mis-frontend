@@ -23,12 +23,12 @@ export function ExtraHoursByDepartmentGraph({ data }: ExtraHoursByDepartmentGrap
   const dataTransposed = getData({ data })
 
   return (
-    <ResponsiveContainer width='100%' height='100%'>
+    <ResponsiveContainer width='100%' height={'100%'}>
       <PieChart style={{ fontSize: 12, fontFamily: 'roboto' }}>
         <Pie
           dataKey='value'
           data={dataTransposed}
-          cx='56.5%'
+          cx='50%'
           cy='50%'
           outerRadius={75}
           strokeWidth={1.5}
@@ -89,7 +89,9 @@ const getData = ({ data }: ExtraHoursByDepartmentGraphProps) => {
     })
   }
 
-  return response.sort((a, b) => b.quantityInSeconds - a.quantityInSeconds)
+  response.sort((a, b) => b.quantityInSeconds - a.quantityInSeconds)
+
+  return response
 }
 
 const CustomLegend: React.FC<LegendProps> = ({ payload }) => {
@@ -98,7 +100,7 @@ const CustomLegend: React.FC<LegendProps> = ({ payload }) => {
   return (
     <table
       style={{
-        height: '100%',
+        height: '170px',
         display: 'block', // Permite scroll na tabela
         fontFamily: 'roboto',
         fontSize: '9px',
@@ -108,12 +110,12 @@ const CustomLegend: React.FC<LegendProps> = ({ payload }) => {
       <thead style={{ position: 'sticky', top: 0 }}>
         <tr style={{ display: 'flex', gap: 2 }}>
           <th style={{ width: 15, textAlign: 'center' }}></th>
-          <th style={{ width: 90, textAlign: 'left' }}>Departamento</th>
+          <th style={{ width: 70, textAlign: 'left' }}>Departamento</th>
           <th style={{ width: 50, textAlign: 'left' }}>Horas.</th>
           <th style={{ width: 30, textAlign: 'left' }}>%</th>
         </tr>
       </thead>
-      <tbody style={{ display: 'block', height: '90%', overflowY: 'auto' }}>
+      <tbody style={{ display: 'block', height: '90%', overflowY: 'scroll' }}>
         {payload.map((entry: any, index: number) => (
           <tr
             key={`item-${index}`}
@@ -130,7 +132,7 @@ const CustomLegend: React.FC<LegendProps> = ({ payload }) => {
                 }}
               />
             </td>
-            <td style={{ width: 90 }}>{entry.payload.name}</td>
+            <td style={{ width: 70 }}>{entry.payload.name}</td>
             <td style={{ width: 50 }}>{entry.payload.quantity}</td>
             <td style={{ width: 30 }}>{toPercent(entry.payload.value)}</td>
           </tr>

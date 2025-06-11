@@ -7,6 +7,8 @@ export const queryKeys = {
   },
   HUMAN_RESOURCES: {
     GET_DATES: 'human-resources-hours-dates',
+    GET_DEPARTMENTS: 'human-resources-hours-departments',
+    GET_EMPLOYEES: 'human-resources-hours-employees',
     GET_RESUME_DATA: 'human-resources-hours-resume-data',
   },
   SENSATTA: {

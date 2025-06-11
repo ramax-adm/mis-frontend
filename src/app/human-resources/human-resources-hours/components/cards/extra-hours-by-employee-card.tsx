@@ -15,7 +15,7 @@ export function ExtraHoursByEmployeeCard({ data }: ExtraHoursByEmployeeCardProps
         fontFamily: 'roboto',
         justifyContent: 'center',
       }}
-      cardTitle='Ranking Hs. Extras '
+      cardTitle='Ranking Hs. Extras p/ funcionário'
     >
       <ExtraHoursByEmployeeTable data={data} />
     </HumanResourcesHoursCustomizedCard>

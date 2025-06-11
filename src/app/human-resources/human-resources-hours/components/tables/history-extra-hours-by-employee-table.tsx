@@ -1,16 +1,17 @@
 import { Column, CustomizedTable } from '@/components/Table/body'
 import { FreightByCattleAdvisorItem, FreightByFreightCompanyItem } from '@/types/api/freights'
-import { ExtraHoursByEmployeeItem } from '@/types/api/human-resources-hours'
+import {
+  ExtraHoursByEmployeeItem,
+  HistoryExtraHoursByEmployeeItem,
+} from '@/types/api/human-resources-hours'
 import { toLocaleString } from '@/utils/string.utils'
 import { Box, Typography } from '@mui/material'
 
-interface ExtraHoursByEmployeeTableProps {
-  data: ExtraHoursByEmployeeItem[]
+interface HistoryExtraHoursByEmployeeTableProps {
+  data: HistoryExtraHoursByEmployeeItem[]
 }
-export function ExtraHoursByEmployeeTable({ data }: ExtraHoursByEmployeeTableProps) {
+export function HistoryExtraHoursByEmployeeTable({ data }: HistoryExtraHoursByEmployeeTableProps) {
   const columns = getColumns()
-
-  data.sort((a, b) => b.extraHoursInSeconds - a.extraHoursInSeconds)
 
   return (
     <Box sx={{ marginTop: 1 }}>
@@ -34,7 +35,7 @@ export function ExtraHoursByEmployeeTable({ data }: ExtraHoursByEmployeeTablePro
     </Box>
   )
 }
-const getColumns = (): Column<ExtraHoursByEmployeeItem>[] => {
+const getColumns = (): Column<HistoryExtraHoursByEmployeeItem>[] => {
   return [
     {
       headerName: 'Funcionario',

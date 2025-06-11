@@ -1,7 +1,4 @@
-import { ExtraHoursByEmployeeItem } from '@/types/api/human-resources-hours'
 import { HumanResourcesHoursCustomizedCard } from '../customized/card'
-import { ExtraHoursByDepartmentGraph } from '../graphs/extra-hours-by-department-graph'
-import { ExtraHoursByEmployeeTable } from '../tables/extra-hours-by-employee-table'
 import { ExtraHoursByDayGraph } from '../graphs/extra-hours-by-day-graph'
 
 interface ExtraHoursByDayCardProps {
@@ -22,7 +19,7 @@ export function ExtraHoursByDayCard({ data }: ExtraHoursByDayCardProps) {
         fontFamily: 'roboto',
         justifyContent: 'center',
       }}
-      cardTitle='Ranking Hs. Extras '
+      cardTitle='Hs. Extras p/ dia '
     >
       <ExtraHoursByDayGraph data={data} />
     </HumanResourcesHoursCustomizedCard>

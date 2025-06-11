@@ -3,6 +3,8 @@ import { ControlledSelect } from '@/components/Inputs/Select/Customized'
 import {
   useGetHumanResourceHoursResumeData,
   useGetHumanResourcesHoursAvailableDates,
+  useGetHumanResourcesHoursDepartments,
+  useGetHumanResourcesHoursEmployees,
 } from '@/services/react-query/queries/human-resources-hours'
 import { formatToDate } from '@/utils/formatToDate'
 import { Box, Grid, Typography } from '@mui/material'
@@ -11,6 +13,11 @@ import { HumanResourcesHoursCustomizedCard } from '../customized/card'
 import { ExtraHoursByDepartmentCard } from '../cards/extra-hours-by-department-card'
 import { ExtraHoursByEmployeeCard } from '../cards/extra-hours-by-employee-card'
 import { ExtraHoursByDayCard } from '../cards/extra-houts-by-day-card'
+import { HistoryExtraHoursByEmployeeCard } from '../cards/history-extra-hours-card'
+import { HistoryAbsenceHoursByEmployeeCard } from '../cards/history-absence-hours-card'
+import { HistoryExtraHoursByDepartmentCard } from '../cards/history-extra-hours-by-department-card'
+import { HistoryAbsenceHoursByDepartmentCard } from '../cards/history-absence-hours-by-department-card'
+import { LoadingOverlay } from '@/components/Loading/loadingSpinner'
 
 interface HumanResourcesHoursResumeSectionProps {
   selectedCompany: string
@@ -26,16 +33,32 @@ export function HumanResourcesHoursResumeSection({
   const [selectedEmployee, setSelectedEmployee] = useState<string>('')
 
   const { data: dates } = useGetHumanResourcesHoursAvailableDates({ companyCode: selectedCompany })
-  const { data: resumeData } = useGetHumanResourceHoursResumeData({
+  const { data: departments } = useGetHumanResourcesHoursDepartments({
     companyCode: selectedCompany,
-    startDate: selectedStartDate,
-    endDate: selectedEndDate,
   })
+  const { data: employees } = useGetHumanResourcesHoursEmployees({
+    companyCode: selectedCompany,
+    department: selectedDepartment,
+  })
+  const { data: resumeData, isFetching: isFetchingResumeData } = useGetHumanResourceHoursResumeData(
+    {
+      companyCode: selectedCompany,
+      startDate: selectedStartDate,
+      endDate: selectedEndDate,
+      department: selectedDepartment,
+      employeeName: selectedEmployee,
+    },
+  )
 
   const handleSelectStartDate = (value: Date) => setSelectedStartDate(value)
   const handleSelectEndDate = (value: Date) => setSelectedEndDate(value)
   const handleSelectDepartment = (value: string) => setSelectedDepartment(value)
   const handleSelectEmployee = (value: string) => setSelectedEmployee(value)
+
+  if (isFetchingResumeData) {
+    return <LoadingOverlay />
+  }
+
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, width: '100%' }}>
       {/** GLOBAL FILTERS*/}
@@ -154,116 +177,92 @@ export function HumanResourcesHoursResumeSection({
               Relação Dia:
             </Typography>
           </Grid>
-          <Grid item xs={12} sm={4}>
+          <Grid item xs={12} sm={4.5}>
             <ExtraHoursByDepartmentCard data={resumeData.day.extraHoursByDepartment} />
           </Grid>
-          <Grid item xs={12} sm={4}>
+          <Grid item xs={12} sm={4.5}>
             <ExtraHoursByDayCard data={resumeData.day.extraHoursByDay} />
           </Grid>
-          <Grid item xs={12} sm={4}>
+          <Grid item xs={12} sm={3}>
             <ExtraHoursByEmployeeCard data={resumeData.day.extraHoursByEmployee} />
           </Grid>
         </Grid>
       )}
 
       {/** By History */}
-      <Grid container spacing={'12px'}>
-        <Grid item xs={12}>
-          <Typography fontWeight={700} fontSize={'12px'}>
-            Historico (EM CONSTRUÇÃO)
-          </Typography>
-        </Grid>
-      </Grid>
-      <Grid container spacing={'12px'}>
-        <Grid item xs={12} sm={2}>
-          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-            <Typography fontWeight={600} fontSize={'10px'}>
-              Departamento
-            </Typography>
-            <ControlledSelect
-              disabled={!isCompanySelected}
-              id='department'
-              label='Departamento'
-              name='department'
-              size='small'
-              value={selectedDepartment}
-              onChange={handleSelectDepartment}
-              options={[]}
-            />
-          </Box>
-        </Grid>
-        <Grid item xs={12} sm={2}>
-          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-            <Typography fontWeight={600} fontSize={'10px'}>
-              Funcionario
-            </Typography>
-            <ControlledSelect
-              disabled={!isCompanySelected}
-              id='employee'
-              label='Funcionario'
-              name='employee'
-              size='small'
-              value={selectedEmployee}
-              onChange={handleSelectEmployee}
-              options={[]}
-            />
-          </Box>
-        </Grid>
-      </Grid>
-      <Grid container spacing={'12px'}>
-        <Grid item xs={12} sm={3}>
-          <HumanResourcesHoursCustomizedCard
-            sx={{
-              height: '200px',
-              padding: 1,
-              fontFamily: 'roboto',
-              justifyContent: 'center',
-            }}
-            cardTitle='Hs. Extras'
-          >
-            Em Construção
-          </HumanResourcesHoursCustomizedCard>
-        </Grid>
-        <Grid item xs={12} sm={3}>
-          <HumanResourcesHoursCustomizedCard
-            sx={{
-              height: '200px',
-              padding: 1,
-              fontFamily: 'roboto',
-              justifyContent: 'center',
-            }}
-            cardTitle='Hs. Extras'
-          >
-            Em Construção
-          </HumanResourcesHoursCustomizedCard>
-        </Grid>
-        <Grid item xs={12} sm={3}>
-          <HumanResourcesHoursCustomizedCard
-            sx={{
-              height: '200px',
-              padding: 1,
-              fontFamily: 'roboto',
-              justifyContent: 'center',
-            }}
-            cardTitle='Extra/Departamento'
-          >
-            Em Construção
-          </HumanResourcesHoursCustomizedCard>
-        </Grid>
-        <Grid item xs={12} sm={3}>
-          <HumanResourcesHoursCustomizedCard
-            sx={{
-              height: '200px',
-              padding: 1,
-              fontFamily: 'roboto',
-              justifyContent: 'center',
-            }}
-            cardTitle='Faltas/Departamento'
-          >
-            Em Construção
-          </HumanResourcesHoursCustomizedCard>
-        </Grid>
-      </Grid>
+      {resumeData?.history && (
+        <>
+          <Grid container spacing={'12px'} marginBottom={2}>
+            <Grid item xs={12}>
+              <Typography fontWeight={700} fontSize={'12px'}>
+                Historico (EM CONSTRUÇÃO)
+              </Typography>
+            </Grid>
+          </Grid>
+          <Grid container spacing={'12px'}>
+            <Grid item xs={12} sm={2}>
+              <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                <Typography fontWeight={600} fontSize={'10px'}>
+                  Departamento
+                </Typography>
+                <ControlledSelect
+                  disabled={!isCompanySelected}
+                  id='department'
+                  label='Departamento'
+                  name='department'
+                  size='small'
+                  value={selectedDepartment}
+                  onChange={handleSelectDepartment}
+                  options={departments?.map((item) => ({
+                    label: item.department,
+                    value: item.department,
+                    key: item.department,
+                  }))}
+                />
+              </Box>
+            </Grid>
+            <Grid item xs={12} sm={2}>
+              <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                <Typography fontWeight={600} fontSize={'10px'}>
+                  Funcionario
+                </Typography>
+                <ControlledSelect
+                  disabled={!isCompanySelected}
+                  id='employee'
+                  label='Funcionario'
+                  name='employee'
+                  size='small'
+                  value={selectedEmployee}
+                  onChange={handleSelectEmployee}
+                  options={employees?.map((item) => ({
+                    label: item.employeeName,
+                    value: item.employeeName,
+                    key: item.employeeName,
+                  }))}
+                />
+              </Box>
+            </Grid>
+          </Grid>
+          <Grid container spacing={'12px'}>
+            <Grid item xs={12} sm={3}>
+              <HistoryExtraHoursByEmployeeCard data={resumeData.history.extraHoursByEmployee} />
+            </Grid>
+            <Grid item xs={12} sm={3}>
+              <HistoryAbsenceHoursByEmployeeCard data={resumeData.history.absenceHoursByEmployee} />
+            </Grid>
+            <Grid item xs={12} sm={3}>
+              <HistoryExtraHoursByDepartmentCard
+                data={resumeData.history.extraHoursByDepartmentByDay}
+              />
+            </Grid>
+            <Grid item xs={12} sm={3}>
+              <HistoryAbsenceHoursByDepartmentCard
+                data={resumeData.history.absenceHoursByDepartmentByDay}
+              />
+            </Grid>
+          </Grid>
+        </>
+      )}
     </Box>
   )
 }

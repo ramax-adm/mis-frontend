@@ -2,6 +2,7 @@ export interface ExtraHoursByEmployeeItem {
   employeeName: string
   department: string
   extraHours: string
+  extraHoursInSeconds: number
 }
 
 export interface HumanResourceHoursResumeTotalsResponse {
@@ -30,29 +31,36 @@ export interface HumanResourceHoursResumeDayResponse {
   extraHoursByEmployee: ExtraHoursByEmployeeItem[]
 }
 
+export interface HistoryExtraHoursByEmployeeItem {
+  employeeName: string
+  department: string
+  extraHours: string
+}
+
+export interface HistoryAbsenceHoursByEmployeeItem {
+  employeeName: string
+  department: string
+  absenceHours: string
+}
+
+export interface HistoryExtraHoursByDepartmentItem {
+  date: Date
+  department: string
+  extraHours: string
+  extraHoursInSeconds: number
+}
+
+export interface HistoryAbsenceHoursByDepartmentItem {
+  date: Date
+  department: string
+  absenceHours: string
+  absenceHoursInSeconds: number
+}
 export interface HumanResourceHoursResumeHistoryResponse {
-  extraHoursByEmployee: {
-    employeeName: string
-    department: string
-    extraHours: string
-  }[]
-  absenceHoursByEmployee: {
-    employeeName: string
-    department: string
-    absenceHours: string
-  }[]
-  extraHoursByDepartment: {
-    date: Date
-    department: string
-    extraHours: string
-    extraHoursInSeconds: number
-  }[]
-  absenceHoursByDepartment: {
-    date: Date
-    department: string
-    absenceHours: string
-    absenceHoursInSeconds: number
-  }[]
+  extraHoursByEmployee: HistoryExtraHoursByEmployeeItem[]
+  absenceHoursByEmployee: HistoryAbsenceHoursByEmployeeItem[]
+  extraHoursByDepartmentByDay: HistoryExtraHoursByDepartmentItem[]
+  absenceHoursByDepartmentByDay: HistoryAbsenceHoursByDepartmentItem[]
 }
 
 export interface GetHumanResourceHoursResumeDataResponse {
