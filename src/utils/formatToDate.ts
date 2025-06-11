@@ -4,7 +4,7 @@ import customParseFormat from 'dayjs/plugin/customParseFormat'
 dayjs.extend(customParseFormat)
 
 export function formatToDate(value: Date) {
-  return dayjs(value).format('DD/MM/YYYY')
+  return dayjs(value).add(3, 'hour').format('DD/MM/YYYY')
 }
 
 export function formatToDateMinified(value: Date) {
@@ -24,4 +24,14 @@ export const formatDateToDDMMYYYY = (dateString: string) => {
   const hour = date.getHours().toString().padStart(2, '0')
   const minute = date.getMinutes().toString().padStart(2, '0')
   return `${day}/${month}/${year} - ${hour}:${minute}`
+}
+
+export const getHHMMSSFormat = (seconds: number): string => {
+  const hours = Math.floor(seconds / 3600)
+  const minutes = Math.floor((seconds % 3600) / 60)
+  const secs = seconds % 60
+
+  const pad = (num: number) => String(num).padStart(2, '0')
+
+  return `${pad(hours)}:${pad(minutes)}:${pad(secs)}`
 }

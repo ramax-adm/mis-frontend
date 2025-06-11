@@ -44,4 +44,12 @@ export class PageRoutes {
   static cattlePurchaseFreights() {
     return `/freights/cattle-purchase-freights`
   }
+
+  // humanResources
+  static humanResources() {
+    return `/human-resources`
+  }
+  static humanResourcesHours() {
+    return `/human-resources/human-resources-hours`
+  }
 }
