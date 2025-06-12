@@ -9,11 +9,11 @@ export function HistoryExtraHoursByEmployeeCard({ data }: HistoryExtraHoursByEmp
   return (
     <HumanResourcesHoursCustomizedCard
       sx={{
-        height: '200px',
+        height: 'calc(100vh - 480px);',
         padding: 1,
         fontFamily: 'roboto',
       }}
-      cardTitle='Hs. Extras '
+      cardTitle='Ranking Hs. Extras '
     >
       <HistoryExtraHoursByEmployeeTable data={data} />
     </HumanResourcesHoursCustomizedCard>

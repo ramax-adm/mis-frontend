@@ -29,7 +29,7 @@ export function ExtraHoursByDayGraph({ data }: ExtraHoursByDayGraphProps) {
 
   return (
     <ResponsiveContainer width={'100%'} height='100%'>
-      <BarChart data={dataTransposed} margin={{ top: 10, right: 5, left: -20 }}>
+      <AreaChart data={dataTransposed} margin={{ top: 10, right: 5, left: -10 }}>
         <XAxis
           dataKey='date'
           axisLine={false}
@@ -37,7 +37,12 @@ export function ExtraHoursByDayGraph({ data }: ExtraHoursByDayGraphProps) {
           fontFamily='roboto'
           width={50}
           fontSize={'8px'}
-          tickFormatter={(value) => formatToDate(value)}
+          tickFormatter={(value) => {
+            const result = formatToDate(value)
+            const splittedResult = result.split('/')
+
+            return `${splittedResult[0]}/${splittedResult[1]}`
+          }}
         />
         <YAxis
           dataKey='quantityInSeconds'
@@ -58,12 +63,27 @@ export function ExtraHoursByDayGraph({ data }: ExtraHoursByDayGraphProps) {
 
         <Tooltip content={<CustomTooltip />} />
         <CartesianGrid horizontal={false} />
-        <Bar dataKey='quantityInSeconds' fill='#0B2B5E'>
-          {dataTransposed.map((d) => (
-            <Cell key={d.quantityInSeconds} fill={'#0B2B5E'} radius={2} />
-          ))}
-        </Bar>
-      </BarChart>
+
+        <defs>
+          <linearGradient id='fillDesktop' x1='0' y1='0' x2='0' y2='1'>
+            <stop offset='5%' stopColor='#0B2B5E' stopOpacity={0.9} />
+            <stop offset='95%' stopColor='#0B2B5E' stopOpacity={0.1} />
+          </linearGradient>
+        </defs>
+        {/* <YAxis dataKey='cattleQuantity' /> */}
+        <Tooltip content={<CustomTooltip />} />
+
+        <Area
+          type='monotone'
+          dataKey='quantityInSeconds'
+          dot={{ r: 1 }}
+          activeDot={{ r: 4 }}
+          stroke={'#0B2B5E'}
+          fill='url(#fillDesktop)'
+          fillOpacity={0.4}
+          strokeWidth={1.5}
+        />
+      </AreaChart>
     </ResponsiveContainer>
   )
 }

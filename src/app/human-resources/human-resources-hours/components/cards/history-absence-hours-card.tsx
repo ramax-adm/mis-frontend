@@ -15,11 +15,11 @@ export function HistoryAbsenceHoursByEmployeeCard({
   return (
     <HumanResourcesHoursCustomizedCard
       sx={{
-        height: '200px',
+        height: 'calc(100vh - 480px);',
         padding: 1,
         fontFamily: 'roboto',
       }}
-      cardTitle='Hs. Faltas '
+      cardTitle='Ranking Hs. Faltas '
     >
       <HistoryAbsenceHoursByEmployeeTable data={data} />
     </HumanResourcesHoursCustomizedCard>
