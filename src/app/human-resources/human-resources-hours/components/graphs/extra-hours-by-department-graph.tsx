@@ -30,7 +30,7 @@ export function ExtraHoursByDepartmentGraph({ data }: ExtraHoursByDepartmentGrap
           data={dataTransposed}
           cx='50%'
           cy='50%'
-          outerRadius={75}
+          outerRadius={80}
           strokeWidth={1.5}
           onMouseEnter={(_, index) => setHoveredIndex(index)}
           onMouseLeave={() => setHoveredIndex(null)}
@@ -100,7 +100,7 @@ const CustomLegend: React.FC<LegendProps> = ({ payload }) => {
   return (
     <table
       style={{
-        height: '170px',
+        height: '180px',
         display: 'block', // Permite scroll na tabela
         fontFamily: 'roboto',
         fontSize: '9px',

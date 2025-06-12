@@ -16,11 +16,13 @@ export function HistoryAbsenceHoursByEmployeeTable({
 }: HistoryAbsenceHoursByEmployeeTableProps) {
   const columns = getColumns()
 
+  data.sort((a, b) => b.absenceHoursInSeconds - a.absenceHoursInSeconds)
+
   return (
     <Box sx={{ marginTop: 1 }}>
       <CustomizedTable<any>
         tableStyles={{
-          height: '170px',
+          height: 'calc(100vh - 510px);',
           width: '100%',
         }}
         cellStyles={{

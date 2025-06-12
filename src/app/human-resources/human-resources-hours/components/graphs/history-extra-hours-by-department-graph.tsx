@@ -1,8 +1,21 @@
-import { HistoryExtraHoursByDepartmentItem } from '@/types/api/human-resources-hours'
+import {
+  HistoryExtraHoursByDepartmentItem,
+  HistoryHoursRelationByDepartmentItem,
+} from '@/types/api/human-resources-hours'
 import { formatToDate, getHHMMSSFormat } from '@/utils/formatToDate'
 import { toLocaleString } from '@/utils/string.utils'
 import { Box, Typography } from '@mui/material'
-import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
+import {
+  Area,
+  AreaChart,
+  Bar,
+  BarChart,
+  Cell,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from 'recharts'
 
 const COLORS = [
   '#2D5AA1', // Azul 500
@@ -12,36 +25,45 @@ const COLORS = [
   '#f43f5e', // rose 500
 ]
 
-interface HistoryExtraHoursByDepartmentGraphProps {
-  data: HistoryExtraHoursByDepartmentItem[]
+interface HistoryHoursRelationByDepartmentGraphProps {
+  data: Record<
+    string,
+    {
+      extraHours: string
+      extraHoursInSeconds: number
+      absenceHours: string
+      absenceHoursInSeconds: number
+    }
+  >
 }
-export function HistoryExtraHoursByDepartmentGraph({
+export function HistoryHoursRelationByDepartmentGraph({
   data,
-}: HistoryExtraHoursByDepartmentGraphProps) {
+}: HistoryHoursRelationByDepartmentGraphProps) {
   const dataTransposed = getData({ data })
-  const departments = Object.keys(dataTransposed[0] || {}).filter((key) => key !== 'date')
-
   return (
     <ResponsiveContainer width='100%' height='100%'>
-      <AreaChart
+      <BarChart
         data={dataTransposed}
         margin={{
-          top: 20,
+          top: 5,
           left: -20,
           right: 10,
+          bottom: 10,
         }}
       >
         <XAxis
-          dataKey='date'
+          dataKey='department'
           fontSize={'8px'}
           fontFamily='roboto'
           fontWeight={500}
           tickLine={false}
           axisLine={false}
-          tickFormatter={(value) => {
-            const splittedValue = value.split('/')
-            return `${splittedValue[0]}/${splittedValue[1]}`
-          }}
+          angle={-45}
+          dx={-10}
+          dy={10}
+          tickFormatter={(value) =>
+            value.length > 10 ? value.substring(0, 8).concat('...') : value
+          }
         />
         <YAxis
           fontSize={'8px'}
@@ -58,71 +80,40 @@ export function HistoryExtraHoursByDepartmentGraph({
             return formatted
           }}
         />
-        <defs>
-          {departments.map((department, index) => (
-            <linearGradient key={department} id={`fill-${department}`} x1='0' y1='0' x2='0' y2='1'>
-              <stop offset='5%' stopColor={getColor(index)} stopOpacity={0.9} />
-              <stop offset='95%' stopColor={getColor(index)} stopOpacity={0.2} />
-            </linearGradient>
-          ))}
-        </defs>
 
-        <Tooltip content={<CustomTooltip />} wrapperStyle={{ top: -230, left: -20 }} />
+        <Tooltip content={<CustomTooltip />} />
 
-        {departments.map((department, index) => (
-          <Area
-            key={department}
-            type='monotone'
-            dataKey={`${department}.extraHoursInSeconds`}
-            dot={{ r: 1 }}
-            activeDot={{ r: 4 }}
-            stroke={getColor(index)}
-            fill={`url(#fill-${department})`}
-            fillOpacity={0.4}
-            strokeWidth={1.5}
-            name={department}
-          />
-        ))}
-      </AreaChart>
+        <Bar dataKey='extraHoursInSeconds' fill='#0B2B5E' />
+        <Bar dataKey='absenceHoursInSeconds' fill='#7BA0D6' />
+      </BarChart>
     </ResponsiveContainer>
   )
 }
 
-const getColor = (index: number) => COLORS[index % COLORS.length]
+const getData = ({ data }: HistoryHoursRelationByDepartmentGraphProps) => {
+  const response: {
+    department: string
+    extraHours: string
+    extraHoursInSeconds: number
+    absenceHours: string
+    absenceHoursInSeconds: number
+  }[] = []
 
-const getData = ({ data }: HistoryExtraHoursByDepartmentGraphProps) => {
-  const response: ({
-    date: string
-  } & {
-    [department: string]: { extraHours: string; extraHoursInSeconds: number } | string
-  })[] = []
+  const keys = Object.keys(data)
 
-  let currentGroup:
-    | ({
-        date: string
-      } & {
-        [department: string]: { extraHours: string; extraHoursInSeconds: number } | string
-      })
-    | null = null
-
-  data.forEach((item) => {
-    // Se mudou a data, cria um novo grupo
-    if (!currentGroup || currentGroup.date != formatToDate(item.date)) {
-      currentGroup = { date: formatToDate(item.date) }
-      response.push(currentGroup)
-    }
-
-    // Adiciona o departamento no grupo atual
-    currentGroup[item.department] = {
-      extraHours: item.extraHours,
-      extraHoursInSeconds: item.extraHoursInSeconds,
-    }
-  })
-
-  console.log({ response })
+  for (const key of keys) {
+    response.push({
+      department: key,
+      absenceHours: data[key].absenceHours,
+      absenceHoursInSeconds: data[key].absenceHoursInSeconds,
+      extraHours: data[key].extraHours,
+      extraHoursInSeconds: data[key].extraHoursInSeconds,
+    })
+  }
 
   return response
 }
+const getColor = (index: number) => COLORS[index % COLORS.length]
 
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length > 0) {
@@ -138,11 +129,13 @@ const CustomTooltip = ({ active, payload, label }: any) => {
         className='custom-tooltip'
       >
         <Typography variant='caption'>{`${label}`}</Typography>
-        {payload.map((item: any) => {
+        <Typography variant='body2'>{`Hs. Extras: ${getHHMMSSFormat(payload[0].value)}`}</Typography>
+        <Typography variant='body2'>{`Hs. Faltas: ${getHHMMSSFormat(payload[1].value)}`}</Typography>
+        {/* {payload.map((item: any) => {
           return (
             <Typography variant='body2'>{`${item.dataKey.split('.')[0]}:${getHHMMSSFormat(item.value)}`}</Typography>
           )
-        })}
+        })} */}
       </Box>
     )
   }

@@ -35,12 +35,14 @@ export interface HistoryExtraHoursByEmployeeItem {
   employeeName: string
   department: string
   extraHours: string
+  extraHoursInSeconds: number
 }
 
 export interface HistoryAbsenceHoursByEmployeeItem {
   employeeName: string
   department: string
   absenceHours: string
+  absenceHoursInSeconds: number
 }
 
 export interface HistoryExtraHoursByDepartmentItem {
@@ -56,11 +58,28 @@ export interface HistoryAbsenceHoursByDepartmentItem {
   absenceHours: string
   absenceHoursInSeconds: number
 }
+
+export interface HistoryHoursRelationByDepartmentItem {
+  department: string
+  extraHours: string
+  extraHoursInSeconds: number
+  absenceHours: string
+  absenceHoursInSeconds: number
+}
+
 export interface HumanResourceHoursResumeHistoryResponse {
   extraHoursByEmployee: HistoryExtraHoursByEmployeeItem[]
   absenceHoursByEmployee: HistoryAbsenceHoursByEmployeeItem[]
   extraHoursByDepartmentByDay: HistoryExtraHoursByDepartmentItem[]
   absenceHoursByDepartmentByDay: HistoryAbsenceHoursByDepartmentItem[]
+  historyHoursRelationByDepartment: {
+    [k: string]: {
+      extraHours: string
+      extraHoursInSeconds: number
+      absenceHours: string
+      absenceHoursInSeconds: number
+    }
+  }
 }
 
 export interface GetHumanResourceHoursResumeDataResponse {
