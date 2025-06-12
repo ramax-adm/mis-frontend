@@ -122,7 +122,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
             <Typography
               variant='body2'
               key={`tooltip-${index}`}
-            >{`Horas: ${item.payload.quantity}`}</Typography>
+            >{`Horas: ${item.payload.quantity.split(':').slice(0, 2).join(':')}`}</Typography>
           )
         })}
       </Box>

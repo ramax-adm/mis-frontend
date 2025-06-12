@@ -1,9 +1,5 @@
-import {
-  HistoryExtraHoursByDepartmentItem,
-  HistoryHoursRelationByDepartmentItem,
-} from '@/types/api/human-resources-hours'
 import { HumanResourcesHoursCustomizedCard } from '../customized/card'
-import { HistoryHoursRelationByDepartmentGraph } from '../graphs/history-extra-hours-by-department-graph'
+import { HistoryHoursRelationByDepartmentGraph } from '../graphs/history-hours-relation-by-department-graph'
 
 interface HistoryHoursRelationByDepartmentCardProps {
   data: Record<
@@ -22,7 +18,7 @@ export function HistoryHoursRelationByDepartmentCard({
   return (
     <HumanResourcesHoursCustomizedCard
       sx={{
-        height: 'calc(100vh - 480px);',
+        height: 'calc(100vh - 500px);',
         padding: 1,
         fontFamily: 'roboto',
       }}
