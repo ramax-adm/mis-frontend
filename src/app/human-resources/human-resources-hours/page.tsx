@@ -1,19 +1,16 @@
 'use client'
-import { ResumeSection } from '@/app/stock/me/components/sections/resume-section'
-import { ControlledSelect, UncontroledSelect } from '@/components/Inputs/Select/Customized'
+import { ControlledSelect } from '@/components/Inputs/Select/Customized'
 import { PageContainer } from '@/components/PageContainer'
 import { PageContainerHeader } from '@/components/PageContainer/header'
 import { Tabs } from '@/components/Tabs'
 import { TabsPanelRef } from '@/components/Tabs/panel'
 import {
-  useGetHumanResourceHoursResumeData,
-  useGetHumanResourcesHoursAvailableDates,
   useGetHumanResourcesHoursDepartments,
   useGetHumanResourcesHoursEmployees,
+  useGetHumanResourcesHoursLastUpdatedAt,
 } from '@/services/react-query/queries/human-resources-hours'
 import { useGetCompanies } from '@/services/react-query/queries/sensatta'
-import { formatToDate } from '@/utils/formatToDate'
-import { Box, Grid, Tab, Typography } from '@mui/material'
+import { Grid, Tab, Typography } from '@mui/material'
 import { useRef, useState } from 'react'
 import { HumanResourcesHoursResumeSection } from './components/sections/resume-section'
 import { DateInputControlled } from '@/components/Inputs/DateInput/controlled'
@@ -32,6 +29,7 @@ export default function HumanResourcesHours() {
   const handleSelectDepartment = (value: string) => setSelectedDepartment(value)
   const handleSelectEmployee = (value: string) => setSelectedEmployee(value)
 
+  const { data: extraHoursLastUpdatedAt } = useGetHumanResourcesHoursLastUpdatedAt()
   const { data: companies } = useGetCompanies()
   const { data: departments } = useGetHumanResourcesHoursDepartments({
     companyCode: selectedCompany,
@@ -46,10 +44,17 @@ export default function HumanResourcesHours() {
   const handleSelectCompany = (value: string) => setSelectedCompany(value)
   return (
     <PageContainer>
-      <PageContainerHeader title='RH - Horas Extras' />
+      <PageContainerHeader
+        title='RH - Horas Extras'
+        sx={{ flexDirection: 'column', alignItems: 'flex-start', gap: 0 }}
+      >
+        <Typography variant='subtitle2' fontSize={'13px'}>
+          Ultima atualização: {extraHoursLastUpdatedAt?.parsedUpdatedAt}
+        </Typography>
+      </PageContainerHeader>
 
       <Grid container marginTop={1} columnSpacing={2}>
-        <Grid item container columnSpacing={1} xs={6}>
+        <Grid item container spacing={1} xs={6}>
           <Grid item xs={12}>
             <Typography fontSize={'12px'} fontWeight={600}>
               Filtros Globais
@@ -87,7 +92,7 @@ export default function HumanResourcesHours() {
             />
           </Grid>
         </Grid>
-        <Grid item container columnSpacing={1} xs={4}>
+        <Grid item container spacing={1} xs={4}>
           <Grid item xs={12}>
             <Typography fontSize={'12px'} fontWeight={600}>
               Filtros Historico

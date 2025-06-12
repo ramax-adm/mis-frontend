@@ -4,9 +4,24 @@ import {
   GetHumanResourcesHoursAvailableDates,
   GetHumanResourcesHoursDepartments,
   GetHumanResourcesHoursEmployees,
+  GetHumanResourcesHoursLastUpdatedAt,
   GetHumanResourcesHoursResumeData,
 } from '@/services/webApi/human-resources-hours-api'
-import { GetHumanResourceHoursResumeDataResponse } from '@/types/api/human-resources-hours'
+import {
+  GetHumanResourceHoursLastUpdatedAtResponse,
+  GetHumanResourceHoursResumeDataResponse,
+} from '@/types/api/human-resources-hours'
+
+export const useGetHumanResourcesHoursLastUpdatedAt = () => {
+  return useQuery<GetHumanResourceHoursLastUpdatedAtResponse>({
+    queryKey: [queryKeys.HUMAN_RESOURCES.GET_LAST_UPDATED_AT],
+    queryFn: async () => {
+      const response = await GetHumanResourcesHoursLastUpdatedAt()
+
+      return response
+    },
+  })
+}
 
 export const useGetHumanResourcesHoursAvailableDates = ({
   companyCode,

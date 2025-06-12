@@ -1,3 +1,4 @@
+import { useAppContext } from '@/contexts/app'
 import { toPercent } from '@/utils/string.utils'
 import { Typography, Box } from '@mui/material'
 import { useState } from 'react'
@@ -19,6 +20,7 @@ interface ExtraHoursByDepartmentGraphProps {
 }
 
 export function ExtraHoursByDepartmentGraph({ data }: ExtraHoursByDepartmentGraphProps) {
+  const { isMobile } = useAppContext()
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
   const dataTransposed = getData({ data })
 
@@ -30,7 +32,7 @@ export function ExtraHoursByDepartmentGraph({ data }: ExtraHoursByDepartmentGrap
           data={dataTransposed}
           cx='50%'
           cy='50%'
-          outerRadius={80}
+          outerRadius={isMobile ? 70 : 80}
           strokeWidth={1.5}
           onMouseEnter={(_, index) => setHoveredIndex(index)}
           onMouseLeave={() => setHoveredIndex(null)}
@@ -133,7 +135,8 @@ const CustomLegend: React.FC<LegendProps> = ({ payload }) => {
               />
             </td>
             <td style={{ width: 70 }}>{entry.payload.name}</td>
-            <td style={{ width: 50 }}>{entry.payload.quantity}</td>
+            {/** DE HH:mm:ss -> HH:mm */}
+            <td style={{ width: 50 }}>{entry.payload.quantity.split(':').slice(0, 2).join(':')}</td>
             <td style={{ width: 30 }}>{toPercent(entry.payload.value)}</td>
           </tr>
         ))}

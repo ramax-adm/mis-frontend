@@ -87,3 +87,8 @@ export interface GetHumanResourceHoursResumeDataResponse {
   day: HumanResourceHoursResumeDayResponse
   history: HumanResourceHoursResumeHistoryResponse
 }
+
+export interface GetHumanResourceHoursLastUpdatedAtResponse {
+  parsedUpdatedAt: string
+  updatedAt: Date
+}
