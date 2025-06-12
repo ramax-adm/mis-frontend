@@ -15,7 +15,7 @@ export function HistoryAbsenceHoursByEmployeeCard({
   return (
     <HumanResourcesHoursCustomizedCard
       sx={{
-        height: 'calc(100vh - 480px);',
+        height: 'calc(100vh - 500px);',
         padding: 1,
         fontFamily: 'roboto',
       }}

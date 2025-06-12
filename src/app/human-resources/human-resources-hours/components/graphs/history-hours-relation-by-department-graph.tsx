@@ -11,6 +11,8 @@ import {
   Bar,
   BarChart,
   Cell,
+  Legend,
+  LegendProps,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -66,6 +68,7 @@ export function HistoryHoursRelationByDepartmentGraph({
           }
         />
         <YAxis
+          name='TESTE Y'
           fontSize={'8px'}
           fontFamily='roboto'
           fontWeight={500}
@@ -82,6 +85,7 @@ export function HistoryHoursRelationByDepartmentGraph({
         />
 
         <Tooltip content={<CustomTooltip />} />
+        <Legend verticalAlign='top' content={<CustomLegend />} />
 
         <Bar dataKey='extraHoursInSeconds' fill='#0B2B5E' />
         <Bar dataKey='absenceHoursInSeconds' fill='#7BA0D6' />
@@ -113,7 +117,53 @@ const getData = ({ data }: HistoryHoursRelationByDepartmentGraphProps) => {
 
   return response
 }
-const getColor = (index: number) => COLORS[index % COLORS.length]
+
+const CustomLegend: React.FC<LegendProps> = ({ payload }) => {
+  const map = new Map<string, string>()
+
+  map.set('extraHoursInSeconds', 'Hs. Extras')
+  map.set('absenceHoursInSeconds', 'Hs. Faltas')
+  if (!payload) return null
+
+  return (
+    <ul
+      style={{
+        display: 'block',
+        listStyle: 'none',
+        padding: 0,
+        margin: '0 auto',
+        width: 'fit-content',
+        maxWidth: '400px',
+        overflowWrap: 'break-word', // opcional, para quebrar palavras longas
+      }}
+    >
+      {payload.map((entry: any, index) => (
+        <li
+          key={`item-${index}`}
+          style={{
+            marginLeft: 8,
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: 6,
+          }}
+        >
+          <div
+            style={{
+              width: 12,
+              height: 12,
+              backgroundColor: entry.color,
+            }}
+          />
+          <span
+            style={{ fontFamily: 'roboto', fontSize: 12, fontWeight: 'bold', color: entry.color }}
+          >
+            {map.get(entry.payload.dataKey)}
+          </span>
+        </li>
+      ))}
+    </ul>
+  )
+}
 
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length > 0) {

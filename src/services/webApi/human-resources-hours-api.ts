@@ -1,5 +1,11 @@
 import { GetFetch, urls } from '../axios/api-base'
 
+export async function GetHumanResourcesHoursLastUpdatedAt() {
+  const response = await GetFetch(urls.HUMAN_RESOURCES.GET_LAST_UPDATED_AT)
+
+  return response.data
+}
+
 export async function GetHumanResourcesHoursAvailableDates({
   companyCode,
 }: {
