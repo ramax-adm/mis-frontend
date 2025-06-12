@@ -14,7 +14,7 @@ export function ExtraHoursByDayCard({ data }: ExtraHoursByDayCardProps) {
   return (
     <HumanResourcesHoursCustomizedCard
       sx={{
-        height: '200px',
+        height: '220px',
         padding: 1,
         fontFamily: 'roboto',
         justifyContent: 'center',

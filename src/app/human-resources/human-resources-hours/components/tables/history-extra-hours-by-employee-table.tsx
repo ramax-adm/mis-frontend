@@ -13,11 +13,13 @@ interface HistoryExtraHoursByEmployeeTableProps {
 export function HistoryExtraHoursByEmployeeTable({ data }: HistoryExtraHoursByEmployeeTableProps) {
   const columns = getColumns()
 
+  data.sort((a, b) => b.extraHoursInSeconds - a.extraHoursInSeconds)
+
   return (
     <Box sx={{ marginTop: 1 }}>
       <CustomizedTable<any>
         tableStyles={{
-          height: '170px',
+          height: 'calc(100vh - 510px);',
           width: '100%',
         }}
         cellStyles={{
