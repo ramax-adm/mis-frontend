@@ -22,12 +22,7 @@ export interface HumanResourceHoursResumeDayResponse {
       percent: number
     }
   }
-  extraHoursByDay: {
-    [k: string]: {
-      quantity: string
-      quantityInSeconds: number
-    }
-  }
+
   extraHoursByEmployee: ExtraHoursByEmployeeItem[]
 }
 
@@ -68,6 +63,12 @@ export interface HistoryHoursRelationByDepartmentItem {
 }
 
 export interface HumanResourceHoursResumeHistoryResponse {
+  extraHoursByDay: {
+    [k: string]: {
+      quantity: string
+      quantityInSeconds: number
+    }
+  }
   extraHoursByEmployee: HistoryExtraHoursByEmployeeItem[]
   absenceHoursByEmployee: HistoryAbsenceHoursByEmployeeItem[]
   extraHoursByDepartmentByDay: HistoryExtraHoursByDepartmentItem[]
