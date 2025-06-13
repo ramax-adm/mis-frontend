@@ -1,8 +1,9 @@
+import { Alert } from '@mui/material'
 import { HumanResourcesHoursCustomizedCard } from '../customized/card'
 import { HistoryHoursRelationByDepartmentGraph } from '../graphs/history-hours-relation-by-department-graph'
 
 interface HistoryHoursRelationByDepartmentCardProps {
-  data: Record<
+  data?: Record<
     string,
     {
       extraHours: string
@@ -15,6 +16,11 @@ interface HistoryHoursRelationByDepartmentCardProps {
 export function HistoryHoursRelationByDepartmentCard({
   data,
 }: HistoryHoursRelationByDepartmentCardProps) {
+  const haveSomeData =
+    data &&
+    Object.values(data).some(
+      (item) => item.extraHoursInSeconds > 0 || item.absenceHoursInSeconds > 0,
+    )
   return (
     <HumanResourcesHoursCustomizedCard
       sx={{
@@ -24,7 +30,12 @@ export function HistoryHoursRelationByDepartmentCard({
       }}
       cardTitle='Relação hs. p/ departamento'
     >
-      <HistoryHoursRelationByDepartmentGraph data={data} />
+      {haveSomeData && <HistoryHoursRelationByDepartmentGraph data={data} />}
+      {!haveSomeData && (
+        <Alert severity='info' sx={{ marginY: 'auto', marginX: 2 }}>
+          Sem Dados
+        </Alert>
+      )}
     </HumanResourcesHoursCustomizedCard>
   )
 }

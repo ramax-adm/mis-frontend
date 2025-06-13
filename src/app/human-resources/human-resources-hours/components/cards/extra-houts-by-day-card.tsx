@@ -1,8 +1,9 @@
+import { Alert } from '@mui/material'
 import { HumanResourcesHoursCustomizedCard } from '../customized/card'
 import { ExtraHoursByDayGraph } from '../graphs/extra-hours-by-day-graph'
 
 interface ExtraHoursByDayCardProps {
-  data: Record<
+  data?: Record<
     string,
     {
       quantity: string
@@ -11,6 +12,7 @@ interface ExtraHoursByDayCardProps {
   >
 }
 export function ExtraHoursByDayCard({ data }: ExtraHoursByDayCardProps) {
+  const haveSomeData = data && Object.values(data).some((item) => item.quantityInSeconds > 0)
   return (
     <HumanResourcesHoursCustomizedCard
       sx={{
@@ -21,7 +23,12 @@ export function ExtraHoursByDayCard({ data }: ExtraHoursByDayCardProps) {
       }}
       cardTitle='Hs. Extras p/ dia '
     >
-      <ExtraHoursByDayGraph data={data} />
+      {haveSomeData && <ExtraHoursByDayGraph data={data} />}
+      {!haveSomeData && (
+        <Alert severity='info' sx={{ marginY: 'auto', marginX: 2 }}>
+          Sem Dados
+        </Alert>
+      )}
     </HumanResourcesHoursCustomizedCard>
   )
 }
