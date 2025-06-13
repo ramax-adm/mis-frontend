@@ -48,7 +48,7 @@ export function HistoryHoursRelationByDepartmentGraph({
         data={dataTransposed}
         margin={{
           top: 5,
-          left: -20,
+          left: -30,
           right: 10,
           bottom: 10,
         }}
@@ -79,7 +79,7 @@ export function HistoryHoursRelationByDepartmentGraph({
             const minutes = Math.floor((value % 3600) / 60)
             const seconds = value % 60
 
-            const formatted = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`
+            const formatted = `${String(hours).padStart(2, '0')}h`
             return formatted
           }}
         />

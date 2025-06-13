@@ -29,7 +29,7 @@ export function ExtraHoursByDayGraph({ data }: ExtraHoursByDayGraphProps) {
 
   return (
     <ResponsiveContainer width={'100%'} height='100%'>
-      <AreaChart data={dataTransposed} margin={{ top: 10, right: 5, left: -10 }}>
+      <AreaChart data={dataTransposed} margin={{ top: 10, right: 5, left: -30 }}>
         <XAxis
           dataKey='date'
           axisLine={false}
@@ -56,7 +56,7 @@ export function ExtraHoursByDayGraph({ data }: ExtraHoursByDayGraphProps) {
             const minutes = Math.floor((value % 3600) / 60)
             const seconds = value % 60
 
-            const formatted = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`
+            const formatted = `${String(hours).padStart(2, '0')}h`
             return formatted
           }}
         />
