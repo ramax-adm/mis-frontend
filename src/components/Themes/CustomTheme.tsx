@@ -20,30 +20,40 @@ const CustomTheme = createTheme({
         },
       },
     },
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: {
+          '&.MuiOutlinedInput-sizeSmall': {
+            height: 32,
+            padding: 0,
+          },
+          // remove possível conflito de altura com adornments
+          '& .MuiInputAdornment-root': {
+            height: '100%',
+            maxHeight: '100%',
+            marginTop: 0,
+          },
+        },
+        inputSizeSmall: {
+          padding: '6px 8px', // padrão visual bom para campos pequenos
+        },
+      },
+    },
     MuiInputBase: {
       styleOverrides: {
-        inputSizeSmall: {
-          padding: '4px 8px', // controle interno do campo (input)
-        },
         root: {
           '&.MuiInputBase-sizeSmall': {
-            minHeight: '32px', // altura do wrapper do TextField
+            minHeight: 32, // garante altura mínima consistente
           },
         },
       },
     },
-    MuiOutlinedInput: {
+    MuiInputAdornment: {
       styleOverrides: {
-        input: {
-          padding: '6px 8px',
-        },
-        inputSizeSmall: {
-          padding: '4px 8px', // altura reduzida do conteúdo
-        },
         root: {
-          '&.MuiOutlinedInput-sizeSmall': {
-            height: '32px', // altura total do campo
-          },
+          height: 32,
+          maxHeight: 32,
+          marginTop: 0,
         },
       },
     },

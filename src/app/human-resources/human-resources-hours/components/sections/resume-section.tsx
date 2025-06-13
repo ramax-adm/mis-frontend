@@ -34,9 +34,12 @@ export function HumanResourcesHoursResumeSection({
     },
   )
 
+  if (isFetchingResumeData) {
+    return <LoadingOverlay />
+  }
+
   return (
     <>
-      {isFetchingResumeData && <LoadingOverlay />}
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, width: '100%' }}>
         {/** GLOBAL FILTERS*/}
 
@@ -182,31 +185,28 @@ export function HumanResourcesHoursResumeSection({
           </Grid>
         </Grid> */}
 
-        {/** By day */}
-        {resumeData?.day && (
-          <Grid container spacing={'12px'}>
-            {/* <Grid item xs={12}>
+        <Grid container spacing={'12px'}>
+          {/* <Grid item xs={12}>
               <Typography fontWeight={700} fontSize={'12px'}>
                 Totais
               </Typography>
             </Grid> */}
 
-            <Grid item xs={12} sm={6}>
-              <ExtraHoursByDepartmentCard data={resumeData.day.extraHoursByDepartment} />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <ExtraHoursByDayCard data={resumeData.day.extraHoursByDay} />
-            </Grid>
-            {/* <Grid item xs={12} sm={3}>
+          <Grid item xs={12} sm={6}>
+            <ExtraHoursByDepartmentCard data={resumeData?.day.extraHoursByDepartment} />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <ExtraHoursByDayCard data={resumeData?.history.extraHoursByDay} />
+          </Grid>
+          {/* <Grid item xs={12} sm={3}>
               <ExtraHoursByEmployeeCard data={resumeData.day.extraHoursByEmployee} />
             </Grid> */}
-          </Grid>
-        )}
+        </Grid>
 
         {/** By History */}
-        {resumeData?.history && (
-          <>
-            {/* <Grid container spacing={'12px'} marginBottom={2}>
+
+        <>
+          {/* <Grid container spacing={'12px'} marginBottom={2}>
               <Grid item xs={12}>
                 <Typography fontWeight={700} fontSize={'12px'}>
                   Historico (EM CONSTRUÇÃO)
@@ -214,28 +214,27 @@ export function HumanResourcesHoursResumeSection({
               </Grid>
             </Grid> */}
 
-            <Grid container spacing={'12px'}>
-              <Grid item xs={12} sm={3}>
-                <HistoryExtraHoursByEmployeeCard data={resumeData.history.extraHoursByEmployee} />
-              </Grid>
-              <Grid item xs={12} sm={3}>
-                <HistoryAbsenceHoursByEmployeeCard
-                  data={resumeData.history.absenceHoursByEmployee}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <HistoryHoursRelationByDepartmentCard
-                  data={resumeData.history.historyHoursRelationByDepartment}
-                />
-              </Grid>
-              {/* <Grid item xs={12} sm={3}>
+          <Grid container spacing={'12px'}>
+            <Grid item xs={12} sm={3}>
+              <HistoryExtraHoursByEmployeeCard data={resumeData?.history.extraHoursByEmployee} />
+            </Grid>
+            <Grid item xs={12} sm={3}>
+              <HistoryAbsenceHoursByEmployeeCard
+                data={resumeData?.history.absenceHoursByEmployee}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <HistoryHoursRelationByDepartmentCard
+                data={resumeData?.history.historyHoursRelationByDepartment}
+              />
+            </Grid>
+            {/* <Grid item xs={12} sm={3}>
                 <HistoryAbsenceHoursByDepartmentCard
                   data={resumeData.history.absenceHoursByDepartmentByDay}
                 />
               </Grid> */}
-            </Grid>
-          </>
-        )}
+          </Grid>
+        </>
       </Box>
     </>
   )

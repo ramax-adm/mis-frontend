@@ -5,13 +5,15 @@ import {
 import { HumanResourcesHoursCustomizedCard } from '../customized/card'
 import { HistoryExtraHoursByEmployeeTable } from '../tables/history-extra-hours-by-employee-table'
 import { HistoryAbsenceHoursByEmployeeTable } from '../tables/history-absence-hours-by-employee-table'
+import { Alert } from '@mui/material'
 
 interface HistoryAbsenceHoursByEmployeeCardProps {
-  data: HistoryAbsenceHoursByEmployeeItem[]
+  data?: HistoryAbsenceHoursByEmployeeItem[]
 }
 export function HistoryAbsenceHoursByEmployeeCard({
-  data,
+  data = [],
 }: HistoryAbsenceHoursByEmployeeCardProps) {
+  const haveSomeData = data.length > 0
   return (
     <HumanResourcesHoursCustomizedCard
       sx={{
@@ -21,7 +23,12 @@ export function HistoryAbsenceHoursByEmployeeCard({
       }}
       cardTitle='Ranking Hs. Faltas '
     >
-      <HistoryAbsenceHoursByEmployeeTable data={data} />
+      {haveSomeData && <HistoryAbsenceHoursByEmployeeTable data={data} />}
+      {!haveSomeData && (
+        <Alert severity='info' sx={{ marginY: 'auto', marginX: 2 }}>
+          Sem Dados
+        </Alert>
+      )}
     </HumanResourcesHoursCustomizedCard>
   )
 }
