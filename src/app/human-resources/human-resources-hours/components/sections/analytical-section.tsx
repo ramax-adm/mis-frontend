@@ -63,7 +63,7 @@ export function HumanResourcesHoursAnalyticalSection({
       <Grid item xs={12}>
         {haveSomeData && <AnalyticalHoursTable data={analyticalData.parsedData} />}
         {!haveSomeData && (
-          <Alert severity='info' sx={{ marginY: 'auto', marginX: 2 }}>
+          <Alert severity='info' sx={{ marginY: 2 }}>
             Sem Dados
           </Alert>
         )}
