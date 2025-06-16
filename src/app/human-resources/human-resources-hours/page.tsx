@@ -77,7 +77,7 @@ export default function HumanResourcesHours() {
           </Grid>
           <Grid item xs={12} sm={4}>
             <DateInputControlled
-              label='Dt. Fim'
+              label='Dt. Inicio'
               size='small'
               value={dayjs(selectedStartDate)}
               setValue={handleSelectStartDate}
