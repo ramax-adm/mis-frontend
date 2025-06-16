@@ -10,9 +10,11 @@ import BurgerMenu from '../Menu/BurgerMenu'
 import SideNav from '../Menu/SideNav'
 import { useAuthContext } from '@/contexts/auth'
 import { RiLogoutBoxFill } from 'react-icons/ri'
+import { IconType } from 'react-icons'
 
 type MenuItemWithSubMenuProps = {
   item: SideNavItem
+  Icon?: IconType
 }
 
 export const PageContainer = ({ children }: { children: ReactNode }) => {
@@ -31,7 +33,7 @@ export const PageContainer = ({ children }: { children: ReactNode }) => {
     return <li className={className}>{children}</li>
   }
 
-  const MenuItemWithSubMenu: React.FC<MenuItemWithSubMenuProps> = ({ item }) => {
+  const MenuItemWithSubMenu: React.FC<MenuItemWithSubMenuProps> = ({ item, Icon }) => {
     const [subMenuOpen, setSubMenuOpen] = useState(false)
 
     return (
@@ -41,12 +43,13 @@ export const PageContainer = ({ children }: { children: ReactNode }) => {
             sx={{
               display: 'flex',
               flexDirection: 'row',
+              gap: '8px',
               justifyContent: 'space-between',
               alignItems: 'center',
               borderRadius: '0.5rem',
               width: '100%',
-              backgroundColor: orange[300],
-              padding: '0.2rem',
+              backgroundColor: 'rgba(62, 99, 221, 0.3)',
+              padding: '0.5rem',
             }}
             onClick={() => setSubMenuOpen(!subMenuOpen)}
           >
@@ -55,10 +58,17 @@ export const PageContainer = ({ children }: { children: ReactNode }) => {
                 display: 'flex',
                 flexDirection: 'row',
                 alignItems: 'center',
-                gap: 3,
+                gap: 1,
                 width: '90%',
               }}
             >
+              {item.icon && Icon ? (
+                <span style={{ display: 'inline-block', fontSize: '1.2rem' }}>
+                  <Icon />
+                </span>
+              ) : (
+                ''
+              )}
               <Typography
                 sx={{
                   fontSize: '1.2rem',
@@ -107,7 +117,7 @@ export const PageContainer = ({ children }: { children: ReactNode }) => {
                         sx={{
                           display: 'flex',
                           width: '100%',
-                          fontSize: '1rem',
+                          fontSize: '0.8rem',
                           lineHeight: '1.2rem',
                           fontFamily: 'sans-serif',
                           textDecoration: 'none',
@@ -187,13 +197,12 @@ export const PageContainer = ({ children }: { children: ReactNode }) => {
                 if (item.role && item.role?.length > 0 && !item.role?.includes(user.role)) {
                   return null
                 } else {
-                  console.log(item)
                   const Icon = item.icon
 
                   return (
                     <div key={idx}>
                       {item.submenu ? (
-                        <MenuItemWithSubMenu item={item} />
+                        <MenuItemWithSubMenu item={item} Icon={Icon} />
                       ) : (
                         <MenuItem>
                           <Button
@@ -253,7 +262,7 @@ export const PageContainer = ({ children }: { children: ReactNode }) => {
                     borderRadius: '0.5rem',
                     width: '100%',
                     backgroundColor: 'rgba(62, 99, 221, 0.3)',
-                    padding: '0.2rem',
+                    padding: '0.5rem',
                   }}
                   onClick={() => logoutUser()}
                 >
