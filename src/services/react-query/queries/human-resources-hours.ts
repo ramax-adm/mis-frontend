@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { queryKeys } from '../query-keys'
 import {
+  GetHumanResourcesHoursAnalyticalData,
   GetHumanResourcesHoursAvailableDates,
   GetHumanResourcesHoursDepartments,
   GetHumanResourcesHoursEmployees,
@@ -8,6 +9,7 @@ import {
   GetHumanResourcesHoursResumeData,
 } from '@/services/webApi/human-resources-hours-api'
 import {
+  GetHumanResourceHoursAnalyticalDataResponse,
   GetHumanResourceHoursLastUpdatedAtResponse,
   GetHumanResourceHoursResumeDataResponse,
 } from '@/types/api/human-resources-hours'
@@ -87,6 +89,44 @@ export const useGetHumanResourceHoursResumeData = ({
     ],
     queryFn: async () => {
       const response = await GetHumanResourcesHoursResumeData({
+        startDate,
+        endDate,
+        companyCode,
+        employeeName,
+        department,
+      })
+      return response
+    },
+    enabled: !!companyCode,
+  })
+}
+
+export const useGetHumanResourceHoursAnalyticalData = ({
+  startDate,
+  endDate,
+  companyCode,
+  employeeName,
+  department,
+}: {
+  startDate?: Date | null
+  endDate?: Date | null
+  companyCode?: string
+  employeeName?: string
+  department?: string
+}) => {
+  console.log('here')
+
+  return useQuery<GetHumanResourceHoursAnalyticalDataResponse>({
+    queryKey: [
+      queryKeys.HUMAN_RESOURCES.GET_ANALYTICAL_DATA,
+      startDate,
+      endDate,
+      companyCode,
+      employeeName,
+      department,
+    ],
+    queryFn: async () => {
+      const response = await GetHumanResourcesHoursAnalyticalData({
         startDate,
         endDate,
         companyCode,
