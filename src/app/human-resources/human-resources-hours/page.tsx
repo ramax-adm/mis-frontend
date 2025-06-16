@@ -10,11 +10,13 @@ import {
   useGetHumanResourcesHoursLastUpdatedAt,
 } from '@/services/react-query/queries/human-resources-hours'
 import { useGetCompanies } from '@/services/react-query/queries/sensatta'
-import { Grid, Tab, Typography } from '@mui/material'
+import { Box, Button, Grid, Tab, Typography } from '@mui/material'
 import { useRef, useState } from 'react'
 import { HumanResourcesHoursResumeSection } from './components/sections/resume-section'
 import { DateInputControlled } from '@/components/Inputs/DateInput/controlled'
 import dayjs from 'dayjs'
+import { HumanResourcesHoursAnalyticalSection } from './components/sections/analytical-section'
+import { useExportHumanResourcesHoursXlsx } from '@/services/react-query/mutations/human-resources-hours'
 
 export default function HumanResourcesHours() {
   const tabPanelRef = useRef<TabsPanelRef>(null)
@@ -28,6 +30,7 @@ export default function HumanResourcesHours() {
   const handleSelectEndDate = (value: Date) => setSelectedEndDate(value)
   const handleSelectDepartment = (value: string) => setSelectedDepartment(value)
   const handleSelectEmployee = (value: string) => setSelectedEmployee(value)
+  const handleSelectCompany = (value: string) => setSelectedCompany(value)
 
   const { data: extraHoursLastUpdatedAt } = useGetHumanResourcesHoursLastUpdatedAt()
   const { data: companies } = useGetCompanies()
@@ -38,20 +41,68 @@ export default function HumanResourcesHours() {
     companyCode: selectedCompany,
     department: selectedDepartment,
   })
-
+  const { mutateAsync: exportHoursReport, isPending: isExportingReport } =
+    useExportHumanResourcesHoursXlsx()
   const isCompanySelected = selectedCompany.length > 0
 
-  const handleSelectCompany = (value: string) => setSelectedCompany(value)
+  const exportFreights = async () => {
+    if (!tabPanelRef.current) {
+      console.log('no tab selected')
+      return
+    }
+    const selectedTab = tabPanelRef.current.getCurrentTabName() as 'resume' | 'analytical'
+
+    switch (selectedTab) {
+      case 'resume': {
+        console.log('resume')
+        return
+      }
+      case 'analytical': {
+        return await exportHoursReport({
+          companyCode: selectedCompany,
+          startDate: selectedStartDate,
+          endDate: selectedEndDate,
+          department: selectedDepartment,
+          employeeName: selectedEmployee,
+        })
+      }
+      default: {
+        console.log('error')
+        break
+      }
+    }
+  }
+
   return (
     <PageContainer>
-      <PageContainerHeader
-        title='RH - Horas Extras'
-        sx={{ flexDirection: 'column', alignItems: 'flex-start', gap: 0 }}
+      <Box
+        sx={{
+          width: '100%',
+          display: 'flex',
+          flexDirection: { xs: 'column', md: 'row' },
+          alignItems: { md: 'center' },
+          gap: 1,
+        }}
       >
-        <Typography variant='subtitle2' fontSize={'13px'}>
-          Ultima atualização: {extraHoursLastUpdatedAt?.parsedUpdatedAt}
-        </Typography>
-      </PageContainerHeader>
+        <PageContainerHeader
+          title='RH - Horas Extras'
+          sx={{ flexDirection: 'column', alignItems: 'flex-start', gap: 0 }}
+        >
+          <Typography variant='subtitle2' fontSize={'13px'}>
+            Ultima atualização: {extraHoursLastUpdatedAt?.parsedUpdatedAt}
+          </Typography>
+        </PageContainerHeader>
+        <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1 }}>
+          <Button
+            variant='contained'
+            size='small'
+            onClick={exportFreights}
+            disabled={isExportingReport}
+          >
+            Exportar XLSX
+          </Button>
+        </Box>
+      </Box>
 
       <Grid container marginTop={1} columnSpacing={2}>
         <Grid item container spacing={1} xs={6}>
@@ -99,10 +150,6 @@ export default function HumanResourcesHours() {
             </Typography>
           </Grid>
           <Grid item xs={12} sm={5}>
-            {/* <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-              <Typography fontWeight={600} fontSize={'10px'}>
-                Departamento
-              </Typography> */}
             <ControlledSelect
               disabled={!isCompanySelected}
               id='department'
@@ -117,13 +164,8 @@ export default function HumanResourcesHours() {
                 key: item.department,
               }))}
             />
-            {/* </Box> */}
           </Grid>
           <Grid item xs={12} sm={5}>
-            {/* <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-              <Typography fontWeight={600} fontSize={'10px'}>
-                Funcionario
-              </Typography> */}
             <ControlledSelect
               disabled={!isCompanySelected}
               id='employee'
@@ -138,7 +180,6 @@ export default function HumanResourcesHours() {
                 key: item.employeeName,
               }))}
             />
-            {/* </Box> */}
           </Grid>
         </Grid>
       </Grid>
@@ -147,7 +188,7 @@ export default function HumanResourcesHours() {
       <Tabs.Root defaultTab='resume'>
         <Tabs.Select sx={{ width: '200px' }}>
           <Tab label='Resumo' value={'resume'} />
-          <Tab label='Analitico' value={'analytical'} disabled />
+          <Tab label='Analitico' value={'analytical'} />
         </Tabs.Select>
 
         <Tabs.Content>
@@ -162,7 +203,14 @@ export default function HumanResourcesHours() {
             />
           </Tabs.Panel>
           <Tabs.Panel tabName='analytical' ref={tabPanelRef}>
-            <Typography>Analitico</Typography>
+            <HumanResourcesHoursAnalyticalSection
+              selectedCompany={selectedCompany}
+              selectedStartDate={selectedStartDate}
+              selectedEndDate={selectedEndDate}
+              selectedDepartment={selectedDepartment}
+              selectedEmployee={selectedEmployee}
+              isCompanySelected={isCompanySelected}
+            />
           </Tabs.Panel>
         </Tabs.Content>
       </Tabs.Root>

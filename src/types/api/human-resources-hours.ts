@@ -93,3 +93,57 @@ export interface GetHumanResourceHoursLastUpdatedAtResponse {
   parsedUpdatedAt: string
   updatedAt: Date
 }
+
+/***********************ANALITICO*****************************/
+export interface HumanResourceHoursAnalyticalOriginalDataItem {
+  date: Date
+  integrationSystem: string
+  companyCode: string
+  payrollNumber: string
+  employeeName: string
+  department: string
+  normalHours: string
+  hoursOff: string
+  absenceHours: string
+  halfExtraHours: string
+  fullExtraHours: string
+  createdAt: Date
+}
+
+export interface HumanResourceHoursAnalyticalParsedDataItem {
+  date: string
+  integrationSystem: string
+  companyCode: string
+  payrollNumber: string
+  employeeName: string
+  department: string
+  normalHours: string
+  hoursOff: string
+  absenceHours: string
+  halfExtraHours: string
+  fullExtraHours: string
+  createdAt: string
+}
+export interface GetHumanResourceHoursAnalyticalDataResponse {
+  originalData: HumanResourceHoursAnalyticalOriginalDataItem[]
+  parsedData: HumanResourceHoursAnalyticalParsedDataItem[]
+  totals: {
+    normalHours: string
+    extraHours: string
+    halfExtraHours: string
+    fullExtraHours: string
+    hoursOff: string
+    absenceHours: string
+  }
+}
+
+/************************ XLSX ******************************/
+export interface PostExportHumanResourceHoursXlsxRequest {
+  filters: {
+    startDate?: Date | null
+    endDate?: Date | null
+    companyCode?: string
+    employeeName?: string | null
+    department?: string | null
+  }
+}
