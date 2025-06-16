@@ -10,7 +10,8 @@ export const queryKeys = {
     GET_DEPARTMENTS: 'human-resources-hours-departments',
     GET_EMPLOYEES: 'human-resources-hours-employees',
     GET_RESUME_DATA: 'human-resources-hours-resume-data',
-    GET_LAST_UPDATED_AT: 'human-resources-hours-resume-data',
+    GET_ANALYTICAL_DATA: 'human-resources-hours-analytical-data',
+    GET_LAST_UPDATED_AT: 'human-resources-hours-last-updated-at',
   },
   SENSATTA: {
     GET_COMPANIES: 'companies',
