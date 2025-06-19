@@ -35,3 +35,30 @@ export function HumanResourceHoursIndicator({ title, value }: HumanResourceHours
     </Box>
   )
 }
+
+interface HumanResourceIndicatorProps {
+  title: string
+  value: any
+}
+export function HumanResourceIndicator({ title, value }: HumanResourceIndicatorProps) {
+  return (
+    <Box
+      component={'span'}
+      sx={{
+        display: 'inline-flex',
+        paddingY: 0.5,
+        paddingX: 1,
+        borderRadius: '6px',
+        alignItems: 'center',
+        backgroundColor: 'rgba(62, 99, 221, 0.2)',
+      }}
+    >
+      <Typography fontWeight={500} fontSize={'12px'} color={'#3E63DD'}>
+        {title}
+      </Typography>
+      <Typography fontWeight={800} fontSize={'14px'} color={'#3E63DD'}>
+        {`${value}`}
+      </Typography>
+    </Box>
+  )
+}
