@@ -72,6 +72,25 @@ export async function GetHumanResourcesHoursAnalyticalData({
   return response.data
 }
 
+export async function GetHumanResourcesHoursAnalysesData({
+  startDate,
+  endDate,
+  companyCode,
+  employeeName,
+  department,
+}: {
+  startDate?: Date | null
+  endDate?: Date | null
+  companyCode?: string
+  employeeName?: string
+  department?: string
+}) {
+  const response = await GetFetch(urls.HUMAN_RESOURCES.GET_ANALYSES_DATA, {
+    params: { startDate, endDate, companyCode, employeeName, department },
+  })
+  return response.data
+}
+
 export async function PostExportHumanResourcesHoursXlsx({
   filters,
 }: PostExportHumanResourceHoursXlsxRequest) {

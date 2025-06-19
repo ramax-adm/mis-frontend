@@ -137,6 +137,96 @@ export interface GetHumanResourceHoursAnalyticalDataResponse {
   }
 }
 
+/************************** ANALYSES *******************************/
+export interface HumanResourcesHoursHourRelation {
+  [k: string]: {
+    quantity: string
+    percent: number
+  }
+}
+
+export interface HumanResourcesHoursHourRelationByMonth {
+  [k: string]: {
+    quantityExtraHours: string
+    quantityExtraHoursInSeconds: number
+    quantityAbsenceHours: string
+    quantityAbsenceHoursInSeconds: number
+  }
+}
+
+export interface HumanResourcesHoursOutliersTotals {
+  extraHours: string
+  extraHoursInSeconds: number
+  moreThanTwoExtraHoursByEmployeeRegistriesAmount: number
+  moreThanTwoExtraHoursByEmployee: string
+  moreThanTwoExtraHoursByEmployeeInSeconds: number
+  irregularExtraHoursByEmployeeRegistriesAmount: number
+  irregularExtraHoursByEmployee: string
+  irregularExtraHoursByEmployeeInSeconds: number
+}
+
+export interface MoreThanTwoExtraHoursRegistriesItem {
+  date: Date
+  employeeName: string
+  department: string
+  extraHours: string
+  extraHoursInSeconds: number
+}
+
+export interface MoreThanTwoExtraHoursRegistriesByEmployee {
+  [k: string]: {
+    department: string
+    registriesAmount: number
+    extraHours: string
+    extraHoursInSeconds: number
+  }
+}
+
+export interface IrregularExtraHoursRegistriesItem {
+  date: Date
+  employeeName: string
+  department: string
+  extraHours: string
+  extraHoursInSeconds: number
+}
+export interface IrregularExtraHoursRegistriesByEmployee {
+  [k: string]: {
+    department: string
+    registriesAmount: number
+    extraHours: string
+    extraHoursInSeconds: number
+  }
+}
+
+export interface IrregularExtraHoursByDepartment {
+  [k: string]: {
+    registriesAmount: number
+    percent: number
+  }
+}
+
+export interface MoreThanTwoExtraHoursByDepartment {
+  [k: string]: {
+    registriesAmount: number
+    percent: number
+  }
+}
+export interface GetHumanResourceHoursAnalysesDataResponse {
+  comparative: {
+    hoursRelation: HumanResourcesHoursHourRelation
+    hoursRelationByMonth: HumanResourcesHoursHourRelationByMonth
+  }
+  outliers: {
+    totals: HumanResourcesHoursOutliersTotals
+    moreThanTwoExtraHoursRegistries: MoreThanTwoExtraHoursRegistriesItem[]
+    moreThanTwoExtraHoursByEmployee: MoreThanTwoExtraHoursRegistriesByEmployee
+    moreThanTwoExtraHoursByDepartment: MoreThanTwoExtraHoursByDepartment
+    irregularExtraHoursRegistries: IrregularExtraHoursRegistriesItem[]
+    irregularExtraHoursByEmployee: IrregularExtraHoursRegistriesByEmployee
+    irregularExtraHoursByDepartment: IrregularExtraHoursByDepartment
+  }
+}
+
 /************************ XLSX ******************************/
 export interface PostExportHumanResourceHoursXlsxRequest {
   filters: {

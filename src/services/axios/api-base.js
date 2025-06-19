@@ -35,6 +35,7 @@ export const urls = {
     GET_EMPLOYEES: `${apiLocal}/api/human-resources-hours/employees`,
     GET_RESUME_DATA: `${apiLocal}/api/human-resources-hours/resume`,
     GET_ANALYTICAL_DATA: `${apiLocal}/api/human-resources-hours/analytical`,
+    GET_ANALYSES_DATA: `${apiLocal}/api/human-resources-hours/analyses`,
     GET_LAST_UPDATED_AT: `${apiLocal}/api/human-resources-hours/last-update`,
     POST_EXPORT_XLSX: `${apiLocal}/api/human-resources-hours/export-xlsx`,
   },
