@@ -17,6 +17,7 @@ import { DateInputControlled } from '@/components/Inputs/DateInput/controlled'
 import dayjs from 'dayjs'
 import { HumanResourcesHoursAnalyticalSection } from './components/sections/analytical-section'
 import { useExportHumanResourcesHoursXlsx } from '@/services/react-query/mutations/human-resources-hours'
+import { HumanResourcesHoursAnalysesSection } from './components/sections/analyses-section'
 
 export default function HumanResourcesHours() {
   const tabPanelRef = useRef<TabsPanelRef>(null)
@@ -25,12 +26,15 @@ export default function HumanResourcesHours() {
   const [selectedEndDate, setSelectedEndDate] = useState<Date | null>(new Date())
   const [selectedDepartment, setSelectedDepartment] = useState<string>('')
   const [selectedEmployee, setSelectedEmployee] = useState<string>('')
+  const [selectedTab, setSelectedTab] = useState<'resume' | 'analytical' | 'analyses'>('resume')
 
   const handleSelectStartDate = (value: Date) => setSelectedStartDate(value)
   const handleSelectEndDate = (value: Date) => setSelectedEndDate(value)
   const handleSelectDepartment = (value: string) => setSelectedDepartment(value)
   const handleSelectEmployee = (value: string) => setSelectedEmployee(value)
   const handleSelectCompany = (value: string) => setSelectedCompany(value)
+  const handleSelectTab = (value: string) =>
+    setSelectedTab(value as 'resume' | 'analytical' | 'analyses')
 
   const { data: extraHoursLastUpdatedAt } = useGetHumanResourcesHoursLastUpdatedAt()
   const { data: companies } = useGetCompanies()
@@ -50,11 +54,14 @@ export default function HumanResourcesHours() {
       console.log('no tab selected')
       return
     }
-    const selectedTab = tabPanelRef.current.getCurrentTabName() as 'resume' | 'analytical'
+
+    const selectedTab = tabPanelRef.current.getCurrentTabName() as
+      | 'resume'
+      | 'analytical'
+      | 'analyses'
 
     switch (selectedTab) {
       case 'resume': {
-        console.log('resume')
         return
       }
       case 'analytical': {
@@ -111,7 +118,7 @@ export default function HumanResourcesHours() {
               Filtros Globais
             </Typography>
           </Grid>
-          <Grid item xs={12} sm={4}>
+          <Grid item xs={12} sm={selectedTab === 'analyses' ? 12 : 4}>
             <ControlledSelect
               id='companyCode'
               label='Empresa'
@@ -126,24 +133,29 @@ export default function HumanResourcesHours() {
               }))}
             />
           </Grid>
-          <Grid item xs={12} sm={4}>
-            <DateInputControlled
-              label='Dt. Inicio'
-              size='small'
-              value={dayjs(selectedStartDate)}
-              setValue={handleSelectStartDate}
-            />
-          </Grid>
-          <Grid item xs={12} sm={4}>
-            <DateInputControlled
-              label='Dt. Fim'
-              size='small'
-              value={dayjs(selectedEndDate)}
-              setValue={handleSelectEndDate}
-            />
-          </Grid>
+          {selectedTab !== 'analyses' && (
+            <Grid item xs={12} sm={4}>
+              <DateInputControlled
+                label='Dt. Inicio'
+                size='small'
+                value={dayjs(selectedStartDate)}
+                setValue={handleSelectStartDate}
+              />
+            </Grid>
+          )}
+
+          {selectedTab !== 'analyses' && (
+            <Grid item xs={12} sm={4}>
+              <DateInputControlled
+                label='Dt. Fim'
+                size='small'
+                value={dayjs(selectedEndDate)}
+                setValue={handleSelectEndDate}
+              />
+            </Grid>
+          )}
         </Grid>
-        <Grid item container spacing={1} xs={4}>
+        <Grid item container spacing={1} xs={6}>
           <Grid item xs={12}>
             <Typography fontSize={'12px'} fontWeight={600}>
               Filtros Historico
@@ -186,8 +198,9 @@ export default function HumanResourcesHours() {
 
       {/** Content */}
       <Tabs.Root defaultTab='resume'>
-        <Tabs.Select sx={{ width: '200px' }}>
+        <Tabs.Select sx={{ width: '350px' }} customHandler={handleSelectTab}>
           <Tab label='Resumo' value={'resume'} />
+          <Tab label='Analises' value={'analyses'} />
           <Tab label='Analitico' value={'analytical'} />
         </Tabs.Select>
 
@@ -197,6 +210,14 @@ export default function HumanResourcesHours() {
               selectedCompany={selectedCompany}
               selectedStartDate={selectedStartDate}
               selectedEndDate={selectedEndDate}
+              selectedDepartment={selectedDepartment}
+              selectedEmployee={selectedEmployee}
+              isCompanySelected={isCompanySelected}
+            />
+          </Tabs.Panel>
+          <Tabs.Panel tabName='analyses' ref={tabPanelRef}>
+            <HumanResourcesHoursAnalysesSection
+              selectedCompany={selectedCompany}
               selectedDepartment={selectedDepartment}
               selectedEmployee={selectedEmployee}
               isCompanySelected={isCompanySelected}
