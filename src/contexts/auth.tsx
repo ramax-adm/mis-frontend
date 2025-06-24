@@ -92,7 +92,7 @@ export default function AuthContextProvider({ children }: AuthContextProviderPro
     }
 
     const userLocal = JSON.parse(storedUser) as User
-    setUser(userLocal)
+    setUser((prevState) => ({ ...prevState, ...userLocal }))
 
     if (!userLocal || userLocal.username === '' || storedToken === '' || !userLocal.isActive) {
       return router.push(PageRoutes.login())
@@ -102,7 +102,7 @@ export default function AuthContextProvider({ children }: AuthContextProviderPro
     }
 
     // aqui, verificar se tem esse pathname nos dados do user
-    const isAllowedPage = userLocal.userWebpages.find((i) => i.page.page === pathname)
+    const isAllowedPage = userLocal?.userWebpages?.find((i) => i.page.page === pathname)
     // const data = protectedRoutes.find((route) => {
     //   switch (typeof route.route) {
     //     case 'string':
