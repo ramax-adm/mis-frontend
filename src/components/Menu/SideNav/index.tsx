@@ -114,8 +114,6 @@ const SideNav = (props: Props) => {
               }}
             >
               {NAV_ITEMS.map((item, idx) => {
-                console.log({ webpages, item })
-
                 const isUserAdmin = user.role === UserRoleEnum.Admin
                 const isUserHasWebpage = user.userWebpages.find((i) => i.page.page === item.path)
                 const isPublicPage = webpages.find((i) => i.page === item.path && i.isPublic)
