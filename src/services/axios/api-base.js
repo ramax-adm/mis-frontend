@@ -3,6 +3,9 @@ import api from './api'
 const apiLocal = ''
 
 export const urls = {
+  APPLICATION: {
+    GET_WEBPAGES: `${apiLocal}/api/application/webpages`,
+  },
   AUTH: {
     DO_LOGIN: `${apiLocal}/api/auth/login`,
     POST_FORGOT_PASSWORD: `${apiLocal}/api/user/forgot-password`,
@@ -60,8 +63,13 @@ export const urls = {
   },
   USER: {
     GET_USERS: `${apiLocal}/api/user`,
+    GET_USER: `${apiLocal}/api/user`,
     GET_PROFILE: `${apiLocal}/api/user/profile`,
     POST_USER: `${apiLocal}/api/user`,
+    POST_ADD_USER_COMPANY: `${apiLocal}/api/user/add-user-company`,
+    POST_ADD_USER_APP_WEBPAGE: `${apiLocal}/api/user/add-user-app-webpage`,
+    DELETE_USER_APP_WEBPAGE: `${apiLocal}/api/user/user-app-webpage`,
+    DELETE_USER_COMPANY: `${apiLocal}/api/user/user-company`,
     PATCH_USER: `${apiLocal}/api/user/:id`,
   },
   UPLOAD: {
