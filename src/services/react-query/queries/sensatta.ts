@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query'
 import { queryKeys } from '../query-keys'
 import {
   GetCompanies,
+  GetCompany,
   GetFreightsCompanies,
   GetProductLines,
   GetProducts,
@@ -13,6 +14,13 @@ export const useGetCompanies = () => {
   return useQuery<Company[]>({
     queryKey: [queryKeys.SENSATTA.GET_COMPANIES],
     queryFn: async () => await GetCompanies(),
+  })
+}
+
+export const useGetCompany = (id: string) => {
+  return useQuery<Company>({
+    queryKey: [queryKeys.SENSATTA.GET_COMPANY.concat(id)],
+    queryFn: async () => await GetCompany(id),
   })
 }
 

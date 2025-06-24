@@ -1,6 +1,9 @@
 // constante para mapear todas as chaves de queries
 
 export const queryKeys = {
+  APPLICATION: {
+    WEBPAGES: 'app-webpages',
+  },
   CASH_FLOW: {
     GET_USER_SIMULATIONS: 'user-simulations',
     GET_ARREND_TYPES: 'arrend-types',
@@ -16,6 +19,7 @@ export const queryKeys = {
   },
   SENSATTA: {
     GET_COMPANIES: 'companies',
+    GET_COMPANY: 'company-',
     GET_FREIGHT_COMPANIES: 'freight-companies',
     GET_PRODUCT: 'products',
     GET_PRODUCT_LINES: 'product-lines',
@@ -38,5 +42,6 @@ export const queryKeys = {
   },
   USERS: {
     FIND_ALL: 'users',
+    FIND_ONE: 'user-',
   },
 }

@@ -1,29 +1,69 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useEffect, useState } from 'react'
-import { Box, Button, CircularProgress, FormControl, TextField, Typography } from '@mui/material'
+import {
+  Box,
+  Button,
+  CircularProgress,
+  FormControl,
+  Grid,
+  IconButton,
+  TextField,
+  Typography,
+  List,
+} from '@mui/material'
 import InputMask from 'react-input-mask'
 import { AxiosError } from 'axios'
 import { useQueryClient } from '@tanstack/react-query'
 import { UpdateUser } from '@/services/webApi/user-api'
 import { ControlledSelect } from '@/components/Inputs/Select/Customized'
 import { queryKeys } from '@/services/react-query/query-keys'
-import { User } from '@/types/user'
+import { User, UserCompanies } from '@/types/user'
 import { userRoles } from '@/contexts/auth'
+import { FaLandmark, FaPhone, FaPlusCircle } from 'react-icons/fa'
+import { ListItemCustom } from '@/components/ListItemCustom'
+import { IoTrashOutline } from 'react-icons/io5'
+import {
+  useRemoveUserAppWebpage,
+  useRemoveUserCompany,
+} from '@/services/react-query/mutations/user'
+import { useGetUser } from '@/services/react-query/queries/user'
+import { RiPagesLine } from 'react-icons/ri'
 
 type Props = {
   onClose: () => void
-  userData?: User
+  userId?: string
   currentUserRole: string
+  setAddUserCompanyModalOpen: () => void
+  setAddUserWebpageModalOpen: () => void
 }
 
-const EditUserModal = (props: Props) => {
-  const { userData, currentUserRole, onClose } = props
+const EditUserModal = ({
+  userId,
+  currentUserRole,
+  onClose,
+  setAddUserCompanyModalOpen,
+  setAddUserWebpageModalOpen,
+}: Props) => {
+  const queryClient = useQueryClient()
+
   const [load, setLoad] = useState(false)
+  const [error, setError] = useState<boolean>(false)
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
+
+  // states de componentes
+  const { mutateAsync: removeUserCompany, isPending: isRemovingUserCompany } =
+    useRemoveUserCompany()
+  const { mutateAsync: removeUserAppWebpage, isPending: isRemovingUserAppWebpage } =
+    useRemoveUserAppWebpage()
+
+  const { data: userData } = useGetUser(userId)
+
+  // states de inputs
   const [roleSelected, setRoleSelected] = useState<string>('')
   const [isActiveSelected, setIsActiveSelected] = useState<string>('ativo')
-  const [errorMessage, setErrorMessage] = useState<string | null>(null)
-  const [error, setError] = useState<boolean>(false)
-  const queryClient = useQueryClient()
+
+  const haveSomeCompanies = userData && userData?.userCompanies.length > 0
+  const haveSomeWebpages = userData && userData?.userWebpages.length > 0
 
   useEffect(() => {
     if (userData) {
@@ -171,6 +211,111 @@ const EditUserModal = (props: Props) => {
             />
           </FormControl>
         </Box>
+
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+              }}
+            >
+              <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                <Typography variant='subtitle1'>Empresas vinculadas</Typography>
+
+                <IconButton
+                  edge='end'
+                  aria-label='plus'
+                  style={{ marginLeft: '4px', marginTop: '-2px' }}
+                  onClick={() => setAddUserCompanyModalOpen()}
+                >
+                  <FaPlusCircle />
+                </IconButton>
+              </Box>
+              {!haveSomeCompanies && (
+                <Typography variant='body1'>Sem Empresas Cadastradas</Typography>
+              )}
+              <List dense={true}>
+                {userData?.userCompanies?.map((item, index) => (
+                  <ListItemCustom
+                    key={item.id}
+                    action={
+                      <Box sx={{ display: 'flex', gap: 1 }}>
+                        <IconButton
+                          edge='end'
+                          aria-label='delete'
+                          disabled={isRemovingUserCompany}
+                          onClick={async () => await removeUserCompany({ id: item.id, userId })}
+                        >
+                          <IoTrashOutline
+                            className={'icon-style'}
+                            style={{ color: 'red', opacity: isRemovingUserCompany ? '0.1' : '1' }}
+                          />
+                        </IconButton>
+                      </Box>
+                    }
+                    title={`Empresa - ${item.companyCode}`}
+                    content={''}
+                    icon={<FaLandmark />}
+                  />
+                ))}
+              </List>
+            </Box>
+          </Grid>
+        </Grid>
+
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+              }}
+            >
+              <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                <Typography variant='subtitle1'>Paginas Liberadas</Typography>
+
+                <IconButton
+                  edge='end'
+                  aria-label='plus'
+                  style={{ marginLeft: '4px', marginTop: '-2px' }}
+                  onClick={setAddUserWebpageModalOpen}
+                >
+                  <FaPlusCircle />
+                </IconButton>
+              </Box>
+              {!haveSomeWebpages && <Typography variant='body1'>Nenhuma pagina</Typography>}
+              <List dense={true}>
+                {userData?.userWebpages?.map((item, index) => (
+                  <ListItemCustom
+                    key={item.id}
+                    action={
+                      <Box sx={{ display: 'flex', gap: 1 }}>
+                        <IconButton
+                          edge='end'
+                          aria-label='delete'
+                          disabled={isRemovingUserAppWebpage}
+                          onClick={async () => await removeUserAppWebpage({ id: item.id, userId })}
+                        >
+                          <IoTrashOutline
+                            className={'icon-style'}
+                            style={{
+                              color: 'red',
+                              opacity: isRemovingUserAppWebpage ? '0.1' : '1',
+                            }}
+                          />
+                        </IconButton>
+                      </Box>
+                    }
+                    title={`Página - ${item.page.name}`}
+                    content={item.page.page}
+                    icon={<RiPagesLine />}
+                  />
+                ))}
+              </List>
+            </Box>
+          </Grid>
+        </Grid>
       </Box>
       <Box
         sx={{

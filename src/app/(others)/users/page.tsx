@@ -2,26 +2,56 @@
 import React, { useState } from 'react'
 import { Box, Button, Skeleton, Typography } from '@mui/material'
 import { PageContainer } from '@/components/PageContainer'
-import NewUserModal from './newUserModal'
-import EditUserModal from './editUserModal'
+import NewUserModal from './components/newUserModal'
+import EditUserModal from './components/editUserModal'
 import { useAuthContext } from '@/contexts/auth'
 import EditIcon from '@mui/icons-material/Edit'
 import { FinpecModal } from '@/components/Modal/FinpecModal/FinpecModal'
 import { useGetUsers } from '@/services/react-query/queries/user'
-import { User } from '@/types/user'
+import { User, UserRoleEnum } from '@/types/user'
 import { CustomizedTable } from '@/components/Table/body'
 import { PageContainerHeader } from '@/components/PageContainer/header'
+import { AddUserCompanyModal } from './components/add-user-company-modal'
+import { AddUserWebpageModal } from './components/add-user-webpage-modal'
 
 export default function UserList() {
   const [openModalNew, setOpenModalNew] = useState<boolean>(false)
   const [openEditModal, setOpenEditModal] = useState<boolean>(false)
-  const [userIdToEdit, setUserIdToEdit] = useState<User | null>(null)
+  const [addUserCompanyModalOpen, setAddUserCompanyModalOpen] = useState(false)
+  const [addUserAppWebpageModalOpen, setAddUserAppWebpageModalOpen] = useState(false)
+
+  const [userIdToEdit, setUserIdToEdit] = useState<string | null>(null)
   const { user } = useAuthContext()
 
   const { data: users, isLoading: isLoadingUsers, status: usersQueryStatus } = useGetUsers('')
+  const isUserAdmin = user.role === UserRoleEnum.Admin
 
   const handleOpenEditModal = (row: User) => {
-    setUserIdToEdit(row)
+    setUserIdToEdit(row.id)
+    setOpenEditModal(true)
+  }
+
+  const handleOpenAddUserCompanyModal = () => {
+    // setUserIdToEdit(row)
+    setOpenEditModal(false)
+    setAddUserCompanyModalOpen(true)
+  }
+
+  const handleOpenAddUserWebpageModal = () => {
+    // setUserIdToEdit(row)
+    setOpenEditModal(false)
+    setAddUserAppWebpageModalOpen(true)
+  }
+
+  const handleCloseAddUserCompanyModal = () => {
+    // setUserIdToEdit(row)
+    setAddUserCompanyModalOpen(false)
+    setOpenEditModal(true)
+  }
+
+  const handleCloseAddUserWebpageModal = () => {
+    // setUserIdToEdit(row)
+    setAddUserAppWebpageModalOpen(false)
     setOpenEditModal(true)
   }
 
@@ -63,6 +93,7 @@ export default function UserList() {
           value: (row: User) => (
             <Button
               variant='contained'
+              disabled={!isUserAdmin}
               color='error'
               sx={{
                 backgroundColor: 'white',
@@ -159,14 +190,26 @@ export default function UserList() {
       <FinpecModal open={openModalNew} onClose={() => setOpenModalNew(false)}>
         <NewUserModal onClose={() => setOpenModalNew(false)} />
       </FinpecModal>
+
       {userIdToEdit && users && (
-        <FinpecModal open={openEditModal} onClose={() => setOpenEditModal(false)}>
-          <EditUserModal
-            userData={userIdToEdit}
-            onClose={() => setOpenEditModal(false)}
-            currentUserRole={user.role}
-          />
-        </FinpecModal>
+        <>
+          <FinpecModal open={addUserAppWebpageModalOpen} onClose={handleCloseAddUserWebpageModal}>
+            <AddUserWebpageModal userId={userIdToEdit} onClose={handleCloseAddUserWebpageModal} />
+          </FinpecModal>
+          <FinpecModal open={addUserCompanyModalOpen} onClose={handleCloseAddUserCompanyModal}>
+            <AddUserCompanyModal userId={userIdToEdit} onClose={handleCloseAddUserCompanyModal} />
+          </FinpecModal>
+
+          <FinpecModal open={openEditModal} onClose={() => setOpenEditModal(false)}>
+            <EditUserModal
+              userId={userIdToEdit}
+              onClose={() => setOpenEditModal(false)}
+              currentUserRole={user.role}
+              setAddUserCompanyModalOpen={handleOpenAddUserCompanyModal}
+              setAddUserWebpageModalOpen={handleOpenAddUserWebpageModal}
+            />
+          </FinpecModal>
+        </>
       )}
     </>
   )
