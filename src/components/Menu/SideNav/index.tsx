@@ -115,7 +115,7 @@ const SideNav = (props: Props) => {
             >
               {NAV_ITEMS.map((item, idx) => {
                 const isUserAdmin = user.role === UserRoleEnum.Admin
-                const isUserHasWebpage = user.userWebpages.find((i) => i.page.page === item.path)
+                const isUserHasWebpage = user?.userWebpages?.find((i) => i.page.page === item.path)
                 const isPublicPage = webpages.find((i) => i.page === item.path && i.isPublic)
                 if (isUserAdmin) {
                   return <MenuItem key={idx} item={item} Icon={item.icon} />
@@ -203,8 +203,9 @@ const MenuItem = ({ item, Icon }: { item: SideNavItem; Icon?: IconType }) => {
         const relatedMenu = webpages.find((i) => i.page === subItem.path)
 
         const isPublic = relatedMenu?.isPublic
-        const hasPermission = user.userWebpages.find((i) => i.page.page == subItem.path)
-        return isPublic || hasPermission
+        const isUserAdmin = user.role === UserRoleEnum.Admin
+        const hasPermission = user?.userWebpages?.find((i) => i.page.page == subItem.path)
+        return isPublic || hasPermission || isUserAdmin
       }) || []
     setAuthorizedSubmenus(submenus)
 
