@@ -13,6 +13,8 @@ import { MdLocalShipping } from 'react-icons/md'
 import { IoLayersSharp } from 'react-icons/io5'
 import { IoPeople } from 'react-icons/io5'
 import { FaCirclePlus } from 'react-icons/fa6'
+import { useGetAppWebpages } from '@/services/react-query/queries/application'
+import { AppWebpage } from '@/types/application'
 
 type AppContextProviderProps = {
   children: React.ReactNode
@@ -34,6 +36,7 @@ export type SideNavItem = {
 }
 
 type AppContext = {
+  webpages: AppWebpage[]
   isCollapsed: boolean
   isBurgerMenuOpened: boolean
   width: number
@@ -54,6 +57,8 @@ export default function AppProvider({ children }: AppContextProviderProps) {
   const [isCollapsed, setCollapse] = useState(false)
   const [isBurgerMenuOpened, setIsBurgerMenuOpened] = useState(false)
   const [width, setWidth] = useState(0)
+
+  const { data: webpages = [] } = useGetAppWebpages()
 
   const isMobile = width <= 768
 
@@ -179,6 +184,7 @@ export default function AppProvider({ children }: AppContextProviderProps) {
   return (
     <AppContext.Provider
       value={{
+        webpages,
         isCollapsed,
         isBurgerMenuOpened,
         width,

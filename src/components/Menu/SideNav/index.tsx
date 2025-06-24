@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { SideNavItem, useAppContext } from '@/contexts/app'
 import { blue, grey } from '@mui/material/colors'
-import { useAuthContext } from '@/contexts/auth'
+import { useAuthContext, userRoles } from '@/contexts/auth'
 
 import { Box, Button, Typography } from '@mui/material'
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io'
@@ -14,7 +14,7 @@ import { IconType } from 'react-icons'
 import Image from 'next/image'
 import RamaxLogo from '@/assets/RAMAX-Group_Horizontal_Cor.png'
 import RamaxMiniLogo from '@/assets/RAMAX-Group_Vertical_Cor.png'
-import { COLORS } from '@/constants/styles/colors'
+import { UserRoleEnum } from '@/types/user'
 
 type Props = {
   logout: () => void
@@ -23,6 +23,7 @@ type Props = {
 const SideNav = (props: Props) => {
   const { isCollapsed, NAV_ITEMS, toggleSidebarcollapse } = useAppContext()
   const { user } = useAuthContext()
+  const { webpages } = useAppContext()
 
   return (
     <Box
@@ -113,7 +114,15 @@ const SideNav = (props: Props) => {
               }}
             >
               {NAV_ITEMS.map((item, idx) => {
-                if (item.role && item.role?.length > 0 && !item.role?.includes(user?.role)) {
+                console.log({ webpages, item })
+
+                const isUserAdmin = user.role === UserRoleEnum.Admin
+                const isUserHasWebpage = user.userWebpages.find((i) => i.page.page === item.path)
+                const isPublicPage = webpages.find((i) => i.page === item.path && i.isPublic)
+                if (isUserAdmin) {
+                  return <MenuItem key={idx} item={item} Icon={item.icon} />
+                  // aqui, checar se o item.path esta dentro de user.appWebpages
+                } else if (!isUserHasWebpage && !isPublicPage) {
                   return null
                 } else {
                   return <MenuItem key={idx} item={item} Icon={item.icon} />
@@ -180,7 +189,7 @@ const SideNav = (props: Props) => {
 export default SideNav
 
 const MenuItem = ({ item, Icon }: { item: SideNavItem; Icon?: IconType }) => {
-  const { isCollapsed, openSidebarcollapse } = useAppContext()
+  const { isCollapsed, openSidebarcollapse, webpages } = useAppContext()
   const pathname = usePathname()
   const [subMenuOpen, setSubMenuOpen] = useState(false)
   const [authorizedSubmenus, setAuthorizedSubmenus] = useState<SideNavItem[]>()
@@ -193,8 +202,10 @@ const MenuItem = ({ item, Icon }: { item: SideNavItem; Icon?: IconType }) => {
   useEffect(() => {
     const submenus =
       item.subMenuItems?.filter((subItem) => {
-        const isPublic = !subItem.role
-        const hasPermission = subItem.role?.includes(user.role)
+        const relatedMenu = webpages.find((i) => i.page === subItem.path)
+
+        const isPublic = relatedMenu?.isPublic
+        const hasPermission = user.userWebpages.find((i) => i.page.page == subItem.path)
         return isPublic || hasPermission
       }) || []
     setAuthorizedSubmenus(submenus)
