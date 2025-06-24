@@ -1,6 +1,6 @@
 'use client'
 import { GetUserProfile } from '@/services/webApi/user-api'
-import { User, UserRoles } from '@/types/user'
+import { User, UserRoleEnum, UserRoles } from '@/types/user'
 import { PageRoutes } from '@/utils/appRoutes'
 import { getFromLocalStorage, setToLocalStorage } from '@/utils/storage.utils'
 import { AxiosError } from 'axios'
@@ -11,12 +11,14 @@ type AuthContextProviderProps = {
   children: React.ReactNode
 }
 
-const userDefault = {
+const userDefault: User = {
   id: '',
   name: '',
   cpf: '',
   email: '',
   username: '',
+  userCompanies: [],
+  userWebpages: [],
   refreshToken: '',
   role: '',
 }
@@ -75,6 +77,8 @@ export default function AuthContextProvider({ children }: AuthContextProviderPro
       name: '',
       cpf: '',
       email: '',
+      userCompanies: [],
+      userWebpages: [],
       username: '',
       refreshToken: '',
       role: '',
@@ -102,26 +106,31 @@ export default function AuthContextProvider({ children }: AuthContextProviderPro
       return router.push(PageRoutes.login())
     }
 
-    const userLocal = JSON.parse(storedUser)
+    const userLocal = JSON.parse(storedUser) as User
     setUser(userLocal)
 
     if (!userLocal || userLocal.username === '' || storedToken === '' || !userLocal.isActive) {
       return router.push(PageRoutes.login())
     }
+    if (pathname === PageRoutes.home()) {
+      return
+    }
 
-    const data = protectedRoutes.find((route) => {
-      switch (typeof route.route) {
-        case 'string':
-          return route.route === pathname
-        // case 'function':
-        //   return route.route(params) === pathname
-        default:
-          return false
-      }
-    })
+    // aqui, verificar se tem esse pathname nos dados do user
+    const isAllowedPage = userLocal.userWebpages.find((i) => i.page.page === pathname)
+    // const data = protectedRoutes.find((route) => {
+    //   switch (typeof route.route) {
+    //     case 'string':
+    //       return route.route === pathname
+    //     // case 'function':
+    //     //   return route.route(params) === pathname
+    //     default:
+    //       return false
+    //   }
+    // })
 
-    if (data && !data?.role.includes(userLocal.role)) {
-      return router.push(initialRouteByRole[userLocal.role])
+    if (userLocal.role !== UserRoleEnum.Admin && !isAllowedPage) {
+      return router.push(PageRoutes.home())
     }
   }, [pathname, router, params])
 

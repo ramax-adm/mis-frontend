@@ -43,6 +43,8 @@ export default function Login() {
           email: response.data.user.email,
           username: response.data.user.name,
           refreshToken: response.data.user.refreshToken,
+          userCompanies: response.data.user.userCompanies,
+          userWebpages: response.data.user.userWebpages,
           role: response.data.user.role,
           isActive: response.data.user.isActive,
         }
