@@ -28,8 +28,8 @@ export function HumanResourcesHoursAnalysesSection({
   selectedDepartment,
   selectedEmployee,
 }: HumanResourcesHoursAnalysesSectionProps) {
-  const [selectedStartDate, setSelectedStartDate] = useState<Date | undefined>(undefined)
-  const [selectedEndDate, setSelectedEndDate] = useState<Date | undefined>(undefined)
+  const [selectedStartDate, setSelectedStartDate] = useState<Date | undefined>(new Date())
+  const [selectedEndDate, setSelectedEndDate] = useState<Date | undefined>(new Date())
   const handleSelectStartDate = (value: Date) => setSelectedStartDate(value)
   const handleSelectEndDate = (value: Date) => setSelectedEndDate(value)
 
