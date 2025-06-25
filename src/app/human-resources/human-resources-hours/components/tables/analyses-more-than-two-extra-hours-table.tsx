@@ -13,6 +13,8 @@ export function AnalysesMoreThanTwoExtraHoursTable({
 }: AnalysesMoreThanTwoExtraHoursTableProps) {
   const columns = getColumns()
 
+  data.sort((a, b) => b.extraHoursInSeconds - a.extraHoursInSeconds)
+
   return (
     <Box sx={{ marginTop: 2 }}>
       <CustomizedTable<any>
