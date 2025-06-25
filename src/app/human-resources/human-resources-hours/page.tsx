@@ -157,8 +157,12 @@ export default function HumanResourcesHours() {
         </Grid>
         <Grid item container spacing={1} xs={6}>
           <Grid item xs={12}>
-            <Typography fontSize={'12px'} fontWeight={600}>
-              Filtros Historico
+            <Typography
+              fontSize={'12px'}
+              fontWeight={600}
+              color={selectedTab === 'analyses' ? 'rgba(62, 99, 221, 0.3)' : ''}
+            >
+              {selectedTab === 'analyses' ? '.' : 'Filtros Historico'}
             </Typography>
           </Grid>
           <Grid item xs={12} sm={5}>

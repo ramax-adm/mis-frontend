@@ -12,6 +12,8 @@ interface AnalysesIrregularExtraHoursTableProps {
 export function AnalysesIrregularExtraHoursTable({ data }: AnalysesIrregularExtraHoursTableProps) {
   const columns = getColumns()
 
+  data.sort((a, b) => b.extraHoursInSeconds - a.extraHoursInSeconds)
+
   return (
     <Box sx={{ marginTop: 2 }}>
       <CustomizedTable<any>
