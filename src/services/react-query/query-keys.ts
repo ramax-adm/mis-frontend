@@ -44,4 +44,8 @@ export const queryKeys = {
     FIND_ALL: 'users',
     FIND_ONE: 'user-',
   },
+  UTILS: {
+    GET_SYNCED_FILES: 'synced-files',
+    GET_SYNCED_FILE_ENTITIES: 'synced-file-entities',
+  },
 }

@@ -81,6 +81,9 @@ export const urls = {
     GET_UFS: `${apiLocal}/api/utils/ufs`,
     GET_CITIES_BY_UF:
       'https://servicodados.ibge.gov.br/api/v1/localidades/estados/{{uf}}/municipios?orderBy=nome',
+    GET_SYNCED_FILES: `${apiLocal}/api/utils/synced-files`,
+    GET_SYNCED_FILE_SIGNED_URL: `${apiLocal}/api/utils/synced-files/:id/signed-url`,
+    GET_SYNCED_FILE_ENTITIESL: `${apiLocal}/api/utils/synced-files/entity`,
   },
 }
 
