@@ -1,4 +1,5 @@
 'use client'
+import { useGetAppWebpages } from '@/services/react-query/queries/application'
 import { GetUserProfile } from '@/services/webApi/user-api'
 import { User, UserRoleEnum, UserRoles } from '@/types/user'
 import { PageRoutes } from '@/utils/appRoutes'
@@ -30,8 +31,6 @@ export const userRoles: UserRoles = {
   industry: 'industry',
 }
 
-const noAuthRoutes = [PageRoutes.login(), PageRoutes.forgotPassword()]
-
 type AuthContext = {
   user: User
   userRoles: UserRoles
@@ -47,14 +46,19 @@ type AuthContext = {
 
 export const AuthContext = createContext<AuthContext | null>(null)
 
+// TODO: provide JWT token
 export default function AuthContextProvider({ children }: AuthContextProviderProps) {
   const router = useRouter()
   const [user, setUser] = useState(userDefault)
   const [loadingLogin, setLoadingLogin] = useState(false)
   const [loginError, setLoginError] = useState(false)
   const [loginErrorMessage, setLoadingLoginMessage] = useState('')
+  const { data: appWebpages = [] } = useGetAppWebpages()
   const pathname = usePathname()
   const params = useParams()
+
+  const noAuthRoutes = appWebpages.filter((i) => i.isPublic).map((i) => i.page)
+  const authRoutes = appWebpages.filter((i) => !i.isPublic).map((i) => i.page)
 
   function logoutUser() {
     const userPayload = {
@@ -80,7 +84,14 @@ export default function AuthContextProvider({ children }: AuthContextProviderPro
    */
 
   useEffect(() => {
-    if (noAuthRoutes.includes(pathname)) {
+    const currentPage = appWebpages.find((i) => i.page === pathname)
+
+    if (!currentPage) {
+      return
+    }
+
+    const isPublicPage = currentPage.isPublic
+    if (isPublicPage) {
       return
     }
 
@@ -94,37 +105,35 @@ export default function AuthContextProvider({ children }: AuthContextProviderPro
     const userLocal = JSON.parse(storedUser) as User
     setUser((prevState) => ({ ...prevState, ...userLocal }))
 
-    if (!userLocal || userLocal.username === '' || storedToken === '' || !userLocal.isActive) {
+    const isNotAuthUser =
+      !userLocal || userLocal.username === '' || storedToken === '' || !userLocal.isActive
+    if (isNotAuthUser) {
       return router.push(PageRoutes.login())
-    }
-    if (pathname === PageRoutes.home()) {
-      return
     }
 
     // aqui, verificar se tem esse pathname nos dados do user
     const isAllowedPage = userLocal?.userWebpages?.find((i) => i.page.page === pathname)
-    // const data = protectedRoutes.find((route) => {
-    //   switch (typeof route.route) {
-    //     case 'string':
-    //       return route.route === pathname
-    //     // case 'function':
-    //     //   return route.route(params) === pathname
-    //     default:
-    //       return false
-    //   }
-    // })
-
     if (userLocal.role !== UserRoleEnum.Admin && !isAllowedPage) {
       return router.push(PageRoutes.home())
     }
-  }, [pathname, router, params])
+  }, [pathname, router, params, appWebpages])
 
   useEffect(() => {
-    const userLocal = JSON.parse(localStorage.getItem('user')!)
+    const haveSomeAppWebpage = appWebpages && appWebpages.length > 0
 
+    if (!haveSomeAppWebpage) {
+      return
+    }
+    const isCurrentPageNoAuthRoute = noAuthRoutes.includes(pathname)
+    if (isCurrentPageNoAuthRoute) {
+      return
+    }
+
+    const userLocal = JSON.parse(localStorage.getItem('user')!)
     async function getProfile() {
       try {
         const profile = await GetUserProfile(userLocal.id)
+
         if (!profile.data.isActive) {
           return logoutUser()
         }

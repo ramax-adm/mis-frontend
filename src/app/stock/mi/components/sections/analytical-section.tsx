@@ -19,6 +19,7 @@ import { storeStockProductLineFilters } from '../../utils/store-stock-product-li
 import { useHttpState } from '@/hooks/use-http-state'
 import { SelectedProductLinesByCompany } from '@/types/stock'
 import { StockMarket } from '@/constants/app/stock'
+import { useAuthContext } from '@/contexts/auth'
 
 export interface AnalyticalSectionRef {
   getSelectedCompany: () => string | undefined
@@ -30,12 +31,13 @@ interface AnalyticalSectionProps {
 }
 export const AnalyticalSection = forwardRef<AnalyticalSectionRef, AnalyticalSectionProps>(
   ({ selectCompanyInputError }, ref) => {
+    const { user } = useAuthContext()
     // States
     const [selectedProductLinesByCompany, setSelectedProductLinesByCompany] = useState<
       SelectedProductLinesByCompany[]
     >([])
     const [selectedCompany, setSelectedCompany] = useState<string | undefined>()
-    const { data: companies } = useGetCompanies()
+    const { data: companies } = useGetCompanies({ token: user.name })
     const { data: productLines } = useGetProductLines({ market: StockMarket.MI })
     const { data, isFetching } = useGetAnalyticalAllStocks({
       companyCode: selectedCompany,

@@ -18,6 +18,7 @@ import { Tabs } from '@/components/Tabs'
 import { CattlePurchaseFreightsResumeSection } from './components/sections/resume-section'
 import { useExportCattlePurchaseFreightsXlsx } from '@/services/react-query/mutations/freights'
 import { useSyncFreightsWithSensatta } from '@/services/react-query/mutations/sensatta'
+import { useAuthContext } from '@/contexts/auth'
 
 const getCattlePurchaseFreightsFormSchema = z.object({
   companyCode: z.string(),
@@ -26,6 +27,8 @@ const getCattlePurchaseFreightsFormSchema = z.object({
 })
 type GetCattlePurchaseFreightsFormSchema = z.infer<typeof getCattlePurchaseFreightsFormSchema>
 export default function CattlePurchaseFreightsPage() {
+  const { user } = useAuthContext()
+
   const { control, watch } = useForm<GetCattlePurchaseFreightsFormSchema>({
     resolver: zodResolver(getCattlePurchaseFreightsFormSchema),
     defaultValues: {
@@ -44,7 +47,7 @@ export default function CattlePurchaseFreightsPage() {
   const analyticalSectionRef = useRef<CattlePurchaseFreightsAnalyticalSectionRef>(null)
 
   // queries
-  const { data: companies } = useGetCompanies()
+  const { data: companies } = useGetCompanies({ token: user.name })
 
   // mutations
   const { mutateAsync: syncFreightsWithSensatta, isPending: isSyncFreightsWithSensatta } =

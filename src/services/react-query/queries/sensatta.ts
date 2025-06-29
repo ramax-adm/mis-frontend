@@ -10,9 +10,10 @@ import {
 } from '@/services/webApi/sensatta-api'
 import { UseGetProductLinesRequest } from '@/types/queries/stock'
 
-export const useGetCompanies = () => {
+export const useGetCompanies = ({ token }: { token?: string }) => {
   return useQuery<Company[]>({
-    queryKey: [queryKeys.SENSATTA.GET_COMPANIES],
+    // TODO: auth context provide JWT TOKEN
+    queryKey: [queryKeys.SENSATTA.GET_COMPANIES, token],
     queryFn: async () => await GetCompanies(),
   })
 }
