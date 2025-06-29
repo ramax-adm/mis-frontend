@@ -8,14 +8,17 @@ export class PageRoutes {
   static home() {
     return `/home`
   }
+  static others() {
+    return ``
+  }
   static users() {
     return `/users`
   }
   static uploads() {
     return `/uploads`
   }
-  static others() {
-    return ``
+  static storageSyncedFiles() {
+    return `/storage-synced-files`
   }
 
   // cash flow

@@ -134,6 +134,10 @@ export default function AppProvider({ children }: AppContextProviderProps) {
           path: PageRoutes.uploads(),
           title: 'Uploads',
         },
+        {
+          path: PageRoutes.storageSyncedFiles(),
+          title: 'Snapshots',
+        },
       ],
     },
     // {
