@@ -19,6 +19,7 @@ import { useSetSelectedProductLinesInitialState } from '../../hooks/use-set-sele
 import { useSelectProductLinesFilters } from '../../hooks/use-select-product-lines-filters'
 import { AnalyticalStockToExpiresTable } from '@/app/stock/_components/tables/analytical-stock-to-expires-table'
 import { storeStockProductLineFilters } from '../../utils/store-stock-product-line-filters'
+import { useAuthContext } from '@/contexts/auth'
 
 export interface AnalyticalSectionRef {
   getSelectedCompany: () => string | undefined
@@ -30,12 +31,13 @@ interface AnalyticalSectionProps {
 }
 export const AnalyticalSection = forwardRef<AnalyticalSectionRef, AnalyticalSectionProps>(
   ({ selectCompanyInputError }, ref) => {
+    const { user } = useAuthContext()
     // States
     const [selectedProductLinesByCompany, setSelectedProductLinesByCompany] = useState<
       SelectedProductLinesByCompany[]
     >([])
     const [selectedCompany, setSelectedCompany] = useState<string | undefined>()
-    const { data: companies } = useGetCompanies()
+    const { data: companies } = useGetCompanies({ token: user.name })
     const { data: productLines } = useGetProductLines({ market: StockMarket.ME })
     const { data, isFetching } = useGetAnalyticalAllStocks({
       companyCode: selectedCompany,

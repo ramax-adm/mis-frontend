@@ -18,8 +18,10 @@ import dayjs from 'dayjs'
 import { HumanResourcesHoursAnalyticalSection } from './components/sections/analytical-section'
 import { useExportHumanResourcesHoursXlsx } from '@/services/react-query/mutations/human-resources-hours'
 import { HumanResourcesHoursAnalysesSection } from './components/sections/analyses-section'
+import { useAuthContext } from '@/contexts/auth'
 
 export default function HumanResourcesHours() {
+  const { user } = useAuthContext()
   const tabPanelRef = useRef<TabsPanelRef>(null)
   const [selectedCompany, setSelectedCompany] = useState('')
   const [selectedStartDate, setSelectedStartDate] = useState<Date | null>(new Date())
@@ -37,7 +39,7 @@ export default function HumanResourcesHours() {
     setSelectedTab(value as 'resume' | 'analytical' | 'analyses')
 
   const { data: extraHoursLastUpdatedAt } = useGetHumanResourcesHoursLastUpdatedAt()
-  const { data: companies } = useGetCompanies()
+  const { data: companies } = useGetCompanies({ token: user.name })
   const { data: departments } = useGetHumanResourcesHoursDepartments({
     companyCode: selectedCompany,
   })
