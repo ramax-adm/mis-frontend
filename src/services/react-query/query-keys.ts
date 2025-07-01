@@ -8,6 +8,13 @@ export const queryKeys = {
     GET_USER_SIMULATIONS: 'user-simulations',
     GET_ARREND_TYPES: 'arrend-types',
   },
+  PURCHASE: {
+    GET_LAST_UPDATED_AT: 'purchase-last-updated-at',
+    GET_CATTLE_PURCHASE_CATTLE_OWNER: 'purchase-cattle-purchase-cattle-owner',
+    GET_CATTLE_PURCHASE_CATTLE_CLASSIFICATION: 'purchase-cattle-purchase-cattle-classification',
+    GET_CATTLE_PURCHASE_CATTLE_ADVISOR: 'purchase-cattle-purchase-cattle-advisor',
+    GET_CATTLE_PURCHASE_ANALYTICAL_DATA: 'purchase-cattle-purchase-analytical',
+  },
   HUMAN_RESOURCES: {
     GET_DATES: 'human-resources-hours-dates',
     GET_DEPARTMENTS: 'human-resources-hours-departments',
