@@ -42,6 +42,14 @@ export const urls = {
     GET_LAST_UPDATED_AT: `${apiLocal}/api/human-resources-hours/last-update`,
     POST_EXPORT_XLSX: `${apiLocal}/api/human-resources-hours/export-xlsx`,
   },
+  PURCHASE: {
+    GET_LAST_UPDATED_AT: `${apiLocal}/api/purchase/last-update`,
+    GET_CATTLE_PURCHASE_CATTLE_OWNER: `${apiLocal}/api/purchase/cattle-purchase/cattle-owner`,
+    GET_CATTLE_PURCHASE_CATTLE_CLASSIFICATION: `${apiLocal}/api/purchase/cattle-purchase/cattle-classification`,
+    GET_CATTLE_PURCHASE_CATTLE_ADVISOR: `${apiLocal}/api/purchase/cattle-purchase/cattle-advisor`,
+    GET_CATTLE_PURCHASE_ANALYTICAL_DATA: `${apiLocal}/api/purchase/cattle-purchase/analytical`,
+    POST_EXPORT_XLSX: `${apiLocal}/api/purchase/cattle-purchase/export-xlsx`,
+  },
   STOCK: {
     GET_ALL: `${apiLocal}/api/stock`,
     GET_LAST_UPDATED_AT: `${apiLocal}/api/stock/last-update`,
@@ -60,6 +68,7 @@ export const urls = {
     GET_PRODUCT_CLASSIFICATION_TYPES: `${apiLocal}/api/sensatta/product/classification-types`,
     POST_SYNC_STOCK: `${apiLocal}/api/sensatta/stock/sync`,
     POST_SYNC_FREIGHTS: `${apiLocal}/api/sensatta/freights/sync`,
+    POST_SYNC_PURCHASE: `${apiLocal}/api/sensatta/purchase/sync`,
   },
   USER: {
     GET_USERS: `${apiLocal}/api/user`,

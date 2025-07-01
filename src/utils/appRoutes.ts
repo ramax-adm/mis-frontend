@@ -29,6 +29,15 @@ export class PageRoutes {
     return `/cash-flow/champion-cattle`
   }
 
+  // cattle-registries
+  static cattleRegistries() {
+    return `/cattle-registries`
+  }
+
+  static cattlePurchase() {
+    return `/cattle-registries/cattle-purchase`
+  }
+
   // stock
   static stock() {
     return `/stock`
