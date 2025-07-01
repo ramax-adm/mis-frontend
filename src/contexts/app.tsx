@@ -1,10 +1,7 @@
 'use client'
 import React, { createContext, useContext, useState, useEffect } from 'react'
 import { SvgIconProps } from '@mui/material'
-import { LuLayers } from 'react-icons/lu'
-import { HiMiniUsers } from 'react-icons/hi2'
 import { IconType } from 'react-icons'
-import { FaMoneyBillAlt } from 'react-icons/fa'
 import { PageRoutes } from '@/utils/appRoutes'
 import { userRoles } from './auth'
 import { RiMoneyDollarCircleFill } from 'react-icons/ri'
@@ -12,7 +9,7 @@ import { PiCrownFill } from 'react-icons/pi'
 import { MdLocalShipping } from 'react-icons/md'
 import { IoLayersSharp } from 'react-icons/io5'
 import { IoPeople } from 'react-icons/io5'
-import { FaCirclePlus } from 'react-icons/fa6'
+import { FaCirclePlus, FaCow } from 'react-icons/fa6'
 import { useGetAppWebpages } from '@/services/react-query/queries/application'
 import { AppWebpage } from '@/types/application'
 
@@ -78,6 +75,18 @@ export default function AppProvider({ children }: AppContextProviderProps) {
       role: [userRoles.admin, userRoles.directory, userRoles.industry],
       icon: PiCrownFill,
       submenu: false,
+    },
+    {
+      title: 'REGISTROS GADO',
+      path: PageRoutes.cattleRegistries(),
+      icon: FaCow,
+      submenu: true,
+      subMenuItems: [
+        {
+          path: PageRoutes.cattlePurchase(),
+          title: 'Compra de gado',
+        },
+      ],
     },
     {
       title: 'ESTOQUE',
