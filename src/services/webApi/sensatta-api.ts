@@ -7,18 +7,6 @@ export async function GetProductClassificationTypes() {
   return response.data
 }
 
-export async function PostSyncStockWithSensatta() {
-  const response = await PostFetch(urls.SENSATTA.POST_SYNC_STOCK)
-
-  return response.data
-}
-
-export async function PostSyncFreightsWithSensatta() {
-  const response = await PostFetch(urls.SENSATTA.POST_SYNC_FREIGHTS)
-
-  return response.data
-}
-
 export async function GetCompanies() {
   const response = await GetFetch(urls.SENSATTA.GET_COMPANIES)
 
@@ -45,6 +33,24 @@ export async function GetFreightsCompanies() {
 
 export async function GetProductLines({ market }: GetProductLinesRequest) {
   const response = await GetFetch(urls.SENSATTA.GET_PRODUCTS_LINES, { params: { market } })
+
+  return response.data
+}
+
+export async function PostSyncStockWithSensatta() {
+  const response = await PostFetch(urls.SENSATTA.POST_SYNC_STOCK)
+
+  return response.data
+}
+
+export async function PostSyncFreightsWithSensatta() {
+  const response = await PostFetch(urls.SENSATTA.POST_SYNC_FREIGHTS)
+
+  return response.data
+}
+
+export async function PostSyncPurchaseWithSensatta() {
+  const response = await PostFetch(urls.SENSATTA.POST_SYNC_PURCHASE)
 
   return response.data
 }
