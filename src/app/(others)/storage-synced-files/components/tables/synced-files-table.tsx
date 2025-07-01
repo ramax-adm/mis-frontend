@@ -88,6 +88,15 @@ const getColumns = ({
       },
     },
     {
+      headerName: 'Bucket',
+      type: 'string',
+      value: {
+        first: {
+          value: 'bucket',
+        },
+      },
+    },
+    {
       headerName: 'Url Arquivo',
       type: 'string',
       value: {
