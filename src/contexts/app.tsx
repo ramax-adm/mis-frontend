@@ -102,6 +102,10 @@ export default function AppProvider({ children }: AppContextProviderProps) {
           path: PageRoutes.meStock(),
           title: 'Produtos ME',
         },
+        {
+          path: PageRoutes.stockBalance(),
+          title: 'Saldo Estoque',
+        },
       ],
     },
     {
