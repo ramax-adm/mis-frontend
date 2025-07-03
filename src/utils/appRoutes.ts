@@ -48,6 +48,9 @@ export class PageRoutes {
   static meStock() {
     return `/stock/me`
   }
+  static stockBalance() {
+    return `/stock/stock-balance`
+  }
 
   // freights
   static freights() {
