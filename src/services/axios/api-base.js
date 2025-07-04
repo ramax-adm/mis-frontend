@@ -1,6 +1,6 @@
-import api from './api'
+import api from "./api";
 
-const apiLocal = ''
+const apiLocal = "";
 
 export const urls = {
   APPLICATION: {
@@ -60,6 +60,12 @@ export const urls = {
     GET_ALL_ANALITICAL: `${apiLocal}/api/stock/analytical`,
     POST_EXPORT_XLSX: `${apiLocal}/api/stock/export-xlsx`,
   },
+  STOCK_BALANCE: {
+    GET_LAST_UPDATED_AT: `${apiLocal}/api/stock-balance/last-update`,
+    GET_ANALYTICAL_DATA: `${apiLocal}/api/stock-balance/analytical`,
+    GET_AGGREGATED_ANALYTICAL_DATA: `${apiLocal}/api/stock-balance/analytical/aggregated`,
+    POST_EXPORT_XLSX: `${apiLocal}/api/stock-balance/export-xlsx`,
+  },
   SENSATTA: {
     GET_COMPANIES: `${apiLocal}/api/sensatta/company`,
     GET_FREIGHT_COMPANIES: `${apiLocal}/api/sensatta/freight-companies`,
@@ -67,6 +73,7 @@ export const urls = {
     GET_PRODUCTS_LINES: `${apiLocal}/api/sensatta/product-line`,
     GET_PRODUCT_CLASSIFICATION_TYPES: `${apiLocal}/api/sensatta/product/classification-types`,
     POST_SYNC_STOCK: `${apiLocal}/api/sensatta/stock/sync`,
+    POST_SYNC_STOCK_BALANCE: `${apiLocal}/api/sensatta/stock-balance/sync`,
     POST_SYNC_FREIGHTS: `${apiLocal}/api/sensatta/freights/sync`,
     POST_SYNC_PURCHASE: `${apiLocal}/api/sensatta/purchase/sync`,
   },
@@ -89,53 +96,53 @@ export const urls = {
   UTILS: {
     GET_UFS: `${apiLocal}/api/utils/ufs`,
     GET_CITIES_BY_UF:
-      'https://servicodados.ibge.gov.br/api/v1/localidades/estados/{{uf}}/municipios?orderBy=nome',
+      "https://servicodados.ibge.gov.br/api/v1/localidades/estados/{{uf}}/municipios?orderBy=nome",
     GET_SYNCED_FILES: `${apiLocal}/api/utils/synced-files`,
     GET_SYNCED_FILE_SIGNED_URL: `${apiLocal}/api/utils/synced-files/:id/signed-url`,
     GET_SYNCED_FILE_ENTITIESL: `${apiLocal}/api/utils/synced-files/entity`,
   },
-}
+};
 
 export const GetFetch = async (url, params) => {
-  const JWT = localStorage.getItem('token')
-  api.defaults.headers.authorization = `Bearer ${JWT}`
-  const data = await api.get(url, params)
-  return data
-}
+  const JWT = localStorage.getItem("token");
+  api.defaults.headers.authorization = `Bearer ${JWT}`;
+  const data = await api.get(url, params);
+  return data;
+};
 
 export const GetFetchUnauthenticated = async (url, params) => {
-  const data = await api.get(url, params)
-  return data
-}
+  const data = await api.get(url, params);
+  return data;
+};
 
 export const PostFetch = async (url, params, ...rest) => {
-  const JWT = localStorage.getItem('token')
-  api.defaults.headers.authorization = `Bearer ${JWT}`
+  const JWT = localStorage.getItem("token");
+  api.defaults.headers.authorization = `Bearer ${JWT}`;
 
-  const data = await api.post(url, params, ...rest)
-  return data
-}
+  const data = await api.post(url, params, ...rest);
+  return data;
+};
 
 export const PutFetch = async (url, params, ...rest) => {
-  const JWT = localStorage.getItem('token')
-  api.defaults.headers.authorization = `Bearer ${JWT}`
+  const JWT = localStorage.getItem("token");
+  api.defaults.headers.authorization = `Bearer ${JWT}`;
 
-  const data = await api.put(url, params, ...rest)
-  return data
-}
+  const data = await api.put(url, params, ...rest);
+  return data;
+};
 
 export const PatchFetch = async (url, params, ...rest) => {
-  const JWT = localStorage.getItem('token')
-  api.defaults.headers.authorization = `Bearer ${JWT}`
+  const JWT = localStorage.getItem("token");
+  api.defaults.headers.authorization = `Bearer ${JWT}`;
 
-  const data = await api.patch(url, params, ...rest)
-  return data
-}
+  const data = await api.patch(url, params, ...rest);
+  return data;
+};
 
 export const DeleteFetch = async (url, params) => {
-  const JWT = localStorage.getItem('token')
-  api.defaults.headers.authorization = `Bearer ${JWT}`
+  const JWT = localStorage.getItem("token");
+  api.defaults.headers.authorization = `Bearer ${JWT}`;
 
-  const data = await api.delete(url, params)
-  return data
-}
+  const data = await api.delete(url, params);
+  return data;
+};
