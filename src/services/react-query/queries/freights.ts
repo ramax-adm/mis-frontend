@@ -1,45 +1,45 @@
-import { useQuery } from '@tanstack/react-query'
-import { queryKeys } from '../query-keys'
+import { useQuery } from "@tanstack/react-query";
+import { queryKeys } from "../query-keys";
 import {
   GetAnalyticalCattlePurchaseFreights,
   GetCattleFreightsStatuses,
   GetFreightsLastUpdatedAt,
   GetResumeCattlePurchaseFreights,
-} from '@/services/webApi/freights-api'
+} from "@/services/webApi/freights-api";
 import {
   GetAnalyticalCattlePurchaseFreightsResponse,
   GetCattleFreightsStatusesResponse,
   GetFreightsLastUpdatedAtResponse,
   GetResumeCattlePurchaseFreightsResponse,
-} from '@/types/api/freights'
+} from "@/types/api/freights";
 import {
   UseGetAnalyticalCattlePurchaseFreights,
   UseGetResumeCattlePurchaseFreights,
-} from '@/types/queries/freights'
+} from "@/types/queries/freights";
 
 export const useGetFreightsLastUpdatedAt = () => {
   return useQuery<GetFreightsLastUpdatedAtResponse>({
     queryKey: [queryKeys.FREIGHTS.GET_LAST_UPDATED_AT],
     queryFn: async () => {
-      const response = await GetFreightsLastUpdatedAt()
+      const response = await GetFreightsLastUpdatedAt();
 
-      return response
+      return response;
     },
     refetchOnWindowFocus: false,
-  })
-}
+  });
+};
 
 export const useGetCattleFreightsStatuses = () => {
   return useQuery<GetCattleFreightsStatusesResponse[]>({
     queryKey: [queryKeys.FREIGHTS.GET_CATTLE_PURCHASE_FREIGHTS_STATUSES],
     queryFn: async () => {
-      const response = await GetCattleFreightsStatuses()
+      const response = await GetCattleFreightsStatuses();
 
-      return response
+      return response;
     },
     refetchOnWindowFocus: false,
-  })
-}
+  });
+};
 
 export const useGetAnalyticalCattlePurchaseFreights = ({
   startDate,
@@ -58,9 +58,9 @@ export const useGetAnalyticalCattlePurchaseFreights = ({
       freightCompany,
     ],
     queryFn: async () => {
-      const isMainFiltersChoosed = !!startDate && !!endDate && !!companyCode
+      const isMainFiltersChoosed = !!startDate && !!endDate && !!companyCode;
       if (!isMainFiltersChoosed) {
-        return
+        return;
       }
       const response = await GetAnalyticalCattlePurchaseFreights({
         startDate,
@@ -68,14 +68,15 @@ export const useGetAnalyticalCattlePurchaseFreights = ({
         companyCode,
         status,
         freightCompany,
-      })
+      });
 
-      return response
+      return response;
     },
 
-    enabled: !!startDate && !!endDate && !!companyCode && companyCode.length > 0,
-  })
-}
+    enabled:
+      !!startDate && !!endDate && !!companyCode && companyCode.length > 0,
+  });
+};
 
 export const useGetResumeCattlePurchaseFreights = ({
   startDate,
@@ -90,19 +91,20 @@ export const useGetResumeCattlePurchaseFreights = ({
       companyCode,
     ],
     queryFn: async () => {
-      const isMainFiltersChoosed = !!startDate && !!endDate && !!companyCode
+      const isMainFiltersChoosed = !!startDate && !!endDate && !!companyCode;
       if (!isMainFiltersChoosed) {
-        return
+        return;
       }
       const response = await GetResumeCattlePurchaseFreights({
         startDate,
         endDate,
         companyCode,
-      })
+      });
 
-      return response
+      return response;
     },
 
-    enabled: !!startDate && !!endDate && !!companyCode && companyCode.length > 0,
-  })
-}
+    enabled:
+      !!startDate && !!endDate && !!companyCode && companyCode.length > 0,
+  });
+};
