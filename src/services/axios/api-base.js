@@ -47,7 +47,9 @@ export const urls = {
     GET_CATTLE_PURCHASE_CATTLE_OWNER: `${apiLocal}/api/purchase/cattle-purchase/cattle-owner`,
     GET_CATTLE_PURCHASE_CATTLE_CLASSIFICATION: `${apiLocal}/api/purchase/cattle-purchase/cattle-classification`,
     GET_CATTLE_PURCHASE_CATTLE_ADVISOR: `${apiLocal}/api/purchase/cattle-purchase/cattle-advisor`,
+    GET_CATTLE_PURCHASE_RESUMED_DATA: `${apiLocal}/api/purchase/cattle-purchase/resumed`,
     GET_CATTLE_PURCHASE_ANALYTICAL_DATA: `${apiLocal}/api/purchase/cattle-purchase/analytical`,
+    GET_CATTLE_PURCHASE_AGGREGATED_ANALYTICAL_DATA: `${apiLocal}/api/purchase/cattle-purchase/analytical/aggregated`,
     POST_EXPORT_XLSX: `${apiLocal}/api/purchase/cattle-purchase/export-xlsx`,
   },
   STOCK: {
