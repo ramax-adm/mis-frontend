@@ -36,14 +36,13 @@ export function CattleFreightsTable({
     return null;
   }
 
-  console.log(cattleFreights.totals);
-
   return (
     <>
       <Box
         sx={{
           display: "flex",
           flexDirection: "row",
+          flexWrap: "wrap",
           gap: 1,
         }}
       >
@@ -113,7 +112,7 @@ export function CattleFreightsTable({
           <Typography fontWeight={700} fontSize={"12px"}>
             Fretes Fechados
           </Typography>
-          <Box sx={{ display: "inline-flex", gap: 2 }}>
+          <Box sx={{ display: "inline-flex", flexWrap: "wrap", gap: 2 }}>
             <Box sx={{ display: "flex", flexDirection: "column" }}>
               <Typography fontSize={"9px"}>Qtd.</Typography>
               <Typography fontSize={"14px"} fontWeight={700}>
