@@ -15,7 +15,10 @@ export const queryKeys = {
       "purchase-cattle-purchase-cattle-classification",
     GET_CATTLE_PURCHASE_CATTLE_ADVISOR:
       "purchase-cattle-purchase-cattle-advisor",
+    GET_CATTLE_PURCHASE_RESUMED_DATA: "purchase-cattle-purchase-resumed",
     GET_CATTLE_PURCHASE_ANALYTICAL_DATA: "purchase-cattle-purchase-analytical",
+    GET_CATTLE_PURCHASE_AGGREGATED_ANALYTICAL_DATA:
+      "purchase-cattle-purchase-aggregated-analytical",
   },
   HUMAN_RESOURCES: {
     GET_DATES: "human-resources-hours-dates",
