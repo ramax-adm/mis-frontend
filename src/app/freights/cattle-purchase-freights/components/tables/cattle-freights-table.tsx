@@ -36,8 +36,6 @@ export function CattleFreightsTable({
     return null;
   }
 
-  console.log(cattleFreights.totals);
-
   return (
     <>
       <Box

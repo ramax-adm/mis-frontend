@@ -44,26 +44,26 @@ export function CattlePurchaseResumedTotalsIndicator({
           <Box sx={{ display: "flex", flexDirection: "column" }}>
             <Typography fontSize={"9px"}>Σ R$ Frete</Typography>
             <Typography fontSize={"14px"} fontWeight={700}>
-              {toLocaleString(data?.freightPrice ?? 0)}
+              {toLocaleString(data?.freightPrice ?? 0, 2)}
             </Typography>
           </Box>
           <Box sx={{ display: "flex", flexDirection: "column" }}>
             <Typography fontSize={"9px"}>Σ R$ Comissão</Typography>
             <Typography fontSize={"14px"} fontWeight={700}>
-              {toLocaleString(data?.commissionPrice ?? 0)}
+              {toLocaleString(data?.commissionPrice ?? 0, 2)}
             </Typography>
           </Box>
           <Box sx={{ display: "flex", flexDirection: "column" }}>
             <Typography fontSize={"9px"}>Σ R$ Compra</Typography>
             <Typography fontSize={"14px"} fontWeight={700}>
-              {toLocaleString(data?.purchasePrice ?? 0)}
+              {toLocaleString(data?.purchasePrice ?? 0, 2)}
             </Typography>
           </Box>
 
           <Box sx={{ display: "flex", flexDirection: "column" }}>
             <Typography fontSize={"9px"}>R$ Total</Typography>
             <Typography fontSize={"14px"} fontWeight={700}>
-              {toLocaleString(data?.totalValue ?? 0)}
+              {toLocaleString(data?.totalValue ?? 0, 2)}
             </Typography>
           </Box>
         </Box>

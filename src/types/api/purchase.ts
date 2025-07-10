@@ -93,6 +93,7 @@ export interface GetCattlePurchaseAnalyticalItem {
   totalValue: number;
 }
 export interface GetCattlePurchaseAnalyticalTotalsItem {
+  cattleQuantity: string;
   weightInArroba: string;
   freightValue: string;
   purchaseValue: string;
