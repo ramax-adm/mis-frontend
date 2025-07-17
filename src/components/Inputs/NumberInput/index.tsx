@@ -1,15 +1,21 @@
-import React from 'react'
-import { FormControl, SxProps, TextField } from '@mui/material'
-import { Control, Controller, FieldError, FieldValues, Path } from 'react-hook-form'
+import React from "react";
+import { FormControl, SxProps, TextField } from "@mui/material";
+import {
+  Control,
+  Controller,
+  FieldError,
+  FieldValues,
+  Path,
+} from "react-hook-form";
 
 type Props<T extends FieldValues> = {
-  name: Path<T>
-  label: string
-  control?: Control<T>
-  error?: FieldError
-  sx?: SxProps
-  size?: 'small' | 'medium'
-}
+  name: Path<T>;
+  label: string;
+  control?: Control<T>;
+  error?: FieldError;
+  sx?: SxProps;
+  size?: "small" | "medium";
+};
 
 export function NumberInput<T extends FieldValues>({
   name,
@@ -17,7 +23,7 @@ export function NumberInput<T extends FieldValues>({
   control,
   error,
   sx,
-  size = 'medium',
+  size = "medium",
 }: Props<T>) {
   return (
     <FormControl fullWidth sx={sx} size={size}>
@@ -32,13 +38,13 @@ export function NumberInput<T extends FieldValues>({
               helperText={error?.message}
               type='number'
               size={size}
-              InputLabelProps={{
-                shrink: true,
-              }}
+              // InputLabelProps={{
+              //   shrink: true,
+              // }}
             />
-          )
+          );
         }}
       />
     </FormControl>
-  )
+  );
 }

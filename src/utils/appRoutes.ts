@@ -1,70 +1,75 @@
 export class PageRoutes {
   static forgotPassword() {
-    return `/forgotPassword`
+    return `/forgotPassword`;
   }
   static login() {
-    return `/login`
+    return `/login`;
   }
   static home() {
-    return `/home`
+    return `/home`;
   }
+
+  // others
   static others() {
-    return ``
+    return ``;
   }
   static users() {
-    return `/users`
+    return `/users`;
   }
   static uploads() {
-    return `/uploads`
+    return `/uploads`;
   }
   static storageSyncedFiles() {
-    return `/storage-synced-files`
+    return `/storage-synced-files`;
+  }
+  static parameters() {
+    return `/parameters`;
   }
 
   // cash flow
   static cashFlow() {
-    return `/cash-flow/simulate`
+    return `/cash-flow/simulate`;
   }
   static championCattle() {
-    return `/cash-flow/champion-cattle`
+    return `/cash-flow/champion-cattle`;
   }
 
   // cattle-registries
   static cattleRegistries() {
-    return `/cattle-registries`
+    return `/cattle-registries`;
   }
 
   static cattlePurchase() {
-    return `/cattle-registries/cattle-purchase`
+    return `/cattle-registries/cattle-purchase`;
   }
 
   // stock
   static stock() {
-    return `/stock`
+    return `/stock`;
   }
   static miStock() {
-    return `/stock/mi`
+    return `/stock/mi`;
   }
   static meStock() {
-    return `/stock/me`
+    return `/stock/me`;
   }
   static stockBalance() {
-    return `/stock/stock-balance`
+    return `/stock/stock-balance`;
   }
 
   // freights
   static freights() {
-    return `/freights`
+    return `/freights`;
   }
   static cattlePurchaseFreights() {
-    return `/freights/cattle-purchase-freights`
+    return `/freights/cattle-purchase-freights`;
   }
 
   // humanResources
   static humanResources() {
-    return `/human-resources`
+    return `/human-resources`;
   }
   static humanResourcesHours() {
-    return `/human-resources/human-resources-hours`
+    return `/human-resources/human-resources-hours`;
   }
 }
