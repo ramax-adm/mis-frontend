@@ -1,139 +1,145 @@
-'use client'
-import React, { createContext, useContext, useState, useEffect } from 'react'
-import { SvgIconProps } from '@mui/material'
-import { IconType } from 'react-icons'
-import { PageRoutes } from '@/utils/appRoutes'
-import { userRoles } from './auth'
-import { RiMoneyDollarCircleFill } from 'react-icons/ri'
-import { PiCrownFill } from 'react-icons/pi'
-import { MdLocalShipping } from 'react-icons/md'
-import { IoLayersSharp } from 'react-icons/io5'
-import { IoPeople } from 'react-icons/io5'
-import { FaCirclePlus, FaCow } from 'react-icons/fa6'
-import { useGetAppWebpages } from '@/services/react-query/queries/application'
-import { AppWebpage } from '@/types/application'
+"use client";
+import React, { createContext, useContext, useState, useEffect } from "react";
+import { SvgIconProps } from "@mui/material";
+import { IconType } from "react-icons";
+import { PageRoutes } from "@/utils/appRoutes";
+import { userRoles } from "./auth";
+import { RiMoneyDollarCircleFill } from "react-icons/ri";
+import { PiCrownFill } from "react-icons/pi";
+import { MdLocalShipping } from "react-icons/md";
+import { IoLayersSharp } from "react-icons/io5";
+import { IoPeople } from "react-icons/io5";
+import { FaCirclePlus, FaCow } from "react-icons/fa6";
+import { useGetAppWebpages } from "@/services/react-query/queries/application";
+import { AppWebpage } from "@/types/application";
 
 type AppContextProviderProps = {
-  children: React.ReactNode
-}
+  children: React.ReactNode;
+};
 
 type MenuItem = {
-  name: string
-  href: string
-  icon: (props: SvgIconProps) => JSX.Element
-}[]
+  name: string;
+  href: string;
+  icon: (props: SvgIconProps) => JSX.Element;
+}[];
 
 export type SideNavItem = {
-  title: string
-  path: string
-  icon?: IconType
-  submenu?: boolean
-  subMenuItems?: SideNavItem[]
-  role?: string[]
-}
+  title: string;
+  path: string;
+  icon?: IconType;
+  submenu?: boolean;
+  subMenuItems?: SideNavItem[];
+  role?: string[];
+};
 
 type AppContext = {
-  webpages: AppWebpage[]
-  isCollapsed: boolean
-  isBurgerMenuOpened: boolean
-  width: number
-  isMobile: boolean
-  menuItems: MenuItem
-  NAV_ITEMS: SideNavItem[]
-  toggleSidebarcollapse: () => void
-  openSidebarcollapse: () => void
-  closeSidebarcollapse: () => void
-  toggleBurgerMenuOpened: () => void
-  openBurgerMenu: () => void
-  closeBurgerMenu: () => void
-}
+  webpages: AppWebpage[];
+  isCollapsed: boolean;
+  isBurgerMenuOpened: boolean;
+  width: number;
+  isMobile: boolean;
+  menuItems: MenuItem;
+  NAV_ITEMS: SideNavItem[];
+  toggleSidebarcollapse: () => void;
+  openSidebarcollapse: () => void;
+  closeSidebarcollapse: () => void;
+  toggleBurgerMenuOpened: () => void;
+  openBurgerMenu: () => void;
+  closeBurgerMenu: () => void;
+};
 
-export const AppContext = createContext<AppContext | null>(null)
+export const AppContext = createContext<AppContext | null>(null);
 
 export default function AppProvider({ children }: AppContextProviderProps) {
-  const [isCollapsed, setCollapse] = useState(false)
-  const [isBurgerMenuOpened, setIsBurgerMenuOpened] = useState(false)
-  const [width, setWidth] = useState(0)
+  const [isCollapsed, setCollapse] = useState(false);
+  const [isBurgerMenuOpened, setIsBurgerMenuOpened] = useState(false);
+  const [width, setWidth] = useState(0);
 
-  const { data: webpages = [] } = useGetAppWebpages()
+  const { data: webpages = [] } = useGetAppWebpages();
 
-  const isMobile = width <= 768
+  const isMobile = width <= 768;
 
-  const menuItems: MenuItem = []
+  const menuItems: MenuItem = [];
 
   const NAV_ITEMS: SideNavItem[] = [
     {
-      title: 'CASH FLOW',
+      title: "CASH FLOW",
       path: PageRoutes.cashFlow(),
       role: [userRoles.admin, userRoles.directory, userRoles.industry],
       icon: RiMoneyDollarCircleFill,
       submenu: false,
     },
     {
-      title: 'BOI CAMPEÃO',
+      title: "BOI CAMPEÃO",
       path: PageRoutes.championCattle(),
       role: [userRoles.admin, userRoles.directory, userRoles.industry],
       icon: PiCrownFill,
       submenu: false,
     },
+    // {
+    //   title: "DRE OPERAÇÃO",
+    //   path: PageRoutes.operationFinanceSummary(),
+    //   icon: RiMoneyDollarCircleFill,
+    //   submenu: false,
+    // },
     {
-      title: 'REGISTROS GADO',
+      title: "REGISTROS GADO",
       path: PageRoutes.cattleRegistries(),
       icon: FaCow,
       submenu: true,
       subMenuItems: [
         {
           path: PageRoutes.cattlePurchase(),
-          title: 'Compra de gado',
+          title: "Compra de gado",
         },
       ],
     },
     {
-      title: 'ESTOQUE',
+      title: "ESTOQUE",
       path: PageRoutes.stock(),
       icon: IoLayersSharp,
       submenu: true,
       subMenuItems: [
         {
           path: PageRoutes.miStock(),
-          title: 'Produtos MI',
+          title: "Produtos MI",
         },
         {
           path: PageRoutes.meStock(),
-          title: 'Produtos ME',
+          title: "Produtos ME",
         },
         {
           path: PageRoutes.stockBalance(),
-          title: 'Saldo Estoque',
+          title: "Saldo Estoque",
         },
       ],
     },
     {
-      title: 'FRETES',
+      title: "FRETES",
       path: PageRoutes.freights(),
       icon: MdLocalShipping,
       submenu: true,
       subMenuItems: [
         {
           path: PageRoutes.cattlePurchaseFreights(),
-          title: 'Compra Gado',
+          title: "Compra Gado",
         },
       ],
     },
     {
-      title: 'RH',
+      title: "RH",
       path: PageRoutes.humanResources(),
       icon: IoPeople,
       submenu: true,
       subMenuItems: [
         {
           path: PageRoutes.humanResourcesHours(),
-          title: 'Horas Extras',
+          title: "Horas Extras",
         },
       ],
     },
     {
-      title: 'OUTROS',
+      title: "OUTROS",
       path: PageRoutes.others(),
       role: [userRoles.admin, userRoles.directory],
       icon: FaCirclePlus,
@@ -141,16 +147,20 @@ export default function AppProvider({ children }: AppContextProviderProps) {
       subMenuItems: [
         {
           path: PageRoutes.users(),
-          title: 'Usuarios',
+          title: "Usuarios",
         },
         {
           path: PageRoutes.uploads(),
-          title: 'Uploads',
+          title: "Uploads",
         },
         {
           path: PageRoutes.storageSyncedFiles(),
-          title: 'Snapshots',
+          title: "Snapshots",
         },
+        // {
+        //   path: PageRoutes.parameters(),
+        //   title: "Parametros",
+        // },
       ],
     },
     // {
@@ -160,43 +170,43 @@ export default function AppProvider({ children }: AppContextProviderProps) {
     //   icon: HiMiniUsers,
     //   submenu: false,
     // },
-  ]
+  ];
 
   const toggleSidebarcollapse = () => {
-    setCollapse((prevState) => !prevState)
-  }
+    setCollapse((prevState) => !prevState);
+  };
 
   const openSidebarcollapse = () => {
-    setCollapse(true)
-  }
+    setCollapse(true);
+  };
 
   const closeSidebarcollapse = () => {
-    setCollapse(false)
-  }
+    setCollapse(false);
+  };
 
   const toggleBurgerMenuOpened = () => {
-    setIsBurgerMenuOpened((prevState) => !prevState)
-  }
+    setIsBurgerMenuOpened((prevState) => !prevState);
+  };
 
   const openBurgerMenu = () => {
-    setIsBurgerMenuOpened(true)
-  }
+    setIsBurgerMenuOpened(true);
+  };
 
   const closeBurgerMenu = () => {
-    setIsBurgerMenuOpened(false)
-  }
+    setIsBurgerMenuOpened(false);
+  };
 
   const updateWidth = () => {
-    const newWidth = window.innerWidth
-    const isMobile = newWidth <= 768
-    setCollapse(!isMobile)
-    setWidth(newWidth)
-  }
+    const newWidth = window.innerWidth;
+    const isMobile = newWidth <= 768;
+    setCollapse(!isMobile);
+    setWidth(newWidth);
+  };
 
   useEffect(() => {
-    window.addEventListener('resize', updateWidth)
-    updateWidth()
-  }, [])
+    window.addEventListener("resize", updateWidth);
+    updateWidth();
+  }, []);
 
   return (
     <AppContext.Provider
@@ -218,13 +228,13 @@ export default function AppProvider({ children }: AppContextProviderProps) {
     >
       {children}
     </AppContext.Provider>
-  )
+  );
 }
 
 export function useAppContext() {
-  const context = useContext(AppContext)
+  const context = useContext(AppContext);
   if (!context) {
-    throw new Error('useAppContext must be used with AppContextProvider')
+    throw new Error("useAppContext must be used with AppContextProvider");
   }
-  return context
+  return context;
 }

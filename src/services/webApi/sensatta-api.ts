@@ -21,6 +21,12 @@ export async function GetCompany(id: string) {
   return response.data;
 }
 
+export async function GetMarkets() {
+  const response = await GetFetch(urls.SENSATTA.GET_MARKETS);
+
+  return response.data;
+}
+
 export async function GetProducts() {
   const response = await GetFetch(urls.SENSATTA.GET_PRODUCTS);
 

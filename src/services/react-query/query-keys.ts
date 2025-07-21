@@ -4,6 +4,10 @@ export const queryKeys = {
   APPLICATION: {
     WEBPAGES: "app-webpages",
   },
+  BUSINESS_SUMMARY: {
+    GET_OPERATION_FINANCE_SUMMARY:
+      "business-summary-get-operation-finance-summary",
+  },
   CASH_FLOW: {
     GET_USER_SIMULATIONS: "user-simulations",
     GET_ARREND_TYPES: "arrend-types",
@@ -29,11 +33,15 @@ export const queryKeys = {
     GET_ANALYSES_DATA: "human-resources-hours-analyses-data",
     GET_LAST_UPDATED_AT: "human-resources-hours-last-updated-at",
   },
+  PARAMETER: {
+    GET_SALES_DEDUCTIONS: "parameter-get-sales-deductions",
+  },
   SENSATTA: {
     GET_COMPANIES: "companies",
     GET_COMPANY: "company-",
     GET_FREIGHT_COMPANIES: "freight-companies",
     GET_PRODUCT: "products",
+    GET_MARKETS: "markets",
     GET_PRODUCT_LINES: "product-lines",
     GET_PRODUCT_CLASSIFICATION_TYPES: "product-classification-types",
   },
@@ -65,7 +73,8 @@ export const queryKeys = {
     FIND_ONE: "user-",
   },
   UTILS: {
-    GET_SYNCED_FILES: "synced-files",
-    GET_SYNCED_FILE_ENTITIES: "synced-file-entities",
+    GET_SYNCED_FILES: "utils-synced-files",
+    GET_SYNCED_FILE_ENTITIES: "utils-synced-file-entities",
+    GET_UNIT_TYPES: "utils-unit-types",
   },
 };

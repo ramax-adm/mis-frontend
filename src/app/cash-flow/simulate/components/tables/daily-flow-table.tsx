@@ -1,33 +1,35 @@
-import { Card } from '@/components/Card'
-import { Column, CustomizedTable } from '@/components/Table/body'
-import { ProjectDailyFlowResponse } from '@/types/cash-flow'
-import { Box, Grid } from '@mui/material'
+import { Card } from "@/components/Card";
+import { Column, CustomizedTable } from "@/components/Table/body";
+import { ProjectDailyFlowResponse } from "@/types/cash-flow";
+import { Box, Grid } from "@mui/material";
 
 interface DailyFlowTableProps {
-  data: Pick<ProjectDailyFlowResponse, 'dailyFlow'>
+  data: Pick<ProjectDailyFlowResponse, "dailyFlow">;
 }
 export function DailyFlowTable({ data }: DailyFlowTableProps) {
-  const columns = getColumns()
+  const columns = getColumns();
 
   return (
     <Box
       marginTop={6}
       sx={{
-        width: { xs: '350px', sm: '430px', md: '820px', xl: '95%' },
+        width: { xs: "350px", sm: "430px", md: "820px", xl: "95%" },
       }}
     >
       <Card.Root
         sx={{
-          height: '750px',
-          width: '100',
+          height: "750px",
+          width: "100",
+          padding: 1,
+          gap: 1,
         }}
       >
         <Card.Title>Fluxo Diario</Card.Title>
-        <Card.Content sx={{ height: '100%' }}>
+        <Card.Content sx={{ height: "100%" }}>
           <CustomizedTable<any>
             tableStyles={{
-              maxHeight: '700px',
-              width: '100%',
+              maxHeight: "700px",
+              width: "100%",
             }}
             columns={columns}
             data={data.dailyFlow}
@@ -35,199 +37,199 @@ export function DailyFlowTable({ data }: DailyFlowTableProps) {
         </Card.Content>
       </Card.Root>
     </Box>
-  )
+  );
 }
 
 const getColumns = (): Column<ProjectDailyFlowResponse>[] => {
   return [
     {
-      headerName: 'Dia',
-      type: 'string',
+      headerName: "Dia",
+      type: "string",
       value: {
         first: {
-          value: 'dia',
+          value: "dia",
         },
       },
     },
     {
-      headerName: 'Compra R$',
-      type: 'string',
+      headerName: "Compra R$",
+      type: "string",
       value: {
         first: {
-          value: 'compraBoi',
+          value: "compraBoi",
         },
       },
     },
     {
-      headerName: 'Frete R$',
-      type: 'string',
+      headerName: "Frete R$",
+      type: "string",
       value: {
         first: {
-          value: 'freteBoi',
+          value: "freteBoi",
         },
       },
     },
     {
-      headerName: 'Arrend. R$',
-      type: 'string',
+      headerName: "Arrend. R$",
+      type: "string",
       value: {
         first: {
-          value: 'arrend',
+          value: "arrend",
         },
       },
     },
     {
-      headerName: 'Embalagem R$',
-      type: 'string',
+      headerName: "Embalagem R$",
+      type: "string",
       value: {
         first: {
-          value: 'embalagem',
+          value: "embalagem",
         },
       },
     },
     {
-      headerName: 'M.O.D R$',
-      type: 'string',
+      headerName: "M.O.D R$",
+      type: "string",
       value: {
         first: {
-          value: 'mod',
+          value: "mod",
         },
       },
     },
     {
-      headerName: 'Frete MI R$',
-      type: 'string',
+      headerName: "Frete MI R$",
+      type: "string",
       value: {
         first: {
-          value: 'freteMi',
+          value: "freteMi",
         },
       },
     },
     {
-      headerName: 'Comissão MI R$',
-      type: 'string',
+      headerName: "Comissão MI R$",
+      type: "string",
       value: {
         first: {
-          value: 'comissaoMi',
+          value: "comissaoMi",
         },
       },
     },
     {
-      headerName: 'Imposto MI R$',
-      type: 'string',
+      headerName: "Imposto MI R$",
+      type: "string",
       value: {
         first: {
-          value: 'impostoMi',
+          value: "impostoMi",
         },
       },
     },
     {
-      headerName: 'Frete Rod. R$',
-      type: 'string',
+      headerName: "Frete Rod. R$",
+      type: "string",
       value: {
         first: {
-          value: 'freteRodMe',
+          value: "freteRodMe",
         },
       },
     },
     {
-      headerName: 'Porto R$',
-      type: 'string',
+      headerName: "Porto R$",
+      type: "string",
       value: {
         first: {
-          value: 'portoMe',
+          value: "portoMe",
         },
       },
     },
     {
-      headerName: 'Frete Marit R$',
-      type: 'string',
+      headerName: "Frete Marit R$",
+      type: "string",
       value: {
         first: {
-          value: 'maritMe',
+          value: "maritMe",
         },
       },
     },
     {
-      headerName: 'Desp. Financ. R$',
-      type: 'string',
+      headerName: "Desp. Financ. R$",
+      type: "string",
       value: {
         first: {
-          value: 'financMe',
+          value: "financMe",
         },
       },
     },
     {
-      headerName: 'Saidas R$',
-      type: 'string',
+      headerName: "Saidas R$",
+      type: "string",
       value: {
         first: {
-          value: 'saidas',
+          value: "saidas",
         },
       },
     },
     {
-      headerName: 'Rec. 40',
-      type: 'string',
+      headerName: "Rec. 40",
+      type: "string",
       value: {
         first: {
-          value: 'recMe40',
+          value: "recMe40",
         },
       },
     },
     {
-      headerName: 'Rec. 60',
-      type: 'string',
+      headerName: "Rec. 60",
+      type: "string",
       value: {
         first: {
-          value: 'recMe60',
+          value: "recMe60",
         },
       },
     },
     {
-      headerName: 'Receitas ME',
-      type: 'string',
+      headerName: "Receitas ME",
+      type: "string",
       value: {
         first: {
-          value: 'recMe',
+          value: "recMe",
         },
       },
     },
     {
-      headerName: 'Receitas MI',
-      type: 'string',
+      headerName: "Receitas MI",
+      type: "string",
       value: {
         first: {
-          value: 'recMi',
+          value: "recMi",
         },
       },
     },
     {
-      headerName: 'Receita Total',
-      type: 'string',
+      headerName: "Receita Total",
+      type: "string",
       value: {
         first: {
-          value: 'recTotal',
+          value: "recTotal",
         },
       },
     },
     {
-      headerName: 'Rec. - Desp.',
-      type: 'string',
+      headerName: "Rec. - Desp.",
+      type: "string",
       value: {
         first: {
-          value: 'recTotalWithExpenses',
+          value: "recTotalWithExpenses",
         },
       },
     },
     {
-      headerName: 'Acumulado',
-      type: 'string',
+      headerName: "Acumulado",
+      type: "string",
       value: {
         first: {
-          value: 'acc',
+          value: "acc",
         },
       },
     },
-  ]
-}
+  ];
+};

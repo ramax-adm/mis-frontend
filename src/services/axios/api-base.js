@@ -12,6 +12,9 @@ export const urls = {
     POST_RESET_PASSWORD: `${apiLocal}/api/user/change-password`,
     POST_CHECK_TOKEN: `${apiLocal}/api/user/check-password-token`,
   },
+  BUSINESS_SUMMARY: {
+    GET_OPERATION_FINANCE_SUMMARY: `${apiLocal}/business-summary/operation-finance/summary`,
+  },
   CASH_FLOW: {
     GET_USER_SIMULATIONS: `${apiLocal}/api/cash-flow`,
     GET_ARREND_TYPES: `${apiLocal}/api/cash-flow/arrend-types`,
@@ -52,6 +55,9 @@ export const urls = {
     GET_CATTLE_PURCHASE_AGGREGATED_ANALYTICAL_DATA: `${apiLocal}/api/purchase/cattle-purchase/analytical/aggregated`,
     POST_EXPORT_XLSX: `${apiLocal}/api/purchase/cattle-purchase/export-xlsx`,
   },
+  PARAMETER: {
+    GET_SALES_DEDUCTIONS_PARAMETERS: `${apiLocal}/api/params/sales-deduction`,
+  },
   STOCK: {
     GET_ALL: `${apiLocal}/api/stock`,
     GET_LAST_UPDATED_AT: `${apiLocal}/api/stock/last-update`,
@@ -71,6 +77,7 @@ export const urls = {
   SENSATTA: {
     GET_COMPANIES: `${apiLocal}/api/sensatta/company`,
     GET_FREIGHT_COMPANIES: `${apiLocal}/api/sensatta/freight-companies`,
+    GET_MARKETS: `${apiLocal}/api/sensatta/market`,
     GET_PRODUCTS: `${apiLocal}/api/sensatta/product`,
     GET_PRODUCTS_LINES: `${apiLocal}/api/sensatta/product-line`,
     GET_PRODUCT_CLASSIFICATION_TYPES: `${apiLocal}/api/sensatta/product/classification-types`,
@@ -102,6 +109,7 @@ export const urls = {
     GET_SYNCED_FILES: `${apiLocal}/api/utils/synced-files`,
     GET_SYNCED_FILE_SIGNED_URL: `${apiLocal}/api/utils/synced-files/:id/signed-url`,
     GET_SYNCED_FILE_ENTITIESL: `${apiLocal}/api/utils/synced-files/entity`,
+    GET_UNIT_TYPES: `${apiLocal}/api/utils/unit-types`,
   },
 };
 
