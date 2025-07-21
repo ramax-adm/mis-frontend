@@ -76,12 +76,12 @@ export default function AppProvider({ children }: AppContextProviderProps) {
       icon: PiCrownFill,
       submenu: false,
     },
-    {
-      title: "DRE OPERAÇÃO",
-      path: PageRoutes.operationFinanceSummary(),
-      icon: RiMoneyDollarCircleFill,
-      submenu: false,
-    },
+    // {
+    //   title: "DRE OPERAÇÃO",
+    //   path: PageRoutes.operationFinanceSummary(),
+    //   icon: RiMoneyDollarCircleFill,
+    //   submenu: false,
+    // },
     {
       title: "REGISTROS GADO",
       path: PageRoutes.cattleRegistries(),
@@ -157,10 +157,10 @@ export default function AppProvider({ children }: AppContextProviderProps) {
           path: PageRoutes.storageSyncedFiles(),
           title: "Snapshots",
         },
-        {
-          path: PageRoutes.parameters(),
-          title: "Parametros",
-        },
+        // {
+        //   path: PageRoutes.parameters(),
+        //   title: "Parametros",
+        // },
       ],
     },
     // {
