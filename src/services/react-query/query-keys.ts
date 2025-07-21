@@ -4,6 +4,10 @@ export const queryKeys = {
   APPLICATION: {
     WEBPAGES: "app-webpages",
   },
+  BUSINESS_SUMMARY: {
+    GET_OPERATION_FINANCE_SUMMARY:
+      "business-summary-get-operation-finance-summary",
+  },
   CASH_FLOW: {
     GET_USER_SIMULATIONS: "user-simulations",
     GET_ARREND_TYPES: "arrend-types",

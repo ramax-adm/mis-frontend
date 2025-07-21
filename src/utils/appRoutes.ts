@@ -26,6 +26,11 @@ export class PageRoutes {
     return `/parameters`;
   }
 
+  // business summary
+  static operationFinanceSummary() {
+    return `business-summary/operation-finance`;
+  }
+
   // cash flow
   static cashFlow() {
     return `/cash-flow/simulate`;

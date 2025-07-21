@@ -77,6 +77,12 @@ export default function AppProvider({ children }: AppContextProviderProps) {
       submenu: false,
     },
     {
+      title: "DRE OPERAÇÃO",
+      path: PageRoutes.operationFinanceSummary(),
+      icon: RiMoneyDollarCircleFill,
+      submenu: false,
+    },
+    {
       title: "REGISTROS GADO",
       path: PageRoutes.cattleRegistries(),
       icon: FaCow,
