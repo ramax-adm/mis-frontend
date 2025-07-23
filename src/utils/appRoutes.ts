@@ -31,6 +31,10 @@ export class PageRoutes {
     return `business-summary/operation-finance`;
   }
 
+  static businessAudit() {
+    return `/business-audit`;
+  }
+
   // cash flow
   static cashFlow() {
     return `/cash-flow/simulate`;

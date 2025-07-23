@@ -4,6 +4,9 @@ export const queryKeys = {
   APPLICATION: {
     WEBPAGES: "app-webpages",
   },
+  BUSINESS_AUDIT: {
+    GET_BUSINESS_AUDIT_RESUMED: "business-audit-resumed",
+  },
   BUSINESS_SUMMARY: {
     GET_OPERATION_FINANCE_SUMMARY:
       "business-summary-get-operation-finance-summary",
