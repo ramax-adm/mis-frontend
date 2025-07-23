@@ -12,6 +12,7 @@ import { IoPeople } from "react-icons/io5";
 import { FaCirclePlus, FaCow } from "react-icons/fa6";
 import { useGetAppWebpages } from "@/services/react-query/queries/application";
 import { AppWebpage } from "@/types/application";
+import { MdFactCheck } from "react-icons/md";
 
 type AppContextProviderProps = {
   children: React.ReactNode;
@@ -76,6 +77,12 @@ export default function AppProvider({ children }: AppContextProviderProps) {
       icon: PiCrownFill,
       submenu: false,
     },
+    {
+      title: "AUDITORIA",
+      path: PageRoutes.businessAudit(),
+      icon: MdFactCheck,
+      submenu: false,
+    },
     // {
     //   title: "DRE OPERAÇÃO",
     //   path: PageRoutes.operationFinanceSummary(),
@@ -83,7 +90,7 @@ export default function AppProvider({ children }: AppContextProviderProps) {
     //   submenu: false,
     // },
     {
-      title: "REGISTROS GADO",
+      title: "COMPRAS",
       path: PageRoutes.cattleRegistries(),
       icon: FaCow,
       submenu: true,

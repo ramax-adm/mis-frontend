@@ -12,6 +12,9 @@ export const urls = {
     POST_RESET_PASSWORD: `${apiLocal}/api/user/change-password`,
     POST_CHECK_TOKEN: `${apiLocal}/api/user/check-password-token`,
   },
+  BUSINESS_AUDIT: {
+    GET_BUSINESS_AUDIT_RESUMED: `${apiLocal}/api/business-audit/resumed`,
+  },
   BUSINESS_SUMMARY: {
     GET_OPERATION_FINANCE_SUMMARY: `${apiLocal}/business-summary/operation-finance/summary`,
   },
