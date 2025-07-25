@@ -13,6 +13,8 @@ import { FaCirclePlus, FaCow } from "react-icons/fa6";
 import { useGetAppWebpages } from "@/services/react-query/queries/application";
 import { AppWebpage } from "@/types/application";
 import { MdFactCheck } from "react-icons/md";
+import { FaMoneyCheckAlt } from "react-icons/fa";
+import { FaMoneyBillTransfer } from "react-icons/fa6";
 
 type AppContextProviderProps = {
   children: React.ReactNode;
@@ -64,21 +66,19 @@ export default function AppProvider({ children }: AppContextProviderProps) {
 
   const NAV_ITEMS: SideNavItem[] = [
     {
-      title: "CASH FLOW",
+      title: "Cash Flow",
       path: PageRoutes.cashFlow(),
-      role: [userRoles.admin, userRoles.directory, userRoles.industry],
-      icon: RiMoneyDollarCircleFill,
+      icon: FaMoneyBillTransfer,
       submenu: false,
     },
     {
-      title: "BOI CAMPEÃO",
+      title: "Boi Campeão",
       path: PageRoutes.championCattle(),
-      role: [userRoles.admin, userRoles.directory, userRoles.industry],
       icon: PiCrownFill,
       submenu: false,
     },
     {
-      title: "AUDITORIA",
+      title: "Auditoria",
       path: PageRoutes.businessAudit(),
       icon: MdFactCheck,
       submenu: false,
@@ -90,9 +90,9 @@ export default function AppProvider({ children }: AppContextProviderProps) {
     //   submenu: false,
     // },
     {
-      title: "COMPRAS",
+      title: "Compras",
       path: PageRoutes.cattleRegistries(),
-      icon: FaCow,
+      icon: FaMoneyCheckAlt,
       submenu: true,
       subMenuItems: [
         {
@@ -102,7 +102,7 @@ export default function AppProvider({ children }: AppContextProviderProps) {
       ],
     },
     {
-      title: "ESTOQUE",
+      title: "Estoque",
       path: PageRoutes.stock(),
       icon: IoLayersSharp,
       submenu: true,
@@ -122,7 +122,7 @@ export default function AppProvider({ children }: AppContextProviderProps) {
       ],
     },
     {
-      title: "FRETES",
+      title: "Fretes",
       path: PageRoutes.freights(),
       icon: MdLocalShipping,
       submenu: true,
@@ -146,7 +146,7 @@ export default function AppProvider({ children }: AppContextProviderProps) {
       ],
     },
     {
-      title: "OUTROS",
+      title: "Outros",
       path: PageRoutes.others(),
       role: [userRoles.admin, userRoles.directory],
       icon: FaCirclePlus,

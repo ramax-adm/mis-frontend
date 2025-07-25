@@ -39,7 +39,7 @@ const MARKET_OPTIONS = [
     key: MarketEnum.ME,
   },
   {
-    label: "Mi",
+    label: "MI",
     value: MarketEnum.MI,
     key: MarketEnum.MI,
   },
