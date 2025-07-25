@@ -23,6 +23,9 @@ export function SideNavWithSubmenu({
     event: React.MouseEvent<HTMLElement>,
     item?: SideNavItem[]
   ) => {
+    if (anchorEl === event.currentTarget) {
+      return;
+    }
     setAnchorEl(event.currentTarget);
     setPopoverSubMenus(item!);
   };
@@ -38,13 +41,12 @@ export function SideNavWithSubmenu({
     pathname.split("/")[1] === item.path.replace("/", "");
 
   return (
-    <Box
-      key={item.path}
-      onMouseEnter={(e) => handlePopoverOpen(e, item.subMenuItems)}
-      onMouseLeave={handlePopoverClose}
-      sx={{ position: "relative" }}
-    >
+    <Box key={item.path} sx={{ position: "relative" }}>
       <Box
+        onClick={(e) => {
+          handlePopoverOpen(e, item.subMenuItems);
+          e.stopPropagation();
+        }}
         sx={{
           display: "relative",
           textDecoration: "none",
@@ -119,9 +121,9 @@ export function SideNavWithSubmenu({
         TransitionComponent={Fade} // ← animação de fade
         slotProps={{
           paper: {
-            onMouseLeave: () => {
-              handlePopoverClose();
-            },
+            // onMouseLeave: () => {
+            //   handlePopoverClose();
+            // },
             // onMouseLeave: handlePopoverClose,
             sx: {
               padding: 0,
