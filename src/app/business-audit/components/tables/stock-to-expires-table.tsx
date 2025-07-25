@@ -102,13 +102,22 @@ const getColumns = () => [
     headerName: "Prazo",
     type: "string",
     conditionalColor: (row: any) => {
-      if (row.daysToExpires <= 15) {
+      if (row.daysToExpires < 0) {
+        return COLORS.TABELAS.FUNDO_PRETO;
+      } else if (row.daysToExpires <= 15) {
         return COLORS.TABELAS.FUNDO_VERMELHO;
       } else if (row.daysToExpires > 15 && row.daysToExpires <= 30) {
         return COLORS.TABELAS.FUNDO_AMARELO;
       }
 
       return COLORS.TABELAS.FUNDO_VERDE;
+    },
+    conditionalFontColor: (row: any) => {
+      if (row.daysToExpires < 0) {
+        return "white";
+      } else {
+        return "black";
+      }
     },
     value: {
       first: {
