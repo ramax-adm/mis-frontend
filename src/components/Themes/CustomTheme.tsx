@@ -1,10 +1,9 @@
-import { red } from '@mui/material/colors'
-import { createTheme } from '@mui/material/styles'
+import { createTheme } from "@mui/material/styles";
 
-declare module '@mui/material/Button' {
+declare module "@mui/material/Button" {
   interface ButtonPropsVariantOverrides {
-    bold: true
-    danger: true
+    bold: true;
+    danger: true;
   }
 }
 
@@ -16,33 +15,33 @@ const CustomTheme = createTheme({
     MuiTypography: {
       styleOverrides: {
         root: {
-          fontSize: '0.875rem', // sobrescreve o estilo base do Typography
+          fontSize: "0.875rem", // sobrescreve o estilo base do Typography
         },
       },
     },
     MuiOutlinedInput: {
       styleOverrides: {
         root: {
-          '&.MuiOutlinedInput-sizeSmall': {
+          "&.MuiOutlinedInput-sizeSmall": {
             height: 32,
             padding: 0,
           },
           // remove possível conflito de altura com adornments
-          '& .MuiInputAdornment-root': {
-            height: '100%',
-            maxHeight: '100%',
+          "& .MuiInputAdornment-root": {
+            height: "100%",
+            maxHeight: "100%",
             marginTop: 0,
           },
         },
         inputSizeSmall: {
-          padding: '6px 8px', // padrão visual bom para campos pequenos
+          padding: "6px 8px", // padrão visual bom para campos pequenos
         },
       },
     },
     MuiInputBase: {
       styleOverrides: {
         root: {
-          '&.MuiInputBase-sizeSmall': {
+          "&.MuiInputBase-sizeSmall": {
             minHeight: 32, // garante altura mínima consistente
           },
         },
@@ -58,32 +57,41 @@ const CustomTheme = createTheme({
       },
     },
     MuiButton: {
+      styleOverrides: {
+        startIcon: {
+          marginRight: 4, // default é 8, diminui aqui
+        },
+        endIcon: {
+          marginLeft: 4, // idem
+        },
+      },
+
       variants: [
         {
-          props: { variant: 'bold' },
+          props: { variant: "bold" },
           style: {
-            fontWeight: 'bold',
+            fontWeight: "bold",
             border: `1px solid black`,
-            color: '#3E63DD',
+            color: "#3E63DD",
           },
         },
         {
-          props: { variant: 'outlined' },
+          props: { variant: "outlined" },
           style: {
-            fontWeight: 'bold',
-            border: `1px solid #3E63DD`,
-            color: '#3E63DD',
+            fontWeight: "bold",
+            border: `1px solid #3e63dd45`,
+            color: "#3E63DD",
           },
         },
         {
-          props: { variant: 'contained' },
+          props: { variant: "contained" },
           style: {
-            fontWeight: 'bold',
-            color: 'white',
-            backgroundColor: '#3E63DD',
-            '&:hover': {
+            fontWeight: "bold",
+            color: "white",
+            backgroundColor: "#3E63DD",
+            "&:hover": {
               opacity: 0.8,
-              boxShadow: 'none',
+              boxShadow: "none",
             },
           },
         },
@@ -95,6 +103,6 @@ const CustomTheme = createTheme({
       },
     },
   },
-})
+});
 
-export { CustomTheme }
+export { CustomTheme };
