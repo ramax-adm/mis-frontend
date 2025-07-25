@@ -83,7 +83,9 @@ export function SideNav() {
                 marginX: "auto",
                 padding: 0.8,
                 "&:hover": {
-                  backgroundColor: "rgba(62, 99, 221, 0.1)",
+                  backgroundColor: isCurrentPath
+                    ? ""
+                    : "rgba(62, 99, 221, 0.1)",
                 },
               }}
             >

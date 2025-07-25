@@ -1,96 +1,94 @@
-import { Table } from '@/components/Table'
-import { Column, CustomizedTable } from '@/components/Table/body'
-import { GetStockByCompanyResponse } from '@/types/api/stock'
-import { Box } from '@mui/material'
+import { Column, CustomizedTable } from "@/components/Table/body";
+import { GetStockByCompanyResponse } from "@/types/api/stock";
 
 interface StockTableProps {
-  data: GetStockByCompanyResponse[]
+  data: GetStockByCompanyResponse[];
 }
 export function StockTable({ data }: StockTableProps) {
-  const columns = getColumns()
+  const columns = getColumns();
 
   return (
     <CustomizedTable<any>
       tableStyles={{
-        height: '500px',
-        width: '100%',
+        height: "500px",
+        width: "100%",
       }}
       cellStyles={{
         paddingX: 1,
-        fontSize: '9px',
+        fontSize: "9px",
         paddingY: 0.2,
       }}
       headCellStyles={{
         paddingX: 1,
-        fontSize: '10px',
+        fontSize: "10px",
       }}
       columns={columns}
       data={data}
     />
-  )
+  );
 }
 
 const getColumns = (): Column<GetStockByCompanyResponse>[] => {
   return [
     {
-      headerName: 'Cod.',
-      maxWidth: '20px',
-      type: 'string',
+      headerName: "Cod.",
+      maxWidth: "20px",
+      type: "string",
       value: {
         first: {
-          value: 'productCode',
+          value: "productCode",
         },
       },
     },
     {
-      headerName: 'Produto',
-      maxWidth: '80px',
-      type: 'string',
+      headerName: "Produto",
+      maxWidth: "80px",
+      type: "string",
       value: {
         first: {
-          value: 'productName',
+          value: "productName",
         },
       },
     },
     {
-      headerName: 'KG',
-      maxWidth: '30px',
-      type: 'string',
+      headerName: "KG",
+      maxWidth: "30px",
+      type: "string",
       value: {
         first: {
-          value: 'totalWeightInKg',
+          value: "totalWeightInKg",
         },
       },
     },
     {
-      headerName: '$ CAR',
-      maxWidth: '30px',
-      type: 'string',
+      headerName: "$ CAR",
+      maxWidth: "30px",
+      type: "string",
       value: {
         first: {
-          value: 'basePriceCar',
+          value: "basePriceCar",
         },
       },
     },
     {
-      headerName: '$ TRUCK',
-      maxWidth: '30px',
-      type: 'string',
+      headerName: "$ TRUCK",
+      maxWidth: "30px",
+      type: "string",
       value: {
         first: {
-          value: 'basePriceTruck',
+          value: "basePriceTruck",
         },
       },
     },
     {
-      headerName: '$ Total',
-      maxWidth: '30px',
-      type: 'string',
+      headerName: "$ Total",
+      maxWidth: "30px",
+      type: "string",
       value: {
         first: {
-          value: 'totalPrice',
+          value: "totalPrice",
         },
       },
     },
-  ]
-}
+  ];
+};
