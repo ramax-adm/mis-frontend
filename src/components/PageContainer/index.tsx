@@ -8,9 +8,11 @@ import { blue, grey, orange } from "@mui/material/colors";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import BurgerMenu from "../Menu/BurgerMenu";
 import SideNav from "../Menu/SideNav";
+import { SideNav as SideNavNew } from "../Menu/SideNav/new";
 import { useAuthContext } from "@/contexts/auth";
 import { RiLogoutBoxFill } from "react-icons/ri";
 import { IconType } from "react-icons";
+import { LogOut } from "lucide-react";
 
 type MenuItemWithSubMenuProps = {
   item: SideNavItem;
@@ -161,7 +163,11 @@ export const PageContainer = ({ children }: { children: ReactNode }) => {
         height: "100%",
       }}
     >
-      {width > 1000 && <SideNav logout={logoutUser} />}
+      {width > 1000 && (
+        <>
+          <SideNavNew />
+        </>
+      )}
       <Box
         sx={{
           display: "flex",
@@ -173,7 +179,7 @@ export const PageContainer = ({ children }: { children: ReactNode }) => {
         }}
       >
         {width < 1000 && <BurgerMenu />}
-        <Box
+        {/* <Box
           sx={{
             height: "100%",
             marginLeft:
@@ -183,9 +189,33 @@ export const PageContainer = ({ children }: { children: ReactNode }) => {
                   ? ""
                   : "72px",
           }}
+        > */}
+        <Box
+          sx={{
+            height: "100%",
+            marginLeft: width > 1000 ? "3.5rem" : "",
+          }}
         >
           {children}
         </Box>
+
+        {width > 1000 && (
+          <Button
+            variant='outlined'
+            sx={{
+              position: "absolute",
+              top: 10,
+              right: 10,
+              alignSelf: "center",
+              display: "flex",
+              gap: 2,
+            }}
+            startIcon={<LogOut size={14} strokeWidth={2} />}
+            onClick={() => logoutUser()}
+          >
+            Sair
+          </Button>
+        )}
 
         {width < 1000 && isBurgerMenuOpened && (
           <Box
