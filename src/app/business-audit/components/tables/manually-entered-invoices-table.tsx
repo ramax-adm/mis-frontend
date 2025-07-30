@@ -15,7 +15,7 @@ export function ManuallyEnteredInvoicesTable({
     <CustomizedTable
       columns={columns}
       data={parsedData}
-      tableStyles={{ height: "330px" }}
+      tableStyles={{ height: "100px" }}
       cellStyles={{
         fontSize: "9px",
         paddingX: 0.5,
@@ -36,6 +36,7 @@ const getData = ({ data = {} }: ManuallyEnteredInvoicesTableProps) => {
   const response: {
     company: string;
     quantity: number;
+    productQuantity: number;
     weightInKg: number;
     totalPrice: number;
   }[] = [];
@@ -43,6 +44,7 @@ const getData = ({ data = {} }: ManuallyEnteredInvoicesTableProps) => {
     response.push({
       company: key,
       quantity: data[key].quantity,
+      productQuantity: data[key].productQuantity,
       weightInKg: data[key].weightInKg,
       totalPrice: data[key].totalPrice,
     });
@@ -69,11 +71,20 @@ const getColumns = () => [
     },
   },
   {
-    headerName: "Qtd.",
+    headerName: "Qtd. NFs",
     type: "string",
     value: {
       first: {
         value: "quantity",
+      },
+    },
+  },
+  {
+    headerName: "Qtd. Produtos",
+    type: "string",
+    value: {
+      first: {
+        value: "productQuantity",
       },
     },
   },

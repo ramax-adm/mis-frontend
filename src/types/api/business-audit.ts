@@ -2,6 +2,7 @@ type GetBusinessAuditResumeDataAggregated = Record<
   string,
   {
     quantity: number;
+    productQuantity: number;
     weightInKg: number;
     totalPrice: number;
   }
@@ -19,8 +20,22 @@ type GetBusinessAuditStockDataAggregated = Record<
   }
 >;
 export interface GetBusinessAuditResumeDataResponse {
+  invoicesWithSamePrice: {
+    date: Date;
+    nfNumber: string;
+    companyCode: string;
+    companyName: string;
+    clientCode: string;
+    clientName: string;
+    totalPrice: number;
+  }[];
+  invoicesWithSamePriceTotals: {
+    quantity: number;
+  };
+
   manuallyEnteredInvoicesTotals: {
     quantity: number;
+    productQuantity: number;
     weightInKg: number;
     totalPrice: number;
   };
