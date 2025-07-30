@@ -71,7 +71,7 @@ const getColumns = () => [
     },
   },
   {
-    headerName: "Qtd. NF",
+    headerName: "Qtd. NFs",
     type: "string",
     value: {
       first: {
