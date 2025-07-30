@@ -18,6 +18,8 @@ import { CattlePurchaseFreightsOverTablePriceTotals } from "./components/customi
 import { StockToExpiresTotals } from "./components/customized/stock-to-expires-totals";
 import { StockToExpiresTable } from "./components/tables/stock-to-expires-table";
 import { OpenCattlePurchaseFreightsTotals } from "./components/customized/open-cattle-purchase-freights-totals";
+import { InvoicesWithSamePriceTable } from "./components/tables/invoices-with-same-price-table";
+import { InvoicesWithSamePriceTotals } from "./components/customized/invoices-with-same-price-totals";
 
 export default function BusinessAudit() {
   const [selectedStartDate, setSelectedStartDate] = useState(new Date());
@@ -99,6 +101,30 @@ export default function BusinessAudit() {
             <ManuallyEnteredInvoicesTable
               data={businessAuditData?.manuallyEnteredInvoicesByCompany}
             />
+          </Box>
+          <Box marginTop={1} sx={{ display: "inline-flex", width: "100%" }}>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                gap: 0.5,
+                width: "100%",
+              }}
+            >
+              <Typography
+                fontWeight={700}
+                fontSize={"12px"}
+                color={COLORS.TEXTO}
+              >
+                NFs c/ duplicidade no valor
+              </Typography>
+              <InvoicesWithSamePriceTotals
+                data={businessAuditData?.invoicesWithSamePriceTotals}
+              />
+              <InvoicesWithSamePriceTable
+                data={businessAuditData?.invoicesWithSamePrice}
+              />
+            </Box>
           </Box>
         </Grid>
         {/* Fretes

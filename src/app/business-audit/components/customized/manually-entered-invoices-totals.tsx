@@ -45,6 +45,20 @@ export function ManuallyEnteredInvoicesTotals({
             gap: 0.5,
           }}
         >
+          <Typography fontSize={"9px"}>Qtd. Produtos </Typography>
+          <Typography fontSize={"11px"} fontWeight={800}>
+            {"  "}
+            {toLocaleString(data?.productQuantity ?? 0)}
+          </Typography>
+        </Box>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            gap: 0.5,
+          }}
+        >
           <Typography fontSize={"9px"}>Peso KG </Typography>
           <Typography fontSize={"11px"} fontWeight={800}>
             {"  "}
