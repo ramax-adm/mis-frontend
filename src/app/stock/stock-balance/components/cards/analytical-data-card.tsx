@@ -3,7 +3,7 @@ import { StockBalanceAnalyticalTable } from "../tables/analytical-table";
 import { Grid } from "@mui/material";
 
 interface StockBalanceAnalyticalDataCardProps {
-  data?: GetStockBalanceAnalyticalDataResponse[];
+  data?: GetStockBalanceAnalyticalDataResponse["items"];
 }
 export function StockBalanceAnalyticalDataCard({
   data = [],

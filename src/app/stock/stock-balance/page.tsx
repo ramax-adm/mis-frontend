@@ -9,13 +9,15 @@ import {
   StockBalanceAnalyticalSectionRef,
 } from "./components/sections/analytical-section";
 import { TabsPanelRef } from "@/components/Tabs/panel";
-import { useGetStockLastUpdatedAt } from "@/services/react-query/queries/stock";
 import { LoadingOverlay } from "@/components/Loading/loadingSpinner";
-import { useSyncStockWithSensatta } from "@/services/react-query/mutations/sensatta";
-import { useExportStockBalanceAllXlsx } from "@/services/react-query/mutations/stock-balance";
+import {
+  useExportStockBalanceAllXlsx,
+  useSyncStockBalanceWithSensatta,
+} from "@/services/react-query/mutations/stock-balance";
+import { useGetStockBalanceLastUpdatedAt } from "@/services/react-query/queries/stock-balance";
 
 export default function StockBalancePage() {
-  const [selectedTab, setSelectedTab] = useState<"analytical">("analytical");
+  const [, setSelectedTab] = useState<"analytical">("analytical");
 
   const handleSelectTab = (value: string) =>
     setSelectedTab(value as "analytical");
@@ -26,8 +28,8 @@ export default function StockBalancePage() {
   const { mutateAsync: exportStockBalance, isPending: isExportStockBalance } =
     useExportStockBalanceAllXlsx();
   const { mutateAsync: syncStockBalance, isPending: isSyncStockBalance } =
-    useSyncStockWithSensatta();
-  const { data: stockLastUpdatedAt } = useGetStockLastUpdatedAt();
+    useSyncStockBalanceWithSensatta();
+  const { data: stockLastUpdatedAt } = useGetStockBalanceLastUpdatedAt();
 
   return (
     <PageContainer>

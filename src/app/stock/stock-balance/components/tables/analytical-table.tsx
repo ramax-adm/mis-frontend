@@ -4,7 +4,7 @@ import { toLocaleString } from "@/utils/string.utils";
 import { Box } from "@mui/material";
 
 interface StockBalanceAnalyticalTableProps {
-  data?: GetStockBalanceAnalyticalDataResponse[];
+  data?: GetStockBalanceAnalyticalDataResponse["items"];
 }
 export function StockBalanceAnalyticalTable({
   data = [],
