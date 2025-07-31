@@ -1,12 +1,11 @@
-import { GetCattlePurchaseAnalyticalTotalsItem } from "@/types/api/purchase";
+import { GetStockBalanceAnalyticalTotals } from "@/types/api/stock-balance";
+import { toLocaleString } from "@/utils/string.utils";
 import { Box, Typography } from "@mui/material";
 
-interface CattlePurchaseAnalyticalTotalsIndicatorProps {
-  data?: GetCattlePurchaseAnalyticalTotalsItem;
+interface StockBalanceTotalsProps {
+  data?: GetStockBalanceAnalyticalTotals;
 }
-export function CattlePurchaseAnalyticalTotalsIndicator({
-  data,
-}: CattlePurchaseAnalyticalTotalsIndicatorProps) {
+export function StockBalanceTotals({ data }: StockBalanceTotalsProps) {
   return (
     <Box
       sx={{
@@ -29,40 +28,40 @@ export function CattlePurchaseAnalyticalTotalsIndicator({
         </Typography>
         <Box sx={{ display: "inline-flex", gap: 2 }}>
           <Box sx={{ display: "flex", flexDirection: "column" }}>
-            <Typography fontSize={"9px"}>Cbs</Typography>
+            <Typography fontSize={"9px"}>Qtd. Estoque</Typography>
             <Typography fontSize={"14px"} fontWeight={700}>
-              {data?.cattleQuantity}
+              {toLocaleString(data?.quantity ?? 0)}
             </Typography>
           </Box>
           <Box sx={{ display: "flex", flexDirection: "column" }}>
-            <Typography fontSize={"9px"}>Peso/@</Typography>
+            <Typography fontSize={"9px"}>KG Estoque</Typography>
             <Typography fontSize={"14px"} fontWeight={700}>
-              {data?.weightInArroba}
+              {toLocaleString(data?.weightInKg ?? 0)}
             </Typography>
           </Box>
           <Box sx={{ display: "flex", flexDirection: "column" }}>
-            <Typography fontSize={"9px"}>Σ R$ Frete</Typography>
+            <Typography fontSize={"9px"}>Qtd. Pedido</Typography>
             <Typography fontSize={"14px"} fontWeight={700}>
-              {data?.freightValue}
+              {toLocaleString(data?.reservedQuantity ?? 0)}
             </Typography>
           </Box>
           <Box sx={{ display: "flex", flexDirection: "column" }}>
-            <Typography fontSize={"9px"}>Σ R$ Comissão</Typography>
+            <Typography fontSize={"9px"}>KG Pedido</Typography>
             <Typography fontSize={"14px"} fontWeight={700}>
-              {data?.commissionValue}
+              {toLocaleString(data?.reservedWeightInKg ?? 0)}
             </Typography>
           </Box>
           <Box sx={{ display: "flex", flexDirection: "column" }}>
-            <Typography fontSize={"9px"}>Σ R$ Compra</Typography>
+            <Typography fontSize={"9px"}>Qtd. Disponivel</Typography>
             <Typography fontSize={"14px"} fontWeight={700}>
-              {data?.purchaseValue}
+              {toLocaleString(data?.availableQuantity ?? 0)}
             </Typography>
           </Box>
 
           <Box sx={{ display: "flex", flexDirection: "column" }}>
-            <Typography fontSize={"9px"}>R$ Total</Typography>
+            <Typography fontSize={"9px"}>KG Disponivel</Typography>
             <Typography fontSize={"14px"} fontWeight={700}>
-              {data?.finalValue}
+              {toLocaleString(data?.availableWeightInKg ?? 0)}
             </Typography>
           </Box>
         </Box>

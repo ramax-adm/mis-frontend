@@ -1,9 +1,10 @@
-import { StockMarket } from '@/constants/app/stock'
+import { StockMarket } from "@/constants/app/stock";
+import { MarketEnum } from "../sensatta";
 
 export interface UseGetAnalyticalAllStocksRequest {
-  companyCode?: string
+  companyCode?: string;
 }
 
 export interface UseGetProductLinesRequest {
-  market?: StockMarket
+  market?: StockMarket | MarketEnum;
 }
