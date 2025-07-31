@@ -5,7 +5,7 @@ export interface GetStockBalanceLastUpdatedAtResponse {
   externalUpdatedAt: Date;
 }
 
-export interface GetStockBalanceAggregatedAnalyticalTotals {
+export interface GetStockBalanceAnalyticalTotals {
   weightInKg: number;
   quantity: number;
   reservedWeightInKg: number;
@@ -25,34 +25,31 @@ export interface GetStockBalanceAggregatedAnalyticalItem {
   availableWeightInKg: number;
   availableQuantity: number;
 }
+
 export interface GetStockBalanceAggregatedAnalyticalDataResponse {
-  total: {
-    weightInKg: number;
-    quantity: number;
-    reservedWeightInKg: number;
-    reservedQuantity: number;
-    availableWeightInKg: number;
-    availableQuantity: number;
-  };
+  totals: GetStockBalanceAnalyticalTotals;
   items: {
     [k: string]: {
-      total: GetStockBalanceAggregatedAnalyticalTotals;
+      total: GetStockBalanceAnalyticalTotals;
       data: GetStockBalanceAggregatedAnalyticalItem[];
     };
   };
 }
 
 export interface GetStockBalanceAnalyticalDataResponse {
-  productLineCode: string;
-  productLineName: string;
-  productLine: string;
-  productCode: string;
-  productName: string;
-  product: string;
-  weightInKg: number;
-  quantity: number;
-  reservedWeightInKg: number;
-  reservedQuantity: number;
-  availableWeightInKg: number;
-  availableQuantity: number;
+  totals: GetStockBalanceAnalyticalTotals;
+  items: {
+    productLineCode: string;
+    productLineName: string;
+    productLine: string;
+    productCode: string;
+    productName: string;
+    product: string;
+    weightInKg: number;
+    quantity: number;
+    reservedWeightInKg: number;
+    reservedQuantity: number;
+    availableWeightInKg: number;
+    availableQuantity: number;
+  }[];
 }

@@ -64,7 +64,7 @@ export const useGetStockBalanceAnalyticalData = ({
   market?: string;
   productLineCode?: string;
 }) => {
-  return useQuery<GetStockBalanceAnalyticalDataResponse[]>({
+  return useQuery<GetStockBalanceAnalyticalDataResponse>({
     queryKey: [
       queryKeys.STOCK_BALANCE.GET_ANALYTICAL,
       companyCode,
