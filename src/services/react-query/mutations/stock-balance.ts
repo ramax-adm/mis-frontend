@@ -1,33 +1,7 @@
 import { toast } from "sonner";
-import { queryKeys } from "../query-keys";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { PostSyncStockBalanceWithSensatta } from "@/services/webApi/sensatta-api";
+import { useMutation } from "@tanstack/react-query";
 import { ExportService } from "@/services/export";
 import { PostExportStockBalanceAllXlsx } from "@/services/webApi/stock-balance-api";
-
-export const useSyncStockBalanceWithSensatta = () => {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: async () => await PostSyncStockBalanceWithSensatta(),
-    onError() {
-      toast.error("Erro", {
-        description: "Erro ao sincronizar com o sensatta!",
-      });
-    },
-
-    onSuccess() {
-      const queriesToInvalidate = [queryKeys.STOCK_BALANCE.GET_LAST_UPDATED_AT];
-
-      queriesToInvalidate.forEach((query) =>
-        queryClient.invalidateQueries({ queryKey: [query] })
-      );
-
-      toast.success("Sucesso", {
-        description: "A sincronização foi concluida com sucesso!",
-      });
-    },
-  });
-};
 
 export const useExportStockBalanceAllXlsx = () => {
   return useMutation({
