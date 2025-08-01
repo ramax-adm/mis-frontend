@@ -10,11 +10,9 @@ import {
 } from "./components/sections/analytical-section";
 import { TabsPanelRef } from "@/components/Tabs/panel";
 import { LoadingOverlay } from "@/components/Loading/loadingSpinner";
-import {
-  useExportStockBalanceAllXlsx,
-  useSyncStockBalanceWithSensatta,
-} from "@/services/react-query/mutations/stock-balance";
+import { useExportStockBalanceAllXlsx } from "@/services/react-query/mutations/stock-balance";
 import { useGetStockBalanceLastUpdatedAt } from "@/services/react-query/queries/stock-balance";
+import { useSyncStockBalanceWithSensatta } from "@/services/react-query/mutations/sensatta";
 
 export default function StockBalancePage() {
   const [, setSelectedTab] = useState<"analytical">("analytical");
