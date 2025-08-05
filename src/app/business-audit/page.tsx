@@ -9,17 +9,17 @@ import dayjs from "dayjs";
 import { useState } from "react";
 import { ManuallyEnteredInvoicesTable } from "./components/tables/manually-entered-invoices-table";
 import { LoadingOverlay } from "@/components/Loading/loadingSpinner";
-import { ManuallyEnteredInvoicesTotals } from "./components/customized/manually-entered-invoices-totals";
+import { ManuallyEnteredInvoicesTotals } from "./components/totals/manually-entered-invoices-totals";
 import { CattlePurchaseFreightsDuplicatedTable } from "./components/tables/cattle-purchase-freights-duplicated-table";
 import { CattlePurchaseFreightsOverTablePriceTable } from "./components/tables/cattle-purchase-freights-over-table-price-table";
 import { OpenCattlePurchaseFreightsTable } from "./components/tables/open-cattle-purchase-freights-table";
-import { CattlePurchaseFreightsDuplicatedTotals } from "./components/customized/cattle-purchase-freights-duplicated-totals";
-import { CattlePurchaseFreightsOverTablePriceTotals } from "./components/customized/cattle-purchase-freights-over-table-price-totals";
-import { StockToExpiresTotals } from "./components/customized/stock-to-expires-totals";
+import { CattlePurchaseFreightsDuplicatedTotals } from "./components/totals/cattle-purchase-freights-duplicated-totals";
+import { CattlePurchaseFreightsOverTablePriceTotals } from "./components/totals/cattle-purchase-freights-over-table-price-totals";
+import { StockToExpiresTotals } from "./components/totals/stock-to-expires-totals";
 import { StockToExpiresTable } from "./components/tables/stock-to-expires-table";
-import { OpenCattlePurchaseFreightsTotals } from "./components/customized/open-cattle-purchase-freights-totals";
+import { OpenCattlePurchaseFreightsTotals } from "./components/totals/open-cattle-purchase-freights-totals";
 import { InvoicesWithSamePriceTable } from "./components/tables/invoices-with-same-price-table";
-import { InvoicesWithSamePriceTotals } from "./components/customized/invoices-with-same-price-totals";
+import { InvoicesWithSamePriceTotals } from "./components/totals/invoices-with-same-price-totals";
 
 export default function BusinessAudit() {
   const [selectedStartDate, setSelectedStartDate] = useState(new Date());

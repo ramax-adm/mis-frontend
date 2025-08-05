@@ -34,7 +34,7 @@ export function StockToExpiresTotals({ data }: StockToExpiresTotalsProps) {
             {toLocaleString(data?.totalWeightInKg ?? 0)}
           </Typography>
         </Box>
-        {/* <Box
+        <Box
           sx={{
             display: "flex",
             flexDirection: "row",
@@ -42,12 +42,40 @@ export function StockToExpiresTotals({ data }: StockToExpiresTotalsProps) {
             gap: 0.5,
           }}
         >
-          <Typography fontSize={"9px"}>Med. Venc. </Typography>
+          <Typography fontSize={"9px"}>KG Vencido</Typography>
           <Typography fontSize={"11px"} fontWeight={800}>
             {"  "}
-            {toLocaleString(data?.daysToExpires ?? 0)}
+            {toLocaleString(data?.totalExpiredStockWeightInKg ?? 0)}
           </Typography>
-        </Box> */}
+        </Box>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            gap: 0.5,
+          }}
+        >
+          <Typography fontSize={"9px"}>KG a vencer 0-15 dias</Typography>
+          <Typography fontSize={"11px"} fontWeight={800}>
+            {"  "}
+            {toLocaleString(data?.totalFifoExpiresStockWeightInKg ?? 0)}
+          </Typography>
+        </Box>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            gap: 0.5,
+          }}
+        >
+          <Typography fontSize={"9px"}>KG a vencer 16-30 dias</Typography>
+          <Typography fontSize={"11px"} fontWeight={800}>
+            {"  "}
+            {toLocaleString(data?.totalAlertExpiresStockWeightInKg ?? 0)}
+          </Typography>
+        </Box>
       </Box>
     </Box>
   );
