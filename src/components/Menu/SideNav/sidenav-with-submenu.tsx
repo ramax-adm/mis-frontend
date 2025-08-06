@@ -6,11 +6,13 @@ import { IconType } from "react-icons";
 
 interface SideNavWithSubmenuProps {
   item: SideNavItem;
+  index: number;
   icon?: IconType;
   pathname: string;
 }
 export function SideNavWithSubmenu({
   item,
+  index,
   icon: Icon,
   pathname,
 }: SideNavWithSubmenuProps) {
@@ -41,7 +43,7 @@ export function SideNavWithSubmenu({
     pathname.split("/")[1] === item.path.replace("/", "");
 
   return (
-    <Box key={item.path} sx={{ position: "relative" }}>
+    <Box key={index} sx={{ position: "relative" }}>
       <Box
         onClick={(e) => {
           handlePopoverOpen(e, item.subMenuItems);
