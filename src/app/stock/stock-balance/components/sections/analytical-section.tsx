@@ -95,15 +95,16 @@ export const StockBalanceAnalyticalSection =
 
     // queries
     const { data: companies } = useGetCompanies({});
+    const { data: productLines } = useGetProductLines({
+      market: selectedMarket,
+    });
     const { data: stockData, isFetching: isFetchingStockData } =
       useGetStockBalanceAnalyticalData({
         dataVisualization: selectedDataVisualization,
         companyCode: selectedCompany,
         market: selectedMarket,
+        productLineCode: selectedProductLinesCodes.join(","),
       });
-    const { data: productLines } = useGetProductLines({
-      market: selectedMarket,
-    });
     const {
       data: stockAggregatedData,
       isFetching: isFetchingStockAggregatedData,

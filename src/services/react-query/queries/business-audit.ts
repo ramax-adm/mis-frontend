@@ -7,8 +7,8 @@ export const useGetBusinessAuditResumeData = ({
   startDate,
   endDate,
 }: {
-  startDate: Date;
-  endDate: Date;
+  startDate: string;
+  endDate: string;
 }) => {
   return useQuery<GetBusinessAuditResumeDataResponse>({
     queryKey: [

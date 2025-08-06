@@ -1,16 +1,16 @@
-import { FormControl, SxProps } from '@mui/material'
-import { DatePicker } from '@mui/x-date-pickers'
-import dayjs, { Dayjs } from 'dayjs'
+import { FormControl, SxProps } from "@mui/material";
+import { DatePicker } from "@mui/x-date-pickers";
+import dayjs, { Dayjs } from "dayjs";
 
 type Props = {
-  label: string
-  value: dayjs.Dayjs | null | undefined
-  setValue: (date: Date) => void
-  sx?: SxProps
-  size: 'small' | 'medium'
-  readonly?: boolean
-  disabled?: boolean
-}
+  label: string;
+  value: dayjs.Dayjs | null | undefined;
+  setValue: (date: Date) => void;
+  sx?: SxProps;
+  size: "small" | "medium";
+  readonly?: boolean;
+  disabled?: boolean;
+};
 export function DateInputControlled({
   label,
   value,
@@ -26,12 +26,14 @@ export function DateInputControlled({
         label={label}
         value={value}
         readOnly={readonly}
-        onChange={(date: Dayjs | null) => (date ? setValue(date.toDate()) : null)}
+        onChange={(date: Dayjs | null) => {
+          return date ? setValue(date.toDate()) : null;
+        }}
         slotProps={{
           textField: { size, disabled },
         }}
         format='DD/MM/YYYY'
       />
     </FormControl>
-  )
+  );
 }

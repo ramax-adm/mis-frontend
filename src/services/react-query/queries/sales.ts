@@ -1,0 +1,136 @@
+import { useQuery } from "@tanstack/react-query";
+import { queryKeys } from "../query-keys";
+import {
+  GetAnalyticalInvoices,
+  GetCfopsInvoiceFilters,
+  GetClientsInvoiceFilters,
+  GetNfSituationsInvoiceFilters,
+  GetSalesInvoicesLastUpdatedAt,
+} from "@/services/webApi/sales";
+import { InvoicesNfTypesEnum } from "@/types/sales";
+import {
+  GetAnalyticalInvoicesResponse,
+  GetInvoicesItem,
+  GetSalesInvoicesUpdatedAtResponse,
+} from "@/types/api/sales";
+
+export const useGetSalesInvoicesLastUpdatedAt = () => {
+  return useQuery<GetSalesInvoicesUpdatedAtResponse>({
+    queryKey: [queryKeys.SALES.INVOICE.GET_LAST_UPDATED_AT],
+    queryFn: async () => {
+      const response = await GetSalesInvoicesLastUpdatedAt();
+
+      return response;
+    },
+    refetchOnWindowFocus: false,
+  });
+};
+
+// SALES INVOICES ANALYTICAL
+export const useGetCfopsInvoiceFilters = ({
+  companyCode,
+  startDate,
+  endDate,
+}: {
+  companyCode?: string;
+  startDate?: string;
+  endDate?: string;
+}) => {
+  return useQuery<{ key: string; label: string; value: string }[]>({
+    queryKey: [
+      queryKeys.SALES.INVOICE.GET_CFOPS_FILTERS,
+      companyCode,
+      startDate,
+      endDate,
+    ],
+    queryFn: async () =>
+      await GetCfopsInvoiceFilters({ companyCode, startDate, endDate }),
+  });
+};
+
+export const useGetClientsInvoiceFilters = ({
+  companyCode,
+  startDate,
+  endDate,
+}: {
+  companyCode?: string;
+  startDate?: string;
+  endDate?: string;
+}) => {
+  return useQuery<{ key: string; label: string; value: string }[]>({
+    queryKey: [
+      queryKeys.SALES.INVOICE.GET_CLIENTS_FILTERS,
+      companyCode,
+      startDate,
+      endDate,
+    ],
+    queryFn: async () =>
+      await GetClientsInvoiceFilters({ companyCode, startDate, endDate }),
+  });
+};
+
+export const useGetNfSituationsInvoiceFilters = ({
+  companyCode,
+  startDate,
+  endDate,
+}: {
+  companyCode?: string;
+  startDate?: string;
+  endDate?: string;
+}) => {
+  return useQuery<{ key: string; label: string; value: string }[]>({
+    queryKey: [
+      queryKeys.SALES.INVOICE.GET_NF_SITUATIONS_FILTERS,
+      companyCode,
+      startDate,
+      endDate,
+    ],
+    queryFn: async () =>
+      await GetNfSituationsInvoiceFilters({ companyCode, startDate, endDate }),
+  });
+};
+
+export const useGetAnalyticalInvoices = ({
+  companyCode,
+  startDate,
+  endDate,
+  cfopCode,
+  clientCode,
+  nfNumber,
+  nfSituation,
+  nfType,
+}: {
+  companyCode: string;
+  startDate?: string;
+  endDate?: string;
+  clientCode?: string;
+  cfopCode?: string;
+  nfType?: InvoicesNfTypesEnum;
+  nfNumber?: string;
+  nfSituation?: string;
+}) => {
+  return useQuery<GetAnalyticalInvoicesResponse>({
+    queryKey: [
+      queryKeys.SALES.INVOICE.GET_ANALYTICAL_DATA,
+      companyCode,
+      startDate,
+      endDate,
+      cfopCode,
+      clientCode,
+      nfNumber,
+      nfSituation,
+      nfType,
+    ],
+    queryFn: async () =>
+      await GetAnalyticalInvoices({
+        companyCode,
+        startDate,
+        endDate,
+        cfopCode,
+        clientCode,
+        nfNumber,
+        nfSituation,
+        nfType,
+      }),
+  });
+};

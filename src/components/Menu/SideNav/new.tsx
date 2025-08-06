@@ -40,7 +40,7 @@ export function SideNav() {
         />
       </Link>
       <Divider orientation='horizontal' sx={{ margin: 1 }} />
-      {NAV_ITEMS.map((item) => {
+      {NAV_ITEMS.map((item, index) => {
         const isUserAdmin = user.role === UserRoleEnum.Admin;
         const isUserHasWebpage = user?.userWebpages?.find(
           (i) => i.page.page === item.path
@@ -58,10 +58,16 @@ export function SideNav() {
         const isCurrentPath = item.path === pathname;
 
         return hasSubmenu ? (
-          <SideNavWithSubmenu item={item} icon={Icon} pathname={pathname} />
+          <SideNavWithSubmenu
+            key={index}
+            item={item}
+            index={index}
+            icon={Icon}
+            pathname={pathname}
+          />
         ) : (
           <Link
-            key={item.path}
+            key={index}
             href={item.path}
             style={{
               display: "flex",

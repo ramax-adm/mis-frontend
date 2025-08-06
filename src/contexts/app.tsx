@@ -5,7 +5,7 @@ import { IconType } from "react-icons";
 import { PageRoutes } from "@/utils/appRoutes";
 import { userRoles } from "./auth";
 import { PiCrownFill } from "react-icons/pi";
-import { MdLocalShipping } from "react-icons/md";
+import { MdLocalShipping, MdReceipt, MdTrendingUp } from "react-icons/md";
 import { IoLayersSharp } from "react-icons/io5";
 import { IoPeople } from "react-icons/io5";
 import { FaCirclePlus } from "react-icons/fa6";
@@ -129,6 +129,18 @@ export default function AppProvider({ children }: AppContextProviderProps) {
         {
           path: PageRoutes.cattlePurchaseFreights(),
           title: "Compra Gado",
+        },
+      ],
+    },
+    {
+      title: "Vendas",
+      path: PageRoutes.sales(),
+      icon: MdReceipt,
+      submenu: true,
+      subMenuItems: [
+        {
+          path: PageRoutes.invoices(),
+          title: "Notas Fiscais",
         },
       ],
     },
