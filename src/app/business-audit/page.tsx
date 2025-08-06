@@ -6,7 +6,7 @@ import { COLORS } from "@/constants/styles/colors";
 import { useGetBusinessAuditResumeData } from "@/services/react-query/queries/business-audit";
 import { Alert, Box, Grid, Typography } from "@mui/material";
 import dayjs from "dayjs";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { ManuallyEnteredInvoicesTable } from "./components/tables/manually-entered-invoices-table";
 import { LoadingOverlay } from "@/components/Loading/loadingSpinner";
 import { ManuallyEnteredInvoicesTotals } from "./components/totals/manually-entered-invoices-totals";
