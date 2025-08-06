@@ -4,8 +4,8 @@ export async function GetBusinessAuditResumeData({
   startDate,
   endDate,
 }: {
-  startDate: Date;
-  endDate: Date;
+  startDate: string;
+  endDate: string;
 }) {
   const response = await GetFetch(
     urls.BUSINESS_AUDIT.GET_BUSINESS_AUDIT_RESUMED,
