@@ -5,7 +5,7 @@ import { Tabs } from "@/components/Tabs";
 import { TabsPanelRef } from "@/components/Tabs/panel";
 import { useAuthContext } from "@/contexts/auth";
 import { Box, Button, Grid, Tab, Typography } from "@mui/material";
-import { useRef, useState } from "react";
+import { Suspense, useRef, useState } from "react";
 import {
   parseAsIsoDate,
   parseAsIsoDateTime,
