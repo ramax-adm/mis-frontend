@@ -61,6 +61,16 @@ export const urls = {
   PARAMETER: {
     GET_SALES_DEDUCTIONS_PARAMETERS: `${apiLocal}/api/params/sales-deduction`,
   },
+  SALES: {
+    INVOICES: {
+      GET_LAST_UPDATED_AT: `${apiLocal}/api/sales/invoice/last-update`,
+      GET_CFOPS_FILTERS: `${apiLocal}/api/sales/invoice/filters/cfops`,
+      GET_CLIENTS_FILTERS: `${apiLocal}/api/sales/invoice/filters/clients`,
+      GET_NF_SITUATIONS_FILTERS: `${apiLocal}/api/sales/invoice/filters/nf-situations`,
+      GET_ANALYTICAL_INVOICES: `${apiLocal}/api/sales/invoice/analytical`,
+      POST_SYNC_INVOICES: `${apiLocal}/api/sales/invoice/sync`,
+    },
+  },
   STOCK: {
     GET_ALL: `${apiLocal}/api/stock`,
     GET_LAST_UPDATED_AT: `${apiLocal}/api/stock/last-update`,

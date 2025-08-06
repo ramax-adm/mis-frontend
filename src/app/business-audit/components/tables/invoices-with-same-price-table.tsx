@@ -1,7 +1,20 @@
 import { CustomizedTable } from "@/components/Table/body";
 import { GetBusinessAuditResumeDataResponse } from "@/types/api/business-audit";
+import { PageRoutes } from "@/utils/appRoutes";
 import { formatToDate } from "@/utils/formatToDate";
 import { toLocaleString } from "@/utils/string.utils";
+import { useRouter } from "next/navigation";
+import { useQueryState, parseAsString } from "nuqs";
+
+type GetDataResponseItem = {
+  date: string;
+  totalPrice: string;
+  nfNumber: string;
+  companyCode: string;
+  companyName: string;
+  clientCode: string;
+  clientName: string;
+};
 
 interface InvoicesWithSamePriceTableProps {
   data?: GetBusinessAuditResumeDataResponse["invoicesWithSamePrice"];
@@ -9,13 +22,36 @@ interface InvoicesWithSamePriceTableProps {
 export function InvoicesWithSamePriceTable({
   data,
 }: InvoicesWithSamePriceTableProps) {
+  const [startDate] = useQueryState(
+    "startDate",
+    parseAsString.withDefault(new Date().toISOString().split("T")[0])
+  );
+
+  const [endDate] = useQueryState(
+    "endDate",
+    parseAsString.withDefault(new Date().toISOString().split("T")[0])
+  );
+  const router = useRouter();
   const parsedData = getData({ data });
   const columns = getColumns();
 
+  const handleAction = (row: GetDataResponseItem) => {
+    const destinyUrl = PageRoutes.invoices()
+      .concat("?")
+      .concat(`companyCode=${row.companyCode}`)
+      .concat("&")
+      .concat(`startDate=${startDate}`)
+      .concat("&")
+      .concat(`endDate=${endDate}`)
+      .concat("&")
+      .concat(`nfNumber=${row.nfNumber}`);
+    router.push(destinyUrl);
+  };
   return (
     <CustomizedTable
       columns={columns}
       data={parsedData}
+      action={handleAction}
       tableStyles={{ height: "150px" }}
       cellStyles={{
         fontSize: "9px",
@@ -31,7 +67,9 @@ export function InvoicesWithSamePriceTable({
   );
 }
 
-const getData = ({ data = [] }: InvoicesWithSamePriceTableProps) => {
+const getData = ({
+  data = [],
+}: InvoicesWithSamePriceTableProps): GetDataResponseItem[] => {
   return data
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
     .map((r) => ({

@@ -74,6 +74,14 @@ export class PageRoutes {
     return `/freights/cattle-purchase-freights`;
   }
 
+  // freights
+  static sales() {
+    return `/sales`;
+  }
+  static invoices() {
+    return `/sales/invoices`;
+  }
+
   // humanResources
   static humanResources() {
     return `/human-resources`;

@@ -1,6 +1,20 @@
 import { CustomizedTable } from "@/components/Table/body";
 import { GetBusinessAuditResumeDataResponse } from "@/types/api/business-audit";
+import { InvoicesNfTypesEnum } from "@/types/sales";
+import { PageRoutes } from "@/utils/appRoutes";
 import { toLocaleString } from "@/utils/string.utils";
+import { useRouter } from "next/navigation";
+import { parseAsString, useQueryState } from "nuqs";
+
+type GetDataResponseItem = {
+  companyCode: string;
+  companyName: string;
+  quantity: string;
+  weightInKg: string;
+  totalPrice: string;
+  company: string;
+  productQuantity: number;
+};
 
 interface ManuallyEnteredInvoicesTableProps {
   data?: GetBusinessAuditResumeDataResponse["manuallyEnteredInvoicesByCompany"];
@@ -8,13 +22,36 @@ interface ManuallyEnteredInvoicesTableProps {
 export function ManuallyEnteredInvoicesTable({
   data,
 }: ManuallyEnteredInvoicesTableProps) {
+  const [startDate] = useQueryState(
+    "startDate",
+    parseAsString.withDefault(new Date().toISOString().split("T")[0])
+  );
+
+  const [endDate] = useQueryState(
+    "endDate",
+    parseAsString.withDefault(new Date().toISOString().split("T")[0])
+  );
+  const router = useRouter();
   const parsedData = getData({ data });
   const columns = getColumns();
 
+  const handleAction = (row: GetDataResponseItem) => {
+    const destinyUrl = PageRoutes.invoices()
+      .concat("?")
+      .concat(`companyCode=${row.companyCode}`)
+      .concat("&")
+      .concat(`startDate=${startDate}`)
+      .concat("&")
+      .concat(`endDate=${endDate}`)
+      .concat("&")
+      .concat(`nfType=${InvoicesNfTypesEnum.AVULSA}`);
+    router.push(destinyUrl);
+  };
   return (
     <CustomizedTable
       columns={columns}
       data={parsedData}
+      action={handleAction}
       tableStyles={{ height: "100px" }}
       cellStyles={{
         fontSize: "9px",
@@ -35,6 +72,8 @@ const getData = ({ data = {} }: ManuallyEnteredInvoicesTableProps) => {
 
   const response: {
     company: string;
+    companyCode: string;
+    companyName: string;
     quantity: number;
     productQuantity: number;
     weightInKg: number;
@@ -43,6 +82,8 @@ const getData = ({ data = {} }: ManuallyEnteredInvoicesTableProps) => {
   for (const key of keys) {
     response.push({
       company: key,
+      companyCode: data[key].companyCode,
+      companyName: data[key].companyName,
       quantity: data[key].quantity,
       productQuantity: data[key].productQuantity,
       weightInKg: data[key].weightInKg,
@@ -61,6 +102,15 @@ const getData = ({ data = {} }: ManuallyEnteredInvoicesTableProps) => {
 };
 
 const getColumns = () => [
+  {
+    headerName: "Cod. Empresa",
+    type: "string",
+    value: {
+      first: {
+        value: "companyCode",
+      },
+    },
+  },
   {
     headerName: "Empresa",
     type: "string",
