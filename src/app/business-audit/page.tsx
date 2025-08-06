@@ -4,7 +4,7 @@ import { PageContainer } from "@/components/PageContainer";
 import { PageContainerHeader } from "@/components/PageContainer/header";
 import { COLORS } from "@/constants/styles/colors";
 import { useGetBusinessAuditResumeData } from "@/services/react-query/queries/business-audit";
-import { Box, Grid, Typography } from "@mui/material";
+import { Alert, Box, Grid, Typography } from "@mui/material";
 import dayjs from "dayjs";
 import { useState } from "react";
 import { ManuallyEnteredInvoicesTable } from "./components/tables/manually-entered-invoices-table";
@@ -20,20 +20,33 @@ import { StockToExpiresTable } from "./components/tables/stock-to-expires-table"
 import { OpenCattlePurchaseFreightsTotals } from "./components/totals/open-cattle-purchase-freights-totals";
 import { InvoicesWithSamePriceTable } from "./components/tables/invoices-with-same-price-table";
 import { InvoicesWithSamePriceTotals } from "./components/totals/invoices-with-same-price-totals";
+import { parseAsString, useQueryState } from "nuqs";
 
 export default function BusinessAudit() {
-  const [selectedStartDate, setSelectedStartDate] = useState(new Date());
-  const [selectedEndDate, setSelectedEndDate] = useState(new Date());
+  const [startDate, setStartDate] = useQueryState(
+    "startDate",
+    parseAsString.withDefault(new Date().toISOString().split("T")[0])
+  );
+
+  const [endDate, setEndDate] = useQueryState(
+    "endDate",
+    parseAsString.withDefault(new Date().toISOString().split("T")[0])
+  );
   const { data: businessAuditData, isFetching } = useGetBusinessAuditResumeData(
     {
-      startDate: selectedStartDate,
-      endDate: selectedEndDate,
+      startDate,
+      endDate,
     }
   );
 
-  const handleSelectStartDate = (value: Date) => setSelectedStartDate(value);
-  const handleSelectEndDate = (value: Date) => setSelectedEndDate(value);
-
+  const handleSelectStartDate = (value: Date) => {
+    const rawString = value.toISOString().split("T")[0];
+    setStartDate(rawString);
+  };
+  const handleSelectEndDate = (value: Date) => {
+    const rawString = value.toISOString().split("T")[0];
+    setEndDate(rawString);
+  };
   return (
     <PageContainer>
       <PageContainerHeader title='Auditoria' />
@@ -48,7 +61,7 @@ export default function BusinessAudit() {
           <DateInputControlled
             label='Dt. Inicio'
             size='small'
-            value={dayjs(selectedStartDate)}
+            value={dayjs(startDate)}
             setValue={handleSelectStartDate}
           />
         </Grid>
@@ -57,9 +70,30 @@ export default function BusinessAudit() {
           <DateInputControlled
             label='Dt. Fim'
             size='small'
-            value={dayjs(selectedEndDate)}
+            value={dayjs(endDate)}
             setValue={handleSelectEndDate}
           />
+        </Grid>
+        <Grid item>
+          <Alert
+            severity='info'
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              fontSize: "0.75rem", // tamanho do texto
+              padding: "2px 8px", // padding interno
+              "& .MuiAlert-icon": {
+                fontSize: "1rem", // tamanho do ícone
+              },
+            }}
+          >
+            As tabelas são interativas, clique nos campos para ser redirecionado
+            a pagina.{" "}
+            <span style={{ fontWeight: 700 }}>
+              (Só esta funcionando para FATURAMENTO - Em DESENVOLVIMENTO)
+            </span>
+          </Alert>
         </Grid>
       </Grid>
 
