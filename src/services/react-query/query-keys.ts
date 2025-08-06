@@ -39,6 +39,16 @@ export const queryKeys = {
   PARAMETER: {
     GET_SALES_DEDUCTIONS: "parameter-get-sales-deductions",
   },
+  SALES: {
+    INVOICE: {
+      GET_LAST_UPDATED_AT: "sales-invoice-last-updated-at",
+      GET_CFOPS_FILTERS: "sales-invoice-cfops-filters",
+      GET_CLIENTS_FILTERS: "sales-invoice-clients-filters",
+      GET_NF_SITUATIONS_FILTERS: "sales-invoice-nf-situations-filters",
+      GET_ANALYTICAL_DATA: "sales-invoice-analytical-data",
+    },
+  },
+
   SENSATTA: {
     GET_COMPANIES: "companies",
     GET_COMPANY: "company-",
