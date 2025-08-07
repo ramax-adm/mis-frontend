@@ -13,6 +13,8 @@ export const urls = {
     POST_CHECK_TOKEN: `${apiLocal}/api/user/check-password-token`,
   },
   BUSINESS_AUDIT: {
+    GET_CONSIDERED_CFOPS: `${apiLocal}/api/business-audit/constants/considered-cfops`,
+    GET_CONSIDERED_NF_SITUATIONS: `${apiLocal}/api/business-audit/constants/nf-situations`,
     GET_BUSINESS_AUDIT_RESUMED: `${apiLocal}/api/business-audit/resumed`,
   },
   BUSINESS_SUMMARY: {
@@ -69,6 +71,7 @@ export const urls = {
       GET_NF_SITUATIONS_FILTERS: `${apiLocal}/api/sales/invoice/filters/nf-situations`,
       GET_ANALYTICAL_INVOICES: `${apiLocal}/api/sales/invoice/analytical`,
       POST_SYNC_INVOICES: `${apiLocal}/api/sales/invoice/sync`,
+      POST_EXPORT_XLSX: `${apiLocal}/api/sales/invoice/export-xlsx`,
     },
   },
   STOCK: {

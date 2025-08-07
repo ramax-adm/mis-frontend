@@ -46,6 +46,7 @@ const getData = ({ data = [] }: AnalyticalInvoicesTableProps) => {
     .map((d) => ({
       ...d,
       date: formatToDate(d.date),
+      weightInKg: toLocaleString(d.weightInKg),
       unitPrice: toLocaleString(d.unitPrice, 2),
       totalPrice: toLocaleString(d.totalPrice, 2),
     }));
@@ -67,6 +68,15 @@ const getColumns = () => [
     value: {
       first: {
         value: "nfNumber",
+      },
+    },
+  },
+  {
+    headerName: "Cod. pedido",
+    type: "string",
+    value: {
+      first: {
+        value: "requestId",
       },
     },
   },
@@ -106,15 +116,7 @@ const getColumns = () => [
       },
     },
   },
-  {
-    headerName: "Cod. pedido",
-    type: "string",
-    value: {
-      first: {
-        value: "requestId",
-      },
-    },
-  },
+
   {
     headerName: "Cliente",
     type: "string",
@@ -149,6 +151,15 @@ const getColumns = () => [
     value: {
       first: {
         value: "boxAmount",
+      },
+    },
+  },
+  {
+    headerName: "Peso KG",
+    type: "string",
+    value: {
+      first: {
+        value: "weightInKg",
       },
     },
   },

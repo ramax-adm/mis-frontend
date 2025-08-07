@@ -5,6 +5,8 @@ export const queryKeys = {
     WEBPAGES: "app-webpages",
   },
   BUSINESS_AUDIT: {
+    GET_CONSIDERED_CFOPS: "business-audit-considered-cfops",
+    GET_CONSIDERED_NF_SITUATIONS: "business-audit-nf-situations",
     GET_BUSINESS_AUDIT_RESUMED: "business-audit-resumed",
   },
   BUSINESS_SUMMARY: {

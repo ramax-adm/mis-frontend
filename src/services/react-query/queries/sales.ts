@@ -45,6 +45,7 @@ export const useGetCfopsInvoiceFilters = ({
     ],
     queryFn: async () =>
       await GetCfopsInvoiceFilters({ companyCode, startDate, endDate }),
+    enabled: !!companyCode,
   });
 };
 
@@ -66,6 +67,7 @@ export const useGetClientsInvoiceFilters = ({
     ],
     queryFn: async () =>
       await GetClientsInvoiceFilters({ companyCode, startDate, endDate }),
+    enabled: !!companyCode,
   });
 };
 
@@ -87,6 +89,7 @@ export const useGetNfSituationsInvoiceFilters = ({
     ],
     queryFn: async () =>
       await GetNfSituationsInvoiceFilters({ companyCode, startDate, endDate }),
+    enabled: !!companyCode,
   });
 };
 
@@ -94,20 +97,20 @@ export const useGetAnalyticalInvoices = ({
   companyCode,
   startDate,
   endDate,
-  cfopCode,
+  cfopCodes,
   clientCode,
   nfNumber,
-  nfSituation,
+  nfSituations,
   nfType,
 }: {
   companyCode: string;
   startDate?: string;
   endDate?: string;
   clientCode?: string;
-  cfopCode?: string;
+  cfopCodes?: string;
   nfType?: InvoicesNfTypesEnum;
   nfNumber?: string;
-  nfSituation?: string;
+  nfSituations?: string;
 }) => {
   return useQuery<GetAnalyticalInvoicesResponse>({
     queryKey: [
@@ -115,10 +118,10 @@ export const useGetAnalyticalInvoices = ({
       companyCode,
       startDate,
       endDate,
-      cfopCode,
+      cfopCodes,
       clientCode,
       nfNumber,
-      nfSituation,
+      nfSituations,
       nfType,
     ],
     queryFn: async () =>
@@ -126,11 +129,12 @@ export const useGetAnalyticalInvoices = ({
         companyCode,
         startDate,
         endDate,
-        cfopCode,
+        cfopCodes,
         clientCode,
         nfNumber,
-        nfSituation,
+        nfSituations,
         nfType,
       }),
+    enabled: !!companyCode,
   });
 };
