@@ -1,4 +1,8 @@
 import { CustomizedTable } from "@/components/Table/body";
+import {
+  useGetBusinessAuditConsideredCfops,
+  useGetBusinessAuditConsideredNfSituations,
+} from "@/services/react-query/queries/business-audit";
 import { GetBusinessAuditResumeDataResponse } from "@/types/api/business-audit";
 import { InvoicesNfTypesEnum } from "@/types/sales";
 import { PageRoutes } from "@/utils/appRoutes";
@@ -22,6 +26,9 @@ interface ManuallyEnteredInvoicesTableProps {
 export function ManuallyEnteredInvoicesTable({
   data,
 }: ManuallyEnteredInvoicesTableProps) {
+  const { data: consideredCfops } = useGetBusinessAuditConsideredCfops();
+  const { data: consideredNfSituations } =
+    useGetBusinessAuditConsideredNfSituations();
   const [startDate] = useQueryState(
     "startDate",
     parseAsString.withDefault(new Date().toISOString().split("T")[0])
@@ -39,6 +46,10 @@ export function ManuallyEnteredInvoicesTable({
     const destinyUrl = PageRoutes.invoices()
       .concat("?")
       .concat(`companyCode=${row.companyCode}`)
+      .concat("&")
+      .concat(`cfopCodes=${consideredCfops?.join(",")}`)
+      .concat("&")
+      .concat(`nfSituations=${consideredNfSituations?.join(",")}`)
       .concat("&")
       .concat(`startDate=${startDate}`)
       .concat("&")
