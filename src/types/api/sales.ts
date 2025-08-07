@@ -1,3 +1,5 @@
+import { InvoicesNfTypesEnum } from "../sales";
+
 export interface GetSalesInvoicesUpdatedAtResponse {
   parsedUpdatedAt: string;
   updatedAt: Date;
@@ -37,4 +39,17 @@ export interface GetAnalyticalInvoicesResponse {
     totalPrice: number;
   };
   data: GetInvoicesItem[];
+}
+
+export interface PostExportSalesInvoicesXlsxRequest {
+  filters: {
+    companyCode: string;
+    startDate?: string;
+    endDate?: string;
+    clientCode?: string;
+    cfopCodes?: string;
+    nfType?: InvoicesNfTypesEnum;
+    nfNumber?: string;
+    nfSituation?: string;
+  };
 }

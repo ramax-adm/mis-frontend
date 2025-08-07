@@ -10,10 +10,17 @@ import {
 } from "@/services/react-query/queries/sales";
 import { InvoicesNfTypesEnum } from "@/types/sales";
 import { Grid, Typography } from "@mui/material";
-import { parseAsString, useQueryState, useQueryStates } from "nuqs";
-import { forwardRef } from "react";
+import {
+  parseAsArrayOf,
+  parseAsString,
+  useQueryState,
+  useQueryStates,
+} from "nuqs";
+import { forwardRef, useEffect } from "react";
 import { AnalyticalInvoicesTable } from "../tables/analytical-invoices-table";
 import { AnalyticalInvoicesTotals } from "../totals/analytical-invoices-totals";
+import { MultipleSelectInputControlled } from "@/components/Inputs/Select/Multiple/controlled";
+import { COLORS } from "@/constants/styles/colors";
 
 const NF_TYPES = [
   {
@@ -46,23 +53,23 @@ export const InvoicesAnalyticalSection = forwardRef<
 >(({ companyCode, startDate, endDate }, ref) => {
   const [sectionStates, setSectionStates] = useQueryStates({
     clientCode: parseAsString.withDefault(""),
-    cfopCode: parseAsString.withDefault(""),
+    cfopCodes: parseAsArrayOf(parseAsString, ",").withDefault([]),
     nfType: parseAsString.withDefault(""),
     nfNumber: parseAsString.withDefault(""),
-    nfSituation: parseAsString.withDefault(""),
+    nfSituations: parseAsArrayOf(parseAsString, ",").withDefault([]),
   });
 
   const handleSelectClient = (value: string) =>
     setSectionStates({ clientCode: value });
 
-  const handleSelectCfop = (value: string) =>
-    setSectionStates({ cfopCode: value });
+  const handleSelectCfop = (value: string[]) =>
+    setSectionStates({ cfopCodes: value });
 
   const handleNfNumber = (value: string | null) =>
     setSectionStates({ nfNumber: value });
 
-  const handleNfSituation = (value: string) =>
-    setSectionStates({ nfSituation: value });
+  const handleNfSituation = (value: string[]) =>
+    setSectionStates({ nfSituations: value });
 
   const handleNfType = (value: string) => setSectionStates({ nfType: value });
 
@@ -77,7 +84,7 @@ export const InvoicesAnalyticalSection = forwardRef<
     endDate,
     startDate,
   });
-  const { data: nfSituations } = useGetNfSituationsInvoiceFilters({
+  const { data: situations } = useGetNfSituationsInvoiceFilters({
     companyCode,
     endDate,
     startDate,
@@ -87,12 +94,58 @@ export const InvoicesAnalyticalSection = forwardRef<
       companyCode,
       endDate,
       startDate,
-      cfopCode: sectionStates.cfopCode,
+      cfopCodes: sectionStates.cfopCodes.join(","),
       clientCode: sectionStates.clientCode,
       nfNumber: sectionStates.nfNumber,
-      nfSituation: sectionStates.nfSituation,
+      nfSituations: sectionStates.nfSituations.join(","),
       nfType: sectionStates.nfType as InvoicesNfTypesEnum,
     });
+
+  const handleSelectAndDisselectAllCfopCodes = () => {
+    const cfopCodes = sectionStates.cfopCodes;
+    if (!cfopCodes) return;
+
+    const haveSomeSelectedProductLines = cfopCodes?.length > 0;
+    if (haveSomeSelectedProductLines) {
+      return setSectionStates({ cfopCodes: [] });
+    }
+
+    return setSectionStates({ cfopCodes: cfops?.map((i) => i.key) });
+  };
+
+  const handleSelectAndDisselectAllNfSituations = () => {
+    const nfSituations = sectionStates.nfSituations;
+    if (!nfSituations) return;
+
+    const haveSomeSelectedProductLines = nfSituations?.length > 0;
+    if (haveSomeSelectedProductLines) {
+      return setSectionStates({ nfSituations: [] });
+    }
+
+    return setSectionStates({ nfSituations: situations?.map((i) => i.key) });
+  };
+
+  // use effect for pre-setting cfop codes
+  useEffect(() => {
+    if (!sectionStates.cfopCodes || sectionStates.cfopCodes?.length === 0) {
+      if (cfops) {
+        const allCfopCodes = cfops?.map((i) => i.key);
+        setSectionStates({ cfopCodes: allCfopCodes });
+      }
+    }
+  }, [cfops]);
+
+  useEffect(() => {
+    if (
+      !sectionStates.nfSituations ||
+      sectionStates.nfSituations?.length === 0
+    ) {
+      if (situations) {
+        const allNfSituations = situations?.map((i) => i.key);
+        setSectionStates({ nfSituations: allNfSituations });
+      }
+    }
+  }, [situations]);
 
   return (
     <>
@@ -115,35 +168,68 @@ export const InvoicesAnalyticalSection = forwardRef<
             options={clients}
           />
         </Grid>
-        <Grid item xs={6} sm={2}>
-          <Typography fontSize={"12px"} fontWeight={700}>
-            N° CFOP
-          </Typography>
-          <ControlledSelect
-            id='cfopCode'
-            label='CFOP'
-            name='cfopCode'
-            size='small'
-            value={sectionStates.cfopCode}
-            onChange={handleSelectCfop}
-            options={cfops}
-          />
-        </Grid>
 
         <Grid item xs={6} sm={2}>
           <Typography fontSize={"12px"} fontWeight={700}>
             Situação da NF
           </Typography>
-          <ControlledSelect
-            id='nfSituationCode'
+          <MultipleSelectInputControlled
             label='Situação NF'
-            name='nfSituationCode'
             size='small'
-            value={sectionStates.nfSituation}
+            value={sectionStates.nfSituations}
             onChange={handleNfSituation}
-            options={nfSituations}
+            options={
+              situations?.map((item) => ({
+                key: item.key,
+                label: item.label,
+              })) ?? []
+            }
           />
+          <Typography
+            fontSize={"9px"}
+            sx={{
+              marginX: "auto",
+              "&:hover": {
+                color: COLORS.TEXTO,
+                cursor: "pointer",
+              },
+            }}
+            onClick={handleSelectAndDisselectAllNfSituations}
+          >
+            Selecionar/Deselecionar tudo
+          </Typography>
         </Grid>
+        <Grid item xs={6} sm={2}>
+          <Typography fontSize={"12px"} fontWeight={700}>
+            N° CFOP
+          </Typography>
+          <MultipleSelectInputControlled
+            label='CFOP'
+            size='small'
+            value={sectionStates.cfopCodes}
+            onChange={handleSelectCfop}
+            options={
+              cfops?.map((item) => ({
+                key: item.key,
+                label: item.label,
+              })) ?? []
+            }
+          />
+          <Typography
+            fontSize={"9px"}
+            sx={{
+              marginX: "auto",
+              "&:hover": {
+                color: COLORS.TEXTO,
+                cursor: "pointer",
+              },
+            }}
+            onClick={handleSelectAndDisselectAllCfopCodes}
+          >
+            Selecionar/Deselecionar tudo
+          </Typography>
+        </Grid>
+
         <Grid item xs={6} sm={2}>
           <Typography fontSize={"12px"} fontWeight={700}>
             N° NF

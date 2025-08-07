@@ -5,10 +5,9 @@ import { Tabs } from "@/components/Tabs";
 import { TabsPanelRef } from "@/components/Tabs/panel";
 import { useAuthContext } from "@/contexts/auth";
 import { Box, Button, Grid, Tab, Typography } from "@mui/material";
-import { Suspense, useRef, useState } from "react";
+import { useRef } from "react";
 import {
-  parseAsIsoDate,
-  parseAsIsoDateTime,
+  parseAsArrayOf,
   parseAsString,
   useQueryState,
   useQueryStates,
@@ -22,9 +21,13 @@ import {
 import { DateInputControlled } from "@/components/Inputs/DateInput/controlled";
 import dayjs from "dayjs";
 import { useGetSalesInvoicesLastUpdatedAt } from "@/services/react-query/queries/sales";
-import { useSyncSalesInvoicesWithSensatta } from "@/services/react-query/mutations/sales";
+import {
+  useExportSalesInvoicesXlsx,
+  useSyncSalesInvoicesWithSensatta,
+} from "@/services/react-query/mutations/sales";
 import { LoadingOverlay } from "@/components/Loading/loadingSpinner";
-import { date } from "zod";
+import { InvoicesNfTypesEnum } from "@/types/sales";
+import { getIso8601DateString } from "@/utils/date.utils";
 
 export default function InvoicesPage() {
   const { user } = useAuthContext();
@@ -38,36 +41,38 @@ export default function InvoicesPage() {
     parseAsString.withDefault("analytical")
   );
 
-  const [companyCode, setCompanyCode] = useQueryState(
-    "companyCode",
-    parseAsString.withDefault("")
-  );
+  const [globalStates, setGlobalStates] = useQueryStates({
+    companyCode: parseAsString.withDefault(""),
+    startDate: parseAsString.withDefault(getIso8601DateString(new Date())!),
+    endDate: parseAsString.withDefault(getIso8601DateString(new Date())!),
+  });
 
-  const [startDate, setStartDate] = useQueryState(
-    "startDate",
-    parseAsString.withDefault(new Date().toISOString().split("T")[0])
-  );
-
-  const [endDate, setEndDate] = useQueryState(
-    "endDate",
-    parseAsString.withDefault(new Date().toISOString().split("T")[0])
-  );
+  const [sectionStates] = useQueryStates({
+    clientCode: parseAsString.withDefault(""),
+    cfopCodes: parseAsArrayOf(parseAsString, ",").withDefault([]),
+    nfType: parseAsString.withDefault(""),
+    nfNumber: parseAsString.withDefault(""),
+    nfSituation: parseAsString.withDefault(""),
+  });
 
   const handleSelectStartDate = (value: Date) => {
-    const rawString = value.toISOString().split("T")[0];
-    setStartDate(rawString);
+    const rawString = getIso8601DateString(value);
+    setGlobalStates({ startDate: rawString });
   };
   const handleSelectEndDate = (value: Date) => {
-    const rawString = value.toISOString().split("T")[0];
-    setEndDate(rawString);
+    const rawString = getIso8601DateString(value);
+    setGlobalStates({ endDate: rawString });
   };
-  const handleSelectCompany = (value: string) => setCompanyCode(value);
+  const handleSelectCompany = (value: string) =>
+    setGlobalStates({ companyCode: value });
   const handleSelectTab = (value: string) => setSelectedTab(value);
 
   const { data: companies } = useGetCompanies({});
   const { data: lastUpdate } = useGetSalesInvoicesLastUpdatedAt();
   const { mutateAsync: syncInvoices, isPending: isSyncInvoices } =
     useSyncSalesInvoicesWithSensatta();
+  const { mutateAsync: exportInvoices, isPending: isExportingInvoices } =
+    useExportSalesInvoicesXlsx();
 
   // const exportCattlePurchases = async () => {
   //   if (!tabPanelRef.current) {
@@ -103,7 +108,7 @@ export default function InvoicesPage() {
 
   return (
     <PageContainer>
-      {isSyncInvoices && <LoadingOverlay />}
+      {(isSyncInvoices || isExportingInvoices) && <LoadingOverlay />}
       <Box
         sx={{
           width: "100%",
@@ -130,6 +135,28 @@ export default function InvoicesPage() {
           >
             Atualizar c/ SENSATTA
           </Button>
+
+          <Button
+            variant='contained'
+            size='small'
+            disabled={isExportingInvoices}
+            onClick={async () =>
+              await exportInvoices({
+                filters: {
+                  companyCode: globalStates.companyCode,
+                  startDate: globalStates.startDate,
+                  endDate: globalStates.endDate,
+                  cfopCodes: sectionStates.cfopCodes.join(","),
+                  clientCode: sectionStates.clientCode,
+                  nfNumber: sectionStates.nfNumber,
+                  nfSituation: sectionStates.nfSituation,
+                  nfType: sectionStates.nfType as InvoicesNfTypesEnum,
+                },
+              })
+            }
+          >
+            Exportar XLSX
+          </Button>
         </Box>
       </Box>
 
@@ -145,7 +172,7 @@ export default function InvoicesPage() {
             label='Empresa'
             name='companyCode'
             size='small'
-            value={companyCode}
+            value={globalStates.companyCode}
             onChange={handleSelectCompany}
             options={companies?.map((item) => ({
               label: item.name,
@@ -158,7 +185,7 @@ export default function InvoicesPage() {
           <DateInputControlled
             label='Dt. Inicio'
             size='small'
-            value={dayjs(startDate)}
+            value={dayjs(globalStates.startDate)}
             setValue={handleSelectStartDate}
           />
         </Grid>
@@ -167,7 +194,7 @@ export default function InvoicesPage() {
           <DateInputControlled
             label='Dt. Fim'
             size='small'
-            value={dayjs(endDate)}
+            value={dayjs(globalStates.endDate)}
             setValue={handleSelectEndDate}
           />
         </Grid>
@@ -187,9 +214,9 @@ export default function InvoicesPage() {
           <Tabs.Panel tabName='analytical' ref={tabPanelRef}>
             <InvoicesAnalyticalSection
               ref={analyticalSectionRef}
-              companyCode={companyCode}
-              startDate={startDate}
-              endDate={endDate}
+              companyCode={globalStates.companyCode}
+              startDate={globalStates.startDate}
+              endDate={globalStates.endDate}
             />
           </Tabs.Panel>
         </Tabs.Content>
