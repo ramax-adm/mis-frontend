@@ -14,6 +14,7 @@ import { AppWebpage } from "@/types/application";
 import { MdFactCheck } from "react-icons/md";
 import { FaMoneyCheckAlt } from "react-icons/fa";
 import { FaMoneyBillTransfer } from "react-icons/fa6";
+import { FaGlobe } from "react-icons/fa";
 
 type AppContextProviderProps = {
   children: React.ReactNode;
@@ -65,6 +66,12 @@ export default function AppProvider({ children }: AppContextProviderProps) {
 
   const NAV_ITEMS: SideNavItem[] = [
     {
+      title: "Intranet",
+      path: PageRoutes.intranet(),
+      icon: FaGlobe,
+      submenu: false,
+    },
+    {
       title: "Cash Flow",
       path: PageRoutes.cashFlow(),
       icon: FaMoneyBillTransfer,
@@ -77,8 +84,8 @@ export default function AppProvider({ children }: AppContextProviderProps) {
       submenu: false,
     },
     {
-      title: "Auditoria",
-      path: PageRoutes.businessAudit(),
+      title: "Monitoramento",
+      path: PageRoutes.businessAudit(), // TODO: mudar para businessMonitoring
       icon: MdFactCheck,
       submenu: false,
     },

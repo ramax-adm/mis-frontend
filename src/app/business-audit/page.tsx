@@ -49,7 +49,7 @@ export default function BusinessAudit() {
   };
   return (
     <PageContainer>
-      <PageContainerHeader title='Auditoria' />
+      <PageContainerHeader title='Monitoramento' />
       {isFetching && <LoadingOverlay />}
       <Grid container spacing={1}>
         <Grid item xs={12}>

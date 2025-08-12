@@ -1,7 +1,12 @@
 .menuItem:hover {
-  background-color: '#000';
+  background-color: "#000";
 }
 
 .link:hover {
   opacity: 0.8;
+}
+
+.linkButton:hover {
+  background-color: "#3E63DD";
+  color: "white";
 }
