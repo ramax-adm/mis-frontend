@@ -36,6 +36,11 @@ export class PageRoutes {
   }
 
   // cash flow
+  static intranet() {
+    return `/intranet`;
+  }
+
+  // cash flow
   static cashFlow() {
     return `/cash-flow/simulate`;
   }
