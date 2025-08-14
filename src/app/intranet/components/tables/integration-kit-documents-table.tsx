@@ -1,23 +1,56 @@
-import { Column, CustomizedTable } from "@/components/Table/body";
-import { IoMdDownload } from "react-icons/io";
 import "@/app/globals.css";
+import { CustomizedTable } from "@/components/Table/body";
+import { IoMdDownload } from "react-icons/io";
 import { IntegrationKitFileTypeEnum } from "@/types/intranet";
 import { RiFileVideoFill } from "react-icons/ri";
+import { Modal } from "@mui/material";
+import {
+  parseAsBoolean,
+  parseAsString,
+  useQueryState,
+  useQueryStates,
+} from "nuqs";
+import { getYouTubeVideoId } from "@/utils/video.utils";
+import { IntegrationKitVideoModal } from "../modals/integration-kit-video-modal";
 
 export function IntegrationKitTable() {
+  const [state, setState] = useQueryStates({
+    videoModalOpen: parseAsBoolean.withDefault(false),
+    selectedVideoId: parseAsString.withDefault(""),
+  });
+  const handleCloseVideoModal = () =>
+    setState({
+      videoModalOpen: false,
+      selectedVideoId: "",
+    });
+
+  const handleOpenVideoPlayer = (fileUrl: string) => {
+    const videoId = getYouTubeVideoId(fileUrl);
+
+    if (videoId && videoId !== "") {
+      setState({
+        videoModalOpen: true,
+        selectedVideoId: videoId,
+      });
+    }
+  };
+
   const data = getData();
-  const columns = getColumns();
+  const columns = getColumns({ handleOpenVideoPlayer });
 
   return (
-    <CustomizedTable
-      columns={columns}
-      data={data}
-      cellStyles={{ fontSize: "12px" }}
-    />
+    <>
+      <CustomizedTable
+        columns={columns}
+        data={data}
+        cellStyles={{ fontSize: "12px" }}
+      />
+      <Modal open={state.videoModalOpen} onClose={handleCloseVideoModal}>
+        <IntegrationKitVideoModal selectedVideoId={state.selectedVideoId} />
+      </Modal>
+    </>
   );
 }
-
-const handleOpenVideoPlayer = () => {};
 
 const getData = () => {
   return [
@@ -30,15 +63,19 @@ const getData = () => {
     },
     {
       id: "Kit-02",
-      name: "Teste (SEM FUNCIONALIDADE)",
+      name: "Teste (Video RAMAX GROUP)",
       fileType: IntegrationKitFileTypeEnum.VIDEO,
       fileTypeName: "Vídeo",
-      fileUrl: "",
+      fileUrl: "https://www.youtube.com/watch?v=pThlK-zI288",
     },
   ];
 };
 
-const getColumns = () => {
+const getColumns = ({
+  handleOpenVideoPlayer,
+}: {
+  handleOpenVideoPlayer: (fileUrl: string) => void;
+}) => {
   const downloadButton = (row: any) => (
     <a
       className={"linkButton"}
@@ -59,6 +96,7 @@ const getColumns = () => {
 
   const openVideoButton = (row: any) => (
     <span
+      onClick={() => handleOpenVideoPlayer(row.fileUrl)}
       className={"linkButton"}
       style={{
         backgroundColor: "white",
@@ -102,7 +140,7 @@ const getColumns = () => {
       },
     },
     {
-      headerName: "Download",
+      headerName: "Ação",
       type: "action",
       value: {
         first: {
