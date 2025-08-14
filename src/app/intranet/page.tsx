@@ -30,7 +30,7 @@ export default function IntranetPage() {
     <PageContainer>
       <PageContainerHeader title='Intranet' />
 
-      <Tabs.Root defaultTab={TabSectionsEnum.COMPANY_ORGANIZATIONAL_CHART}>
+      <Tabs.Root defaultTab={selectedTab}>
         <Tabs.Select customHandler={handleSelectTab}>
           <Tab
             label='Organograma'
