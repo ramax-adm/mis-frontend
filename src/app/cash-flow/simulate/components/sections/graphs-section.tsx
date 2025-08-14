@@ -16,7 +16,7 @@ export function GraphsSection({ data }: GraphsSectionProps) {
       gap={0.5}
       marginTop={6}
       sx={{
-        width: { xs: "350px", sm: "430px", md: "820px", xl: "95%" },
+        width: { xs: "350px", sm: "430px", md: "820px", xl: "98%" },
         justifyContent: "space-between",
       }}
     >

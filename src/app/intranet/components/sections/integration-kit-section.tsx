@@ -1,4 +1,5 @@
 import { Grid, Typography } from "@mui/material";
+import { IntegrationKitTable } from "../tables/integration-kit-table";
 
 export function IntegrationKitSection() {
   return (
@@ -7,6 +8,9 @@ export function IntegrationKitSection() {
         <Typography fontSize={"12px"} fontWeight={700}>
           Relação de kits
         </Typography>
+      </Grid>
+      <Grid item xs={12}>
+        <IntegrationKitTable />
       </Grid>
     </Grid>
   );
