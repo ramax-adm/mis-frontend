@@ -1,36 +1,39 @@
-import { ControlledSelect } from '@/components/Inputs/Select/Customized'
-import { useAuthContext } from '@/contexts/auth'
-import { useAddUserCompany } from '@/services/react-query/mutations/user'
-import { useGetCompanies } from '@/services/react-query/queries/sensatta'
-import { useGetUser } from '@/services/react-query/queries/user'
-import { User } from '@/types/user'
-import { Box, Button, Typography } from '@mui/material'
-import { useState } from 'react'
+import { ControlledSelect } from "@/components/Inputs/Select/Customized";
+import { useAuthContext } from "@/contexts/auth";
+import { useAddUserCompany } from "@/services/react-query/mutations/user";
+import { useGetCompanies } from "@/services/react-query/queries/sensatta";
+import { useGetUser } from "@/services/react-query/queries/user";
+import { User } from "@/types/user";
+import { Box, Button, Typography } from "@mui/material";
+import { useState } from "react";
 
 interface AddUserCompanyModalProps {
-  userId: string
-  onClose: () => void
+  userId: string;
+  onClose: () => void;
 }
-export function AddUserCompanyModal({ userId, onClose }: AddUserCompanyModalProps) {
-  const { user } = useAuthContext()
-  const { data: companies } = useGetCompanies({ token: user.name })
-  const { data: userData } = useGetUser(userId)
-  const { mutateAsync: addUserCompany, isPending } = useAddUserCompany()
-  const [company, setCompany] = useState('')
+export function AddUserCompanyModal({
+  userId,
+  onClose,
+}: AddUserCompanyModalProps) {
+  const { user } = useAuthContext();
+  const { data: companies } = useGetCompanies({ token: user.name });
+  const { data: userData } = useGetUser(userId);
+  const { mutateAsync: addUserCompany, isPending } = useAddUserCompany();
+  const [company, setCompany] = useState("");
 
-  const handleSelectCompany = (value: string) => setCompany(value)
+  const handleSelectCompany = (value: string) => setCompany(value);
 
   const handleSubmit = async () => {
-    await addUserCompany({ userId: userId, companyCode: company })
+    await addUserCompany({ userId: userId, companyCode: company });
 
-    onClose()
-  }
+    onClose();
+  };
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+    <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
       <Box
         sx={{
-          borderRadius: '8px 8px 0 0',
-          backgroundColor: '#fff',
+          borderRadius: "8px 8px 0 0",
+          backgroundColor: "#fff",
         }}
       >
         <Typography variant='h6' component='h2'>
@@ -44,15 +47,16 @@ export function AddUserCompanyModal({ userId, onClose }: AddUserCompanyModalProp
         name='company'
         value={company}
         onChange={handleSelectCompany}
+        disablePortal={false}
         options={companies
           ?.filter((i) => {
             const relatedUserCompany = userData?.userCompanies.find(
-              (c) => c.companyCode === i.sensattaCode,
-            )
+              (c) => c.companyCode === i.sensattaCode
+            );
             if (!relatedUserCompany) {
-              return true
+              return true;
             }
-            return false
+            return false;
           })
           ?.map((i) => ({
             key: i.sensattaCode,
@@ -61,9 +65,14 @@ export function AddUserCompanyModal({ userId, onClose }: AddUserCompanyModalProp
           }))}
       />
 
-      <Button variant='contained' disabled={isPending} onClick={handleSubmit}>
+      <Button
+        variant='contained'
+        disabled={isPending}
+        onClick={handleSubmit}
+        sx={{ marginTop: "auto" }}
+      >
         Adicionar
       </Button>
     </Box>
-  )
+  );
 }
