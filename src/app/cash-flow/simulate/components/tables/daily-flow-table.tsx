@@ -13,7 +13,7 @@ export function DailyFlowTable({ data }: DailyFlowTableProps) {
     <Box
       marginTop={6}
       sx={{
-        width: { xs: "350px", sm: "430px", md: "820px", xl: "95%" },
+        width: { xs: "350px", sm: "430px", md: "820px", xl: "98%" },
       }}
     >
       <Card.Root
@@ -30,6 +30,16 @@ export function DailyFlowTable({ data }: DailyFlowTableProps) {
             tableStyles={{
               maxHeight: "700px",
               width: "100%",
+            }}
+            cellStyles={{
+              fontSize: "10px",
+              paddingX: 1,
+              paddingY: 0.2,
+            }}
+            headCellStyles={{
+              paddingX: 1,
+              paddingY: 0.2,
+              fontSize: "11px",
             }}
             columns={columns}
             data={data.dailyFlow}

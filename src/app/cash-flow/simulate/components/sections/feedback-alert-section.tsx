@@ -1,11 +1,11 @@
-import { TransitionAlert } from '@/components/Alert/transition-alert'
-import { Box } from '@mui/material'
+import { TransitionAlert } from "@/components/Alert/transition-alert";
+import { Box } from "@mui/material";
 
 interface FeedbackAlertSectionProps {
-  isError: boolean
-  isSuccess: boolean
-  errorMessage: string
-  successMessage: string
+  isError: boolean;
+  isSuccess: boolean;
+  errorMessage: string;
+  successMessage: string;
 }
 export function FeedbackAlertSection({
   isError,
@@ -14,9 +14,16 @@ export function FeedbackAlertSection({
   successMessage,
 }: FeedbackAlertSectionProps) {
   return (
-    <Box sx={{ marginTop: 2, width: { xs: '350px', sm: '430px', md: '820px', xl: '95%' } }}>
+    <Box
+      sx={{
+        marginTop: 2,
+        width: { xs: "350px", sm: "430px", md: "820px", xl: "98%" },
+      }}
+    >
       {isError && <TransitionAlert severity='error' message={errorMessage} />}
-      {isSuccess && <TransitionAlert severity='success' message={successMessage} />}
+      {isSuccess && (
+        <TransitionAlert severity='success' message={successMessage} />
+      )}
     </Box>
-  )
+  );
 }
