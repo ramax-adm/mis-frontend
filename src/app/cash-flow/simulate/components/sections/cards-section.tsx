@@ -1,24 +1,24 @@
-import { Box, Typography } from '@mui/material'
-import { MiProductionCard } from '../cards/mi-production-card'
-import { PostSimulateDataResponse } from '@/types/api/cash-flow'
-import { MeProductionCard } from '../cards/me-production-card'
-import { TotalProductionCard } from '../cards/total-production-card'
-import { ProjectedProductionCard } from '../cards/projected-production-card'
-import { ProjectedOutingsCard } from '../cards/projected-outings-card'
-import { ProjectedEntriesCard } from '../cards/projected-entries-card'
-import { ProjectedOperationClosureCard } from '../cards/projected-closure-card'
-import { CostsByKgCard } from '../cards/costs-by-kg-card'
-import { CostsByKgMeCard } from '../cards/costs-by-kg-me-card'
-import { CostsByKgMiCard } from '../cards/costs-by-kg-mi-card'
-import { CostsByKgCattleCard } from '../cards/costs-by-kg-cattle-card'
-import { CostsByKgMeCattleCard } from '../cards/costs-by-kg-me-cattle-card'
-import { CostsByKgMiCattleCard } from '../cards/costs-by-kg-mi-cattle-card'
-import { CostsByKgArrendCard } from '../cards/costs-by-kg-arrend-card'
-import { CostsByKgMeArrendCard } from '../cards/costs-by-kg-me-arrend-card'
-import { CostsByKgMiArrendCard } from '../cards/costs-by-kg-mi-arrend-card'
+import { Box, Typography } from "@mui/material";
+import { MiProductionCard } from "../cards/mi-production-card";
+import { PostSimulateDataResponse } from "@/types/api/cash-flow";
+import { MeProductionCard } from "../cards/me-production-card";
+import { TotalProductionCard } from "../cards/total-production-card";
+import { ProjectedProductionCard } from "../cards/projected-production-card";
+import { ProjectedOutingsCard } from "../cards/projected-outings-card";
+import { ProjectedEntriesCard } from "../cards/projected-entries-card";
+import { ProjectedOperationClosureCard } from "../cards/projected-closure-card";
+import { CostsByKgCard } from "../cards/costs-by-kg-card";
+import { CostsByKgMeCard } from "../cards/costs-by-kg-me-card";
+import { CostsByKgMiCard } from "../cards/costs-by-kg-mi-card";
+import { CostsByKgCattleCard } from "../cards/costs-by-kg-cattle-card";
+import { CostsByKgMeCattleCard } from "../cards/costs-by-kg-me-cattle-card";
+import { CostsByKgMiCattleCard } from "../cards/costs-by-kg-mi-cattle-card";
+import { CostsByKgArrendCard } from "../cards/costs-by-kg-arrend-card";
+import { CostsByKgMeArrendCard } from "../cards/costs-by-kg-me-arrend-card";
+import { CostsByKgMiArrendCard } from "../cards/costs-by-kg-mi-arrend-card";
 
 interface SimulationCardsSectionProps {
-  simulationResults: PostSimulateDataResponse
+  simulationResults: PostSimulateDataResponse;
 }
 export function SimulationCardsSection({
   simulationResults: { parsedData },
@@ -26,11 +26,11 @@ export function SimulationCardsSection({
   return (
     <Box
       sx={{
-        display: 'flex',
-        flexDirection: 'column',
+        display: "flex",
+        flexDirection: "column",
         gap: 2,
         marginTop: 6,
-        width: { xs: '350px', sm: '430px', md: '820px', xl: '95%' },
+        width: { xs: "350px", sm: "430px", md: "820px", xl: "98%" },
       }}
     >
       <Typography variant='h6' fontWeight={700}>
@@ -42,14 +42,14 @@ export function SimulationCardsSection({
       </Typography>
 
       <Box
-        width={'100%'}
+        width={"100%"}
         sx={{
-          display: 'flex',
-          flexDirection: 'row',
-          flexWrap: 'wrap',
+          display: "flex",
+          flexDirection: "row",
+          flexWrap: "wrap",
           flexGrow: 1,
-          justifyContent: 'space-between',
-          rowGap: '40px',
+          justifyContent: "space-between",
+          rowGap: "40px",
         }}
       >
         <MiProductionCard
@@ -76,14 +76,14 @@ export function SimulationCardsSection({
         Saídas
       </Typography>
       <Box
-        width={'100%'}
+        width={"100%"}
         sx={{
-          display: 'flex',
-          flexDirection: 'row',
-          flexWrap: 'wrap',
+          display: "flex",
+          flexDirection: "row",
+          flexWrap: "wrap",
           flexGrow: 1,
-          justifyContent: 'space-between',
-          rowGap: '40px',
+          justifyContent: "space-between",
+          rowGap: "40px",
         }}
       >
         <ProjectedOutingsCard data={parsedData.outingsProjection} />
@@ -93,31 +93,33 @@ export function SimulationCardsSection({
         Entradas & Fechamento
       </Typography>
       <Box
-        width={'100%'}
+        width={"100%"}
         sx={{
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          flexWrap: 'wrap',
-          rowGap: '40px',
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+          flexWrap: "wrap",
+          rowGap: "40px",
         }}
       >
         <ProjectedProductionCard data={parsedData.productionProjection} />
         <ProjectedEntriesCard data={parsedData.entriesProjection} />
-        <ProjectedOperationClosureCard data={parsedData.operationClosureProjection} />
+        <ProjectedOperationClosureCard
+          data={parsedData.operationClosureProjection}
+        />
       </Box>
 
       <Typography variant='body2' fontWeight={500} marginTop={4}>
         Custo R$/KG
       </Typography>
       <Box
-        width={'100%'}
+        width={"100%"}
         sx={{
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          flexWrap: 'wrap',
-          rowGap: '40px',
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+          flexWrap: "wrap",
+          rowGap: "40px",
         }}
       >
         <CostsByKgCard data={parsedData.costsByKgProjection} />
@@ -125,13 +127,34 @@ export function SimulationCardsSection({
         <CostsByKgMeCard data={parsedData.costsByKgProjection} />
 
         <CostsByKgMiCard data={parsedData.costsByKgProjection} />
+      </Box>
 
+      <Box
+        width={"100%"}
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+          flexWrap: "wrap",
+          rowGap: "40px",
+        }}
+      >
         <CostsByKgCattleCard data={parsedData.costsByKgProjection} />
 
         <CostsByKgMeCattleCard data={parsedData.costsByKgProjection} />
 
         <CostsByKgMiCattleCard data={parsedData.costsByKgProjection} />
-
+      </Box>
+      <Box
+        width={"100%"}
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+          flexWrap: "wrap",
+          rowGap: "40px",
+        }}
+      >
         <CostsByKgArrendCard data={parsedData.costsByKgProjection} />
 
         <CostsByKgMeArrendCard data={parsedData.costsByKgProjection} />
@@ -139,5 +162,5 @@ export function SimulationCardsSection({
         <CostsByKgMiArrendCard data={parsedData.costsByKgProjection} />
       </Box>
     </Box>
-  )
+  );
 }

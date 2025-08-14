@@ -213,7 +213,7 @@ export const SimulateCashFlowForm = forwardRef<
           gap: 2,
           marginTop: 1,
           justifyContent: "space-between",
-          width: { xs: "350px", sm: "430px", md: "820px", xl: "95%" },
+          width: { xs: "350px", sm: "430px", md: "820px", xl: "98%" },
         }}
       >
         <Box

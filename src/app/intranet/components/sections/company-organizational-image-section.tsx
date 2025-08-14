@@ -20,7 +20,7 @@ export function CompanyOrganizationalImageSection() {
     <Grid container>
       <Grid item xs={12} marginTop={1} marginX={1}>
         <Typography fontSize={"12px"} fontWeight={700}>
-          Organograma empresarial da RAMAX
+          Organograma empresarial
         </Typography>
       </Grid>
       <Grid item xs={12} marginX={1}>
@@ -30,8 +30,8 @@ export function CompanyOrganizationalImageSection() {
           onMouseLeave={() => setIsZoomed(false)}
           style={{
             overflow: "hidden",
-            width: "100%",
-            height: "500px",
+            width: "1150px",
+            height: "600px",
             position: "relative",
             border: `1px solid ${COLORS.BORDAS}`,
             borderRadius: "4px",
@@ -44,7 +44,7 @@ export function CompanyOrganizationalImageSection() {
             style={{
               objectFit: "fill",
               transition: isZoomed
-                ? "transform 0.1s ease"
+                ? "transform 0.2s ease"
                 : "transform 0.5s ease",
               transformOrigin: `${position.x}% ${position.y}%`,
               transform: isZoomed ? "scale(1.5)" : "scale(1)",

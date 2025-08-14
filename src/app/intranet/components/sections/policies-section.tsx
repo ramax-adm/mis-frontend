@@ -6,7 +6,7 @@ export function PoliciesSection() {
     <Grid container marginX={1}>
       <Grid item xs={12} marginTop={1}>
         <Typography fontSize={"12px"} fontWeight={700}>
-          Relação de politicas atuais RAMAX
+          Relação de politicas
         </Typography>
       </Grid>
       <Grid item xs={12}>
