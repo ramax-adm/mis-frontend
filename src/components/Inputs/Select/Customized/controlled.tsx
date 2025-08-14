@@ -31,6 +31,7 @@ type Props<TValue = string> = {
   ) => React.ReactNode;
   error?: boolean;
   errorMessage?: string;
+  disablePortal?: boolean;
 };
 
 export function ControlledSelect<TValue>({
@@ -48,6 +49,7 @@ export function ControlledSelect<TValue>({
   renderOption,
   error,
   errorMessage,
+  disablePortal = true,
 }: Props<TValue>) {
   if (noDataText && options?.length === 0) {
     return <Typography color='danger'>{noDataText}</Typography>;
@@ -61,7 +63,7 @@ export function ControlledSelect<TValue>({
         value={options?.find((opt) => opt.value === value) || null}
         getOptionLabel={(option: SelectOption<TValue>) => option.label || ""}
         isOptionEqualToValue={(options, value) => options.value === value.value}
-        disablePortal
+        disablePortal={disablePortal}
         loading={loading}
         disabled={disabled}
         options={options || []}
