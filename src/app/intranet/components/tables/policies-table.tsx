@@ -52,6 +52,28 @@ const getData = () => {
       name: "Politica de Cobrança",
       fileUrl: "/(GC-007-01) - Política de Cobrança.pdf",
     },
+    {
+      id: "GC-008-01",
+      name: "Política de Acerto de Pecuarista",
+      fileUrl: "/(GC-008-01) - Política de Acerto de Pecuarista.pdf",
+    },
+    {
+      id: "RH-001-01",
+      name: "Política de Contratação de Colaborador",
+      fileUrl:
+        "/(RH-001-01) - Política de Contratação de Colaborador (MOBILIDADE).pdf",
+    },
+    {
+      id: "RH-002-01",
+      name: "Politica Home Office",
+      fileUrl: "/(RH-002-01) Política Home_Office.pdf",
+    },
+    {
+      id: "RON-001-01",
+      name: "Política de Classificação e Premiação Pecuaristas",
+      fileUrl:
+        "/(RON-001-01) Política de Classificação e Premiação Pecuaristas.pdf",
+    },
   ];
 };
 
