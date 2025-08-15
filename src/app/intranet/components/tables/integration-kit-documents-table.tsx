@@ -63,10 +63,17 @@ const getData = () => {
     },
     {
       id: "Kit-02",
-      name: "Teste (Video RAMAX GROUP)",
+      name: "Lista de contatos",
+      fileType: IntegrationKitFileTypeEnum.DOCUMENT,
+      fileTypeName: "Documento",
+      fileUrl: "/Lista de contatos.xlsx",
+    },
+    {
+      id: "Kit-03",
+      name: "Treinamento RAMAX Group",
       fileType: IntegrationKitFileTypeEnum.VIDEO,
       fileTypeName: "Vídeo",
-      fileUrl: "https://www.youtube.com/watch?v=pThlK-zI288",
+      fileUrl: "https://www.youtube.com/watch?v=a2njB7V-nsw",
     },
   ];
 };
