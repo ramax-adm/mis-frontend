@@ -66,11 +66,11 @@ const getData = () => {
       name: "Lista de contatos",
       fileType: IntegrationKitFileTypeEnum.DOCUMENT,
       fileTypeName: "Documento",
-      fileUrl: "/Lista de contatos.xlsx",
+      fileUrl: "/Contatos Ramax.pdf",
     },
     {
       id: "Kit-03",
-      name: "Treinamento RAMAX Group",
+      name: "Video Institucional RAMAX GROUP",
       fileType: IntegrationKitFileTypeEnum.VIDEO,
       fileTypeName: "Vídeo",
       fileUrl: "https://www.youtube.com/watch?v=a2njB7V-nsw",
