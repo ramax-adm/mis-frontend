@@ -18,9 +18,9 @@ export function PopsTable() {
 const getData = () => {
   return [
     {
-      id: "POP-001-01",
+      id: "POP-ORG-001-01",
       name: "Procedimento Originação",
-      fileUrl: "/(POP-001-01) Procedimento Originação.pdf",
+      fileUrl: "/(POP-ORG-001-01) Procedimento Originação.pdf",
     },
     {
       id: "POP-COM-004-01",

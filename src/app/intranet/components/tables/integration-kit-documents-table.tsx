@@ -55,21 +55,21 @@ export function IntegrationKitTable() {
 const getData = () => {
   return [
     {
-      id: "Kit-01",
+      id: "KIT-01",
       name: "Código Conduta e Ética Ramax Group",
       fileType: IntegrationKitFileTypeEnum.DOCUMENT,
       fileTypeName: "Documento",
       fileUrl: "/Código Conduta e Ética Ramax Group (1).pdf",
     },
     {
-      id: "Kit-02",
+      id: "KIT-02",
       name: "Lista de contatos",
       fileType: IntegrationKitFileTypeEnum.DOCUMENT,
       fileTypeName: "Documento",
       fileUrl: "/Contatos Ramax.pdf",
     },
     {
-      id: "Kit-03",
+      id: "KIT-03",
       name: "Video Institucional RAMAX GROUP",
       fileType: IntegrationKitFileTypeEnum.VIDEO,
       fileTypeName: "Vídeo",

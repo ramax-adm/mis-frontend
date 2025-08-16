@@ -18,9 +18,9 @@ export function PoliciesTable() {
 const getData = () => {
   return [
     {
-      id: "POL.CPT- 001",
+      id: "GC-001-01",
       name: "Politica de Viagem",
-      fileUrl: "/POL.CPT- 001 Política de Viagem V1.1.pdf",
+      fileUrl: "/(GC-001-01) - Política de Viagem V1.1.pdf",
     },
     {
       id: "GC-002-01",
