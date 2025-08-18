@@ -3,7 +3,7 @@ import { PageContainer } from "@/components/PageContainer";
 import { PageContainerHeader } from "@/components/PageContainer/header";
 import { Tabs } from "@/components/Tabs";
 import { TabsPanelRef } from "@/components/Tabs/panel";
-import { Tab } from "@mui/material";
+import { Tab, Typography } from "@mui/material";
 import { useQueryState, parseAsString } from "nuqs";
 import { useRef } from "react";
 import { CompanyOrganizationalImageSection } from "./components/sections/company-organizational-image-section";
@@ -16,6 +16,7 @@ enum TabSectionsEnum {
   INTEGRATION_KIT = "integration-kit",
   POLICIES = "policies",
   POPS = "pops",
+  TRAININGS = "trainings",
 }
 
 export default function IntranetPage() {
@@ -30,7 +31,7 @@ export default function IntranetPage() {
     <PageContainer>
       <PageContainerHeader title='Intranet' />
 
-      <Tabs.Root defaultTab={TabSectionsEnum.COMPANY_ORGANIZATIONAL_CHART}>
+      <Tabs.Root defaultTab={selectedTab}>
         <Tabs.Select customHandler={handleSelectTab}>
           <Tab
             label='Organograma'
@@ -39,6 +40,11 @@ export default function IntranetPage() {
           <Tab label='Kit Integração' value={TabSectionsEnum.INTEGRATION_KIT} />
           <Tab label='Politicas' value={TabSectionsEnum.POLICIES} />
           <Tab label='POPs' value={TabSectionsEnum.POPS} />
+          <Tab
+            label='Treinamentos'
+            value={TabSectionsEnum.TRAININGS}
+            disabled
+          />
         </Tabs.Select>
 
         <Tabs.Content>
@@ -65,6 +71,11 @@ export default function IntranetPage() {
         <Tabs.Content>
           <Tabs.Panel tabName={TabSectionsEnum.POPS} ref={tabPanelRef}>
             <PopsSection />
+          </Tabs.Panel>
+        </Tabs.Content>
+        <Tabs.Content>
+          <Tabs.Panel tabName={TabSectionsEnum.TRAININGS} ref={tabPanelRef}>
+            <Typography>Treinamentos</Typography>
           </Tabs.Panel>
         </Tabs.Content>
       </Tabs.Root>

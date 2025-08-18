@@ -18,9 +18,29 @@ export function PopsTable() {
 const getData = () => {
   return [
     {
-      id: "POP-01",
-      name: "Manual de Procedimento Operacional Padrão [Sensatta]",
-      fileUrl: "/Manual de Procedimento Operacional Padrão [Sensatta] (1).pdf",
+      id: "POP-ORG-001-01",
+      name: "Procedimento Originação",
+      fileUrl: "/(POP-ORG-001-01) Procedimento Originação.pdf",
+    },
+    {
+      id: "POP-COM-004-01",
+      name: "Procedimento Cancelamento de Pedidos",
+      fileUrl: "/(POP-COM-004-01) Procedimento Cancelamento de Pedidos.pdf",
+    },
+    {
+      id: "POP-COM-005-01",
+      name: "Procedimento Pedido Web",
+      fileUrl: "/(POP-COM-005-01) Pedido Web.pdf",
+    },
+    {
+      id: "POP-LOG-003-01",
+      name: "Procedimento de Pré-embarque e Embarque",
+      fileUrl: "/(POP-LOG-003-01) Procedimento de Pré-embarque e Embarque.pdf",
+    },
+    {
+      id: "POP-RON-001-01",
+      name: "Procedimento Uso Veiculos Rondon",
+      fileUrl: "/(POP-RON-001-01) Procedimento_Uso_Veiculos_Rondon.pdf",
     },
   ];
 };
