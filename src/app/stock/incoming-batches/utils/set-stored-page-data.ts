@@ -9,14 +9,19 @@ export const setIncomingBatchesStoredPageData = (
   const previousStoredData = getFromLocalStorage(
     StorageKeysEnum.STOCK_INCOMING_BATCHES
   );
+  if (previousStoredData === "") {
+    return setToLocalStorage(
+      StorageKeysEnum.STOCK_INCOMING_BATCHES,
+      JSON.stringify(override)
+    );
+  }
 
-  const parsedPreviousStoredData = JSON.parse(previousStoredData) as
+  const parsedPreviousStoredData = JSON.parse(previousStoredData ?? "{}") as
     | StockIncomingBatchesStoredData
     | undefined;
 
   const dataToStore = assignIn(parsedPreviousStoredData, override);
 
-  console.log({ parsedPreviousStoredData, dataToStore });
   setToLocalStorage(
     StorageKeysEnum.STOCK_INCOMING_BATCHES,
     JSON.stringify(dataToStore)
