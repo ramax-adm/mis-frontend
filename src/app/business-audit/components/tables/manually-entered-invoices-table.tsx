@@ -1,4 +1,4 @@
-import { CustomizedTable } from "@/components/Table/body";
+import { CustomizedTable } from "@/components/Table/normal-table/body";
 import {
   useGetBusinessAuditConsideredCfops,
   useGetBusinessAuditConsideredNfSituations,

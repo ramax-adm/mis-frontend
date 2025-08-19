@@ -1,8 +1,4 @@
-export const STORAGE_KEYS = {
-  // TODO: map all storage keys here
-  STOCK_SETTINGS: 'stock-settings',
-}
-
-export type STORAGE_KEYS_TYPES = {
-  STOCK_SETTINGS: string
+export enum StorageKeysEnum {
+  STOCK_SETTINGS = "stock-settings",
+  STOCK_INCOMING_BATCHES = "stock-incoming-batches",
 }

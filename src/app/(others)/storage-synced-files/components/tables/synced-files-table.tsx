@@ -1,5 +1,5 @@
 import { LoadingOverlay } from "@/components/Loading/loadingSpinner";
-import { Column, CustomizedTable } from "@/components/Table/body";
+import { Column, CustomizedTable } from "@/components/Table/normal-table/body";
 import { useDownloadSyncedFile } from "@/services/react-query/mutations/utils";
 import { useGetSyncedFiles } from "@/services/react-query/queries/utils";
 import { GetSyncedFilesResponse } from "@/types/api/utils";

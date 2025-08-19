@@ -6,7 +6,7 @@ import {
 } from "@/services/react-query/queries/stock-balance";
 import { MarketEnum } from "@/types/sensatta";
 import { Box, Grid, Typography } from "@mui/material";
-import { forwardRef, useState } from "react";
+import { forwardRef, useEffect, useState } from "react";
 import {
   useGetCompanies,
   useGetProductLines,
@@ -17,6 +17,13 @@ import { StockBalanceAnalyticalAggregatedCard } from "../cards/analytical-aggreg
 import { StockBalanceAnalyticalDataCard } from "../cards/analytical-data-card";
 import { MultipleSelectInputControlled } from "@/components/Inputs/Select/Multiple/controlled";
 import { StockBalanceTotals } from "../totals/stock-balance-totals";
+import {
+  parseAsArrayOf,
+  parseAsInteger,
+  parseAsString,
+  parseAsStringEnum,
+  useQueryStates,
+} from "nuqs";
 
 const DATA_VISUALIZATION_OPTIONS = [
   {
@@ -52,17 +59,32 @@ const MARKET_OPTIONS = [
 export interface StockBalanceAnalyticalSectionRef {}
 export const StockBalanceAnalyticalSection =
   forwardRef<StockBalanceAnalyticalSectionRef>(() => {
-    // states
-    const [selectedCompany, setSelectedCompany] = useState("");
-    const [selectedMarket, setSelectedMarket] = useState<MarketEnum>(
-      MarketEnum.BOTH
+    const [
+      {
+        selectedCompany,
+        selectedMarket,
+        selectedDataVisualization,
+        selectedProductLines,
+      },
+      setQueryStates,
+    ] = useQueryStates(
+      {
+        selectedCompany: parseAsString.withDefault(""),
+        selectedMarket: parseAsString.withDefault(MarketEnum.BOTH),
+        selectedDataVisualization: parseAsStringEnum([
+          "aggregated-analytical",
+          "analytical",
+        ]).withDefault("aggregated-analytical"),
+        selectedProductLines: parseAsArrayOf(parseAsString).withDefault([]),
+      },
+      {
+        clearOnDefault: true,
+      }
     );
-    const [selectedDataVisualization, setSelectedDataVisualization] = useState<
-      "aggregated-analytical" | "analytical"
-    >("aggregated-analytical");
-    const [selectedProductLines, setSelectedProductLines] = useState<string[]>(
-      []
-    );
+
+    const [, setTableStates] = useQueryStates({
+      page: parseAsInteger,
+    });
 
     // vars
     const selectedProductLinesCodes = selectedProductLines.map(
@@ -70,33 +92,41 @@ export const StockBalanceAnalyticalSection =
     );
 
     // handlers
-    const handleSelectCompany = (value: string) => setSelectedCompany(value);
-    const handleSelectMarket = (value: string) =>
-      setSelectedMarket(value as MarketEnum);
-    const handleSelectDataVisualization = (value: string) =>
-      setSelectedDataVisualization(
-        value as "aggregated-analytical" | "analytical"
-      );
-    const handleSelectedProductLines = (values: string[]) => {
-      setSelectedProductLines(values);
+    const handleSelectCompany = (value: string) =>
+      setQueryStates({ selectedCompany: value });
+
+    const handleSelectMarket = (value: string) => {
+      setTableStates({ page: 0 });
+      setQueryStates({ selectedMarket: value as MarketEnum });
     };
+
+    const handleSelectDataVisualization = (
+      value: "aggregated-analytical" | "analytical"
+    ) => setQueryStates({ selectedDataVisualization: value });
+
+    const handleSelectedProductLines = (values: string[]) =>
+      setQueryStates({ selectedProductLines: values });
+
     const handleSelectAndDisselectAllProductLines = () => {
       if (!productLines) return;
 
+      setTableStates({ page: 0 });
       const haveSomeSelectedProductLines = selectedProductLines.length > 0;
       if (haveSomeSelectedProductLines) {
-        return setSelectedProductLines([]);
+        return setQueryStates({ selectedProductLines: [] });
       }
 
-      return setSelectedProductLines(
-        productLines.map((i) => `${i.sensattaCode}-${i.acronym}`)
-      );
+      return setQueryStates({
+        selectedProductLines: productLines.map(
+          (i) => `${i.sensattaCode}-${i.acronym}`
+        ),
+      });
     };
 
     // queries
     const { data: companies } = useGetCompanies({});
     const { data: productLines } = useGetProductLines({
-      market: selectedMarket,
+      market: selectedMarket as MarketEnum,
     });
     const { data: stockData, isFetching: isFetchingStockData } =
       useGetStockBalanceAnalyticalData({

@@ -1,18 +1,18 @@
-import { LoadingOverlay } from '@/components/Loading/loadingSpinner'
-import { Column, CustomizedTable } from '@/components/Table/body'
-import { useGetAnalyticalCattlePurchaseFreights } from '@/services/react-query/queries/freights'
+import { LoadingOverlay } from "@/components/Loading/loadingSpinner";
+import { Column, CustomizedTable } from "@/components/Table/normal-table/body";
+import { useGetAnalyticalCattlePurchaseFreights } from "@/services/react-query/queries/freights";
 import {
   FreightOverPriceTableItem,
   GetAnalyticalCattlePurchaseFreightsResponse,
-} from '@/types/api/freights'
-import { toLocaleString } from '@/utils/string.utils'
-import { Box, Typography } from '@mui/material'
+} from "@/types/api/freights";
+import { toLocaleString } from "@/utils/string.utils";
+import { Box, Typography } from "@mui/material";
 
 interface FreightsOverPriceTableProps {
-  data: FreightOverPriceTableItem[]
+  data: FreightOverPriceTableItem[];
 }
 export function FreightsOverPriceTable({ data }: FreightsOverPriceTableProps) {
-  const columns = getColumns()
+  const columns = getColumns();
   const parsedData = data
     .sort((a, b) => b.difPrice - a.difPrice)
     .map((item) => ({
@@ -20,49 +20,49 @@ export function FreightsOverPriceTable({ data }: FreightsOverPriceTableProps) {
       negotiatedPrice: toLocaleString(item.negotiatedPrice),
       tablePrice: toLocaleString(item.tablePrice),
       difPrice: toLocaleString(item.difPrice),
-    }))
+    }));
 
   return (
     <Box sx={{ marginTop: 1 }}>
       <CustomizedTable<any>
         tableStyles={{
-          height: '270px',
-          width: '100%',
+          height: "270px",
+          width: "100%",
         }}
         cellStyles={{
           paddingX: 1,
-          fontSize: '9px',
+          fontSize: "9px",
           paddingY: 0.2,
         }}
         headCellStyles={{
           paddingX: 1,
-          fontSize: '10px',
+          fontSize: "10px",
         }}
         columns={columns}
         data={parsedData}
       />
     </Box>
-  )
+  );
 }
 const getColumns = (): Column<FreightOverPriceTableItem>[] => {
   return [
     {
-      headerName: 'Data',
-      maxWidth: '80px',
-      type: 'date',
+      headerName: "Data",
+      maxWidth: "80px",
+      type: "date",
       value: {
         first: {
-          value: 'date',
+          value: "date",
         },
       },
     },
     {
-      headerName: 'Cod OC',
+      headerName: "Cod OC",
       // maxWidth: '80px',
-      type: 'string',
+      type: "string",
       value: {
         first: {
-          value: 'purchaseCattleOrderId',
+          value: "purchaseCattleOrderId",
         },
       },
     },
@@ -87,41 +87,41 @@ const getColumns = (): Column<FreightOverPriceTableItem>[] => {
     //   },
     // },
     {
-      headerName: 'Cbs',
+      headerName: "Cbs",
       // maxWidth: '80px',
-      type: 'string',
+      type: "string",
       value: {
         first: {
-          value: 'cattleQuantity',
+          value: "cattleQuantity",
         },
       },
     },
     {
-      headerName: 'R$ Frete',
-      maxWidth: '40px',
-      type: 'string',
+      headerName: "R$ Frete",
+      maxWidth: "40px",
+      type: "string",
       value: {
         first: {
-          value: 'negotiatedPrice',
+          value: "negotiatedPrice",
         },
       },
     },
     {
-      headerName: 'R$ Tabela',
-      maxWidth: '40px',
-      type: 'string',
+      headerName: "R$ Tabela",
+      maxWidth: "40px",
+      type: "string",
       value: {
         first: {
-          value: 'tablePrice',
+          value: "tablePrice",
         },
       },
     },
     {
-      headerName: 'Dif. R$',
-      type: 'string',
+      headerName: "Dif. R$",
+      type: "string",
       value: {
         first: {
-          value: 'difPrice',
+          value: "difPrice",
         },
       },
     },
@@ -135,5 +135,5 @@ const getColumns = (): Column<FreightOverPriceTableItem>[] => {
     //     },
     //   },
     // },
-  ]
-}
+  ];
+};

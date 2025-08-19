@@ -1,5 +1,5 @@
 import { LoadingOverlay } from "@/components/Loading/loadingSpinner";
-import { Column, CustomizedTable } from "@/components/Table/body";
+import { Column, CustomizedTable } from "@/components/Table/normal-table/body";
 import { useGetSalesDeductionParams } from "@/services/react-query/queries/parameters";
 import { GetSalesDeductionsParametersResponseItem } from "@/types/api/parameters";
 import { MarketEnum } from "@/types/sensatta";

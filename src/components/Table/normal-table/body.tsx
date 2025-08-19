@@ -5,7 +5,11 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { cnpjMask, cpfMask, replaceDotForComma } from "../../utils/functions";
+import {
+  cnpjMask,
+  cpfMask,
+  replaceDotForComma,
+} from "../../../utils/functions";
 import dayjs from "dayjs";
 import { SxProps } from "@mui/material";
 import { COLORS } from "@/constants/styles/colors";

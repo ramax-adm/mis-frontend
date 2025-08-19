@@ -1,4 +1,4 @@
-import { Column, CustomizedTable } from "@/components/Table/body";
+import { Column, CustomizedTable } from "@/components/Table/normal-table/body";
 import { IoMdDownload } from "react-icons/io";
 import "@/app/globals.css";
 

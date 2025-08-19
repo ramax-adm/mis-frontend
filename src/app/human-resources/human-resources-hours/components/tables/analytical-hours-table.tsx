@@ -1,19 +1,19 @@
-import { Column, CustomizedTable } from '@/components/Table/body'
-import { HumanResourceHoursAnalyticalParsedDataItem } from '@/types/api/human-resources-hours'
-import { Box } from '@mui/material'
+import { Column, CustomizedTable } from "@/components/Table/normal-table/body";
+import { HumanResourceHoursAnalyticalParsedDataItem } from "@/types/api/human-resources-hours";
+import { Box } from "@mui/material";
 
 interface AnalyticalHoursTableProps {
-  data: HumanResourceHoursAnalyticalParsedDataItem[]
+  data: HumanResourceHoursAnalyticalParsedDataItem[];
 }
 export function AnalyticalHoursTable({ data }: AnalyticalHoursTableProps) {
-  const columns = getColumns()
+  const columns = getColumns();
 
   return (
     <Box sx={{ marginTop: 2 }}>
       <CustomizedTable<any>
         tableStyles={{
-          height: 'calc(100vh - 250px);',
-          width: '100%',
+          height: "calc(100vh - 250px);",
+          width: "100%",
         }}
         cellStyles={{}}
         headCellStyles={{}}
@@ -21,26 +21,26 @@ export function AnalyticalHoursTable({ data }: AnalyticalHoursTableProps) {
         data={data}
       />
     </Box>
-  )
+  );
 }
 const getColumns = (): Column<HumanResourceHoursAnalyticalParsedDataItem>[] => {
   return [
     {
-      headerName: 'Data',
-      type: 'string',
+      headerName: "Data",
+      type: "string",
       value: {
         first: {
-          value: 'date',
+          value: "date",
         },
       },
     },
     {
-      headerName: 'Empresa',
+      headerName: "Empresa",
       // maxWidth: '80px',
-      type: 'string',
+      type: "string",
       value: {
         first: {
-          value: 'companyName',
+          value: "companyName",
         },
       },
     },
@@ -55,58 +55,58 @@ const getColumns = (): Column<HumanResourceHoursAnalyticalParsedDataItem>[] => {
     //   },
     // },
     {
-      headerName: 'Funcionario',
-      type: 'string',
+      headerName: "Funcionario",
+      type: "string",
       value: {
         first: {
-          value: 'employeeName',
+          value: "employeeName",
         },
       },
     },
     {
-      headerName: 'Departamento',
-      type: 'string',
+      headerName: "Departamento",
+      type: "string",
       value: {
         first: {
-          value: 'department',
+          value: "department",
         },
       },
     },
     {
-      headerName: 'Hs. Normais',
-      type: 'string',
+      headerName: "Hs. Normais",
+      type: "string",
       value: {
         first: {
-          value: 'normalHours',
+          value: "normalHours",
         },
       },
     },
     {
-      headerName: 'Hs. Folgas',
-      type: 'string',
+      headerName: "Hs. Folgas",
+      type: "string",
       value: {
         first: {
-          value: 'hoursOff',
+          value: "hoursOff",
         },
       },
     },
     {
-      headerName: 'Hs. Extras',
-      type: 'string',
+      headerName: "Hs. Extras",
+      type: "string",
       value: {
         first: {
-          value: 'extraHours',
+          value: "extraHours",
         },
       },
     },
     {
-      headerName: 'Hs.Faltas',
-      type: 'string',
+      headerName: "Hs.Faltas",
+      type: "string",
       value: {
         first: {
-          value: 'absenceHours',
+          value: "absenceHours",
         },
       },
     },
-  ]
-}
+  ];
+};
