@@ -1,4 +1,4 @@
-import { CustomizedTable } from "@/components/Table/body";
+import { CustomizedTable } from "@/components/Table/normal-table/body";
 import { GetBusinessAuditResumeDataResponse } from "@/types/api/business-audit";
 import { formatToDate } from "@/utils/formatToDate";
 import { toLocaleString } from "@/utils/string.utils";

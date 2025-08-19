@@ -1,4 +1,4 @@
-import { CustomizedTable } from "@/components/Table/body";
+import { CustomizedTable } from "@/components/Table/normal-table/body";
 import { GetCattlePurchaseResumedDataResponse } from "@/types/api/purchase";
 import { toLocaleString } from "@/utils/string.utils";
 import { Box } from "@mui/material";

@@ -67,6 +67,10 @@ export class PageRoutes {
   static meStock() {
     return `/stock/me`;
   }
+
+  static incomingBatches() {
+    return `/stock/incoming-batches`;
+  }
   static stockBalance() {
     return `/stock/stock-balance`;
   }

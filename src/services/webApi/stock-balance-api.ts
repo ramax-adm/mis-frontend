@@ -1,7 +1,7 @@
 import { GetFetch, PostFetch, urls } from "../axios/api-base";
 
 export async function GetStockBalanceLastUpdatedAt() {
-  const response = await GetFetch(urls.STOCK_BALANCE.GET_LAST_UPDATED_AT);
+  const response = await GetFetch(urls.STOCK.STOCK_BALANCE.GET_LAST_UPDATED_AT);
 
   return response.data;
 }
@@ -16,7 +16,7 @@ export async function GetStockBalanceAggregatedAnalyticalData({
   productLineCode?: string;
 }) {
   const response = await GetFetch(
-    urls.STOCK_BALANCE.GET_AGGREGATED_ANALYTICAL_DATA,
+    urls.STOCK.STOCK_BALANCE.GET_AGGREGATED_ANALYTICAL_DATA,
     {
       params: {
         key: "productLine", // WIP: Turn This Dynamic
@@ -39,20 +39,23 @@ export async function GetStockBalanceAnalyticalData({
   market?: string;
   productLineCode?: string;
 }) {
-  const response = await GetFetch(urls.STOCK_BALANCE.GET_ANALYTICAL_DATA, {
-    params: {
-      companyCode,
-      market,
-      productLineCode,
-    },
-  });
+  const response = await GetFetch(
+    urls.STOCK.STOCK_BALANCE.GET_ANALYTICAL_DATA,
+    {
+      params: {
+        companyCode,
+        market,
+        productLineCode,
+      },
+    }
+  );
 
   return response.data;
 }
 
 export async function PostExportStockBalanceAllXlsx() {
   const response = await PostFetch(
-    urls.STOCK_BALANCE.POST_EXPORT_XLSX,
+    urls.STOCK.STOCK_BALANCE.POST_EXPORT_XLSX,
     { filters: {} },
     {
       responseType: "blob",

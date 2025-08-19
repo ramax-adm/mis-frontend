@@ -1,4 +1,4 @@
-import { Column } from "@/components/Table/body";
+import { Column } from "@/components/Table/normal-table/body";
 
 export function ProductionByCattleCategoryTable() {}
 

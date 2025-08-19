@@ -1,44 +1,47 @@
-import { Column, CustomizedTable } from '@/components/Table/body'
-import { FreightByCattleAdvisorItem, FreightByFreightCompanyItem } from '@/types/api/freights'
+import { Column, CustomizedTable } from "@/components/Table/normal-table/body";
+import {
+  FreightByCattleAdvisorItem,
+  FreightByFreightCompanyItem,
+} from "@/types/api/freights";
 import {
   ExtraHoursByEmployeeItem,
   HistoryAbsenceHoursByEmployeeItem,
   HistoryExtraHoursByEmployeeItem,
-} from '@/types/api/human-resources-hours'
-import { toLocaleString } from '@/utils/string.utils'
-import { Box, Typography } from '@mui/material'
+} from "@/types/api/human-resources-hours";
+import { toLocaleString } from "@/utils/string.utils";
+import { Box, Typography } from "@mui/material";
 
 interface HistoryAbsenceHoursByEmployeeTableProps {
-  data: HistoryAbsenceHoursByEmployeeItem[]
+  data: HistoryAbsenceHoursByEmployeeItem[];
 }
 export function HistoryAbsenceHoursByEmployeeTable({
   data,
 }: HistoryAbsenceHoursByEmployeeTableProps) {
-  const columns = getColumns()
+  const columns = getColumns();
 
-  const dataParsed = getData({ data })
+  const dataParsed = getData({ data });
 
   return (
     <Box sx={{ marginTop: 1 }}>
       <CustomizedTable<any>
         tableStyles={{
-          height: 'calc(100vh - 530px);',
-          width: '100%',
+          height: "calc(100vh - 530px);",
+          width: "100%",
         }}
         cellStyles={{
           paddingX: 1,
-          fontSize: '9px',
+          fontSize: "9px",
           paddingY: 0.2,
         }}
         headCellStyles={{
           paddingX: 1,
-          fontSize: '10px',
+          fontSize: "10px",
         }}
         columns={columns}
         data={dataParsed}
       />
     </Box>
-  )
+  );
 }
 
 const getData = ({ data }: HistoryAbsenceHoursByEmployeeTableProps) => {
@@ -46,39 +49,39 @@ const getData = ({ data }: HistoryAbsenceHoursByEmployeeTableProps) => {
     .sort((a, b) => b.absenceHoursInSeconds - a.absenceHoursInSeconds)
     .map((item) => ({
       ...item,
-      absenceHours: item.absenceHours.split(':').slice(0, 2).join(':'),
-    }))
-}
+      absenceHours: item.absenceHours.split(":").slice(0, 2).join(":"),
+    }));
+};
 
 const getColumns = (): Column<HistoryAbsenceHoursByEmployeeItem>[] => {
   return [
     {
-      headerName: 'Funcionario',
-      type: 'string',
+      headerName: "Funcionario",
+      type: "string",
       value: {
         first: {
-          value: 'employeeName',
+          value: "employeeName",
         },
       },
     },
     {
-      headerName: 'Departamento',
+      headerName: "Departamento",
       // maxWidth: '80px',
-      type: 'string',
+      type: "string",
       value: {
         first: {
-          value: 'department',
+          value: "department",
         },
       },
     },
     {
-      headerName: 'Horas',
-      type: 'string',
+      headerName: "Horas",
+      type: "string",
       value: {
         first: {
-          value: 'absenceHours',
+          value: "absenceHours",
         },
       },
     },
-  ]
-}
+  ];
+};

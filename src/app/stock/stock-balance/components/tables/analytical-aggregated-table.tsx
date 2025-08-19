@@ -1,4 +1,4 @@
-import { Column, CustomizedTable } from "@/components/Table/body";
+import { Column, CustomizedTable } from "@/components/Table/normal-table/body";
 import { GetStockBalanceAggregatedAnalyticalItem } from "@/types/api/stock-balance";
 import { toLocaleString } from "@/utils/string.utils";
 import { Box } from "@mui/material";

@@ -5,7 +5,7 @@ import {
 } from "@/types/api/purchase";
 import { Alert, Box } from "@mui/material";
 import { CattlePurchaseCustomizedCard } from "../customized/card";
-import { Column, CustomizedTable } from "@/components/Table/body";
+import { Column, CustomizedTable } from "@/components/Table/normal-table/body";
 import { formatToDate } from "@/utils/formatToDate";
 import { toLocaleString } from "@/utils/string.utils";
 

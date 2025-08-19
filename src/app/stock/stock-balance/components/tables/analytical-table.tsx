@@ -1,7 +1,25 @@
-import { Column, CustomizedTable } from "@/components/Table/body";
+import { Column, CustomizedTable } from "@/components/Table/normal-table/body";
+import PaginatedTable, {
+  PaginatedTableColumn,
+} from "@/components/Table/paginated-table";
 import { GetStockBalanceAnalyticalDataResponse } from "@/types/api/stock-balance";
 import { toLocaleString } from "@/utils/string.utils";
 import { Box } from "@mui/material";
+
+type StockBalanceAnalyticalParsedData = {
+  quantity: string;
+  weightInKg: string;
+  reservedQuantity: string;
+  reservedWeightInKg: string;
+  availableQuantity: string;
+  availableWeightInKg: string;
+  productLineCode: string;
+  productLineName: string;
+  productLine: string;
+  productCode: string;
+  productName: string;
+  product: string;
+};
 
 interface StockBalanceAnalyticalTableProps {
   data?: GetStockBalanceAnalyticalDataResponse["items"];
@@ -14,7 +32,7 @@ export function StockBalanceAnalyticalTable({
 
   return (
     <Box>
-      <CustomizedTable<any>
+      <PaginatedTable<StockBalanceAnalyticalParsedData>
         tableStyles={{
           maxHeight: "calc(100vh - 200px);",
           width: "100%",
@@ -26,7 +44,7 @@ export function StockBalanceAnalyticalTable({
           fontSize: "13px",
         }}
         columns={columns}
-        data={parsedData}
+        rows={parsedData}
       />
     </Box>
   );
@@ -43,107 +61,48 @@ const getData = ({ data = [] }: StockBalanceAnalyticalTableProps) =>
     availableWeightInKg: toLocaleString(i.availableWeightInKg),
   }));
 
-const getColumns = (): Column<GetStockBalanceAnalyticalDataResponse>[] => {
-  return [
-    {
-      headerName: "Cod. Produto",
-      width: "30px",
-      type: "string",
-      value: {
-        first: {
-          value: "productCode",
-        },
+const getColumns =
+  (): PaginatedTableColumn<StockBalanceAnalyticalParsedData>[] => {
+    return [
+      {
+        headerKey: "productLineCode",
+        headerName: "Cod. Linha",
       },
-    },
-    {
-      headerName: "Produto",
-      width: "150px",
-      type: "string",
-      value: {
-        first: {
-          value: "productName",
-        },
+      {
+        headerKey: "productLineName",
+        headerName: "Linha",
       },
-    },
-    {
-      headerName: "Cod. Linha",
-      width: "30px",
-      type: "string",
-      value: {
-        first: {
-          value: "productLineCode",
-        },
+      {
+        headerKey: "productCode",
+        headerName: "Cod. Produto",
       },
-    },
-    {
-      headerName: "Linha",
-      width: "100px",
-      type: "string",
-      value: {
-        first: {
-          value: "productLineName",
-        },
+      {
+        headerKey: "productName",
+        headerName: "Produto",
       },
-    },
-    {
-      headerName: "Cx Estoque",
-      width: "40px",
-      type: "string",
-      value: {
-        first: {
-          value: "quantity",
-        },
+      {
+        headerKey: "quantity",
+        headerName: "Cx Estoque",
       },
-    },
-    {
-      headerName: "Kg Estoque",
-      width: "40px",
-      type: "string",
-      value: {
-        first: {
-          value: "weightInKg",
-        },
+      {
+        headerKey: "weightInKg",
+        headerName: "Kg Estoque",
       },
-    },
-    {
-      headerName: "Cx Pedido",
-      width: "40px",
-      type: "string",
-      value: {
-        first: {
-          value: "reservedQuantity",
-        },
+      {
+        headerKey: "reservedQuantity",
+        headerName: "Cx Pedido",
       },
-    },
-    {
-      headerName: "Kg Pedido",
-      width: "40px",
-      type: "string",
-      value: {
-        first: {
-          value: "reservedWeightInKg",
-        },
+      {
+        headerKey: "reservedWeightInKg",
+        headerName: "Kg Pedido",
       },
-    },
-    {
-      headerName: "Cx Disponivel",
-      width: "40px",
-      type: "string",
-      value: {
-        first: {
-          value: "availableQuantity",
-        },
+      {
+        headerKey: "availableQuantity",
+        headerName: "Cx Disponivel",
       },
-    },
-    {
-      headerName: "Kg Disponivel",
-      width: "40px",
-      type: "string",
-      value: {
-        first: {
-          value: "availableWeightInKg",
-        },
+      {
+        headerKey: "availableWeightInKg",
+        headerName: "Kg Disponivel",
       },
-    },
-  ];
-};
+    ];
+  };

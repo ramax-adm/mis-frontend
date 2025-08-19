@@ -1,5 +1,5 @@
-import { Table } from "@/components/Table";
-import { Column } from "@/components/Table/body";
+import { Table } from "@/components/Table/normal-table";
+import { Column } from "@/components/Table/normal-table/body";
 import { GetAnalyticalStockByCompanyResponse } from "@/types/api/stock";
 
 interface AnalyticalStockTableProps {

@@ -1,5 +1,5 @@
 import { GetCattlePurchaseAnalyticalParsedItem } from "@/types/api/purchase";
-import { Column, CustomizedTable } from "@/components/Table/body";
+import { Column, CustomizedTable } from "@/components/Table/normal-table/body";
 import { Box } from "@mui/material";
 
 interface AnalyticalCattlePurchasesTableProps {
