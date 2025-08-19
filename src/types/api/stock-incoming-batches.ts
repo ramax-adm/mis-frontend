@@ -22,3 +22,8 @@ export interface GetStockInconingBatchesResumeResponse {
     }
   >;
 }
+
+export interface GetStockInconingBatchesLastUpdatedAtResponse {
+  updatedAt: Date;
+  parsedUpdatedAt: string;
+}
