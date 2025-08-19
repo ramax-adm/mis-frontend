@@ -1,5 +1,5 @@
 import "@/app/globals.css";
-import { CustomizedTable } from "@/components/Table/body";
+import { CustomizedTable } from "@/components/Table/normal-table/body";
 import { IoMdDownload } from "react-icons/io";
 import { IntegrationKitFileTypeEnum } from "@/types/intranet";
 import { RiFileVideoFill } from "react-icons/ri";

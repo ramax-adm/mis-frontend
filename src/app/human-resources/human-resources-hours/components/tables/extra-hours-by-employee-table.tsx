@@ -1,68 +1,73 @@
-import { Column, CustomizedTable } from '@/components/Table/body'
-import { FreightByCattleAdvisorItem, FreightByFreightCompanyItem } from '@/types/api/freights'
-import { ExtraHoursByEmployeeItem } from '@/types/api/human-resources-hours'
-import { toLocaleString } from '@/utils/string.utils'
-import { Box, Typography } from '@mui/material'
+import { Column, CustomizedTable } from "@/components/Table/normal-table/body";
+import {
+  FreightByCattleAdvisorItem,
+  FreightByFreightCompanyItem,
+} from "@/types/api/freights";
+import { ExtraHoursByEmployeeItem } from "@/types/api/human-resources-hours";
+import { toLocaleString } from "@/utils/string.utils";
+import { Box, Typography } from "@mui/material";
 
 interface ExtraHoursByEmployeeTableProps {
-  data: ExtraHoursByEmployeeItem[]
+  data: ExtraHoursByEmployeeItem[];
 }
-export function ExtraHoursByEmployeeTable({ data }: ExtraHoursByEmployeeTableProps) {
-  const columns = getColumns()
+export function ExtraHoursByEmployeeTable({
+  data,
+}: ExtraHoursByEmployeeTableProps) {
+  const columns = getColumns();
 
-  data.sort((a, b) => b.extraHoursInSeconds - a.extraHoursInSeconds)
+  data.sort((a, b) => b.extraHoursInSeconds - a.extraHoursInSeconds);
 
   return (
     <Box sx={{ marginTop: 1 }}>
       <CustomizedTable<any>
         tableStyles={{
-          height: '170px',
-          width: '100%',
+          height: "170px",
+          width: "100%",
         }}
         cellStyles={{
           paddingX: 1,
-          fontSize: '9px',
+          fontSize: "9px",
           paddingY: 0.2,
         }}
         headCellStyles={{
           paddingX: 1,
-          fontSize: '10px',
+          fontSize: "10px",
         }}
         columns={columns}
         data={data}
       />
     </Box>
-  )
+  );
 }
 const getColumns = (): Column<ExtraHoursByEmployeeItem>[] => {
   return [
     {
-      headerName: 'Funcionario',
-      type: 'string',
+      headerName: "Funcionario",
+      type: "string",
       value: {
         first: {
-          value: 'employeeName',
+          value: "employeeName",
         },
       },
     },
     {
-      headerName: 'Departamento',
+      headerName: "Departamento",
       // maxWidth: '80px',
-      type: 'string',
+      type: "string",
       value: {
         first: {
-          value: 'department',
+          value: "department",
         },
       },
     },
     {
-      headerName: 'Horas',
-      type: 'string',
+      headerName: "Horas",
+      type: "string",
       value: {
         first: {
-          value: 'extraHours',
+          value: "extraHours",
         },
       },
     },
-  ]
-}
+  ];
+};

@@ -1,13 +1,15 @@
-import { Column, CustomizedTable } from '@/components/Table/body'
-import { FreightByFreightCompanyItem } from '@/types/api/freights'
-import { toLocaleString } from '@/utils/string.utils'
-import { Box, Typography } from '@mui/material'
+import { Column, CustomizedTable } from "@/components/Table/normal-table/body";
+import { FreightByFreightCompanyItem } from "@/types/api/freights";
+import { toLocaleString } from "@/utils/string.utils";
+import { Box, Typography } from "@mui/material";
 
 interface FreightByFreightCompanyTableProps {
-  data: FreightByFreightCompanyItem[]
+  data: FreightByFreightCompanyItem[];
 }
-export function FreightByFreightCompanyTable({ data }: FreightByFreightCompanyTableProps) {
-  const columns = getColumns()
+export function FreightByFreightCompanyTable({
+  data,
+}: FreightByFreightCompanyTableProps) {
+  const columns = getColumns();
   const parsedData = data
     .sort((a, b) => b.difPrice - a.difPrice)
     .map((item) => ({
@@ -15,78 +17,78 @@ export function FreightByFreightCompanyTable({ data }: FreightByFreightCompanyTa
       negotiatedPrice: toLocaleString(item.negotiatedPrice),
       tablePrice: toLocaleString(item.tablePrice),
       difPrice: toLocaleString(item.difPrice),
-    }))
+    }));
 
   return (
     <Box sx={{ marginTop: 1 }}>
       <CustomizedTable<any>
         tableStyles={{
-          height: '270px',
-          width: '100%',
+          height: "270px",
+          width: "100%",
         }}
         cellStyles={{
           paddingX: 1,
-          fontSize: '9px',
+          fontSize: "9px",
           paddingY: 0.2,
         }}
         headCellStyles={{
           paddingX: 1,
-          fontSize: '10px',
+          fontSize: "10px",
         }}
         columns={columns}
         data={parsedData}
       />
     </Box>
-  )
+  );
 }
 const getColumns = (): Column<FreightByFreightCompanyItem>[] => {
   return [
     {
-      headerName: 'Transportadora',
-      maxWidth: '100px',
-      type: 'string',
+      headerName: "Transportadora",
+      maxWidth: "100px",
+      type: "string",
       value: {
         first: {
-          value: 'freightCompany',
+          value: "freightCompany",
         },
       },
     },
     {
-      headerName: 'Cbs',
+      headerName: "Cbs",
       // maxWidth: '80px',
-      type: 'string',
+      type: "string",
       value: {
         first: {
-          value: 'cattleQuantity',
+          value: "cattleQuantity",
         },
       },
     },
     {
-      headerName: 'R$ Frete',
-      maxWidth: '40px',
-      type: 'string',
+      headerName: "R$ Frete",
+      maxWidth: "40px",
+      type: "string",
       value: {
         first: {
-          value: 'negotiatedPrice',
+          value: "negotiatedPrice",
         },
       },
     },
     {
-      headerName: 'R$ Tabela',
-      maxWidth: '40px',
-      type: 'string',
+      headerName: "R$ Tabela",
+      maxWidth: "40px",
+      type: "string",
       value: {
         first: {
-          value: 'tablePrice',
+          value: "tablePrice",
         },
       },
     },
     {
-      headerName: 'Dif. R$',
-      type: 'string',
+      headerName: "Dif. R$",
+      type: "string",
       value: {
         first: {
-          value: 'difPrice',
+          value: "difPrice",
         },
       },
     },
@@ -100,5 +102,5 @@ const getColumns = (): Column<FreightByFreightCompanyItem>[] => {
     //     },
     //   },
     // },
-  ]
-}
+  ];
+};

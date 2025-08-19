@@ -1,4 +1,4 @@
-import { CustomizedTable } from "@/components/Table/body";
+import { CustomizedTable } from "@/components/Table/normal-table/body";
 import { GetBusinessAuditResumeDataResponse } from "@/types/api/business-audit";
 import { GetInvoicesItem } from "@/types/api/sales";
 import { PageRoutes } from "@/utils/appRoutes";

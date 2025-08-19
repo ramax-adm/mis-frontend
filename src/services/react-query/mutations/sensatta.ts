@@ -22,6 +22,8 @@ export const useSyncStockWithSensatta = () => {
       const queriesToInvalidate = [
         queryKeys.STOCK.GET_ALL,
         queryKeys.STOCK.GET_LAST_UPDATED_AT,
+        queryKeys.STOCK_INCOMING_BATCHES.GET_RESUMED_DATA,
+        queryKeys.STOCK_INCOMING_BATCHES.GET_LAST_UPDATED_AT,
       ];
 
       queriesToInvalidate.forEach((query) =>

@@ -1,4 +1,4 @@
-import { Column, CustomizedTable } from "@/components/Table/body";
+import { Column, CustomizedTable } from "@/components/Table/normal-table/body";
 import { GetStockByCompanyResponse } from "@/types/api/stock";
 
 interface StockTableProps {

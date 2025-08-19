@@ -1,5 +1,5 @@
 import { LoadingOverlay } from "@/components/Loading/loadingSpinner";
-import { Column, CustomizedTable } from "@/components/Table/body";
+import { Column, CustomizedTable } from "@/components/Table/normal-table/body";
 import { useGetAnalyticalCattlePurchaseFreights } from "@/services/react-query/queries/freights";
 import { GetAnalyticalCattlePurchaseFreightsResponse } from "@/types/api/freights";
 import { Box, Typography } from "@mui/material";

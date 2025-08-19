@@ -75,20 +75,28 @@ export const urls = {
     },
   },
   STOCK: {
-    GET_ALL: `${apiLocal}/api/stock`,
     GET_LAST_UPDATED_AT: `${apiLocal}/api/stock/last-update`,
+
+    GET_ALL: `${apiLocal}/api/stock`,
+
     GET_STOCK_BY_COMPANY: `${apiLocal}/api/stock`,
     GET_TO_EXPIRES_BY_COMPANY: `${apiLocal}/api/stock/:id/to-expires`,
 
     // ANALITICO
     GET_ALL_ANALITICAL: `${apiLocal}/api/stock/analytical`,
     POST_EXPORT_XLSX: `${apiLocal}/api/stock/export-xlsx`,
-  },
-  STOCK_BALANCE: {
-    GET_LAST_UPDATED_AT: `${apiLocal}/api/stock-balance/last-update`,
-    GET_ANALYTICAL_DATA: `${apiLocal}/api/stock-balance/analytical`,
-    GET_AGGREGATED_ANALYTICAL_DATA: `${apiLocal}/api/stock-balance/analytical/aggregated`,
-    POST_EXPORT_XLSX: `${apiLocal}/api/stock-balance/export-xlsx`,
+
+    INCOMING_BATCHES: {
+      GET_LAST_UPDATED_AT: `${apiLocal}/api/stock/incoming-batches/last-update`,
+      GET_PRODUCT_LINES_FILTERS: `${apiLocal}/api/stock/incoming-batches/filters/product-lines`,
+      GET_RESUME_DATA: `${apiLocal}/api/stock/incoming-batches/resume`,
+    },
+    STOCK_BALANCE: {
+      GET_LAST_UPDATED_AT: `${apiLocal}/api/stock-balance/last-update`,
+      GET_ANALYTICAL_DATA: `${apiLocal}/api/stock-balance/analytical`,
+      GET_AGGREGATED_ANALYTICAL_DATA: `${apiLocal}/api/stock-balance/analytical/aggregated`,
+      POST_EXPORT_XLSX: `${apiLocal}/api/stock-balance/export-xlsx`,
+    },
   },
   SENSATTA: {
     GET_COMPANIES: `${apiLocal}/api/sensatta/company`,

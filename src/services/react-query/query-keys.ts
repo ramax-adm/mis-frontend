@@ -65,6 +65,11 @@ export const queryKeys = {
     GET_ANALYTICAL_ALL: "get-all-analytical-stocks",
     GET_LAST_UPDATED_AT: "stock-updated-at",
   },
+  STOCK_INCOMING_BATCHES: {
+    GET_PRODUCT_LINES_FILTERS: "stock-incoming-batches-product-lines-filters",
+    GET_RESUMED_DATA: "stock-incoming-batches-resume",
+    GET_LAST_UPDATED_AT: "stock-incoming-batches-updated-at",
+  },
   STOCK_BALANCE: {
     GET_ANALYTICAL: "stock-balance-analytical",
     GET_AGGREGATED_ANALYTICAL: "stock-balance-aggregated-analytical",

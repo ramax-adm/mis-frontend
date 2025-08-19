@@ -1,5 +1,5 @@
 import { Card } from "@/components/Card";
-import { Column, CustomizedTable } from "@/components/Table/body";
+import { Column, CustomizedTable } from "@/components/Table/normal-table/body";
 import { ProjectDailyFlowResponse } from "@/types/cash-flow";
 import { Box, Grid } from "@mui/material";
 

@@ -1,5 +1,5 @@
 import { Card } from "@/components/Card";
-import { CustomizedTable, Column } from "@/components/Table/body";
+import { CustomizedTable, Column } from "@/components/Table/normal-table/body";
 import { COLORS } from "@/constants/styles/colors";
 import { CostsTransposed, ProjectCostByKgResponse } from "@/types/cash-flow";
 import { Typography } from "@mui/material";

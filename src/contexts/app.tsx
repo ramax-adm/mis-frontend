@@ -122,6 +122,10 @@ export default function AppProvider({ children }: AppContextProviderProps) {
           title: "Produtos ME",
         },
         {
+          path: PageRoutes.incomingBatches(),
+          title: "Etiquetas",
+        },
+        {
           path: PageRoutes.stockBalance(),
           title: "Saldo Estoque",
         },
