@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import AuthContextProvider from "./auth";
 import AppContextProvider from "./app";
