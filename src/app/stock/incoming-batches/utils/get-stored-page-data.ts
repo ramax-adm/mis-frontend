@@ -8,8 +8,6 @@ export const getIncomingBatchesStoredPageData =
     const storedPageData = getFromLocalStorage(
       StorageKeysEnum.STOCK_INCOMING_BATCHES
     );
-
-    const parsedStoredPageData = JSON.parse(storedPageData);
     const defaultData = {
       resumeSection: {
         filters: {
@@ -17,6 +15,12 @@ export const getIncomingBatchesStoredPageData =
         },
       },
     };
+
+    if (storedPageData === "") {
+      return defaultData;
+    }
+
+    const parsedStoredPageData = JSON.parse(storedPageData ?? "{}");
 
     const response = assignIn(defaultData, parsedStoredPageData);
     return response;
