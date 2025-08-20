@@ -24,8 +24,6 @@ import {
 } from "./components/sections/resume-section";
 
 export default function CattlePurchase() {
-  const { user } = useAuthContext();
-
   const tabPanelRef = useRef<TabsPanelRef>(null);
   const resumeSectionRef = useRef<CattlePurchaseResumeSectionRef>(null);
   const analyticalSectionRef = useRef<CattlePurchaseAnalyticalSectionRef>(null);
@@ -46,7 +44,7 @@ export default function CattlePurchase() {
     setSelectedTab(value as "analytical");
 
   const { data: purchaseLastUpdatedAt } = useGetPurchaseLastUpdatedAt();
-  const { data: companies } = useGetCompanies({ token: user.name });
+  const { data: companies } = useGetCompanies({ token: "" });
 
   const { mutateAsync: syncPurchase, isPending: isSyncPurchase } =
     useSyncPurchaseWithSensatta();

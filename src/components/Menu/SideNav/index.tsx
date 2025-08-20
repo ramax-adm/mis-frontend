@@ -1,56 +1,56 @@
-'use client'
-import React, { useEffect, useState } from 'react'
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import { SideNavItem, useAppContext } from '@/contexts/app'
-import { blue, grey } from '@mui/material/colors'
-import { useAuthContext, userRoles } from '@/contexts/auth'
+"use client";
+import React, { useEffect, useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { SideNavItem, useAppContext } from "@/contexts/app";
+import { blue, grey } from "@mui/material/colors";
+import { useAuthContext, userRoles } from "@/contexts/auth";
 
-import { Box, Button, Typography } from '@mui/material'
-import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io'
-import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md'
-import { RiLogoutBoxFill } from 'react-icons/ri'
-import { IconType } from 'react-icons'
-import Image from 'next/image'
-import RamaxLogo from '@/assets/RAMAX-Group_Horizontal_Cor.png'
-import RamaxMiniLogo from '@/assets/RAMAX-Group_Vertical_Cor.png'
-import { UserRoleEnum } from '@/types/user'
+import { Box, Button, Typography } from "@mui/material";
+import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
+import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
+import { RiLogoutBoxFill } from "react-icons/ri";
+import { IconType } from "react-icons";
+import Image from "next/image";
+import RamaxLogo from "@/assets/RAMAX-Group_Horizontal_Cor.png";
+import RamaxMiniLogo from "@/assets/RAMAX-Group_Vertical_Cor.png";
+import { UserRoleEnum } from "@/types/user";
 
 type Props = {
-  logout: () => void
-}
+  logout: () => void;
+};
 
 const SideNav = (props: Props) => {
-  const { isCollapsed, NAV_ITEMS, toggleSidebarcollapse } = useAppContext()
-  const { user } = useAuthContext()
-  const { webpages } = useAppContext()
+  const { isCollapsed, NAV_ITEMS, toggleSidebarcollapse, webpages } =
+    useAppContext();
+  const { user } = useAuthContext();
 
   return (
     <Box
       sx={{
-        display: { xs: 'none', sm: 'flex' },
-        position: 'fixed',
-        flex: '1 1 0%',
-        height: '100%',
-        backgroundColor: '#fff',
-        borderLeft: '1px solid rgba(62, 99, 221, 0.2)',
+        display: { xs: "none", sm: "flex" },
+        position: "fixed",
+        flex: "1 1 0%",
+        height: "100%",
+        backgroundColor: "#fff",
+        borderLeft: "1px solid rgba(62, 99, 221, 0.2)",
       }}
     >
       <button
         style={{
-          position: 'absolute',
-          right: '15px',
-          top: '4.7rem',
-          width: '1.5rem',
-          height: '1.5rem',
-          border: '1px solid #e5e7eb',
-          borderRadius: '50%',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          cursor: 'pointer',
-          transform: 'translateX(50%)',
-          fontSize: '1.5rem',
+          position: "absolute",
+          right: "15px",
+          top: "4.7rem",
+          width: "1.5rem",
+          height: "1.5rem",
+          border: "1px solid #e5e7eb",
+          borderRadius: "50%",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          cursor: "pointer",
+          transform: "translateX(50%)",
+          fontSize: "1.5rem",
         }}
         onClick={toggleSidebarcollapse}
       >
@@ -58,45 +58,45 @@ const SideNav = (props: Props) => {
       </button>
       <aside
         style={{
-          width: isCollapsed ? '12rem' : '48px',
-          height: '100%',
-          paddingRight: '1.5rem',
-          transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1)',
-          overflow: 'hidden',
+          width: isCollapsed ? "12rem" : "48px",
+          height: "100%",
+          paddingRight: "1.5rem",
+          transition: "all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1)",
+          overflow: "hidden",
         }}
         data-collapse={isCollapsed}
       >
         <Box
           sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'space-between',
-            width: '100%',
-            height: '97%',
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+            width: "100%",
+            height: "97%",
           }}
         >
           <Box>
             <Box
               sx={{
-                width: '100%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '1rem',
-                paddingBottom: '1rem',
-                marginBottom: '1rem',
-                '&:hover': {
+                width: "100%",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "1rem",
+                paddingBottom: "1rem",
+                marginBottom: "1rem",
+                "&:hover": {
                   // transition: 'all 0.4s ease-out',
-                  transform: 'scale(1.05)',
+                  transform: "scale(1.05)",
                 },
               }}
             >
               <Link href='/home'>
                 <Image
                   style={{
-                    width: isCollapsed ? '14rem' : '3rem',
-                    height: '4rem',
-                    objectFit: 'contain',
+                    width: isCollapsed ? "14rem" : "3rem",
+                    height: "4rem",
+                    objectFit: "contain",
                   }}
                   src={isCollapsed ? RamaxLogo : RamaxMiniLogo}
                   alt='logo'
@@ -106,56 +106,60 @@ const SideNav = (props: Props) => {
 
             <Box
               sx={{
-                display: 'flex',
-                marginTop: '0.5rem',
-                flexDirection: 'column',
-                width: '100%',
-                height: '100%',
+                display: "flex",
+                marginTop: "0.5rem",
+                flexDirection: "column",
+                width: "100%",
+                height: "100%",
               }}
             >
               {NAV_ITEMS.map((item, idx) => {
-                const isUserAdmin = user.role === UserRoleEnum.Admin
-                const isUserHasWebpage = user?.userWebpages?.find((i) => i.page.page === item.path)
-                const isPublicPage = webpages.find((i) => i.page === item.path && i.isPublic)
+                const isUserAdmin = user.role === UserRoleEnum.Admin;
+                const isUserHasWebpage = user?.userWebpages?.find(
+                  (i) => i.page.page === item.path
+                );
+                const isPublicPage = webpages.find(
+                  (i) => i.page === item.path && i.isPublic
+                );
                 if (isUserAdmin) {
-                  return <MenuItem key={idx} item={item} Icon={item.icon} />
+                  return <MenuItem key={idx} item={item} Icon={item.icon} />;
                   // aqui, checar se o item.path esta dentro de user.appWebpages
                 } else if (!isUserHasWebpage && !isPublicPage) {
-                  return null
+                  return null;
                 } else {
-                  return <MenuItem key={idx} item={item} Icon={item.icon} />
+                  return <MenuItem key={idx} item={item} Icon={item.icon} />;
                 }
               })}
               <Button
                 onClick={() => props.logout()}
                 sx={{
-                  display: 'flex',
+                  display: "flex",
                   paddingX: 0,
                   paddingY: 0,
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  borderRadius: '0.5rem',
-                  marginTop: '0.5rem',
-                  width: '100%',
-                  '&:hover': { backgroundColor: 'rgba(62, 99, 221, 0.2)' },
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  borderRadius: "0.5rem",
+                  marginTop: "0.5rem",
+                  width: "100%",
+                  "&:hover": { backgroundColor: "rgba(62, 99, 221, 0.2)" },
                 }}
               >
                 <Box
                   sx={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    color: '#000',
-                    width: '100%',
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    color: "#000",
+                    width: "100%",
                   }}
                 >
                   <span
                     style={{
-                      display: 'inline-block',
-                      fontSize: '1.2rem',
+                      display: "inline-block",
+                      fontSize: "1.2rem",
                       marginTop: 2,
-                      marginLeft: '0.2rem',
+                      marginLeft: "0.2rem",
                     }}
                   >
                     <RiLogoutBoxFill />
@@ -163,10 +167,10 @@ const SideNav = (props: Props) => {
                   {isCollapsed && (
                     <Typography
                       sx={{
-                        display: 'flex',
-                        fontSize: '0.8rem',
+                        display: "flex",
+                        fontSize: "0.8rem",
                         fontWeight: 700,
-                        fontFamily: 'sans-serif',
+                        fontFamily: "sans-serif",
                         marginLeft: 1.5,
                         marginTop: -0.2,
                       }}
@@ -181,45 +185,47 @@ const SideNav = (props: Props) => {
         </Box>
       </aside>
     </Box>
-  )
-}
+  );
+};
 
-export default SideNav
+export default SideNav;
 
 const MenuItem = ({ item, Icon }: { item: SideNavItem; Icon?: IconType }) => {
-  const { isCollapsed, openSidebarcollapse, webpages } = useAppContext()
-  const pathname = usePathname()
-  const [subMenuOpen, setSubMenuOpen] = useState(false)
-  const [authorizedSubmenus, setAuthorizedSubmenus] = useState<SideNavItem[]>()
+  const { isCollapsed, openSidebarcollapse, webpages } = useAppContext();
+  const pathname = usePathname();
+  const [subMenuOpen, setSubMenuOpen] = useState(false);
+  const [authorizedSubmenus, setAuthorizedSubmenus] = useState<SideNavItem[]>();
   const toggleSubMenu = () => {
-    setSubMenuOpen(!subMenuOpen)
-    openSidebarcollapse()
-  }
-  const { user } = useAuthContext()
+    setSubMenuOpen(!subMenuOpen);
+    openSidebarcollapse();
+  };
+  const { user } = useAuthContext();
 
   useEffect(() => {
     const submenus =
       item.subMenuItems?.filter((subItem) => {
-        const relatedMenu = webpages.find((i) => i.page === subItem.path)
+        const relatedMenu = webpages.find((i) => i.page === subItem.path);
 
-        const isPublic = relatedMenu?.isPublic
-        const isUserAdmin = user.role === UserRoleEnum.Admin
-        const hasPermission = user?.userWebpages?.find((i) => i.page.page == subItem.path)
-        return isPublic || hasPermission || isUserAdmin
-      }) || []
-    setAuthorizedSubmenus(submenus)
+        const isPublic = relatedMenu?.isPublic;
+        const isUserAdmin = user.role === UserRoleEnum.Admin;
+        const hasPermission = user?.userWebpages?.find(
+          (i) => i.page.page == subItem.path
+        );
+        return isPublic || hasPermission || isUserAdmin;
+      }) || [];
+    setAuthorizedSubmenus(submenus);
 
-    const menuPaths = submenus.map((submenu) => submenu.path)
+    const menuPaths = submenus.map((submenu) => submenu.path);
     if (menuPaths.some((path) => pathname.includes(path))) {
-      setSubMenuOpen(true)
+      setSubMenuOpen(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [item.subMenuItems, user.role])
+  }, [item.subMenuItems, user.role]);
 
   return (
     <Box
       sx={{
-        marginTop: '0.5rem',
+        marginTop: "0.5rem",
       }}
     >
       {item.submenu ? (
@@ -227,40 +233,46 @@ const MenuItem = ({ item, Icon }: { item: SideNavItem; Icon?: IconType }) => {
           <Button
             onClick={toggleSubMenu}
             sx={{
-              display: 'flex',
-              paddingX: '0.1rem',
-              paddingY: '4px',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              borderRadius: '0.5rem',
-              width: '100%',
-              '&:hover': { backgroundColor: 'rgba(62, 99, 221, 0.2)' },
+              display: "flex",
+              paddingX: "0.1rem",
+              paddingY: "4px",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+              borderRadius: "0.5rem",
+              width: "100%",
+              "&:hover": { backgroundColor: "rgba(62, 99, 221, 0.2)" },
             }}
           >
             <Box
               sx={{
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center',
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
                 color: grey[900],
               }}
             >
               {item.icon && Icon ? (
-                <span style={{ display: 'inline-block', fontSize: '1.2rem', marginLeft: '0.2rem' }}>
+                <span
+                  style={{
+                    display: "inline-block",
+                    fontSize: "1.2rem",
+                    marginLeft: "0.2rem",
+                  }}
+                >
                   <Icon />
                 </span>
               ) : (
-                ''
+                ""
               )}
               {isCollapsed && (
                 <Typography
                   sx={{
-                    display: 'flex',
-                    fontSize: '0.8rem',
-                    lineHeight: '1.75rem',
+                    display: "flex",
+                    fontSize: "0.8rem",
+                    lineHeight: "1.75rem",
                     fontWeight: 700,
-                    fontFamily: 'sans-serif',
+                    fontFamily: "sans-serif",
                     marginLeft: 1.5,
                   }}
                 >
@@ -269,17 +281,23 @@ const MenuItem = ({ item, Icon }: { item: SideNavItem; Icon?: IconType }) => {
               )}
             </Box>
 
-            <Box>{subMenuOpen && isCollapsed ? <IoIosArrowUp /> : <IoIosArrowDown />}</Box>
+            <Box>
+              {subMenuOpen && isCollapsed ? (
+                <IoIosArrowUp />
+              ) : (
+                <IoIosArrowDown />
+              )}
+            </Box>
           </Button>
 
           {subMenuOpen && isCollapsed && (
             <Box
               sx={{
-                display: 'flex',
+                display: "flex",
 
-                marginLeft: '2rem',
-                marginRight: '1rem',
-                flexDirection: 'column',
+                marginLeft: "2rem",
+                marginRight: "1rem",
+                flexDirection: "column",
               }}
             >
               {authorizedSubmenus?.map((subItem, idx) => {
@@ -288,22 +306,22 @@ const MenuItem = ({ item, Icon }: { item: SideNavItem; Icon?: IconType }) => {
                     key={idx}
                     href={subItem.path}
                     style={{
-                      display: 'flex',
-                      padding: '0.3rem',
-                      marginLeft: '0.5rem',
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      borderRadius: '0.5rem',
-                      textDecoration: 'none',
-                      fontFamily: 'sans-serif',
+                      display: "flex",
+                      padding: "0.3rem",
+                      marginLeft: "0.5rem",
+                      flexDirection: "row",
+                      alignItems: "center",
+                      borderRadius: "0.5rem",
+                      textDecoration: "none",
+                      fontFamily: "sans-serif",
                       fontWeight: `${pathname.includes(subItem.path) ? 700 : 500}`,
-                      fontSize: '0.75rem',
+                      fontSize: "0.75rem",
                       color: grey[900],
                     }}
                   >
                     <span>{subItem.title}</span>
                   </Link>
-                )
+                );
               })}
             </Box>
           )}
@@ -311,16 +329,17 @@ const MenuItem = ({ item, Icon }: { item: SideNavItem; Icon?: IconType }) => {
       ) : (
         <Box
           sx={{
-            display: 'flex',
-            paddingX: '0.1rem',
-            paddingY: '4px',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            borderRadius: '0.5rem',
-            width: '100%',
-            backgroundColor: item.path === location.pathname ? 'rgba(62, 99, 221, 0.3)' : '',
-            '&:hover': { backgroundColor: 'rgba(62, 99, 221, 0.2)' },
+            display: "flex",
+            paddingX: "0.1rem",
+            paddingY: "4px",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+            borderRadius: "0.5rem",
+            width: "100%",
+            backgroundColor:
+              item.path === location.pathname ? "rgba(62, 99, 221, 0.3)" : "",
+            "&:hover": { backgroundColor: "rgba(62, 99, 221, 0.2)" },
           }}
           // sx={{
           //   paddingX: '0.1rem',
@@ -334,31 +353,37 @@ const MenuItem = ({ item, Icon }: { item: SideNavItem; Icon?: IconType }) => {
           <Link
             href={item.path}
             style={{
-              display: 'flex',
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'flex-start',
-              textDecoration: 'none',
-              fontFamily: 'sans-serif',
-              width: '100%',
-              color: location.pathname === item.path ? '#3E63DD' : '#000',
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "flex-start",
+              textDecoration: "none",
+              fontFamily: "sans-serif",
+              width: "100%",
+              color: location.pathname === item.path ? "#3E63DD" : "#000",
             }}
           >
             {item.icon && Icon ? (
-              <span style={{ display: 'inline-block', fontSize: '1.2rem', marginLeft: '0.2rem' }}>
+              <span
+                style={{
+                  display: "inline-block",
+                  fontSize: "1.2rem",
+                  marginLeft: "0.2rem",
+                }}
+              >
                 <Icon />
               </span>
             ) : (
-              ''
+              ""
             )}
             {isCollapsed && (
               <Typography
                 sx={{
-                  display: 'flex',
-                  fontSize: '0.8rem',
-                  lineHeight: '1.75rem',
+                  display: "flex",
+                  fontSize: "0.8rem",
+                  lineHeight: "1.75rem",
                   fontWeight: 700,
-                  fontFamily: 'sans-serif',
+                  fontFamily: "sans-serif",
                   marginLeft: 1.5,
                 }}
               >
@@ -369,5 +394,5 @@ const MenuItem = ({ item, Icon }: { item: SideNavItem; Icon?: IconType }) => {
         </Box>
       )}
     </Box>
-  )
-}
+  );
+};

@@ -1,6 +1,9 @@
 // constante para mapear todas as chaves de queries
 
 export const queryKeys = {
+  AUTH: {
+    GET_PROFILE: "profile-",
+  },
   APPLICATION: {
     WEBPAGES: "app-webpages",
   },
