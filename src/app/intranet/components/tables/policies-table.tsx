@@ -28,9 +28,9 @@ const getData = () => {
       fileUrl: "/(GC-002-01) - Política de Cadastro.pdf",
     },
     {
-      id: "GC-003-01",
+      id: "GC-003-02",
       name: "Politica de Inventário",
-      fileUrl: "/(GC-003-01) - Política de Inventário.pdf",
+      fileUrl: "/(GC-003-02) - Política de Inventário.pdf",
     },
     {
       id: "GC-004-01",
@@ -66,7 +66,12 @@ const getData = () => {
     {
       id: "RH-002-01",
       name: "Politica Home Office",
-      fileUrl: "/(RH-002-01) Política Home_Office.pdf",
+      fileUrl: "/(RH-002-01) - Política Home_Office.pdf",
+    },
+    {
+      id: "RH-004-01",
+      name: "Politica de Adiantamento",
+      fileUrl: "/(RH-004-01) - Política de Adiantamento.pdf",
     },
     {
       id: "RON-001-01",
