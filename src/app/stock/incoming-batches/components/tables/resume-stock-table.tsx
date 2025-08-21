@@ -68,7 +68,7 @@ const getTitleGroups = ({ data }: StockIncomingBatchesResumeTableProps) => {
       label: "Por Vencimento (KG)",
       colSpan: byExpireKeysSet.size + 1, // pq inclui o vencido
       sx: {
-        backgroundColor: "#BE5014",
+        backgroundColor: "#eb513dff",
         color: "white",
       },
     },
@@ -102,6 +102,7 @@ const getColumns = ({
   );
 
   const byExpireKeyColors = [red["400"], orange["400"], green["400"]];
+  const byExpireKeyCellColors = [red["300"], orange["300"], green["300"]];
   return [
     {
       headerKey: "market",
@@ -148,7 +149,7 @@ const getColumns = ({
         color: "white",
       },
       cellSx: {
-        backgroundColor: "#121212",
+        backgroundColor: "#242424",
         color: "white",
         fontSize: "10px",
         padding: 0.5,
@@ -164,8 +165,8 @@ const getColumns = ({
         color: byExpireKeyColors[i] ? "white" : "black",
       },
       cellSx: {
-        backgroundColor: byExpireKeyColors[i] ?? "white",
-        color: byExpireKeyColors[i] ? "white" : "black",
+        backgroundColor: byExpireKeyCellColors[i] ?? "white",
+        color: byExpireKeyCellColors[i] ? "white" : "black",
         fontSize: "10px",
         padding: 0.5,
       },
