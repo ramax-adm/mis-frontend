@@ -91,6 +91,7 @@ export const urls = {
       GET_LAST_UPDATED_AT: `${apiLocal}/api/stock/incoming-batches/last-update`,
       GET_PRODUCT_LINES_FILTERS: `${apiLocal}/api/stock/incoming-batches/filters/product-lines`,
       GET_RESUME_DATA: `${apiLocal}/api/stock/incoming-batches/resume`,
+      POST_EXPORT_XLSX: `${apiLocal}/api/stock/incoming-batches/export-xlsx`,
     },
     STOCK_BALANCE: {
       GET_LAST_UPDATED_AT: `${apiLocal}/api/stock-balance/last-update`,

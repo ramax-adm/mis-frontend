@@ -1,5 +1,5 @@
 import { MarketEnum } from "@/types/sensatta";
-import { GetFetch, urls } from "../axios/api-base";
+import { GetFetch, PostFetch, urls } from "../axios/api-base";
 
 export async function GetStockIncomingBatchesLastUpdatedAt() {
   const response = await GetFetch(
@@ -37,4 +37,25 @@ export async function GetStockIncomingBatchesResumeData({
   });
 
   return response.data;
+}
+
+export async function PostExportStockIncomingBatchesAllXlsx({
+  exportType,
+  filters,
+}: {
+  exportType: "resumed" | "analytical";
+  filters: {
+    market?: MarketEnum;
+    productLineCodes?: string[];
+  };
+}) {
+  const response = await PostFetch(
+    urls.STOCK.INCOMING_BATCHES.POST_EXPORT_XLSX,
+    { exportType, filters },
+    {
+      responseType: "blob",
+    }
+  );
+
+  return response;
 }

@@ -13,11 +13,18 @@ import {
   useSyncStockWithSensatta,
 } from "@/services/react-query/mutations/sensatta";
 import { useGetStockLastUpdatedAt } from "@/services/react-query/queries/stock";
-import { parseAsString, useQueryState, useQueryStates } from "nuqs";
+import {
+  parseAsArrayOf,
+  parseAsString,
+  useQueryState,
+  useQueryStates,
+} from "nuqs";
 import { StockIncomingBatchesResumeSection } from "./components/sections/resume-section";
+import { useExportStockIncomingBatchesAllXlsx } from "@/services/react-query/mutations/stock-incoming-batches";
+import { MarketEnum } from "@/types/sensatta";
 
 enum TabSectionsEnum {
-  RESUME = "resume",
+  RESUME = "resumed",
   ANALYTICAL = "analytical",
 }
 
@@ -26,12 +33,16 @@ export default function StockIncomingBatchesPage() {
     "selectedTab",
     parseAsString.withDefault(TabSectionsEnum.RESUME)
   );
+  const [resumeSectionStates] = useQueryStates({
+    market: parseAsString.withDefault(""),
+    productLineCodes: parseAsArrayOf(parseAsString, ",").withDefault([]),
+  });
   const handleSelectTab = (value: string) => setSelectedTab(value);
 
   const tabPanelRef = useRef<TabsPanelRef>(null);
 
-  const { mutateAsync: exportStockBalance, isPending: isExportStockBalance } =
-    useExportStockBalanceAllXlsx();
+  const { mutateAsync: exportStock, isPending: isExportingStock } =
+    useExportStockIncomingBatchesAllXlsx();
   const { data: stockLastUpdatedAt } = useGetStockLastUpdatedAt();
   const { mutateAsync: syncStock, isPending: isSyncStock } =
     useSyncStockWithSensatta();
@@ -64,6 +75,24 @@ export default function StockIncomingBatchesPage() {
             onClick={async () => await syncStock()}
           >
             Atualizar c/ SENSATTA
+          </Button>
+          <Button
+            variant='contained'
+            size='small'
+            disabled={isExportingStock}
+            onClick={async () =>
+              await exportStock({
+                exportType: selectedTab as "resumed" | "analytical",
+                filters: {
+                  market: resumeSectionStates.market as MarketEnum,
+                  productLineCodes: resumeSectionStates.productLineCodes.map(
+                    (i) => i.split("-")[0]
+                  ),
+                },
+              })
+            }
+          >
+            Exportar XLSX
           </Button>
         </Box>
       </Box>
