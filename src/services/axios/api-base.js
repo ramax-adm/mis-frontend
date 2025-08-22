@@ -91,6 +91,7 @@ export const urls = {
       GET_LAST_UPDATED_AT: `${apiLocal}/api/stock/incoming-batches/last-update`,
       GET_PRODUCT_LINES_FILTERS: `${apiLocal}/api/stock/incoming-batches/filters/product-lines`,
       GET_RESUME_DATA: `${apiLocal}/api/stock/incoming-batches/resume`,
+      GET_ANALYTICAL_DATA: `${apiLocal}/api/stock/incoming-batches/analytical`,
       POST_EXPORT_XLSX: `${apiLocal}/api/stock/incoming-batches/export-xlsx`,
     },
     STOCK_BALANCE: {
@@ -117,11 +118,15 @@ export const urls = {
     GET_USER: `${apiLocal}/api/user`,
     GET_PROFILE: `${apiLocal}/api/user/profile`,
     POST_USER: `${apiLocal}/api/user`,
-    POST_ADD_USER_COMPANY: `${apiLocal}/api/user/add-user-company`,
     POST_ADD_USER_APP_WEBPAGE: `${apiLocal}/api/user/add-user-app-webpage`,
     DELETE_USER_APP_WEBPAGE: `${apiLocal}/api/user/user-app-webpage`,
-    DELETE_USER_COMPANY: `${apiLocal}/api/user/user-company`,
     PATCH_USER: `${apiLocal}/api/user/:id`,
+
+    USER_COMPANIES: {
+      POST_ADD_USER_COMPANY: `${apiLocal}/api/user/user-company`,
+      GET_FIND_BY_USER: `${apiLocal}/api/user/user-company/by-user`,
+      DELETE_USER_COMPANY: `${apiLocal}/api/user/user-company/:id`,
+    },
   },
   UPLOAD: {
     FIND_ALL: `${apiLocal}/api/upload`,

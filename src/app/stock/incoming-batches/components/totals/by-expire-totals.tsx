@@ -9,7 +9,10 @@ import { Box, Grid, TableCell, Typography } from "@mui/material";
 import { green, orange, red } from "@mui/material/colors";
 
 interface StockIncomingBatchesByExpireTotalsProps {
-  data?: GetStockInconingBatchesResumeResponse["totals"];
+  data?: {
+    expiredWeightInKg: number;
+    byExpireRange: Record<string, number>;
+  };
 }
 export function StockIncomingBatchesByExpireTotals({
   data,

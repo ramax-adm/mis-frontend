@@ -28,6 +28,7 @@ import {
 import { LoadingOverlay } from "@/components/Loading/loadingSpinner";
 import { InvoicesNfTypesEnum } from "@/types/sales";
 import { getIso8601DateString } from "@/utils/date.utils";
+import { useGetUserCompanies } from "@/services/react-query/queries/user-company";
 
 export default function InvoicesPage() {
   const { user } = useAuthContext();
@@ -67,7 +68,7 @@ export default function InvoicesPage() {
     setGlobalStates({ companyCode: value });
   const handleSelectTab = (value: string) => setSelectedTab(value);
 
-  const { data: companies } = useGetCompanies({});
+  const { data: companies } = useGetUserCompanies({});
   const { data: lastUpdate } = useGetSalesInvoicesLastUpdatedAt();
   const { mutateAsync: syncInvoices, isPending: isSyncInvoices } =
     useSyncSalesInvoicesWithSensatta();
@@ -175,7 +176,7 @@ export default function InvoicesPage() {
             value={globalStates.companyCode}
             onChange={handleSelectCompany}
             options={companies?.map((item) => ({
-              label: item.name,
+              label: `${item.sensattaCode} - ${item.name}`,
               value: item.sensattaCode,
               key: item.sensattaCode,
             }))}

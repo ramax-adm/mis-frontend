@@ -37,6 +37,7 @@ export type SideNavItem = {
 
 type AppContext = {
   webpages: AppWebpage[];
+  isFetchingWebpages: boolean;
   isCollapsed: boolean;
   isBurgerMenuOpened: boolean;
   width: number;
@@ -58,7 +59,8 @@ export default function AppProvider({ children }: AppContextProviderProps) {
   const [isBurgerMenuOpened, setIsBurgerMenuOpened] = useState(false);
   const [width, setWidth] = useState(0);
 
-  const { data: webpages = [] } = useGetAppWebpages();
+  const { data: webpages = [], isFetching: isFetchingWebpages } =
+    useGetAppWebpages();
 
   const isMobile = width <= 768;
 
@@ -241,6 +243,7 @@ export default function AppProvider({ children }: AppContextProviderProps) {
     <AppContext.Provider
       value={{
         webpages,
+        isFetchingWebpages,
         isCollapsed,
         isBurgerMenuOpened,
         width,
