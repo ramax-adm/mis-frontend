@@ -16,6 +16,8 @@ export function SideNavWithSubmenu({
   icon: Icon,
   pathname,
 }: SideNavWithSubmenuProps) {
+  console.log("side nav", { item });
+
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [popoverSubMenus, setPopoverSubMenus] = useState<SideNavItem[] | null>(
     null

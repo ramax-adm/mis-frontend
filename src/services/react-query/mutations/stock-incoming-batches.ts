@@ -12,6 +12,7 @@ export const useExportStockIncomingBatchesAllXlsx = () => {
     }: {
       exportType: "resumed" | "analytical";
       filters: {
+        companyCode?: string;
         market?: MarketEnum;
         productLineCodes?: string[];
       };

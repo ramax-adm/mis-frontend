@@ -4,7 +4,9 @@ import { Box, Grid, TableCell, Typography } from "@mui/material";
 import { orange, red } from "@mui/material/colors";
 
 interface StockIncomingBatchesTotalsProps {
-  data?: GetStockInconingBatchesResumeResponse["totals"];
+  data?: {
+    weightInKg: number;
+  };
 }
 export function StockIncomingBatchesTotals({
   data,

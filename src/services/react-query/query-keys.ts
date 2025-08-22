@@ -71,6 +71,7 @@ export const queryKeys = {
   STOCK_INCOMING_BATCHES: {
     GET_PRODUCT_LINES_FILTERS: "stock-incoming-batches-product-lines-filters",
     GET_RESUMED_DATA: "stock-incoming-batches-resume",
+    GET_ANALYTICAL_DATA: "stock-incoming-batches-analytical",
     GET_LAST_UPDATED_AT: "stock-incoming-batches-updated-at",
   },
   STOCK_BALANCE: {
@@ -94,6 +95,9 @@ export const queryKeys = {
   USERS: {
     FIND_ALL: "users",
     FIND_ONE: "user-",
+    USER_COMPANIES: {
+      GET_FIND_BY_USER: "user-user-companies-by-user",
+    },
   },
   UTILS: {
     GET_SYNCED_FILES: "utils-synced-files",

@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -10,32 +10,30 @@ import {
   TextField,
   Typography,
   List,
-} from '@mui/material'
-import InputMask from 'react-input-mask'
-import { AxiosError } from 'axios'
-import { useQueryClient } from '@tanstack/react-query'
-import { UpdateUser } from '@/services/webApi/user-api'
-import { ControlledSelect } from '@/components/Inputs/Select/Customized'
-import { queryKeys } from '@/services/react-query/query-keys'
-import { User, UserCompanies } from '@/types/user'
-import { userRoles } from '@/contexts/auth'
-import { FaLandmark, FaPhone, FaPlusCircle } from 'react-icons/fa'
-import { ListItemCustom } from '@/components/ListItemCustom'
-import { IoTrashOutline } from 'react-icons/io5'
-import {
-  useRemoveUserAppWebpage,
-  useRemoveUserCompany,
-} from '@/services/react-query/mutations/user'
-import { useGetUser } from '@/services/react-query/queries/user'
-import { RiPagesLine } from 'react-icons/ri'
+} from "@mui/material";
+import InputMask from "react-input-mask";
+import { AxiosError } from "axios";
+import { useQueryClient } from "@tanstack/react-query";
+import { UpdateUser } from "@/services/webApi/user-api";
+import { ControlledSelect } from "@/components/Inputs/Select/Customized";
+import { queryKeys } from "@/services/react-query/query-keys";
+import { User, UserCompanies } from "@/types/user";
+import { userRoles } from "@/contexts/auth";
+import { FaLandmark, FaPhone, FaPlusCircle } from "react-icons/fa";
+import { ListItemCustom } from "@/components/ListItemCustom";
+import { IoTrashOutline } from "react-icons/io5";
+import { useRemoveUserAppWebpage } from "@/services/react-query/mutations/user";
+import { useGetUser } from "@/services/react-query/queries/user";
+import { RiPagesLine } from "react-icons/ri";
+import { useRemoveUserCompany } from "@/services/react-query/mutations/user-company";
 
 type Props = {
-  onClose: () => void
-  userId?: string
-  currentUserRole: string
-  setAddUserCompanyModalOpen: () => void
-  setAddUserWebpageModalOpen: () => void
-}
+  onClose: () => void;
+  userId?: string;
+  currentUserRole: string;
+  setAddUserCompanyModalOpen: () => void;
+  setAddUserWebpageModalOpen: () => void;
+};
 
 const EditUserModal = ({
   userId,
@@ -44,77 +42,81 @@ const EditUserModal = ({
   setAddUserCompanyModalOpen,
   setAddUserWebpageModalOpen,
 }: Props) => {
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
 
-  const [load, setLoad] = useState(false)
-  const [error, setError] = useState<boolean>(false)
-  const [errorMessage, setErrorMessage] = useState<string | null>(null)
+  const [load, setLoad] = useState(false);
+  const [error, setError] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   // states de componentes
   const { mutateAsync: removeUserCompany, isPending: isRemovingUserCompany } =
-    useRemoveUserCompany()
-  const { mutateAsync: removeUserAppWebpage, isPending: isRemovingUserAppWebpage } =
-    useRemoveUserAppWebpage()
+    useRemoveUserCompany();
+  const {
+    mutateAsync: removeUserAppWebpage,
+    isPending: isRemovingUserAppWebpage,
+  } = useRemoveUserAppWebpage();
 
-  const { data: userData } = useGetUser(userId)
+  const { data: userData } = useGetUser(userId);
 
   // states de inputs
-  const [roleSelected, setRoleSelected] = useState<string>('')
-  const [isActiveSelected, setIsActiveSelected] = useState<string>('ativo')
+  const [roleSelected, setRoleSelected] = useState<string>("");
+  const [isActiveSelected, setIsActiveSelected] = useState<string>("ativo");
 
-  const haveSomeCompanies = userData && userData?.userCompanies.length > 0
-  const haveSomeWebpages = userData && userData?.userWebpages.length > 0
+  const haveSomeCompanies = userData && userData?.userCompanies.length > 0;
+  const haveSomeWebpages = userData && userData?.userWebpages.length > 0;
 
   useEffect(() => {
     if (userData) {
-      setRoleSelected(userData.role)
-      setIsActiveSelected(userData.isActive ? 'ativo' : 'inativo')
+      setRoleSelected(userData.role);
+      setIsActiveSelected(userData.isActive ? "ativo" : "inativo");
     }
-  }, [userData])
+  }, [userData]);
 
   const handleSubmit = async () => {
-    if (currentUserRole !== 'admin') {
-      setErrorMessage('Apenas administradores podem editar a função do usuário')
-      return
+    if (currentUserRole !== "admin") {
+      setErrorMessage(
+        "Apenas administradores podem editar a função do usuário"
+      );
+      return;
     }
 
     try {
-      setLoad(true)
+      setLoad(true);
 
       await UpdateUser(userData!.id, {
         role: roleSelected,
-        isActive: isActiveSelected === 'ativo',
-      })
+        isActive: isActiveSelected === "ativo",
+      });
 
-      setError(false)
+      setError(false);
 
-      queryClient.invalidateQueries({ queryKey: [queryKeys.USERS.FIND_ALL] })
-      onClose()
+      queryClient.invalidateQueries({ queryKey: [queryKeys.USERS.FIND_ALL] });
+      onClose();
     } catch (error) {
-      setError(true)
+      setError(true);
       if (error instanceof AxiosError) {
-        setErrorMessage(error.response?.data.message)
+        setErrorMessage(error.response?.data.message);
       } else {
-        setErrorMessage('Ocorreu um erro ao tentar atualizar o usuário')
+        setErrorMessage("Ocorreu um erro ao tentar atualizar o usuário");
       }
     } finally {
-      setLoad(false)
+      setLoad(false);
     }
-  }
+  };
 
   const roleHandler = (value: string) => {
-    setRoleSelected(value)
-  }
+    setRoleSelected(value);
+  };
   const isActiveHandler = (value: string) => {
-    setIsActiveSelected(value)
-  }
+    setIsActiveSelected(value);
+  };
 
   return (
     <Box>
       <Box
         sx={{
-          borderRadius: '8px 8px 0 0',
-          backgroundColor: '#fff',
+          borderRadius: "8px 8px 0 0",
+          backgroundColor: "#fff",
         }}
       >
         <Typography variant='h6' component='h2'>
@@ -123,30 +125,34 @@ const EditUserModal = ({
       </Box>
       <Box
         sx={{
-          marginTop: '16px',
-          marginBottom: '16px',
-          maxHeight: '80%',
-          height: '90%',
-          backgroundColor: '#fff',
+          marginTop: "16px",
+          marginBottom: "16px",
+          maxHeight: "80%",
+          height: "90%",
+          backgroundColor: "#fff",
           borderRadius: 1,
-          display: 'flex',
-          flexDirection: 'column',
+          display: "flex",
+          flexDirection: "column",
           gap: 2,
         }}
       >
-        <Box sx={{ display: 'flex', gap: 2 }}>
+        <Box sx={{ display: "flex", gap: 2 }}>
           <FormControl fullWidth>
             <TextField
               id={`name`}
               label='Nome'
               size='small'
-              value={userData?.name || ''}
+              value={userData?.name || ""}
               disabled
             />
           </FormControl>
 
           <FormControl fullWidth>
-            <InputMask mask={'999.999.999-99'} value={userData?.cpf || ''} disabled>
+            <InputMask
+              mask={"999.999.999-99"}
+              value={userData?.cpf || ""}
+              disabled
+            >
               <TextField id={`CPF`} label='CPF' size='small' />
             </InputMask>
           </FormControl>
@@ -157,12 +163,12 @@ const EditUserModal = ({
             id={`email`}
             label='E-mail'
             size='small'
-            value={userData?.email || ''}
+            value={userData?.email || ""}
             disabled
           />
         </FormControl>
 
-        <Box sx={{ display: 'flex', gap: 2 }}>
+        <Box sx={{ display: "flex", gap: 2 }}>
           <FormControl fullWidth>
             <ControlledSelect
               id='role-select'
@@ -172,10 +178,26 @@ const EditUserModal = ({
               onChange={roleHandler}
               size='small'
               options={[
-                { label: 'Administrador', value: userRoles.admin, key: userRoles.admin },
-                { label: 'Diretoria', value: userRoles.directory, key: userRoles.directory },
-                { label: 'Comercial', value: userRoles.commercial, key: userRoles.commercial },
-                { label: 'Industria', value: userRoles.industry, key: userRoles.industry },
+                {
+                  label: "Administrador",
+                  value: userRoles.admin,
+                  key: userRoles.admin,
+                },
+                {
+                  label: "Diretoria",
+                  value: userRoles.directory,
+                  key: userRoles.directory,
+                },
+                {
+                  label: "Comercial",
+                  value: userRoles.commercial,
+                  key: userRoles.commercial,
+                },
+                {
+                  label: "Industria",
+                  value: userRoles.industry,
+                  key: userRoles.industry,
+                },
               ]}
             />
           </FormControl>
@@ -186,13 +208,13 @@ const EditUserModal = ({
             {errorMessage}
           </Typography>
         )}
-        <Box sx={{ display: 'flex', gap: 2 }}>
+        <Box sx={{ display: "flex", gap: 2 }}>
           <FormControl fullWidth>
             <TextField
               id={`isActive`}
               label='Status do usuário'
               size='small'
-              value={userData?.isActive ? 'Ativo' : 'Inativo'}
+              value={userData?.isActive ? "Ativo" : "Inativo"}
               disabled
             />
           </FormControl>
@@ -205,8 +227,8 @@ const EditUserModal = ({
               size='small'
               onChange={isActiveHandler}
               options={[
-                { label: 'Ativo', value: 'ativo', key: 'ativo' },
-                { label: 'Inativo', value: 'inativo', key: 'inativo' },
+                { label: "Ativo", value: "ativo", key: "ativo" },
+                { label: "Inativo", value: "inativo", key: "inativo" },
               ]}
             />
           </FormControl>
@@ -216,46 +238,53 @@ const EditUserModal = ({
           <Grid item xs={12}>
             <Box
               sx={{
-                display: 'flex',
-                flexDirection: 'column',
+                display: "flex",
+                flexDirection: "column",
               }}
             >
-              <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <Box sx={{ display: "flex", alignItems: "center" }}>
                 <Typography variant='subtitle1'>Empresas vinculadas</Typography>
 
                 <IconButton
                   edge='end'
                   aria-label='plus'
-                  style={{ marginLeft: '4px', marginTop: '-2px' }}
+                  style={{ marginLeft: "4px", marginTop: "-2px" }}
                   onClick={() => setAddUserCompanyModalOpen()}
                 >
                   <FaPlusCircle />
                 </IconButton>
               </Box>
               {!haveSomeCompanies && (
-                <Typography variant='body1'>Sem Empresas Cadastradas</Typography>
+                <Typography variant='body1'>
+                  Sem Empresas Cadastradas
+                </Typography>
               )}
               <List dense={true}>
                 {userData?.userCompanies?.map((item, index) => (
                   <ListItemCustom
                     key={item.id}
                     action={
-                      <Box sx={{ display: 'flex', gap: 1 }}>
+                      <Box sx={{ display: "flex", gap: 1 }}>
                         <IconButton
                           edge='end'
                           aria-label='delete'
                           disabled={isRemovingUserCompany}
-                          onClick={async () => await removeUserCompany({ id: item.id, userId })}
+                          onClick={async () =>
+                            await removeUserCompany({ id: item.id, userId })
+                          }
                         >
                           <IoTrashOutline
-                            className={'icon-style'}
-                            style={{ color: 'red', opacity: isRemovingUserCompany ? '0.1' : '1' }}
+                            className={"icon-style"}
+                            style={{
+                              color: "red",
+                              opacity: isRemovingUserCompany ? "0.1" : "1",
+                            }}
                           />
                         </IconButton>
                       </Box>
                     }
                     title={`Empresa - ${item.companyCode}`}
-                    content={''}
+                    content={""}
                     icon={<FaLandmark />}
                   />
                 ))}
@@ -268,40 +297,44 @@ const EditUserModal = ({
           <Grid item xs={12}>
             <Box
               sx={{
-                display: 'flex',
-                flexDirection: 'column',
+                display: "flex",
+                flexDirection: "column",
               }}
             >
-              <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <Box sx={{ display: "flex", alignItems: "center" }}>
                 <Typography variant='subtitle1'>Paginas Liberadas</Typography>
 
                 <IconButton
                   edge='end'
                   aria-label='plus'
-                  style={{ marginLeft: '4px', marginTop: '-2px' }}
+                  style={{ marginLeft: "4px", marginTop: "-2px" }}
                   onClick={setAddUserWebpageModalOpen}
                 >
                   <FaPlusCircle />
                 </IconButton>
               </Box>
-              {!haveSomeWebpages && <Typography variant='body1'>Nenhuma pagina</Typography>}
+              {!haveSomeWebpages && (
+                <Typography variant='body1'>Nenhuma pagina</Typography>
+              )}
               <List dense={true}>
                 {userData?.userWebpages?.map((item, index) => (
                   <ListItemCustom
                     key={item.id}
                     action={
-                      <Box sx={{ display: 'flex', gap: 1 }}>
+                      <Box sx={{ display: "flex", gap: 1 }}>
                         <IconButton
                           edge='end'
                           aria-label='delete'
                           disabled={isRemovingUserAppWebpage}
-                          onClick={async () => await removeUserAppWebpage({ id: item.id, userId })}
+                          onClick={async () =>
+                            await removeUserAppWebpage({ id: item.id, userId })
+                          }
                         >
                           <IoTrashOutline
-                            className={'icon-style'}
+                            className={"icon-style"}
                             style={{
-                              color: 'red',
-                              opacity: isRemovingUserAppWebpage ? '0.1' : '1',
+                              color: "red",
+                              opacity: isRemovingUserAppWebpage ? "0.1" : "1",
                             }}
                           />
                         </IconButton>
@@ -319,23 +352,28 @@ const EditUserModal = ({
       </Box>
       <Box
         sx={{
-          display: 'flex',
-          justifyContent: 'flex-end',
+          display: "flex",
+          justifyContent: "flex-end",
           gap: 1,
           padding: 2,
-          borderRadius: '0 0 8px 8px',
-          backgroundColor: '#fff',
+          borderRadius: "0 0 8px 8px",
+          backgroundColor: "#fff",
         }}
       >
-        <Button disabled={load} variant='contained' color={'success'} onClick={handleSubmit}>
-          {load ? <CircularProgress color='success' size={24} /> : 'Salvar'}
+        <Button
+          disabled={load}
+          variant='contained'
+          color={"success"}
+          onClick={handleSubmit}
+        >
+          {load ? <CircularProgress color='success' size={24} /> : "Salvar"}
         </Button>
         <Button variant='outlined' color='warning' onClick={onClose}>
           <Typography>Fechar</Typography>
         </Button>
       </Box>
     </Box>
-  )
-}
+  );
+};
 
-export default EditUserModal
+export default EditUserModal;

@@ -24,6 +24,7 @@ import {
   parseAsStringEnum,
   useQueryStates,
 } from "nuqs";
+import { useGetUserCompanies } from "@/services/react-query/queries/user-company";
 
 const DATA_VISUALIZATION_OPTIONS = [
   {
@@ -124,7 +125,9 @@ export const StockBalanceAnalyticalSection =
     };
 
     // queries
-    const { data: companies } = useGetCompanies({});
+    const { data: companies } = useGetUserCompanies({
+      isConsideredOnStock: true,
+    });
     const { data: productLines } = useGetProductLines({
       market: selectedMarket as MarketEnum,
     });
@@ -172,7 +175,7 @@ export const StockBalanceAnalyticalSection =
                 value={selectedCompany}
                 onChange={handleSelectCompany}
                 options={companies?.map((c) => ({
-                  label: c.name,
+                  label: `${c.sensattaCode} - ${c.name}`,
                   value: c.sensattaCode,
                   key: c.sensattaCode,
                 }))}
@@ -204,9 +207,9 @@ export const StockBalanceAnalyticalSection =
                 }
               />
               <Typography
-                fontSize={"12px"}
+                fontSize={"9px"}
                 sx={{
-                  marginX: "auto",
+                  marginLeft: 0.5,
                   "&:hover": {
                     color: COLORS.TEXTO,
                     cursor: "pointer",

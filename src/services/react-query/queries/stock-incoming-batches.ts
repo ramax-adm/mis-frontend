@@ -1,12 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "../query-keys";
 import {
+  GetStockIncomingBatchesAnalyticalData,
   GetStockIncomingBatchesLastUpdatedAt,
   GetStockIncomingBatchesProductLinesFilters,
   GetStockIncomingBatchesResumeData,
 } from "@/services/webApi/stock-incoming-batches-api";
 import { MarketEnum } from "@/types/sensatta";
 import {
+  GetStockInconingBatchesAnalyticalResponse,
   GetStockInconingBatchesLastUpdatedAtResponse,
   GetStockInconingBatchesResumeResponse,
 } from "@/types/api/stock-incoming-batches";
@@ -63,5 +65,34 @@ export const useGetStockIncomingBatchesResumedData = ({
 
       return response;
     },
+  });
+};
+
+export const useGetStockIncomingBatchesAnalyticalData = ({
+  companyCode,
+  market,
+  productLineCodes,
+}: {
+  companyCode: string;
+  market?: MarketEnum;
+  productLineCodes?: string;
+}) => {
+  return useQuery<GetStockInconingBatchesAnalyticalResponse>({
+    queryKey: [
+      queryKeys.STOCK_INCOMING_BATCHES.GET_ANALYTICAL_DATA,
+      companyCode,
+      market,
+      productLineCodes,
+    ],
+    queryFn: async () => {
+      const response = await GetStockIncomingBatchesAnalyticalData({
+        companyCode,
+        market,
+        productLineCodes,
+      });
+
+      return response;
+    },
+    enabled: !!companyCode,
   });
 };

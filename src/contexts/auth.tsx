@@ -46,6 +46,7 @@ export const userRoles: UserRoles = {
 
 type AuthContext = {
   user: User;
+  isFetchingUser: boolean;
   userRoles: UserRoles;
   loadingLogin: boolean;
   loginError: boolean;
@@ -80,7 +81,7 @@ export default function AuthContextProvider({
   const [loadingLogin, setLoadingLogin] = useState(false);
   const [loginError, setLoginError] = useState(false);
   const [loginErrorMessage, setLoadingLoginMessage] = useState("");
-  const { data: profile } = useGetUserProfile();
+  const { data: profile, isFetching: isFetchingProfile } = useGetUserProfile();
   const { data: appWebpages = [] } = useGetAppWebpages();
 
   const getAuthRoutes = () => {
@@ -213,16 +214,20 @@ export default function AuthContextProvider({
       JSON.stringify(userPayload)
     );
 
-    queryClient.invalidateQueries({
-      queryKey: [queryKeys.AUTH.GET_PROFILE.concat(profile?.id ?? "")],
-      refetchType: "all",
-      exact: false,
-    });
-    queryClient.invalidateQueries({
-      queryKey: [queryKeys.APPLICATION.WEBPAGES],
-      refetchType: "all",
-      exact: false,
-    });
+    const queriesToInvalidate = [
+      queryKeys.AUTH.GET_PROFILE.concat(profile?.id ?? ""),
+      queryKeys.APPLICATION.WEBPAGES,
+      queryKeys.USERS.USER_COMPANIES.GET_FIND_BY_USER,
+    ];
+
+    queriesToInvalidate.forEach((query) =>
+      queryClient.invalidateQueries({
+        queryKey: [query],
+        refetchType: "all",
+        exact: false,
+      })
+    );
+
     setLoadingLogin(false);
     return router.push(PageRoutes.login());
   };
@@ -243,7 +248,7 @@ export default function AuthContextProvider({
 
     const haveSomeUserDataStored = !!storedToken && !!storedUser;
     if (!haveSomeUserDataStored) {
-      return router.push(PageRoutes.login());
+      return logoutUser();
     }
 
     console.log("haveSomeDataStored passed");
@@ -261,7 +266,7 @@ export default function AuthContextProvider({
     const localProfile = profile ?? storedUser;
     console.log({ localProfile });
     if (!localProfile) {
-      return router.push(PageRoutes.login());
+      return logoutUser();
     }
 
     console.log("profile passed");
@@ -278,10 +283,18 @@ export default function AuthContextProvider({
       isPublicPage || isAdminUser || hasPagePermission;
 
     console.log({ pathname, currentPage, localProfile });
+    console.log({
+      isPublicPage,
+      isAdminUser,
+      hasPagePermission,
+      isCurrentPageAllowed,
+    });
 
     // checar se o usuario tem a webpage
     if (!isCurrentPageAllowed) {
-      return router.push(PageRoutes.login());
+      console.log("redirecting to /login");
+
+      return logoutUser();
     }
     console.log("isCurrentPageAllowed passed");
   }, [pathname]);
@@ -290,6 +303,7 @@ export default function AuthContextProvider({
     <AuthContext.Provider
       value={{
         user: profile ?? userDefault,
+        isFetchingUser: isFetchingProfile,
         userRoles,
         loadingLogin,
         loginError,

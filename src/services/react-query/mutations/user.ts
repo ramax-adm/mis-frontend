@@ -1,81 +1,68 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { AxiosError } from 'axios'
-import { SetStateAction } from 'react'
-import { CreateUser } from '@/types/user'
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { AxiosError } from "axios";
+import { SetStateAction } from "react";
+import { CreateUser } from "@/types/user";
 import {
   DeleteUserAppWebpage,
   DeleteUserCompany,
   PostAddUserCompany,
   PostAddUserWebpage,
   PostCreateUser,
-} from '../../webApi/user-api'
-import { queryKeys } from '../query-keys'
+} from "../../webApi/user-api";
+import { queryKeys } from "../query-keys";
 
 interface UseCreateUserProps {
-  setSubmitCreateUserError: (value: SetStateAction<string | null>) => void
+  setSubmitCreateUserError: (value: SetStateAction<string | null>) => void;
 }
-export function useCreateUser({ setSubmitCreateUserError }: UseCreateUserProps) {
-  const queryClient = useQueryClient()
+export function useCreateUser({
+  setSubmitCreateUserError,
+}: UseCreateUserProps) {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (payload: CreateUser) => await PostCreateUser(payload),
 
     onError(error) {
-      if (error instanceof AxiosError) setSubmitCreateUserError(error.response?.data?.message)
+      if (error instanceof AxiosError)
+        setSubmitCreateUserError(error.response?.data?.message);
     },
     onSuccess() {
       queryClient.invalidateQueries({
         queryKey: [queryKeys.USERS.FIND_ALL],
         exact: false,
-        refetchType: 'all',
-      })
+        refetchType: "all",
+      });
     },
-  })
-}
-
-export const useAddUserCompany = () => {
-  const queryClient = useQueryClient()
-  return useMutation({
-    mutationFn: async ({ userId, companyCode }: { userId: string; companyCode: string }) =>
-      await PostAddUserCompany({ userId, companyCode }),
-
-    onSuccess(_, vars) {
-      queryClient.invalidateQueries({
-        queryKey: [queryKeys.USERS.FIND_ALL],
-        exact: false,
-        refetchType: 'all',
-      })
-      queryClient.invalidateQueries({
-        queryKey: [queryKeys.USERS.FIND_ONE.concat(vars.userId)],
-        exact: false,
-        refetchType: 'all',
-      })
-    },
-  })
+  });
 }
 
 export const useAddUserWebpage = () => {
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async ({ userId, pageId }: { userId: string; pageId: string }) =>
-      await PostAddUserWebpage({ userId, pageId }),
+    mutationFn: async ({
+      userId,
+      pageId,
+    }: {
+      userId: string;
+      pageId: string;
+    }) => await PostAddUserWebpage({ userId, pageId }),
 
     onSuccess(_, vars) {
       queryClient.invalidateQueries({
         queryKey: [queryKeys.USERS.FIND_ALL],
         exact: false,
-        refetchType: 'all',
-      })
+        refetchType: "all",
+      });
       queryClient.invalidateQueries({
         queryKey: [queryKeys.USERS.FIND_ONE.concat(vars.userId)],
         exact: false,
-        refetchType: 'all',
-      })
+        refetchType: "all",
+      });
     },
-  })
-}
+  });
+};
 
 export const useRemoveUserAppWebpage = () => {
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async ({ id }: { id: string; userId?: string }) =>
       await DeleteUserAppWebpage({ id }),
@@ -84,33 +71,13 @@ export const useRemoveUserAppWebpage = () => {
       queryClient.invalidateQueries({
         queryKey: [queryKeys.USERS.FIND_ALL],
         exact: false,
-        refetchType: 'all',
-      })
+        refetchType: "all",
+      });
       queryClient.invalidateQueries({
-        queryKey: [queryKeys.USERS.FIND_ONE.concat(vars.userId ?? '')],
+        queryKey: [queryKeys.USERS.FIND_ONE.concat(vars.userId ?? "")],
         exact: false,
-        refetchType: 'all',
-      })
+        refetchType: "all",
+      });
     },
-  })
-}
-
-export const useRemoveUserCompany = () => {
-  const queryClient = useQueryClient()
-  return useMutation({
-    mutationFn: async ({ id }: { id: string; userId?: string }) => await DeleteUserCompany({ id }),
-
-    onSuccess(_, vars) {
-      queryClient.invalidateQueries({
-        queryKey: [queryKeys.USERS.FIND_ALL],
-        exact: false,
-        refetchType: 'all',
-      })
-      queryClient.invalidateQueries({
-        queryKey: [queryKeys.USERS.FIND_ONE.concat(vars.userId ?? '')],
-        exact: false,
-        refetchType: 'all',
-      })
-    },
-  })
-}
+  });
+};
