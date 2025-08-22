@@ -38,6 +38,28 @@ export async function GetStockIncomingBatchesResumeData({
 
   return response.data;
 }
+export async function GetStockIncomingBatchesAnalyticalData({
+  companyCode,
+  market,
+  productLineCodes,
+}: {
+  companyCode: string;
+  market?: MarketEnum;
+  productLineCodes?: string;
+}) {
+  const response = await GetFetch(
+    urls.STOCK.INCOMING_BATCHES.GET_ANALYTICAL_DATA,
+    {
+      params: {
+        companyCode,
+        market,
+        productLineCodes,
+      },
+    }
+  );
+
+  return response.data;
+}
 
 export async function PostExportStockIncomingBatchesAllXlsx({
   exportType,

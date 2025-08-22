@@ -166,40 +166,6 @@ export const PageContainer = ({ children }: { children: ReactNode }) => {
       {width > 1000 && (
         <>
           <SideNavNew />
-        </>
-      )}
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          width: "100%",
-          height: "100%",
-          marginLeft: isMobile ? 0 : 2,
-          marginY: 0.5,
-        }}
-      >
-        {width < 1000 && <BurgerMenu />}
-        {/* <Box
-          sx={{
-            height: "100%",
-            marginLeft:
-              isCollapsed && !(width < 1000)
-                ? "13em"
-                : width < 1000
-                  ? ""
-                  : "72px",
-          }}
-        > */}
-        <Box
-          sx={{
-            height: "100%",
-            marginLeft: width > 1000 ? "3.5rem" : "",
-          }}
-        >
-          {children}
-        </Box>
-
-        {width > 1000 && (
           <Button
             variant='outlined'
             sx={{
@@ -215,7 +181,28 @@ export const PageContainer = ({ children }: { children: ReactNode }) => {
           >
             Sair
           </Button>
-        )}
+        </>
+      )}
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          width: "100%",
+          height: "100%",
+          marginLeft: isMobile ? 0 : 2,
+          marginY: 0.5,
+        }}
+      >
+        {width < 1000 && <BurgerMenu />}
+
+        <Box
+          sx={{
+            height: "100%",
+            marginLeft: width > 1000 ? "3.5rem" : "",
+          }}
+        >
+          {children}
+        </Box>
 
         {width < 1000 && isBurgerMenuOpened && (
           <Box

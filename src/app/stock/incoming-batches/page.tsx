@@ -22,6 +22,7 @@ import {
 import { StockIncomingBatchesResumeSection } from "./components/sections/resume-section";
 import { useExportStockIncomingBatchesAllXlsx } from "@/services/react-query/mutations/stock-incoming-batches";
 import { MarketEnum } from "@/types/sensatta";
+import { StockIncomingBatchesAnalyticalSection } from "./components/sections/analytical-section";
 
 enum TabSectionsEnum {
   RESUME = "resumed",
@@ -34,6 +35,7 @@ export default function StockIncomingBatchesPage() {
     parseAsString.withDefault(TabSectionsEnum.RESUME)
   );
   const [resumeSectionStates] = useQueryStates({
+    companyCode: parseAsString.withDefault(""),
     market: parseAsString.withDefault(""),
     productLineCodes: parseAsArrayOf(parseAsString, ",").withDefault([]),
   });
@@ -84,6 +86,7 @@ export default function StockIncomingBatchesPage() {
               await exportStock({
                 exportType: selectedTab as "resumed" | "analytical",
                 filters: {
+                  companyCode: resumeSectionStates.companyCode,
                   market: resumeSectionStates.market as MarketEnum,
                   productLineCodes: resumeSectionStates.productLineCodes.map(
                     (i) => i.split("-")[0]
@@ -97,14 +100,18 @@ export default function StockIncomingBatchesPage() {
         </Box>
       </Box>
 
-      <Tabs.Root defaultTab={TabSectionsEnum.RESUME}>
+      <Tabs.Root defaultTab={selectedTab}>
         <Tabs.Select customHandler={handleSelectTab}>
           <Tab label='Resumo' value={TabSectionsEnum.RESUME} />
+          <Tab label='Analitico' value={TabSectionsEnum.ANALYTICAL} />
         </Tabs.Select>
 
         <Tabs.Content>
           <Tabs.Panel tabName={TabSectionsEnum.RESUME} ref={tabPanelRef}>
             <StockIncomingBatchesResumeSection />
+          </Tabs.Panel>
+          <Tabs.Panel tabName={TabSectionsEnum.ANALYTICAL} ref={tabPanelRef}>
+            <StockIncomingBatchesAnalyticalSection />
           </Tabs.Panel>
         </Tabs.Content>
       </Tabs.Root>

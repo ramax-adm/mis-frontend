@@ -1,6 +1,6 @@
 import { ControlledSelect } from "@/components/Inputs/Select/Customized";
 import { useAuthContext } from "@/contexts/auth";
-import { useAddUserCompany } from "@/services/react-query/mutations/user";
+import { useAddUserCompany } from "@/services/react-query/mutations/user-company";
 import { useGetCompanies } from "@/services/react-query/queries/sensatta";
 import { useGetUser } from "@/services/react-query/queries/user";
 import { User } from "@/types/user";

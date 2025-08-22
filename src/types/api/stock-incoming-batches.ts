@@ -23,6 +23,30 @@ export interface GetStockInconingBatchesResumeResponse {
   >;
 }
 
+export interface GetStockInconingBatchesAnalyticalResponse {
+  totals: {
+    weightInKg: number;
+    expiredWeightInKg: number;
+    byExpireRange: Record<string, number>;
+  };
+  data: Record<
+    string,
+    {
+      market: string;
+      companyCode: string;
+      companyName: string;
+      productLineCode: string;
+      productLineName: string;
+      productCode: string;
+      productName: string;
+      totals: {
+        weightInKg: number;
+        expiredWeightInKg: number;
+        byExpireRange: Record<string, number>;
+      };
+    }
+  >;
+}
 export interface GetStockInconingBatchesLastUpdatedAtResponse {
   updatedAt: Date;
   parsedUpdatedAt: string;

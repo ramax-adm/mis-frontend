@@ -23,7 +23,7 @@ const CustomTheme = createTheme({
       styleOverrides: {
         root: {
           "&.MuiOutlinedInput-sizeSmall": {
-            height: 32,
+            height: 28,
             padding: 0,
           },
           // remove possível conflito de altura com adornments
@@ -42,16 +42,26 @@ const CustomTheme = createTheme({
       styleOverrides: {
         root: {
           "&.MuiInputBase-sizeSmall": {
-            minHeight: 32, // garante altura mínima consistente
+            height: 28,
+            fontSize: 12,
           },
         },
       },
     },
+    MuiInputLabel: {
+      styleOverrides: {
+        root: {
+          fontSize: "12px", // diminui a label
+          lineHeight: "1.2",
+        },
+      },
+    },
+
     MuiInputAdornment: {
       styleOverrides: {
         root: {
-          height: 32,
-          maxHeight: 32,
+          height: 28,
+          maxHeight: 28,
           marginTop: 0,
         },
       },
