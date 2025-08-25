@@ -1,4 +1,4 @@
-import { SideNavItem, useAppContext } from "@/contexts/app";
+import { useAppContext } from "@/contexts/app";
 import { Box, Divider, Skeleton, Typography } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
@@ -6,12 +6,11 @@ import { usePathname } from "next/navigation";
 import RamaxMiniLogo from "@/assets/RAMAX-Group_Vertical_Cor.png";
 import { SideNavWithSubmenu } from "./sidenav-with-submenu";
 import { useAuthContext } from "@/contexts/auth";
-import { User, UserRoleEnum } from "@/types/user";
-import { AppWebpage } from "@/types/application";
 
 export function SideNav() {
   const pathname = usePathname();
-  const { NAV_ITEMS, webpages, isFetchingWebpages } = useAppContext();
+  const { NAV_ITEMS, webpages, isFetchingWebpages, checkPagePermission } =
+    useAppContext();
   const { user, isFetchingUser } = useAuthContext();
 
   const isFetching = isFetchingWebpages || isFetchingUser;
@@ -147,21 +146,3 @@ export function SideNav() {
     </Box>
   );
 }
-
-const checkPagePermission = ({
-  user,
-  webpages,
-  item,
-}: {
-  user: User;
-  webpages: AppWebpage[];
-  item: SideNavItem;
-}) => {
-  const isUserAdmin = user.role === UserRoleEnum.Admin;
-  const isUserHasWebpage = user?.userWebpages?.find(
-    (i) => i.page.page === item.path
-  );
-  const isPublicPage = webpages.find((i) => i.page === item.path && i.isPublic);
-
-  return !!isUserHasWebpage || !!isPublicPage || !!isUserAdmin;
-};
