@@ -3,10 +3,20 @@ import { useMutation } from "@tanstack/react-query";
 import { ExportService } from "@/services/export";
 import { PostExportStockBalanceAllXlsx } from "@/services/webApi/stock-balance-api";
 
-export const useExportStockBalanceAllXlsx = () => {
+export const useExportStockBalanceAllXlsx = ({
+  filters,
+}: {
+  filters: {
+    companyCode: string;
+    market?: string;
+    productLineCode?: string;
+  };
+}) => {
   return useMutation({
     mutationFn: async () => {
-      const { data, headers } = await PostExportStockBalanceAllXlsx();
+      const { data, headers } = await PostExportStockBalanceAllXlsx({
+        filters,
+      });
       const contentDispositionHeader = headers["content-disposition"] as string;
       const filenameMatches =
         contentDispositionHeader.match(/filename=(.+\.xlsx)/);

@@ -8,8 +8,10 @@ import {
 } from "../axios/api-base";
 import { AxiosResponse } from "axios";
 
-export const GetUsers = async (role: string) => {
-  const response = await GetFetch(urls.USER.GET_USERS, { params: { role } });
+export const GetUsers = async (username: string) => {
+  const response = await GetFetch(urls.USER.GET_USERS, {
+    params: { username },
+  });
   return response;
 };
 

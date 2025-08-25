@@ -13,8 +13,20 @@ import { LoadingOverlay } from "@/components/Loading/loadingSpinner";
 import { useExportStockBalanceAllXlsx } from "@/services/react-query/mutations/stock-balance";
 import { useGetStockBalanceLastUpdatedAt } from "@/services/react-query/queries/stock-balance";
 import { useSyncStockBalanceWithSensatta } from "@/services/react-query/mutations/sensatta";
+import { parseAsArrayOf, parseAsString, useQueryStates } from "nuqs";
+import { MarketEnum } from "@/types/sensatta";
 
 export default function StockBalancePage() {
+  const [analyticalStates] = useQueryStates(
+    {
+      selectedCompany: parseAsString.withDefault(""),
+      selectedMarket: parseAsString.withDefault(MarketEnum.BOTH),
+      selectedProductLines: parseAsArrayOf(parseAsString).withDefault([]),
+    },
+    {
+      clearOnDefault: true,
+    }
+  );
   const [, setSelectedTab] = useState<"analytical">("analytical");
 
   const handleSelectTab = (value: string) =>
@@ -24,7 +36,15 @@ export default function StockBalancePage() {
   const analyticalSectionRef = useRef<StockBalanceAnalyticalSectionRef>(null);
 
   const { mutateAsync: exportStockBalance, isPending: isExportStockBalance } =
-    useExportStockBalanceAllXlsx();
+    useExportStockBalanceAllXlsx({
+      filters: {
+        companyCode: analyticalStates.selectedCompany,
+        market: analyticalStates.selectedMarket,
+        productLineCode: analyticalStates.selectedProductLines
+          .map((i) => i.split("-")[0])
+          .join(","),
+      },
+    });
   const { mutateAsync: syncStockBalance, isPending: isSyncStockBalance } =
     useSyncStockBalanceWithSensatta();
   const { data: stockLastUpdatedAt } = useGetStockBalanceLastUpdatedAt();

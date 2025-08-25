@@ -53,10 +53,18 @@ export async function GetStockBalanceAnalyticalData({
   return response.data;
 }
 
-export async function PostExportStockBalanceAllXlsx() {
+export async function PostExportStockBalanceAllXlsx({
+  filters,
+}: {
+  filters: {
+    companyCode: string;
+    market?: string;
+    productLineCode?: string;
+  };
+}) {
   const response = await PostFetch(
     urls.STOCK.STOCK_BALANCE.POST_EXPORT_XLSX,
-    { filters: {} },
+    { filters },
     {
       responseType: "blob",
     }
