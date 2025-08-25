@@ -246,20 +246,20 @@ export default function AuthContextProvider({
     const storedWebpages = getStoredWebpages();
     const authRoutes = getAuthRoutes();
 
-    const haveSomeUserDataStored = !!storedToken && !!storedUser;
-    if (!haveSomeUserDataStored) {
-      return logoutUser();
-    }
-
-    console.log("haveSomeDataStored passed");
-
-    const isCurrentPageAnAuthRoute = authRoutes?.map((i) => i === pathname);
+    const isCurrentPageAnAuthRoute = !!authRoutes?.find((i) => i === pathname);
     // checar se a pagina atual é um auth route
     if (!isCurrentPageAnAuthRoute) {
       return;
     }
 
     console.log("isCurrentPageAnAuthRoute passed");
+
+    const haveSomeUserDataStored = !!storedToken && !!storedUser;
+    if (!haveSomeUserDataStored) {
+      return logoutUser();
+    }
+
+    console.log("haveSomeDataStored passed");
 
     // checar se tem algum profile
 
