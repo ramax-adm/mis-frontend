@@ -15,6 +15,7 @@ import { MdFactCheck } from "react-icons/md";
 import { FaMoneyCheckAlt } from "react-icons/fa";
 import { FaMoneyBillTransfer } from "react-icons/fa6";
 import { FaGlobe } from "react-icons/fa";
+import { User, UserRoleEnum } from "@/types/user";
 
 type AppContextProviderProps = {
   children: React.ReactNode;
@@ -50,6 +51,15 @@ type AppContext = {
   toggleBurgerMenuOpened: () => void;
   openBurgerMenu: () => void;
   closeBurgerMenu: () => void;
+  checkPagePermission: ({
+    user,
+    webpages,
+    item,
+  }: {
+    user: User;
+    webpages: AppWebpage[];
+    item: SideNavItem;
+  }) => boolean;
 };
 
 export const AppContext = createContext<AppContext | null>(null);
@@ -234,6 +244,26 @@ export default function AppProvider({ children }: AppContextProviderProps) {
     setWidth(newWidth);
   };
 
+  const checkPagePermission = ({
+    user,
+    webpages,
+    item,
+  }: {
+    user: User;
+    webpages: AppWebpage[];
+    item: SideNavItem;
+  }) => {
+    const isUserAdmin = user.role === UserRoleEnum.Admin;
+    const isUserHasWebpage = user?.userWebpages?.find(
+      (i) => i.page.page === item.path
+    );
+    const isPublicPage = webpages.find(
+      (i) => i.page === item.path && i.isPublic
+    );
+
+    return !!isUserHasWebpage || !!isPublicPage || !!isUserAdmin;
+  };
+
   useEffect(() => {
     window.addEventListener("resize", updateWidth);
     updateWidth();
@@ -256,6 +286,7 @@ export default function AppProvider({ children }: AppContextProviderProps) {
         toggleBurgerMenuOpened,
         openBurgerMenu,
         closeBurgerMenu,
+        checkPagePermission,
       }}
     >
       {children}
