@@ -31,11 +31,12 @@ export function BurgerMenu() {
         width: "100%",
       }}
     >
-      <Box
-        onClick={toggleBurgerMenuOpened}
-        sx={{ display: "flex", justifyContent: "flex-end" }}
-      >
-        <MenuIcon fontSize='large' color='primary' />
+      <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+        <MenuIcon
+          fontSize='large'
+          color='primary'
+          onClick={toggleBurgerMenuOpened}
+        />
       </Box>
     </Box>
   );
