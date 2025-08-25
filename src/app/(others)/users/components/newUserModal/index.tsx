@@ -1,48 +1,59 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useEffect, useState } from 'react'
-import { Box, Button, CircularProgress, FormControl, TextField, Typography } from '@mui/material'
-import InputMask from 'react-input-mask'
-import { removeCpfMask } from '@/utils/functions'
-import { AxiosError } from 'axios'
-import { useQueryClient } from '@tanstack/react-query'
-import { PostCreateUser } from '@/services/webApi/user-api'
-import { ControlledSelect } from '@/components/Inputs/Select/Customized'
-import { queryKeys } from '@/services/react-query/query-keys'
-import { userRoles } from '@/contexts/auth'
+import React, { useEffect, useState } from "react";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  FormControl,
+  TextField,
+  Typography,
+} from "@mui/material";
+import InputMask from "react-input-mask";
+import { removeCpfMask } from "@/utils/functions";
+import { AxiosError } from "axios";
+import { useQueryClient } from "@tanstack/react-query";
+import { PostCreateUser } from "@/services/webApi/user-api";
+import { ControlledSelect } from "@/components/Inputs/Select/Customized";
+import { queryKeys } from "@/services/react-query/query-keys";
+import { userRoles } from "@/contexts/auth";
+import { useGetUserDepartmentsFilters } from "@/services/react-query/queries/user";
+import { TextInputControlled } from "@/components/Inputs/TextInput/controlled";
 
-type Props = { onClose: () => void }
+type Props = { onClose: () => void };
 const NewUserModal = (props: Props) => {
-  const [load, setLoad] = useState(false)
+  const [load, setLoad] = useState(false);
   const [newCad, setNewCad] = useState({
-    name: '',
-    email: '',
-    cpf: '',
-    password: '',
-    role: '',
-  })
+    name: "",
+    email: "",
+    cpf: "",
+    password: "",
+    role: "",
+  });
 
-  const [validation, setValidation] = useState<boolean>(true)
-  const [roleSelected, setRoleSelected] = useState<string>('admin')
-  const [errorMessage, setErrorMessage] = useState<string | null>(null)
-  const [error, setError] = useState<boolean>(false)
-  const [cpf, setCpf] = useState('')
+  const { data: departments } = useGetUserDepartmentsFilters();
 
-  const handleCpf = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setCpf(e.target.value)
-  }
+  const [validation, setValidation] = useState<boolean>(true);
+  const [roleSelected, setRoleSelected] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [error, setError] = useState<boolean>(false);
+  const [cpf, setCpf] = useState("");
 
-  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const key = e.target.id
-    const value = e.target.value
-    setNewCad({ ...newCad, [key]: value })
-  }
+  const handleCpf = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setCpf(e.target.value);
+  };
 
-  const queryClient = useQueryClient()
+  const handleOnChange = (value: any, key: keyof typeof newCad) => {
+    setNewCad({ ...newCad, [key]: value });
+  };
+
+  const queryClient = useQueryClient();
   const handleSubmit = async () => {
     try {
-      setLoad(true)
-      newCad.cpf = removeCpfMask(cpf)
-      newCad.role = roleSelected
+      setLoad(true);
+      newCad.cpf = removeCpfMask(cpf);
+      newCad.role = roleSelected;
 
       const payload = {
         name: newCad.name,
@@ -50,29 +61,34 @@ const NewUserModal = (props: Props) => {
         cpf: newCad.cpf,
         password: newCad.password,
         role: newCad.role,
-      }
+      };
 
-      await PostCreateUser(payload)
-      setError(false)
+      await PostCreateUser(payload);
+      setError(false);
 
-      queryClient.invalidateQueries({ queryKey: [queryKeys.USERS.FIND_ALL] })
-      props.onClose()
+      queryClient.invalidateQueries({
+        queryKey: [queryKeys.USERS.FIND_ALL],
+        exact: false,
+        refetchType: "all",
+      });
+      props.onClose();
     } catch (error) {
-      setError(true)
+      setError(true);
+      console.log({ error });
 
       if (error instanceof AxiosError) {
-        setErrorMessage(error?.response?.data.message)
+        setErrorMessage(error?.response?.data.message);
       } else {
-        setErrorMessage('Ocorreu um erro ao realizar login')
+        setErrorMessage("Ocorreu um erro ao cadastrar um novo usuario");
       }
     } finally {
-      setLoad(false)
+      setLoad(false);
     }
-  }
+  };
 
   const roleHandler = (value: string) => {
-    setRoleSelected(value)
-  }
+    setRoleSelected(value);
+  };
 
   useEffect(() => {
     function validateForm() {
@@ -83,20 +99,20 @@ const NewUserModal = (props: Props) => {
         newCad?.password.length <= 0 ||
         roleSelected === null
       ) {
-        return true
+        return true;
       }
 
-      return false
+      return false;
     }
-    setValidation(validateForm())
-  }, [newCad, cpf, roleSelected])
+    setValidation(validateForm());
+  }, [newCad, cpf, roleSelected]);
 
   return (
     <Box>
       <Box
         sx={{
-          borderRadius: '8px 8px 0 0',
-          backgroundColor: '#fff',
+          borderRadius: "8px 8px 0 0",
+          backgroundColor: "#fff",
         }}
       >
         <Typography variant='h6' component='h2'>
@@ -105,67 +121,67 @@ const NewUserModal = (props: Props) => {
       </Box>
       <Box
         sx={{
-          marginBottom: '16px',
-          maxHeight: '80%',
-          backgroundColor: '#fff',
+          maxHeight: "80%",
+          backgroundColor: "#fff",
           borderRadius: 1,
-          display: 'flex',
-          flexDirection: 'column',
+          display: "flex",
+          flexDirection: "column",
           gap: 2,
+          paddingY: 1,
         }}
       >
-        <Box sx={{ display: 'flex', gap: 2 }}>
+        <Box sx={{ display: "flex", gap: 2 }}>
           <FormControl fullWidth>
-            <TextField
+            <TextInputControlled
               id={`name`}
               label='Nome'
               size='small'
-              onChange={(event) => {
-                handleOnChange(event)
+              value={newCad.name}
+              setValue={(value) => {
+                handleOnChange(value, "name");
               }}
             />
           </FormControl>
 
           <FormControl fullWidth>
-            <InputMask mask={'999.999.999-99'} value={cpf} onChange={(event) => handleCpf(event)}>
+            <InputMask
+              mask={"999.999.999-99"}
+              value={cpf}
+              onChange={(event) => handleCpf(event)}
+            >
               <TextField id={`CPF`} label='CPF' size='small' />
             </InputMask>
           </FormControl>
         </Box>
 
         <ControlledSelect
+          disablePortal={false}
           id='role-select'
           name='role-select'
           value={roleSelected}
-          label='Função'
+          label='Departamento'
           onChange={roleHandler}
           size='small'
-          options={[
-            { label: 'Administrador', value: userRoles.admin, key: userRoles.admin },
-            { label: 'Diretoria', value: userRoles.directory, key: userRoles.directory },
-            { label: 'Comercial', value: userRoles.commercial, key: userRoles.commercial },
-            { label: 'Industria', value: userRoles.commercial, key: userRoles.industry },
-          ]}
+          options={departments}
         />
 
+        <TextInputControlled
+          id={`email`}
+          label='E-mail'
+          size='small'
+          value={newCad.email}
+          setValue={(value) => {
+            handleOnChange(value, "email");
+          }}
+        />
         <FormControl fullWidth>
-          <TextField
-            id={`email`}
-            label='E-mail'
-            size='small'
-            onChange={(event) => {
-              handleOnChange(event)
-            }}
-          />
-        </FormControl>
-        <FormControl fullWidth>
-          <TextField
+          <TextInputControlled
             id={`password`}
             label='Senha'
-            type='password'
             size='small'
-            onChange={(event) => {
-              handleOnChange(event)
+            value={newCad.password}
+            setValue={(value) => {
+              handleOnChange(value, "password");
             }}
           />
         </FormControl>
@@ -177,24 +193,31 @@ const NewUserModal = (props: Props) => {
       </Box>
       <Box
         sx={{
-          display: 'flex',
-          justifyContent: 'flex-end',
+          display: "flex",
+          justifyContent: "flex-end",
           gap: 1,
-          padding: 2,
-          borderRadius: '0 0 8px 8px',
-          backgroundColor: '#fff',
+          borderRadius: "0 0 8px 8px",
+          backgroundColor: "#fff",
         }}
       >
-        <Button disabled={validation || load} variant='contained' color={'success'}>
-          <Typography color={'#fff'} onClick={() => handleSubmit()}>
-            {load ? <CircularProgress color='success' /> : 'Cadastrar'}
+        <Button
+          disabled={validation || load}
+          variant='contained'
+          color={"success"}
+        >
+          <Typography color={"#fff"} onClick={() => handleSubmit()}>
+            {load ? <CircularProgress color='success' /> : "Cadastrar"}
           </Typography>
         </Button>
-        <Button variant='outlined' color='warning' onClick={() => props.onClose()}>
+        <Button
+          variant='outlined'
+          color='warning'
+          onClick={() => props.onClose()}
+        >
           <Typography>Fechar</Typography>
         </Button>
       </Box>
     </Box>
-  )
-}
-export default NewUserModal
+  );
+};
+export default NewUserModal;

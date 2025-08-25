@@ -23,7 +23,10 @@ import { FaLandmark, FaPhone, FaPlusCircle } from "react-icons/fa";
 import { ListItemCustom } from "@/components/ListItemCustom";
 import { IoTrashOutline } from "react-icons/io5";
 import { useRemoveUserAppWebpage } from "@/services/react-query/mutations/user";
-import { useGetUser } from "@/services/react-query/queries/user";
+import {
+  useGetUser,
+  useGetUserDepartmentsFilters,
+} from "@/services/react-query/queries/user";
 import { RiPagesLine } from "react-icons/ri";
 import { useRemoveUserCompany } from "@/services/react-query/mutations/user-company";
 
@@ -49,6 +52,8 @@ const EditUserModal = ({
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   // states de componentes
+  const { data: departments } = useGetUserDepartmentsFilters();
+
   const { mutateAsync: removeUserCompany, isPending: isRemovingUserCompany } =
     useRemoveUserCompany();
   const {
@@ -177,28 +182,7 @@ const EditUserModal = ({
               label='Função'
               onChange={roleHandler}
               size='small'
-              options={[
-                {
-                  label: "Administrador",
-                  value: userRoles.admin,
-                  key: userRoles.admin,
-                },
-                {
-                  label: "Diretoria",
-                  value: userRoles.directory,
-                  key: userRoles.directory,
-                },
-                {
-                  label: "Comercial",
-                  value: userRoles.commercial,
-                  key: userRoles.commercial,
-                },
-                {
-                  label: "Industria",
-                  value: userRoles.industry,
-                  key: userRoles.industry,
-                },
-              ]}
+              options={departments}
             />
           </FormControl>
         </Box>

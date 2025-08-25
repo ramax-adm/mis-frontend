@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { Box, Button, Skeleton, Typography } from "@mui/material";
+import { Box, Button, FormControl, Skeleton, Typography } from "@mui/material";
 import { PageContainer } from "@/components/PageContainer";
 import NewUserModal from "./components/newUserModal";
 import EditUserModal from "./components/editUserModal";
@@ -13,6 +13,10 @@ import { CustomizedTable } from "@/components/Table/normal-table/body";
 import { PageContainerHeader } from "@/components/PageContainer/header";
 import { AddUserCompanyModal } from "./components/add-user-company-modal";
 import { AddUserWebpageModal } from "./components/add-user-webpage-modal";
+import { TextInputControlled } from "@/components/Inputs/TextInput/controlled";
+import { parseAsString, useQueryState } from "nuqs";
+import PaginatedTable from "@/components/Table/paginated-table";
+import { cpfMask } from "@/utils/functions";
 
 export default function UserList() {
   const [openModalNew, setOpenModalNew] = useState<boolean>(false);
@@ -22,15 +26,20 @@ export default function UserList() {
     useState(false);
 
   const [userIdToEdit, setUserIdToEdit] = useState<string | null>(null);
+  const [userNameInput, setUserNameInput] = useQueryState(
+    "username",
+    parseAsString.withDefault("")
+  );
   const { user } = useAuthContext();
 
   const {
     data: users,
     isLoading: isLoadingUsers,
     status: usersQueryStatus,
-  } = useGetUsers("");
+  } = useGetUsers(userNameInput);
   const isUserAdmin = user.role === UserRoleEnum.Admin;
 
+  const handleUserNameInput = (value: string | null) => setUserNameInput(value);
   const handleOpenEditModal = (row: User) => {
     setUserIdToEdit(row.id);
     setOpenEditModal(true);
@@ -59,61 +68,6 @@ export default function UserList() {
     setAddUserAppWebpageModalOpen(false);
     setOpenEditModal(true);
   };
-
-  const COLUMNSTABLE = [
-    {
-      headerName: "Nome",
-      type: "string",
-      value: { first: { value: "name" } },
-    },
-    {
-      headerName: "Email",
-      type: "string",
-      value: { first: { value: "email" } },
-    },
-    {
-      headerName: "CPF",
-      type: "CPF",
-      value: { first: { value: "cpf" } },
-    },
-    {
-      headerName: "Função",
-      type: "string",
-      value: { first: { value: "role" } },
-    },
-    {
-      headerName: "Status",
-      type: "boolean",
-      value: {
-        first: {
-          value: (row: User) => (row.isActive ? "Ativo" : "Inativo"),
-        },
-      },
-    },
-    {
-      headerName: "Editar",
-      type: "action",
-      value: {
-        first: {
-          value: (row: User) => (
-            <Button
-              variant='contained'
-              disabled={!isUserAdmin}
-              color='error'
-              sx={{
-                backgroundColor: "white",
-                color: "#3E63DD",
-                "&:hover": { color: "orangered", background: "white" },
-              }}
-              onClick={() => handleOpenEditModal(row)}
-            >
-              <EditIcon />
-            </Button>
-          ),
-        },
-      },
-    },
-  ];
 
   const TableComponent = () => {
     if (isLoadingUsers) {
@@ -164,10 +118,65 @@ export default function UserList() {
     return (
       <Box>
         {users && users.length > 0 ? (
-          <CustomizedTable
-            data={users}
-            columns={COLUMNSTABLE}
-            cellStyles={{ fontSize: "12px" }}
+          <PaginatedTable
+            rows={users}
+            columns={[
+              {
+                headerKey: "name",
+                headerName: "Nome",
+                cellSx: { fontSize: "12px" },
+                sx: { padding: 1 },
+              },
+              {
+                headerKey: "email",
+                headerName: "Email",
+
+                cellSx: { fontSize: "12px" },
+              },
+              {
+                headerKey: "cpf",
+                headerName: "CPF",
+
+                cellSx: { fontSize: "12px" },
+                render: (value, row) => cpfMask(value as string),
+              },
+              {
+                headerKey: "isActive",
+                headerName: "Status",
+
+                cellSx: { fontSize: "12px" },
+                render: (value, row) => (value ? "Ativo" : "Inativo"),
+              },
+              {
+                headerKey: "role",
+                headerName: "Departamento",
+
+                cellSx: { fontSize: "12px" },
+              },
+              {
+                headerKey: "id",
+                headerName: "Editar",
+                align: "center",
+                render: (value, row) => (
+                  <Button
+                    variant='contained'
+                    disabled={!isUserAdmin}
+                    color='error'
+                    sx={{
+                      backgroundColor: "white",
+                      color: "#3E63DD",
+                      "&:hover": { color: "orangered", background: "white" },
+                    }}
+                    onClick={() => handleOpenEditModal(row)}
+                  >
+                    <EditIcon />
+                  </Button>
+                ),
+              },
+            ]}
+            tableStyles={{
+              height: "calc(100vh - 150px);",
+            }}
           />
         ) : (
           <Box
@@ -194,19 +203,28 @@ export default function UserList() {
     <>
       <PageContainer>
         <PageContainerHeader title='Usuários'>
-          {user.role === "admin" && (
-            <Button
-              variant='contained'
-              size='small'
-              color='success'
-              onClick={() => setOpenModalNew(true)}
-            >
-              Novo
-            </Button>
-          )}
+          <Button
+            variant='contained'
+            size='small'
+            color='success'
+            onClick={() => setOpenModalNew(true)}
+          >
+            Novo
+          </Button>
         </PageContainerHeader>
-
         <Box sx={{ marginTop: 2 }}>
+          <FormControl fullWidth>
+            <TextInputControlled
+              id='username'
+              label='Usuario'
+              type='text'
+              value={userNameInput}
+              setValue={handleUserNameInput}
+              autoComplete='new-field'
+            />
+          </FormControl>
+        </Box>
+        <Box sx={{ marginTop: 1 }}>
           <TableComponent />
         </Box>
       </PageContainer>

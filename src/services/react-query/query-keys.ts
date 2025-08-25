@@ -95,6 +95,7 @@ export const queryKeys = {
   USERS: {
     FIND_ALL: "users",
     FIND_ONE: "user-",
+    GET_DEPARTMENTS_FILTERS: "user-departments-filters",
     USER_COMPANIES: {
       GET_FIND_BY_USER: "user-user-companies-by-user",
     },

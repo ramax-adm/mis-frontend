@@ -117,6 +117,7 @@ export const urls = {
     GET_USERS: `${apiLocal}/api/user`,
     GET_USER: `${apiLocal}/api/user`,
     GET_PROFILE: `${apiLocal}/api/user/profile`,
+    GET_DEPARTMENTS_FILTERS: `${apiLocal}/api/user/filters/departments`,
     POST_USER: `${apiLocal}/api/user`,
     POST_ADD_USER_APP_WEBPAGE: `${apiLocal}/api/user/add-user-app-webpage`,
     DELETE_USER_APP_WEBPAGE: `${apiLocal}/api/user/user-app-webpage`,
