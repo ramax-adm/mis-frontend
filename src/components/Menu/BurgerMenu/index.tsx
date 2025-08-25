@@ -71,6 +71,7 @@ export const BurgerMenuContainer = () => {
         width: "70%",
         maxWidth: "350px",
         height: "100dvh",
+        overflowX: "hidden",
         overflowY: "auto",
         background: "linear-gradient(150deg, #fff 0%, #fff 74%)",
         transform: isBurgerMenuOpened ? "translateX(0%)" : "translateX(100%)",
