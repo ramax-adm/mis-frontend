@@ -25,6 +25,7 @@ import {
   useQueryStates,
 } from "nuqs";
 import { useGetUserCompanies } from "@/services/react-query/queries/user-company";
+import { toogleProductLinesFiltersSelection } from "../../utils/toogle-product-lines-filters-selection";
 
 const DATA_VISUALIZATION_OPTIONS = [
   {
@@ -92,38 +93,6 @@ export const StockBalanceAnalyticalSection =
       (i) => i.split("-")[0]
     );
 
-    // handlers
-    const handleSelectCompany = (value: string) =>
-      setQueryStates({ selectedCompany: value });
-
-    const handleSelectMarket = (value: string) => {
-      setTableStates({ page: 0 });
-      setQueryStates({ selectedMarket: value as MarketEnum });
-    };
-
-    const handleSelectDataVisualization = (
-      value: "aggregated-analytical" | "analytical"
-    ) => setQueryStates({ selectedDataVisualization: value });
-
-    const handleSelectedProductLines = (values: string[]) =>
-      setQueryStates({ selectedProductLines: values });
-
-    const handleSelectAndDisselectAllProductLines = () => {
-      if (!productLines) return;
-
-      setTableStates({ page: 0 });
-      const haveSomeSelectedProductLines = selectedProductLines.length > 0;
-      if (haveSomeSelectedProductLines) {
-        return setQueryStates({ selectedProductLines: [] });
-      }
-
-      return setQueryStates({
-        selectedProductLines: productLines.map(
-          (i) => `${i.sensattaCode}-${i.acronym}`
-        ),
-      });
-    };
-
     // queries
     const { data: companies } = useGetUserCompanies({
       isConsideredOnStock: true,
@@ -147,6 +116,30 @@ export const StockBalanceAnalyticalSection =
       market: selectedMarket,
       productLineCode: selectedProductLinesCodes.join(","),
     });
+
+    // handlers
+    const handleSelectCompany = (value: string) =>
+      setQueryStates({ selectedCompany: value });
+
+    const handleSelectMarket = (value: string) => {
+      setTableStates({ page: 0 });
+      setQueryStates({ selectedMarket: value as MarketEnum });
+    };
+
+    const handleSelectDataVisualization = (
+      value: "aggregated-analytical" | "analytical"
+    ) => setQueryStates({ selectedDataVisualization: value });
+
+    const handleSelectedProductLines = (values: string[]) =>
+      setQueryStates({ selectedProductLines: values });
+
+    const handleToogleProductLines = () =>
+      toogleProductLinesFiltersSelection({
+        selectedProductLines,
+        setQueryStates,
+        setTableStates,
+        productLines,
+      });
 
     if (isFetchingStockData || isFetchingStockAggregatedData) {
       return <LoadingOverlay />;
@@ -215,7 +208,7 @@ export const StockBalanceAnalyticalSection =
                     cursor: "pointer",
                   },
                 }}
-                onClick={handleSelectAndDisselectAllProductLines}
+                onClick={handleToogleProductLines}
               >
                 Selecionar/Deselecionar tudo
               </Typography>
