@@ -1,3 +1,4 @@
+import { green } from "@mui/material/colors";
 import { createTheme } from "@mui/material/styles";
 
 declare module "@mui/material/Button" {
@@ -56,7 +57,6 @@ const CustomTheme = createTheme({
         },
       },
     },
-
     MuiInputAdornment: {
       styleOverrides: {
         root: {
@@ -110,6 +110,25 @@ const CustomTheme = createTheme({
         disableElevation: true,
         disableFocusRipple: true,
         disableRipple: true,
+      },
+    },
+    MuiTabs: {
+      styleOverrides: {
+        root: {
+          minHeight: "32px", // altura da barra
+        },
+        indicator: {
+          height: "2px", // espessura da linha inferior
+        },
+      },
+    },
+    MuiTab: {
+      styleOverrides: {
+        root: {
+          minHeight: "32px", // altura da aba
+          padding: "4px 8px", // espaço interno
+          fontSize: "10px", // tamanho do texto
+        },
       },
     },
   },

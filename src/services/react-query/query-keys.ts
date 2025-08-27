@@ -41,6 +41,11 @@ export const queryKeys = {
     GET_ANALYSES_DATA: "human-resources-hours-analyses-data",
     GET_LAST_UPDATED_AT: "human-resources-hours-last-updated-at",
   },
+  INTRANET: {
+    GET_DOCUMENTS: "intranet-document",
+    GET_DOCUMENTS_VERSIONS: "intranet-document-versions",
+    GET_BY_USER: "intranet-document-by-user",
+  },
   PARAMETER: {
     GET_SALES_DEDUCTIONS: "parameter-get-sales-deductions",
   },

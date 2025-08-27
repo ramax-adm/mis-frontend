@@ -51,6 +51,14 @@ export const urls = {
     GET_LAST_UPDATED_AT: `${apiLocal}/api/human-resources-hours/last-update`,
     POST_EXPORT_XLSX: `${apiLocal}/api/human-resources-hours/export-xlsx`,
   },
+  INTRANET: {
+    GET_DOCUMENTS: `${apiLocal}/api/intranet/document`,
+    GET_ONE_DOCUMENT: `${apiLocal}/api/intranet/document/:id`,
+    GET_DOCUMENTS_VERSIONS: `${apiLocal}/api/intranet/document/versions`,
+    GET_ONE_DOCUMENT_VERSION: `${apiLocal}/api/intranet/document/versions/:id`,
+    GET_BY_USER: `${apiLocal}/api/intranet/document/by-user`,
+    POST_ADD_DOCUMENT_VERSION: `${apiLocal}/api/intranet/document/version`,
+  },
   PURCHASE: {
     GET_LAST_UPDATED_AT: `${apiLocal}/api/purchase/last-update`,
     GET_CATTLE_PURCHASE_CATTLE_OWNER: `${apiLocal}/api/purchase/cattle-purchase/cattle-owner`,

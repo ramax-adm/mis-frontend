@@ -13,7 +13,14 @@ export function TabsSelect({
 }: TabsSelectProps) {
   const { currentTab, handleChange } = useTabsContext();
   return (
-    <Box sx={{ borderBottom: 1, borderColor: "divider", ...props.sx }}>
+    <Box
+      sx={{
+        borderBottom: 1,
+        borderColor: "divider",
+
+        ...props.sx,
+      }}
+    >
       <Tabs
         value={currentTab}
         variant='scrollable'
