@@ -7,10 +7,12 @@ import {
   IntranetDocumentTypeEnum,
   IntranetDocumentVersion,
 } from "@/types/intranet";
-import { Box, CircularProgress } from "@mui/material";
+import { Alert, Box, CircularProgress } from "@mui/material";
 import { grey } from "@mui/material/colors";
 import { SquareArrowOutUpRight } from "lucide-react";
 import { parseAsBoolean, parseAsString, useQueryStates } from "nuqs";
+import { LoaderIcon } from "../customized/loader-icon";
+import { getDocumentType } from "../../utils/get-document-type";
 
 type GetParsedDataItemType = {
   id: string;
@@ -43,29 +45,30 @@ export function IntranetDocumentVersionTable() {
 
   const columns = getColumns({ handleOpenDetailsModal });
   const parsedData = getData({ data: intranetDocumentVersions });
+  const haveSomeData = parsedData.length > 0;
 
   if (isFetching) {
+    return <LoaderIcon />;
+  }
+
+  if (!haveSomeData) {
     return (
       <Box
         sx={{
-          width: "100%",
-          height: "100%",
           display: "grid",
+          height: "250px",
+          bgcolor: "background.paper",
           placeContent: "center",
         }}
       >
-        <CircularProgress
-          color='primary'
-          size={24} // Aumenta o tamanho do spinner
-          thickness={3} // Aumenta a espessura do stroke
-        />
+        <Alert severity='info'> Sem Dados</Alert>
       </Box>
     );
   }
   return (
     <CustomTable<GetParsedDataItemType>
       tableStyles={{
-        maxHeight: "100%",
+        height: "250px",
       }}
       columns={columns}
       rows={parsedData}
@@ -78,11 +81,6 @@ const getData = ({
 }: {
   data: IntranetDocumentVersion[];
 }): GetParsedDataItemType[] => {
-  const documentTypeMap = {
-    [IntranetDocumentTypeEnum.POLICY]: "Politica",
-    [IntranetDocumentTypeEnum.INTEGRATION_KIT]: "Kit Integração",
-    [IntranetDocumentTypeEnum.POP]: "POP",
-  };
   return data
     .sort(
       (a, b) =>
@@ -91,7 +89,9 @@ const getData = ({
     .map((i) => ({
       id: i.id,
       documentName: i.document.name,
-      documentType: documentTypeMap[i.document.type] as any,
+      documentType: getDocumentType(
+        i.document.type
+      ) as IntranetDocumentTypeEnum,
       key: i.key,
       version: i.version,
       reviewNumber: i.reviewNumber,
@@ -111,38 +111,38 @@ const getColumns = ({
     headerKey: "key",
     headerName: "Identificador",
     sx: { paddingY: 0.5, paddingX: 1 },
-    cellSx: { paddingX: 1 },
+    cellSx: { fontSize: 12, paddingX: 1 },
   },
   {
     headerKey: "documentName",
     headerName: "Nome",
     sx: { paddingY: 0.5, paddingX: 1 },
-    cellSx: { paddingX: 1 },
+    cellSx: { fontSize: 12, paddingX: 1 },
   },
   {
     headerKey: "documentType",
     headerName: "Tipo",
     sx: { paddingY: 0.5, paddingX: 1 },
-    cellSx: { paddingX: 1 },
+    cellSx: { fontSize: 12, paddingX: 1 },
   },
   {
     headerKey: "reviewNumber",
     headerName: "N° Revisão",
     sx: { paddingY: 0.5, paddingX: 1 },
-    cellSx: { paddingX: 1 },
+    cellSx: { fontSize: 12, paddingX: 1 },
   },
   {
     headerKey: "version",
     headerName: "Versão",
     sx: { paddingY: 0.5, paddingX: 1 },
-    cellSx: { paddingX: 1 },
+    cellSx: { fontSize: 12, paddingX: 1 },
   },
   {
     headerKey: "id",
     headerName: "Detalhes",
     align: "center",
     sx: { paddingY: 0.5, paddingX: 1 },
-    cellSx: { paddingX: 1 },
+    cellSx: { fontSize: 12, paddingX: 1 },
     render: (value, row) => (
       <Box
         onClick={() => handleOpenDetailsModal(row.id)}

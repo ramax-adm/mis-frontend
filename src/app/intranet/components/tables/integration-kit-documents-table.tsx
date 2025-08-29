@@ -1,42 +1,88 @@
 import "@/app/globals.css";
 import { CustomizedTable } from "@/components/Table/normal-table/body";
 import { IoMdDownload } from "react-icons/io";
-import { IntegrationKitFileTypeEnum } from "@/types/intranet";
-import { RiFileVideoFill } from "react-icons/ri";
-import { Modal } from "@mui/material";
 import {
-  parseAsBoolean,
-  parseAsString,
-  useQueryState,
-  useQueryStates,
-} from "nuqs";
+  IntranetDocumentCategoryEnum,
+  IntranetDocumentTypeEnum,
+} from "@/types/intranet";
+import { RiFileVideoFill } from "react-icons/ri";
+import { Button, Modal } from "@mui/material";
+import { parseAsBoolean, parseAsString, useQueryStates } from "nuqs";
 import { getYouTubeVideoId } from "@/utils/video.utils";
-import { IntegrationKitVideoModal } from "../modals/integration-kit-video-modal";
+import { DocumentVideoModal } from "../modals/document-video-modal";
+import { useGetIntranetDocumentsData } from "@/services/react-query/queries/intranet";
+import { LoadingOverlay } from "@/components/Loading/loadingSpinner";
+import { GetIntranetUserDocumentsItem } from "@/types/api/intranet";
+import { SquareArrowOutUpRight } from "lucide-react";
 
 export function IntegrationKitTable() {
+  const { data: documents, isFetching } = useGetIntranetDocumentsData({
+    type: IntranetDocumentTypeEnum.INTEGRATION_KIT,
+  });
   const [state, setState] = useQueryStates({
+    documentViewerModalOpen: parseAsBoolean.withDefault(false),
     videoModalOpen: parseAsBoolean.withDefault(false),
-    selectedVideoId: parseAsString.withDefault(""),
+
+    versionId: parseAsString.withDefault(""),
+    signedUrl: parseAsString.withDefault(""),
+    videoUrl: parseAsString.withDefault(""),
+    status: parseAsString.withDefault(""),
   });
   const handleCloseVideoModal = () =>
     setState({
+      status: "",
+      versionId: "",
       videoModalOpen: false,
-      selectedVideoId: "",
+      videoUrl: "",
     });
 
-  const handleOpenVideoPlayer = (fileUrl: string) => {
-    const videoId = getYouTubeVideoId(fileUrl);
+  const handleOpenVideoPlayer = ({
+    versionId,
+    storageKey,
+    status,
+  }: {
+    versionId: string;
+    storageKey: string;
+    status: string;
+  }) => {
+    const videoId = getYouTubeVideoId(storageKey);
 
     if (videoId && videoId !== "") {
       setState({
         videoModalOpen: true,
-        selectedVideoId: videoId,
+        videoUrl: videoId,
+        status,
+        versionId,
       });
     }
   };
 
-  const data = getData();
-  const columns = getColumns({ handleOpenVideoPlayer });
+  const handleOpenDocumentViewer = ({
+    versionId,
+    signedUrl,
+    status,
+  }: {
+    versionId: string;
+    signedUrl: string;
+    status: string;
+  }) => {
+    setState({
+      documentViewerModalOpen: true,
+      signedUrl,
+      status,
+      versionId,
+    });
+  };
+
+  const data = getData({ data: documents });
+  const columns = getColumns({
+    handleOpenVideoPlayer,
+    handleOpenDocumentViewer,
+  });
+
+  if (isFetching) {
+    return <LoadingOverlay />;
+  }
 
   return (
     <>
@@ -46,76 +92,81 @@ export function IntegrationKitTable() {
         cellStyles={{ fontSize: "12px" }}
       />
       <Modal open={state.videoModalOpen} onClose={handleCloseVideoModal}>
-        <IntegrationKitVideoModal selectedVideoId={state.selectedVideoId} />
+        <DocumentVideoModal
+          versionId={state.versionId}
+          videoUrl={state.videoUrl}
+          status={state.status}
+          onClose={handleCloseVideoModal}
+        />
       </Modal>
     </>
   );
 }
 
-const getData = () => {
-  return [
-    {
-      id: "KIT-01",
-      name: "Código Conduta e Ética Ramax Group",
-      fileType: IntegrationKitFileTypeEnum.DOCUMENT,
-      fileTypeName: "Documento",
-      fileUrl: "/Código Conduta e Ética Ramax Group (1).pdf",
-    },
-    {
-      id: "KIT-02",
-      name: "Lista de contatos",
-      fileType: IntegrationKitFileTypeEnum.DOCUMENT,
-      fileTypeName: "Documento",
-      fileUrl: "/Contatos Ramax.pdf",
-    },
-    {
-      id: "KIT-03",
-      name: "Video Institucional RAMAX GROUP",
-      fileType: IntegrationKitFileTypeEnum.VIDEO,
-      fileTypeName: "Vídeo",
-      fileUrl: "https://www.youtube.com/watch?v=a2njB7V-nsw",
-    },
-  ];
+const getData = ({ data = [] }: { data?: GetIntranetUserDocumentsItem[] }) => {
+  const categoryMap = {
+    [IntranetDocumentCategoryEnum.DOCUMENT]: "Documento",
+    [IntranetDocumentCategoryEnum.VIDEO]: "Video",
+  };
+  const typeMap = {
+    [IntranetDocumentTypeEnum.INTEGRATION_KIT]: "Kit Integração",
+    [IntranetDocumentTypeEnum.POLICY]: "Politica",
+    [IntranetDocumentTypeEnum.POP]: "POP",
+  };
+  return data.map((i) => ({
+    ...i,
+    categoryName: categoryMap[i.category],
+    typeName: typeMap[i.type as IntranetDocumentTypeEnum],
+  }));
 };
 
 const getColumns = ({
   handleOpenVideoPlayer,
+  handleOpenDocumentViewer,
 }: {
-  handleOpenVideoPlayer: (fileUrl: string) => void;
+  handleOpenVideoPlayer: (data: {
+    storageKey: string;
+    status: string;
+    versionId: string;
+  }) => void;
+  handleOpenDocumentViewer: ({
+    versionId,
+    signedUrl,
+    status,
+  }: {
+    versionId: string;
+    signedUrl: string;
+    status: string;
+  }) => void;
 }) => {
-  const downloadButton = (row: any) => (
-    <a
-      className={"linkButton"}
-      href={row.fileUrl}
-      download
-      style={{
-        backgroundColor: "white",
-        color: "#3E63DD",
-        fontSize: "14px",
-        textAlign: "center",
-        padding: "4px 24px",
-        borderRadius: "4px",
-      }}
+  const openDocumentViewer = (row: any) => (
+    <Button
+      variant='text'
+      onClick={() =>
+        handleOpenDocumentViewer({
+          signedUrl: row.signedUrl,
+          status: row.status,
+          versionId: row.versionId,
+        })
+      }
     >
-      <IoMdDownload />
-    </a>
+      <SquareArrowOutUpRight size={14} />
+    </Button>
   );
 
   const openVideoButton = (row: any) => (
-    <span
-      onClick={() => handleOpenVideoPlayer(row.fileUrl)}
-      className={"linkButton"}
-      style={{
-        backgroundColor: "white",
-        color: "#3E63DD",
-        fontSize: "14px",
-        textAlign: "center",
-        padding: "4px 24px",
-        borderRadius: "4px",
-      }}
+    <Button
+      onClick={() =>
+        handleOpenVideoPlayer({
+          storageKey: row.storageKey,
+          status: row.status,
+          versionId: row.versionId,
+        })
+      }
+      variant='text'
     >
-      <RiFileVideoFill />
-    </span>
+      <SquareArrowOutUpRight size={14} />
+    </Button>
   );
 
   return [
@@ -124,12 +175,12 @@ const getColumns = ({
       type: "string",
       value: {
         first: {
-          value: "id",
+          value: "key",
         },
       },
     },
     {
-      headerName: "Nome Kit Integração",
+      headerName: "Nome",
       type: "string",
       value: {
         first: {
@@ -138,11 +189,47 @@ const getColumns = ({
       },
     },
     {
-      headerName: "Tipo documento",
+      headerName: "Descrição",
       type: "string",
       value: {
         first: {
-          value: "fileTypeName",
+          value: "description",
+        },
+      },
+    },
+    {
+      headerName: "Tipo",
+      type: "string",
+      value: {
+        first: {
+          value: "typeName",
+        },
+      },
+    },
+    {
+      headerName: "Categoria",
+      type: "string",
+      value: {
+        first: {
+          value: "categoryName",
+        },
+      },
+    },
+    {
+      headerName: "Versão",
+      type: "string",
+      value: {
+        first: {
+          value: "version",
+        },
+      },
+    },
+    {
+      headerName: "Status",
+      type: "string",
+      value: {
+        first: {
+          value: "status",
         },
       },
     },
@@ -152,11 +239,11 @@ const getColumns = ({
       value: {
         first: {
           value: (row: any) => {
-            switch (row.fileType) {
-              case IntegrationKitFileTypeEnum.DOCUMENT: {
-                return downloadButton(row);
+            switch (row.category) {
+              case IntranetDocumentCategoryEnum.DOCUMENT: {
+                return openDocumentViewer(row);
               }
-              case IntegrationKitFileTypeEnum.VIDEO: {
+              case IntranetDocumentCategoryEnum.VIDEO: {
                 return openVideoButton(row);
               }
               default: {

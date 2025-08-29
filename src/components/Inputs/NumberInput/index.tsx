@@ -15,6 +15,7 @@ type Props<T extends FieldValues> = {
   error?: FieldError;
   sx?: SxProps;
   size?: "small" | "medium";
+  disabled?: boolean;
 };
 
 export function NumberInput<T extends FieldValues>({
@@ -24,12 +25,14 @@ export function NumberInput<T extends FieldValues>({
   error,
   sx,
   size = "medium",
+  disabled = false,
 }: Props<T>) {
   return (
     <FormControl fullWidth sx={sx} size={size}>
       <Controller
         name={name}
         control={control}
+        disabled={disabled}
         render={({ field }) => {
           return (
             <TextField
@@ -38,6 +41,7 @@ export function NumberInput<T extends FieldValues>({
               helperText={error?.message}
               type='number'
               size={size}
+              disabled={disabled}
               // InputLabelProps={{
               //   shrink: true,
               // }}

@@ -1,6 +1,5 @@
-import { QueryClient } from '@tanstack/react-query'
-import { AxiosError } from 'axios'
-import { NextResponse } from 'next/server'
+import { QueryClient } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 
 export const queryClient = new QueryClient({
   defaultOptions: {
@@ -11,39 +10,11 @@ export const queryClient = new QueryClient({
       // Tenta até 3 vezes fazer requisições ao backend
       retry(failureCount) {
         if (failureCount >= 3) {
-          return false
+          return false;
         }
-        return true
+        return true;
       },
     },
-    mutations: {
-      onError(error) {
-        if (error instanceof AxiosError) {
-          const statusReceived = error?.response?.status
-          const isUserUnauthorizedError = statusReceived === 401 || statusReceived === 403
-
-          if (isUserUnauthorizedError) {
-            localStorage.setItem('token', '')
-            localStorage.setItem(
-              'user',
-              JSON.stringify({
-                email: '',
-                id: '',
-                name: '',
-                role: '',
-                username: '',
-              }),
-            )
-            // WIP - test this.
-            NextResponse.redirect('/login')
-          } else {
-            // WIP - handle with errors globally
-            return error?.response?.data.message ?? 'Erro Desconhecido da API'
-          }
-        } else {
-          return 'Erro Desconhecido da API'
-        }
-      },
-    },
+    mutations: {},
   },
-})
+});

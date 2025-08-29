@@ -42,9 +42,9 @@ export const queryKeys = {
     GET_LAST_UPDATED_AT: "human-resources-hours-last-updated-at",
   },
   INTRANET: {
-    GET_DOCUMENTS: "intranet-document",
-    GET_DOCUMENTS_VERSIONS: "intranet-document-versions",
-    GET_BY_USER: "intranet-document-by-user",
+    GET_FIND_DOCUMENTS: "intranet-document",
+    GET_FIND_DOCUMENTS_VERSIONS: "intranet-document-versions",
+    GET_USER_DOCUMENTS: "intranet-document-get-user-documents",
   },
   PARAMETER: {
     GET_SALES_DEDUCTIONS: "parameter-get-sales-deductions",

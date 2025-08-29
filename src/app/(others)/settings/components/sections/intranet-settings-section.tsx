@@ -3,7 +3,6 @@ import {
   useGetIntranetDocuments,
   useGetIntranetDocumentVersions,
 } from "@/services/react-query/queries/intranet";
-import { IntranetDocument, IntranetDocumentVersion } from "@/types/intranet";
 import { Box, Button, Grid, Modal, Typography } from "@mui/material";
 import { IntranetDocumentVersionTable } from "../tables/intranet-document-versions-table";
 import { grey } from "@mui/material/colors";
@@ -14,12 +13,30 @@ import { IntranetDocumentDetailsModal } from "../modals/intranet-document-detail
 import { IntranetDocumentVersionDetailsModal } from "../modals/intranet-document-version-details-modal";
 import { IntranetDocumentAddNewVersionModal } from "../modals/intranet-document-add-new-version-modal";
 import { ChevronDown, Plus } from "lucide-react";
+import {
+  PopoverTrigger,
+  PopoverContent,
+  PopoverRoot,
+  PopoverTypography,
+} from "@/components/Button/PopoverButton";
+import { IntranetDocumentAddNewModal } from "../modals/intranet-document-new-modal";
+import { IntranetUsersWithPendenciesTable } from "../tables/intranet-users-with-pendencies-table";
+import { IntranetDocumentEditNewModal } from "../modals/intranet-document-edit-modal";
 
 export function IntranetSettingsSection() {
   const [sectionStates, setSectionStates] = useQueryStates({
+    // modal forms
+    documentAddNewModalOpen: parseAsBoolean.withDefault(false),
     documentAddNewVersionModalOpen: parseAsBoolean.withDefault(false),
+    documentAddNewVersionModalDefaultDisabled: parseAsBoolean.withDefault(true),
+
+    // document
     documentDetailsModalOpen: parseAsBoolean.withDefault(false),
     documentDetailsId: parseAsString.withDefault(""),
+    documentEditModalOpen: parseAsBoolean.withDefault(false),
+    documentEditId: parseAsString.withDefault(""),
+
+    // document version
     documentVersionDetailsModalOpen: parseAsBoolean.withDefault(false),
     documentVersionDetailsId: parseAsString.withDefault(""),
   });
@@ -34,33 +51,65 @@ export function IntranetSettingsSection() {
             xs={12}
             sx={{
               display: "flex",
-              justifyContent: "flex-end",
+              justifyContent: "space-between",
+              alignItems: "center",
             }}
           >
-            <Button variant='contained' startIcon={<Plus size={15} />}>
-              Novo registro
-            </Button>
+            <Typography variant='h6'>Cadastros - Intranet</Typography>
+            <PopoverRoot>
+              <PopoverTrigger startIcon={<Plus size={15} />}>
+                Novo registro
+              </PopoverTrigger>
+              <PopoverContent>
+                <PopoverTypography
+                  onClick={() =>
+                    setSectionStates({ documentAddNewModalOpen: true })
+                  }
+                >
+                  Adicionar documento
+                </PopoverTypography>
+                <PopoverTypography
+                  onClick={() =>
+                    setSectionStates({
+                      documentAddNewVersionModalOpen: true,
+                      documentAddNewVersionModalDefaultDisabled: false,
+                    })
+                  }
+                >
+                  Adicionar versão de documento
+                </PopoverTypography>
+              </PopoverContent>
+            </PopoverRoot>
           </Grid>
         </Grid>
 
         {/** Content */}
-        <Grid container gap={1}>
+        <Grid container marginTop={1} spacing={1}>
           {/** Documentos */}
-          <Grid item xs={12} sm={3} sx={{ height: "200px" }}>
+          <Grid item xs={12} md={5} sx={{ height: "280px" }}>
             <Typography fontSize={"12px"} fontWeight={600}>
-              Relação de documentos cadastrados
+              Documentos cadastrados
             </Typography>
             <IntranetDocumentsTable />
           </Grid>
           {/** Versões do documento */}
-          <Grid item xs={12} sm={4} sx={{ height: "200px" }}>
+          <Grid item xs={12} md={7} sx={{ height: "280px" }}>
             <Typography fontSize={"12px"} fontWeight={600}>
-              Relação de versões de documentos
+              Versões dos documentos
             </Typography>
             <IntranetDocumentVersionTable />
           </Grid>
         </Grid>
       </Box>
+      <Grid container marginTop={1} spacing={1}>
+        {/** Usuarios */}
+        <Grid item xs={12} sx={{ height: "280px" }}>
+          <Typography fontSize={"12px"} fontWeight={600}>
+            Usuarios com pendencias
+          </Typography>
+          <IntranetUsersWithPendenciesTable />
+        </Grid>
+      </Grid>
 
       <FinpecModal
         title='Detalhes'
@@ -74,6 +123,7 @@ export function IntranetSettingsSection() {
       >
         <IntranetDocumentDetailsModal id={sectionStates.documentDetailsId} />
       </FinpecModal>
+
       <FinpecModal
         title='Detalhes versão'
         open={!!sectionStates.documentVersionDetailsModalOpen}
@@ -90,21 +140,71 @@ export function IntranetSettingsSection() {
       </FinpecModal>
 
       <FinpecModal
+        title='Editar'
+        open={!!sectionStates.documentEditModalOpen}
+        onClose={() =>
+          setSectionStates({
+            documentEditModalOpen: false,
+            documentEditId: "",
+          })
+        }
+      >
+        <IntranetDocumentEditNewModal
+          id={sectionStates.documentEditId}
+          onClose={() =>
+            setSectionStates({
+              documentEditModalOpen: false,
+              documentEditId: "",
+            })
+          }
+        />
+      </FinpecModal>
+
+      <FinpecModal
+        title='Adicionar Documento'
+        open={!!sectionStates.documentAddNewModalOpen}
+        onClose={() =>
+          setSectionStates({
+            documentAddNewModalOpen: false,
+          })
+        }
+      >
+        <IntranetDocumentAddNewModal
+          onClose={() =>
+            setSectionStates({
+              documentAddNewModalOpen: false,
+            })
+          }
+        />
+      </FinpecModal>
+
+      <FinpecModal
         title='Adicionar versão'
         open={!!sectionStates.documentAddNewVersionModalOpen}
         onClose={() =>
           setSectionStates({
             documentAddNewVersionModalOpen: false,
-            documentDetailsModalOpen: true,
+            documentAddNewVersionModalDefaultDisabled: true,
+            documentDetailsModalOpen:
+              sectionStates.documentAddNewVersionModalDefaultDisabled
+                ? true
+                : false,
           })
         }
       >
         <IntranetDocumentAddNewVersionModal
           id={sectionStates.documentDetailsId}
+          defaultDisabled={
+            sectionStates.documentAddNewVersionModalDefaultDisabled
+          }
           onClose={() =>
             setSectionStates({
               documentAddNewVersionModalOpen: false,
-              documentDetailsModalOpen: true,
+              documentAddNewVersionModalDefaultDisabled: true,
+              documentDetailsModalOpen:
+                sectionStates.documentAddNewVersionModalDefaultDisabled
+                  ? true
+                  : false,
             })
           }
         />

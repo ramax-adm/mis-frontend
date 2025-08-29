@@ -3,13 +3,20 @@ import { PageContainer } from "@/components/PageContainer";
 import { PageContainerHeader } from "@/components/PageContainer/header";
 import { Tabs } from "@/components/Tabs";
 import { TabsPanelRef } from "@/components/Tabs/panel";
-import { Tab, Typography } from "@mui/material";
-import { useQueryState, parseAsString } from "nuqs";
+import { Modal, Tab, Typography } from "@mui/material";
+import {
+  useQueryState,
+  parseAsString,
+  useQueryStates,
+  parseAsBoolean,
+} from "nuqs";
 import { useRef } from "react";
 import { CompanyOrganizationalImageSection } from "./components/sections/company-organizational-image-section";
 import { PoliciesSection } from "./components/sections/policies-section";
 import { IntegrationKitSection } from "./components/sections/integration-kit-section";
 import { PopsSection } from "./components/sections/pops-section";
+import { DocumentViewerModal } from "./components/modals/document-viewer-modal";
+import { DocumentVideoModal } from "./components/modals/document-video-modal";
 
 enum TabSectionsEnum {
   COMPANY_ORGANIZATIONAL_CHART = "company-organizational-chart",
@@ -25,6 +32,35 @@ export default function IntranetPage() {
     "selectedTab",
     parseAsString.withDefault(TabSectionsEnum.COMPANY_ORGANIZATIONAL_CHART)
   );
+
+  const [states, setStates] = useQueryStates({
+    documentViewerModalOpen: parseAsBoolean.withDefault(false),
+    videoModalOpen: parseAsBoolean.withDefault(false),
+
+    // other states
+    versionId: parseAsString.withDefault(""),
+    videoUrl: parseAsString.withDefault(""),
+    signedUrl: parseAsString.withDefault(""),
+    status: parseAsString.withDefault(""),
+  });
+
+  const handleCloseDocumentViewerModal = () =>
+    setStates({
+      documentViewerModalOpen: false,
+      status: "",
+      versionId: "",
+      videoUrl: "",
+      signedUrl: "",
+    });
+
+  const handleCloseDocumentVideoModal = () =>
+    setStates({
+      status: "",
+      versionId: "",
+      videoModalOpen: false,
+      videoUrl: "",
+    });
+
   const handleSelectTab = (value: string) => setSelectedTab(value);
 
   return (
@@ -79,6 +115,30 @@ export default function IntranetPage() {
           </Tabs.Panel>
         </Tabs.Content>
       </Tabs.Root>
+
+      <Modal
+        open={states.documentViewerModalOpen}
+        onClose={handleCloseDocumentViewerModal}
+      >
+        <DocumentViewerModal
+          signedUrl={states.signedUrl}
+          versionId={states.versionId}
+          status={states.status}
+          onClose={handleCloseDocumentViewerModal}
+        />
+      </Modal>
+
+      <Modal
+        open={states.videoModalOpen}
+        onClose={handleCloseDocumentVideoModal}
+      >
+        <DocumentVideoModal
+          versionId={states.versionId}
+          videoUrl={states.videoUrl}
+          status={states.status}
+          onClose={handleCloseDocumentVideoModal}
+        />
+      </Modal>
     </PageContainer>
   );
 }

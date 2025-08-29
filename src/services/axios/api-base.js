@@ -1,6 +1,24 @@
 import { StorageKeysEnum } from "@/constants/app/storage";
 import api from "./api";
 
+function normalizeError(error) {
+  if (error?.isAxiosError) {
+    return {
+      message:
+        error.response?.data?.message ??
+        error.message ??
+        "Erro desconhecido da API",
+      status: error.response?.status,
+    };
+  }
+
+  if (error instanceof Error) {
+    return { message: error.message };
+  }
+
+  return { message: "Erro inesperado" };
+}
+
 const apiLocal = "";
 
 export const urls = {
@@ -52,11 +70,13 @@ export const urls = {
     POST_EXPORT_XLSX: `${apiLocal}/api/human-resources-hours/export-xlsx`,
   },
   INTRANET: {
-    GET_DOCUMENTS: `${apiLocal}/api/intranet/document`,
-    GET_ONE_DOCUMENT: `${apiLocal}/api/intranet/document/:id`,
-    GET_DOCUMENTS_VERSIONS: `${apiLocal}/api/intranet/document/versions`,
-    GET_ONE_DOCUMENT_VERSION: `${apiLocal}/api/intranet/document/versions/:id`,
-    GET_BY_USER: `${apiLocal}/api/intranet/document/by-user`,
+    GET_FIND_DOCUMENTS: `${apiLocal}/api/intranet/document`,
+    GET_FIND_ONE_DOCUMENT: `${apiLocal}/api/intranet/document/:id`,
+    GET_FIND_DOCUMENTS_VERSIONS: `${apiLocal}/api/intranet/document/versions`,
+    GET_FIND_ONE_DOCUMENT_VERSION: `${apiLocal}/api/intranet/document/versions/:id`,
+    GET_USER_DOCUMENTS: `${apiLocal}/api/intranet/document/get-user-documents`,
+    POST_ADD_DOCUMENT: `${apiLocal}/api/intranet/document`,
+    PATCH_UPDATE_DOCUMENT: `${apiLocal}/api/intranet/document/:id`,
     POST_ADD_DOCUMENT_VERSION: `${apiLocal}/api/intranet/document/version`,
   },
   PURCHASE: {
@@ -136,6 +156,10 @@ export const urls = {
       GET_FIND_BY_USER: `${apiLocal}/api/user/user-company/by-user`,
       DELETE_USER_COMPANY: `${apiLocal}/api/user/user-company/:id`,
     },
+
+    USER_DOCUMENT_ACCEPTANCE: {
+      POST_CONFIRM_DOCUMENT_VERSION_ACCEPTANCE: `${apiLocal}/api/user/user-intranet-document-acceptance`,
+    },
   },
   UPLOAD: {
     FIND_ALL: `${apiLocal}/api/upload`,
@@ -166,11 +190,15 @@ export const GetFetchUnauthenticated = async (url, params) => {
 };
 
 export const PostFetch = async (url, params, ...rest) => {
-  const JWT = localStorage.getItem(StorageKeysEnum.AUTH_SESSION_TOKEN);
-  api.defaults.headers.authorization = `Bearer ${JWT}`;
+  try {
+    const JWT = localStorage.getItem(StorageKeysEnum.AUTH_SESSION_TOKEN);
+    api.defaults.headers.authorization = `Bearer ${JWT}`;
 
-  const data = await api.post(url, params, ...rest);
-  return data;
+    const { data } = await api.post(url, params, ...rest);
+    return data;
+  } catch (err) {
+    throw normalizeError(err);
+  }
 };
 
 export const PutFetch = async (url, params, ...rest) => {

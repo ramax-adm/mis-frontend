@@ -1,13 +1,7 @@
 import { Grid, Typography } from "@mui/material";
 import { IntegrationKitTable } from "../tables/integration-kit-documents-table";
-import { parseAsString, useQueryStates } from "nuqs";
 
 export function IntegrationKitSection() {
-  const [sectionStates, setSectionStates] = useQueryStates({
-    type: parseAsString.withDefault(""),
-  });
-
-  const handleSelectType = (value: string) => setSectionStates({ type: value });
   return (
     <Grid container marginX={1}>
       <Grid item xs={12} marginTop={1}>

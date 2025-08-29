@@ -17,12 +17,14 @@ export function IntranetDocumentDetailsModal({
 }: IntranetDocumentDetailsModalProps) {
   const [, setStates] = useQueryStates({
     documentAddNewVersionModalOpen: parseAsBoolean.withDefault(false),
+    documentAddNewVersionModalDefaultDisabled: parseAsBoolean.withDefault(true),
     documentDetailsModalOpen: parseAsBoolean.withDefault(false),
   });
 
   const handleOpenNewVersionModal = () => {
     setStates({
       documentAddNewVersionModalOpen: true,
+      documentAddNewVersionModalDefaultDisabled: true,
       documentDetailsModalOpen: false,
     });
   };
@@ -44,16 +46,16 @@ export function IntranetDocumentDetailsModal({
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
       <Grid container>
-        <Grid item xs={3}>
+        <Grid item xs={6} sm={3}>
           <DisplayItem title='Id' content={document?.id} />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={6} sm={3}>
           <DisplayItem title='Nome' content={document?.name} />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={6} sm={3}>
           <DisplayItem title='Descrição' content={document?.description} />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={6} sm={3}>
           <DisplayItem title='Tipo' content={getDocumentType(document?.type)} />
         </Grid>
       </Grid>
@@ -65,7 +67,12 @@ export function IntranetDocumentDetailsModal({
               flexDirection: "column",
             }}
           >
-            <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
               <Typography variant='subtitle1' fontSize={"12px"}>
                 Versões do documento
               </Typography>

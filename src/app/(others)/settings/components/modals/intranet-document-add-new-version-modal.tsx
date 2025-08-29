@@ -4,20 +4,30 @@ import { NumberInput } from "@/components/Inputs/NumberInput";
 import { UncontroledSelect } from "@/components/Inputs/Select/Customized";
 import { TextInput } from "@/components/Inputs/TextInput/uncontrolled";
 import { useCreateDocumentVersion } from "@/services/react-query/mutations/intranet";
-import { useGetIntranetDocument } from "@/services/react-query/queries/intranet";
+import {
+  useGetIntranetDocument,
+  useGetIntranetDocuments,
+} from "@/services/react-query/queries/intranet";
+import {
+  IntranetDocumentCategoryEnum,
+  IntranetDocumentTypeEnum,
+} from "@/types/intranet";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Box, Button, Grid, Skeleton, Typography } from "@mui/material";
+import { Alert, Box, Button, Grid, Skeleton, Typography } from "@mui/material";
+import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
+import { getDocumentType } from "../../utils/get-document-type";
 
 const addNewDocumentVersionFormSchema = z.object({
   documentId: z.string().optional(),
   key: z.string(),
   version: z.string(),
-  reviewNumber: z.coerce.number(),
+  reviewNumber: z.coerce.number().optional(),
   majorChanges: z.string(),
-  type: z.string(),
+  category: z.string(),
   file: z.any(),
+  storageKey: z.string().optional(),
 });
 
 type AddNewDocumentVersionFormSchema = z.infer<
@@ -25,34 +35,48 @@ type AddNewDocumentVersionFormSchema = z.infer<
 >;
 
 interface IntranetDocumentAddNewVersionModalProps {
-  id: string;
+  id?: string;
   defaultDisabled?: boolean;
   onClose: () => void;
 }
 export function IntranetDocumentAddNewVersionModal({
   id,
-  defaultDisabled = true,
+  defaultDisabled = false,
   onClose,
 }: IntranetDocumentAddNewVersionModalProps) {
   const formMethods = useForm<AddNewDocumentVersionFormSchema>({
     resolver: zodResolver(addNewDocumentVersionFormSchema),
+    defaultValues: {
+      documentId: id,
+    },
   });
-
-  const { data: document, isFetching } = useGetIntranetDocument({ id });
-  const {
-    mutateAsync: createNewDocumentVersion,
-    isPending: isCreatingDocumentVersion,
-  } = useCreateDocumentVersion();
   const {
     control,
     handleSubmit,
     formState: { errors },
+    watch,
   } = formMethods;
 
+  const documentId = watch("documentId");
+  const documentCategorySelected = watch("category");
+
+  const { data: documents } = useGetIntranetDocuments();
+  const { data: document, isFetching } = useGetIntranetDocument({
+    id: documentId,
+  });
+  const {
+    mutateAsync: createNewDocumentVersion,
+    isPending: isCreatingDocumentVersion,
+    error: errorCreatingDocumentVersion,
+  } = useCreateDocumentVersion();
+
   const onSubmit = async (data: AddNewDocumentVersionFormSchema) => {
+    if (!documentId) {
+      return;
+    }
     await createNewDocumentVersion({
       ...data,
-      documentId: data.documentId ?? id,
+      documentId,
     });
 
     onClose();
@@ -61,6 +85,23 @@ export function IntranetDocumentAddNewVersionModal({
   return (
     <FormProvider {...formMethods}>
       <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+        {!defaultDisabled && (
+          <Box sx={{ display: "inline-flex", gap: 1 }}>
+            <UncontroledSelect
+              id='documentId'
+              label='Documento'
+              name='documentId'
+              control={control}
+              size='small'
+              options={documents?.map((i) => ({
+                label: i.name,
+                value: i.id,
+                key: i.id,
+              }))}
+              required
+            />
+          </Box>
+        )}
         <Box sx={{ display: "inline-flex", gap: 1 }}>
           {isFetching && (
             <Skeleton variant='rectangular' width={"100%"} height={60} />
@@ -78,17 +119,15 @@ export function IntranetDocumentAddNewVersionModal({
                 />
               </Grid>
               <Grid item xs={3}>
-                <DisplayItem title='Tipo' content={document?.type} />
+                <DisplayItem
+                  title='Tipo'
+                  content={getDocumentType(document?.type)}
+                />
               </Grid>
             </Grid>
           )}
         </Box>
 
-        {!defaultDisabled && (
-          <Box sx={{ display: "inline-flex", gap: 1 }}>
-            default disabled = false
-          </Box>
-        )}
         <Box sx={{ display: "inline-flex", gap: 1 }}>
           <TextInput
             label='Identificador'
@@ -98,9 +137,9 @@ export function IntranetDocumentAddNewVersionModal({
             size='small'
           />
           <UncontroledSelect
-            id='type'
+            id='category'
             label='Tipo'
-            name='type'
+            name='category'
             control={control}
             size='small'
             options={[
@@ -130,21 +169,43 @@ export function IntranetDocumentAddNewVersionModal({
             control={control}
             name='reviewNumber'
             error={errors.reviewNumber}
+            disabled={
+              documentCategorySelected === IntranetDocumentCategoryEnum.VIDEO
+            }
             size='small'
           />
         </Box>
+        {documentCategorySelected === IntranetDocumentCategoryEnum.VIDEO && (
+          <Box sx={{ display: "inline-flex", gap: 1 }}>
+            <TextInput
+              label='Url video'
+              control={control}
+              name='storageKey'
+              error={errors.storageKey}
+              size='small'
+            />
+          </Box>
+        )}
+
         <Box sx={{ display: "inline-flex", gap: 1 }}>
           <TextInput
             label='Mudanças'
             control={control}
             name='majorChanges'
-            error={errors.version}
+            error={errors.majorChanges}
             size='small'
           />
         </Box>
-        <Box sx={{ width: "99%", marginY: 1 }}>
-          <UncontrolledFormFileInput formField='file' multiple={false} />
-        </Box>
+        {documentCategorySelected !== IntranetDocumentCategoryEnum.VIDEO && (
+          <Box sx={{ width: "99%", marginY: 1 }}>
+            <UncontrolledFormFileInput formField='file' multiple={false} />
+          </Box>
+        )}
+
+        {errorCreatingDocumentVersion && (
+          <Alert severity='error'>{errorCreatingDocumentVersion.message}</Alert>
+        )}
+
         <Box
           sx={{ display: "inline-flex", justifyContent: "flex-end", gap: 1 }}
         >

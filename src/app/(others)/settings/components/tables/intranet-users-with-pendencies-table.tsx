@@ -13,35 +13,32 @@ import {
 } from "@/types/intranet";
 import { Alert, Box, CircularProgress } from "@mui/material";
 import { grey } from "@mui/material/colors";
-import { Pencil, SquareArrowOutUpRight } from "lucide-react";
+import { SquareArrowOutUpRight } from "lucide-react";
 import { parseAsBoolean, parseAsString, useQueryStates } from "nuqs";
-import { LoaderIcon } from "../customized/loader-icon";
-import { getDocumentType } from "../../utils/get-document-type";
 
-export function IntranetDocumentsTable() {
-  const [, setStates] = useQueryStates({
-    documentDetailsModalOpen: parseAsBoolean.withDefault(false),
-    documentDetailsId: parseAsString.withDefault(""),
-    documentEditModalOpen: parseAsBoolean.withDefault(false),
-    documentEditId: parseAsString.withDefault(""),
-  });
-
-  const handleOpenDetailsModal = (id: string) => {
-    setStates({ documentDetailsId: id, documentDetailsModalOpen: true });
-  };
-  const handleOpenEditModal = (id: string) => {
-    setStates({ documentEditId: id, documentEditModalOpen: true });
-  };
-
-  const { data: intranetDocuments = [], isFetching } =
-    useGetIntranetDocuments();
-  const columns = getColumns({ handleOpenDetailsModal, handleOpenEditModal });
-  const parsedData = getData({ data: intranetDocuments });
+export function IntranetUsersWithPendenciesTable() {
+  const columns = getColumns({});
+  const parsedData = getData({ data: [] });
   const haveSomeData = parsedData.length > 0;
 
-  if (isFetching) {
-    return <LoaderIcon />;
-  }
+  //   if (isFetching) {
+  //     return (
+  //       <Box
+  //         sx={{
+  //           width: "100%",
+  //           height: "100%",
+  //           display: "grid",
+  //           placeContent: "center",
+  //         }}
+  //       >
+  //         <CircularProgress
+  //           color='primary'
+  //           size={24} // Aumenta o tamanho do spinner
+  //           thickness={3} // Aumenta a espessura do stroke
+  //         />
+  //       </Box>
+  //     );
+  //   }
 
   if (!haveSomeData) {
     return (
@@ -73,19 +70,15 @@ const getData = ({
 }: {
   data: IntranetDocument[];
 }): IntranetDocument[] => {
-  return data.map((i) => ({
-    ...i,
-    type: getDocumentType(i.type) as any,
-  }));
+  const documentTypeMap = {
+    [IntranetDocumentTypeEnum.POLICY]: "Politica",
+    [IntranetDocumentTypeEnum.INTEGRATION_KIT]: "Kit Integração",
+    [IntranetDocumentTypeEnum.POP]: "POP",
+  };
+  return [];
 };
 
-const getColumns = ({
-  handleOpenDetailsModal,
-  handleOpenEditModal,
-}: {
-  handleOpenDetailsModal: (id: string) => void;
-  handleOpenEditModal: (id: string) => void;
-}): CustomTableColumn<IntranetDocument>[] => [
+const getColumns = ({}: {}): CustomTableColumn<IntranetDocument>[] => [
   {
     headerKey: "name",
     headerName: "Nome",
@@ -106,33 +99,12 @@ const getColumns = ({
   },
   {
     headerKey: "id",
-    headerName: "Editar",
-    align: "center",
-    sx: { paddingY: 0.5, paddingX: 1 },
-    cellSx: { fontSize: 12, paddingX: 1 },
-    render: (value, row) => (
-      <Box
-        onClick={() => handleOpenEditModal(row.id)}
-        sx={{
-          "&:hover": {
-            color: grey["700"],
-            cursor: "pointer",
-          },
-        }}
-      >
-        <Pencil size={14} />
-      </Box>
-    ),
-  },
-  {
-    headerKey: "id",
     headerName: "Detalhes",
     align: "center",
     sx: { paddingY: 0.5, paddingX: 1 },
     cellSx: { fontSize: 12, paddingX: 1 },
     render: (value, row) => (
       <Box
-        onClick={() => handleOpenDetailsModal(row.id)}
         sx={{
           "&:hover": {
             color: grey["700"],

@@ -1,6 +1,6 @@
 import { User } from "./user";
 
-export enum IntegrationKitFileTypeEnum {
+export enum IntranetDocumentCategoryEnum {
   DOCUMENT = "document",
   VIDEO = "video",
 }
@@ -14,7 +14,7 @@ export enum IntranetDocumentTypeEnum {
 export interface IntranetDocument {
   id: string;
   name: string;
-  description?: string;
+  description: string;
   type: IntranetDocumentTypeEnum;
   createdAt: Date;
   createdById: string;
