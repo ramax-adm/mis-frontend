@@ -16,6 +16,11 @@ export class PageRoutes {
   static users() {
     return `/users`;
   }
+
+  static settings() {
+    return `/settings`;
+  }
+
   static uploads() {
     return `/uploads`;
   }

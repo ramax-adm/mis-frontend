@@ -187,6 +187,10 @@ export default function AppProvider({ children }: AppContextProviderProps) {
       submenu: true,
       subMenuItems: [
         {
+          path: PageRoutes.settings(),
+          title: "Configurações",
+        },
+        {
           path: PageRoutes.users(),
           title: "Usuarios",
         },
