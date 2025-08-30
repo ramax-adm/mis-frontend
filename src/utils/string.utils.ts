@@ -1,52 +1,52 @@
 export function capitalizeFirstLetter(word: string) {
-  if (word.length === 0) return word // Se a palavra for vazia, retorna a palavra sem alterações
-  return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+  if (word.length === 0) return word; // Se a palavra for vazia, retorna a palavra sem alterações
+  return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
 }
 
 export function parse(raw: string) {
-  return JSON.parse(raw)
+  return JSON.parse(raw);
 }
 
 export function safeParse(raw?: string) {
   if (!raw) {
-    return {}
+    return {};
   }
 
   try {
-    const parsedValue = JSON.parse(raw)
+    const parsedValue = JSON.parse(raw);
 
-    return parsedValue
+    return parsedValue;
   } catch {
-    return {}
+    return {};
   }
 }
 
 export function stringify(raw: Object) {
-  return JSON.stringify(raw)
+  return JSON.stringify(raw);
 }
 
 export function toCurrency(value?: number) {
-  return Intl.NumberFormat('pt-br', {
-    style: 'currency',
-    currency: 'BRL',
-  }).format(value || 0)
+  return Intl.NumberFormat("pt-br", {
+    style: "currency",
+    currency: "BRL",
+  }).format(value || 0);
 }
 
 export function toPercent(value?: number) {
   if (!value) {
-    return '0 %'
+    return "0 %";
   }
   return (value * 100)
-    .toLocaleString('pt-BR', {
+    .toLocaleString("pt-BR", {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     })
-    .concat('%')
+    .concat("%");
 }
 
 export function toLocaleString(value: number, nb: number = 0) {
-  return value.toLocaleString('pt-BR', {
+  return value.toLocaleString("pt-BR", {
     minimumFractionDigits: nb,
     maximumFractionDigits: nb,
-  })
+  });
 }
