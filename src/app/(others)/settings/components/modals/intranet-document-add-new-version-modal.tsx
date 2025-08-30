@@ -108,7 +108,7 @@ export function IntranetDocumentAddNewVersionModal({
           )}
 
           {!isFetching && (
-            <Grid container>
+            <Grid container spacing={1}>
               <Grid item xs={3}>
                 <DisplayItem title='Nome' content={document?.name} />
               </Grid>
@@ -198,7 +198,11 @@ export function IntranetDocumentAddNewVersionModal({
         </Box>
         {documentCategorySelected !== IntranetDocumentCategoryEnum.VIDEO && (
           <Box sx={{ width: "99%", marginY: 1 }}>
-            <UncontrolledFormFileInput formField='file' multiple={false} />
+            <UncontrolledFormFileInput
+              formField='file'
+              multiple={false}
+              accept='.pdf'
+            />
           </Box>
         )}
 

@@ -10,6 +10,7 @@ import { IntranetSettingsSection } from "./components/sections/intranet-settings
 
 enum TabSectionsEnum {
   INTRANET = "intranet",
+  USERS = "users",
 }
 
 export default function SettingsPage() {
@@ -31,11 +32,15 @@ export default function SettingsPage() {
       <Tabs.Root defaultTab={selectedTab}>
         <Tabs.Select customHandler={handleSelectTab}>
           <Tab label='Intranet' value={TabSectionsEnum.INTRANET} />
+          <Tab label='Usuarios' value={TabSectionsEnum.USERS} disabled />
         </Tabs.Select>
 
         <Tabs.Content>
           <Tabs.Panel tabName={TabSectionsEnum.INTRANET} ref={tabPanelRef}>
             <IntranetSettingsSection />
+          </Tabs.Panel>
+          <Tabs.Panel tabName={TabSectionsEnum.USERS} ref={tabPanelRef}>
+            <Typography>Usuarios</Typography>
           </Tabs.Panel>
         </Tabs.Content>
       </Tabs.Root>
