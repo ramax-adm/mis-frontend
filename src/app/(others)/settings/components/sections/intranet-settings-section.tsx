@@ -12,7 +12,7 @@ import { FinpecModal } from "@/components/Modal/FinpecModal/FinpecModal";
 import { IntranetDocumentDetailsModal } from "../modals/intranet-document-details-modal";
 import { IntranetDocumentVersionDetailsModal } from "../modals/intranet-document-version-details-modal";
 import { IntranetDocumentAddNewVersionModal } from "../modals/intranet-document-add-new-version-modal";
-import { ChevronDown, Plus } from "lucide-react";
+import { ArrowDownToLine, ChevronDown, Plus } from "lucide-react";
 import {
   PopoverTrigger,
   PopoverContent,
@@ -22,6 +22,9 @@ import {
 import { IntranetDocumentAddNewModal } from "../modals/intranet-document-new-modal";
 import { IntranetUsersWithPendenciesTable } from "../tables/intranet-users-with-pendencies-table";
 import { IntranetDocumentEditNewModal } from "../modals/intranet-document-edit-modal";
+import { IntranetUserAcceptedDocumentsTable } from "../tables/intranet-user-accepted-documents-table";
+import { IntranetPendingAcceptanceDocumentsTable } from "../tables/intranet-pending-acceptance-document-table";
+import { useExportIntranetData } from "@/services/react-query/mutations/intranet";
 
 export function IntranetSettingsSection() {
   const [sectionStates, setSectionStates] = useQueryStates({
@@ -41,6 +44,9 @@ export function IntranetSettingsSection() {
     documentVersionDetailsId: parseAsString.withDefault(""),
   });
 
+  const { mutateAsync: exportData, isPending: isExportingData } =
+    useExportIntranetData();
+
   return (
     <>
       <Box sx={{ marginLeft: 1 }}>
@@ -56,35 +62,48 @@ export function IntranetSettingsSection() {
             }}
           >
             <Typography variant='h6'>Cadastros - Intranet</Typography>
-            <PopoverRoot>
-              <PopoverTrigger startIcon={<Plus size={15} />}>
-                Novo registro
-              </PopoverTrigger>
-              <PopoverContent>
-                <PopoverTypography
-                  onClick={() =>
-                    setSectionStates({ documentAddNewModalOpen: true })
-                  }
+            <Box sx={{ display: "inline-flex", gap: 1 }}>
+              <PopoverRoot>
+                <PopoverTrigger
+                  startIcon={<Plus size={15} />}
+                  disabled={isExportingData}
                 >
-                  Adicionar documento
-                </PopoverTypography>
-                <PopoverTypography
-                  onClick={() =>
-                    setSectionStates({
-                      documentAddNewVersionModalOpen: true,
-                      documentAddNewVersionModalDefaultDisabled: false,
-                    })
-                  }
-                >
-                  Adicionar versão de documento
-                </PopoverTypography>
-              </PopoverContent>
-            </PopoverRoot>
+                  Novo registro
+                </PopoverTrigger>
+                <PopoverContent>
+                  <PopoverTypography
+                    onClick={() =>
+                      setSectionStates({ documentAddNewModalOpen: true })
+                    }
+                  >
+                    Adicionar documento
+                  </PopoverTypography>
+                  <PopoverTypography
+                    onClick={() =>
+                      setSectionStates({
+                        documentAddNewVersionModalOpen: true,
+                        documentAddNewVersionModalDefaultDisabled: false,
+                      })
+                    }
+                  >
+                    Adicionar versão de documento
+                  </PopoverTypography>
+                </PopoverContent>
+              </PopoverRoot>
+              <Button
+                variant='contained'
+                startIcon={<ArrowDownToLine size={15} />}
+                disabled={isExportingData}
+                onClick={async () => await exportData()}
+              >
+                Extrair dados
+              </Button>
+            </Box>
           </Grid>
         </Grid>
 
         {/** Content */}
-        <Grid container marginTop={1} spacing={1}>
+        <Grid container marginTop={0.2} spacing={1}>
           {/** Documentos */}
           <Grid item xs={12} md={5} sx={{ height: "280px" }}>
             <Typography fontSize={"12px"} fontWeight={600}>
@@ -101,13 +120,20 @@ export function IntranetSettingsSection() {
           </Grid>
         </Grid>
       </Box>
-      <Grid container marginTop={1} spacing={1}>
+
+      <Grid container marginTop={0.2} spacing={1}>
         {/** Usuarios */}
-        <Grid item xs={12} sx={{ height: "280px" }}>
+        <Grid item xs={5} sx={{ height: "280px" }}>
+          <Typography fontSize={"12px"} fontWeight={600}>
+            Documentos aceitos pelo usuario
+          </Typography>
+          <IntranetUserAcceptedDocumentsTable />
+        </Grid>
+        <Grid item xs={7} sx={{ height: "280px" }}>
           <Typography fontSize={"12px"} fontWeight={600}>
             Usuarios com pendencias
           </Typography>
-          <IntranetUsersWithPendenciesTable />
+          <IntranetPendingAcceptanceDocumentsTable />
         </Grid>
       </Grid>
 

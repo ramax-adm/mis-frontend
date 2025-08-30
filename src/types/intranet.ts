@@ -30,6 +30,7 @@ export interface IntranetDocumentVersion {
   version: string;
   reviewNumber: number;
   majorChanges: string;
+  category?: IntranetDocumentCategoryEnum;
   extension?: string;
   storageType?: string;
   storageKey?: string;
@@ -46,4 +47,6 @@ export interface UserIntranetDocumentAcceptance {
   documentVersionId: string;
   documentVersion: IntranetDocumentVersion;
   createdAt: Date;
+  ipAddress: string;
+  acceptanceTimeInSeconds: number;
 }

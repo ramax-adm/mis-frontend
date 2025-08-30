@@ -11,6 +11,31 @@ import {
 import { GetIntranetUserDocumentsItem } from "@/types/api/intranet";
 import { SquareArrowOutUpRight } from "lucide-react";
 import { LoadingOverlay } from "@/components/Loading/loadingSpinner";
+import CustomTable, {
+  CustomTableColumn,
+} from "@/components/Table/custom-table";
+
+type GetParsedData = {
+  categoryName: string;
+  typeName: string;
+  id: string;
+  key: string;
+  name: string;
+  description: string;
+  category: IntranetDocumentCategoryEnum;
+  status: string;
+  type: string;
+  reviewNumber: string;
+  version: string;
+  storageType: string;
+  storageKey: string;
+  createdAt: string;
+  createdById: string;
+  createdBy: string;
+  versionCreatedById: string;
+  versionCreatedBy: string;
+  signedUrl: string;
+};
 
 export function PoliciesTable() {
   const [, setStates] = useQueryStates({
@@ -48,16 +73,14 @@ export function PoliciesTable() {
     return <LoadingOverlay />;
   }
 
-  return (
-    <CustomizedTable
-      columns={columns}
-      data={data}
-      cellStyles={{ fontSize: "12px" }}
-    />
-  );
+  return <CustomTable<GetParsedData> columns={columns} rows={data} />;
 }
 
-const getData = ({ data = [] }: { data?: GetIntranetUserDocumentsItem[] }) => {
+const getData = ({
+  data = [],
+}: {
+  data?: GetIntranetUserDocumentsItem[];
+}): GetParsedData[] => {
   const categoryMap = {
     [IntranetDocumentCategoryEnum.DOCUMENT]: "Documento",
     [IntranetDocumentCategoryEnum.VIDEO]: "Video",
@@ -67,12 +90,15 @@ const getData = ({ data = [] }: { data?: GetIntranetUserDocumentsItem[] }) => {
     [IntranetDocumentTypeEnum.POLICY]: "Politica",
     [IntranetDocumentTypeEnum.POP]: "POP",
   };
-  return data.map((i) => ({
-    ...i,
-    categoryName: categoryMap[i.category],
-    typeName: typeMap[i.type as IntranetDocumentTypeEnum],
-  }));
+  return data
+    .sort((a, b) => a.key.localeCompare(b.key, undefined, { numeric: true }))
+    .map((i) => ({
+      ...i,
+      categoryName: categoryMap[i.category],
+      typeName: typeMap[i.type as IntranetDocumentTypeEnum],
+    }));
 };
+
 const getColumns = ({
   handleOpenDocumentViewer,
 }: {
@@ -81,106 +107,81 @@ const getColumns = ({
     signedUrl: string;
     status: string;
   }) => void;
-}) => [
+}): CustomTableColumn<GetParsedData>[] => [
   {
+    headerKey: "key",
     headerName: "Identificador",
-    type: "string",
-    value: {
-      first: {
-        value: "key",
-      },
-    },
+    sx: { fontSize: "12px", paddingX: 0.5 },
+    cellSx: { fontSize: "11px", paddingX: 0.5 },
   },
   {
+    headerKey: "name",
     headerName: "Nome Politica",
-    type: "string",
-    value: {
-      first: {
-        value: "name",
-      },
-    },
+    sx: { fontSize: "12px", paddingX: 0.5 },
+    cellSx: { fontSize: "11px", paddingX: 0.5 },
   },
   {
+    headerKey: "description",
     headerName: "Descrição",
-    type: "string",
-    value: {
-      first: {
-        value: "description",
-      },
-    },
+    sx: { fontSize: "12px", paddingX: 0.5 },
+    cellSx: { fontSize: "11px", paddingX: 0.5 },
   },
   {
+    headerKey: "typeName",
     headerName: "Tipo",
-    type: "string",
-    value: {
-      first: {
-        value: "typeName",
-      },
-    },
+    sx: { fontSize: "12px", paddingX: 0.5 },
+    cellSx: { fontSize: "11px", paddingX: 0.5 },
   },
   {
+    headerKey: "categoryName",
     headerName: "Categoria",
-    type: "string",
-    value: {
-      first: {
-        value: "categoryName",
-      },
-    },
+    sx: { fontSize: "12px", paddingX: 0.5 },
+    cellSx: { fontSize: "11px", paddingX: 0.5 },
   },
   {
+    headerKey: "version",
     headerName: "Versão",
-    type: "string",
-    value: {
-      first: {
-        value: "version",
-      },
-    },
+    sx: { fontSize: "12px", paddingX: 0.5 },
+    cellSx: { fontSize: "11px", paddingX: 0.5 },
   },
   {
+    headerKey: "reviewNumber",
     headerName: "N° Revisão",
-    type: "string",
-    value: {
-      first: {
-        value: "reviewNumber",
-      },
-    },
+    sx: { fontSize: "12px", paddingX: 0.5 },
+    cellSx: { fontSize: "11px", paddingX: 0.5 },
   },
   {
+    headerKey: "status",
     headerName: "Status",
-    type: "string",
-    value: {
-      first: {
-        value: "status",
-      },
-    },
+    sx: { fontSize: "12px", paddingX: 0.5 },
+    cellSx: { fontSize: "11px", paddingX: 0.5 },
   },
   {
+    headerKey: "id",
     headerName: "Ação",
-    type: "action",
-    value: {
-      first: {
-        value: (row: any) => (
-          <Button
-            onClick={() =>
-              handleOpenDocumentViewer({
-                signedUrl: row.signedUrl,
-                status: row.status,
-                versionId: row.versionId,
-              })
-            }
-            style={{
-              backgroundColor: "white",
-              color: "#3E63DD",
-              fontSize: "14px",
-              textAlign: "center",
-              padding: "4px 24px",
-              borderRadius: "4px",
-            }}
-          >
-            <SquareArrowOutUpRight size={14} />
-          </Button>
-        ),
-      },
-    },
+    sx: { fontSize: "12px", paddingX: 0.5 },
+    cellSx: { fontSize: "11px", paddingX: 0.5 },
+
+    render: (value, row: any) => (
+      <Button
+        onClick={() =>
+          handleOpenDocumentViewer({
+            signedUrl: row.signedUrl,
+            status: row.status,
+            versionId: row.versionId,
+          })
+        }
+        style={{
+          backgroundColor: "white",
+          color: "#3E63DD",
+          fontSize: "14px",
+          textAlign: "center",
+          padding: "4px 24px",
+          borderRadius: "4px",
+        }}
+      >
+        <SquareArrowOutUpRight size={14} />
+      </Button>
+    ),
   },
 ];

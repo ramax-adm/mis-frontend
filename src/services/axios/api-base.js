@@ -75,9 +75,11 @@ export const urls = {
     GET_FIND_DOCUMENTS_VERSIONS: `${apiLocal}/api/intranet/document/versions`,
     GET_FIND_ONE_DOCUMENT_VERSION: `${apiLocal}/api/intranet/document/versions/:id`,
     GET_USER_DOCUMENTS: `${apiLocal}/api/intranet/document/get-user-documents`,
+    GET_ACCEPTED_DOCUMENTS: `${apiLocal}/api/intranet/document/get-accepted-documents`,
     POST_ADD_DOCUMENT: `${apiLocal}/api/intranet/document`,
-    PATCH_UPDATE_DOCUMENT: `${apiLocal}/api/intranet/document/:id`,
     POST_ADD_DOCUMENT_VERSION: `${apiLocal}/api/intranet/document/version`,
+    POST_EXPORT_XLSX: `${apiLocal}/api/intranet/document/export-xlsx`,
+    PATCH_UPDATE_DOCUMENT: `${apiLocal}/api/intranet/document/:id`,
   },
   PURCHASE: {
     GET_LAST_UPDATED_AT: `${apiLocal}/api/purchase/last-update`,
@@ -194,8 +196,7 @@ export const PostFetch = async (url, params, ...rest) => {
     const JWT = localStorage.getItem(StorageKeysEnum.AUTH_SESSION_TOKEN);
     api.defaults.headers.authorization = `Bearer ${JWT}`;
 
-    const { data } = await api.post(url, params, ...rest);
-    return data;
+    return await api.post(url, params, ...rest);
   } catch (err) {
     throw normalizeError(err);
   }

@@ -2,6 +2,7 @@ import { PatchFetch, PostFetch, urls } from "@/services/axios/api-base";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { queryKeys } from "../query-keys";
+import { ExportService } from "@/services/export";
 
 export const useCreateDocument = () => {
   const queryClient = useQueryClient();
@@ -200,6 +201,37 @@ export const useUserConfirmDocumentAcceptance = () => {
           refetchType: "all",
         })
       );
+    },
+  });
+};
+
+export const useExportIntranetData = () => {
+  return useMutation({
+    mutationFn: async () => {
+      const response = await PostFetch(
+        urls.INTRANET.POST_EXPORT_XLSX,
+        {},
+        {
+          responseType: "blob",
+        }
+      );
+
+      const { data, headers } = response;
+      const contentDispositionHeader = headers["content-disposition"] as string;
+      const filenameMatches =
+        contentDispositionHeader.match(/filename=(.+\.xlsx)/);
+      const filename = filenameMatches?.[1] || `intranet.xlsx`;
+      await ExportService.toExcel({ filename, data });
+    },
+    onError() {
+      toast.error("Erro", {
+        description: "Erro ao exportar o arquivo!",
+      });
+    },
+    onSuccess() {
+      toast.success("Sucesso", {
+        description: "O arquivo foi exportado com sucesso!",
+      });
     },
   });
 };

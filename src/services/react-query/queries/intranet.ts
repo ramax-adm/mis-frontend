@@ -5,6 +5,7 @@ import {
   IntranetDocument,
   IntranetDocumentTypeEnum,
   IntranetDocumentVersion,
+  UserIntranetDocumentAcceptance,
 } from "@/types/intranet";
 import { GetIntranetUserDocumentsItem } from "@/types/api/intranet";
 
@@ -70,6 +71,17 @@ export const useGetIntranetDocumentsData = ({
       const response = await GetFetch(urls.INTRANET.GET_USER_DOCUMENTS, {
         params: { type },
       });
+
+      return response.data;
+    },
+  });
+};
+
+export const useGetAcceptedIntranetDocumentsData = () => {
+  return useQuery<UserIntranetDocumentAcceptance[]>({
+    queryKey: [queryKeys.INTRANET.GET_ACCEPTED_DOCUMENTS],
+    queryFn: async () => {
+      const response = await GetFetch(urls.INTRANET.GET_ACCEPTED_DOCUMENTS);
 
       return response.data;
     },

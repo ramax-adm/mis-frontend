@@ -45,6 +45,7 @@ export const queryKeys = {
     GET_FIND_DOCUMENTS: "intranet-document",
     GET_FIND_DOCUMENTS_VERSIONS: "intranet-document-versions",
     GET_USER_DOCUMENTS: "intranet-document-get-user-documents",
+    GET_ACCEPTED_DOCUMENTS: "intranet-document-get-accepted-documents",
   },
   PARAMETER: {
     GET_SALES_DEDUCTIONS: "parameter-get-sales-deductions",
