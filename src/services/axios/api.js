@@ -29,6 +29,10 @@ api.interceptors.response.use(
       403: {
         message: "Acesso não permitido ao recurso solicitado.",
       },
+
+      404: {
+        message: "Recurso não encontrado.",
+      },
       409: {
         defaultMessage: "conflict exception",
         message: "Conflito, reveja o cadastro e tente novamente",
@@ -52,6 +56,7 @@ api.interceptors.response.use(
 
         if (data?.message) {
           errorMessage = data.message;
+          console.log("no if data?.message", errorMessage);
         } else if (currentMessage) {
           if (defaultMessage && data.message.toLowerCase() !== defaultMessage) {
             errorMessage = data.message;
@@ -72,7 +77,9 @@ api.interceptors.response.use(
           data: { ...error?.response?.data, message: errorMessage },
         },
       });
+      console.log({ error });
     }
+
     return Promise.reject(error);
   }
 );
