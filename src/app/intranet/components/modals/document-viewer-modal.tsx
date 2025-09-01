@@ -22,7 +22,7 @@ export function DocumentViewerModal({
   signedUrl,
   onClose,
 }: DocumentViewerModalProps) {
-  const [pdf, setPdf] = useState<Uint8Array | null>(null);
+  // const [pdf, setPdf] = useState<Uint8Array | null>(null);
   const [state, setState] = useState({
     openedAt: new Date(),
     currentIp: null as string | null,
@@ -52,16 +52,16 @@ export function DocumentViewerModal({
   };
 
   // 👉 Busca IP
-  useEffect(() => {
-    try {
-      getIp().then((res) =>
-        setState((prev) => ({ ...prev, currentIp: res.ip }))
-      );
-      getPdf(signedUrl).then((res) => setPdf(res));
-    } catch (error) {
-      console.log(error);
-    }
-  }, []);
+  // useEffect(() => {
+  //   try {
+  //     getIp().then((res) =>
+  //       setState((prev) => ({ ...prev, currentIp: res.ip }))
+  //     );
+  //     getPdf(signedUrl).then((res) => setPdf(res));
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }, []);
 
   return (
     <Box
@@ -76,30 +76,18 @@ export function DocumentViewerModal({
         boxShadow: 24,
       }}
     >
-      {pdf ? (
-        <PdfViewer
-          pdfUrl={pdf}
-          containerStyle={{ width: "100%", height: "100%" }}
-          onReachEnd={() => {
-            setState((prev) =>
-              prev.canUserAcceptDocument
-                ? prev
-                : { ...prev, canUserAcceptDocument: true }
-            );
-          }}
-        />
-      ) : (
-        <Box
-          sx={{
-            width: "100%",
-            height: "100%",
-            display: "grid",
-            placeContent: "center",
-          }}
-        >
-          <Typography>Carregando PDF...</Typography>
-        </Box>
-      )}
+      <PdfViewer
+        pdfUrl={signedUrl}
+        containerStyle={{ width: "100%", height: "100%" }}
+        onReachEnd={() => {
+          setState((prev) =>
+            prev.canUserAcceptDocument
+              ? prev
+              : { ...prev, canUserAcceptDocument: true }
+          );
+        }}
+      />
+
       {status !== "OK" && (
         <Box
           sx={{
@@ -122,14 +110,14 @@ export function DocumentViewerModal({
   );
 }
 
-const getPdf = async (signedUrl: string) => {
-  const res = await fetch(
-    `/intranet/api/pdf?url=${encodeURIComponent(signedUrl)}`
-  );
+// const getPdf = async (signedUrl: string) => {
+//   const res = await fetch(
+//     `/intranet/api/pdf?url=${encodeURIComponent(signedUrl)}`
+//   );
 
-  const buffer = await res.arrayBuffer();
-  return new Uint8Array(buffer);
-};
+//   const buffer = await res.arrayBuffer();
+//   return new Uint8Array(buffer);
+// };
 
 // 👉 Mantém só essa função auxiliar
 const getIp = async () => {
