@@ -23,10 +23,21 @@ import { IntranetDocumentAddNewModal } from "../modals/intranet-document-new-mod
 import { IntranetUsersWithPendenciesTable } from "../tables/intranet-users-with-pendencies-table";
 import { IntranetDocumentEditNewModal } from "../modals/intranet-document-edit-modal";
 import { IntranetUserAcceptedDocumentsTable } from "../tables/intranet-user-accepted-documents-table";
-import { IntranetPendingAcceptanceDocumentsTable } from "../tables/intranet-pending-acceptance-document-table";
 import { useExportIntranetData } from "@/services/react-query/mutations/intranet";
+import { useState } from "react";
+import { IntranetUserPendenciesModal } from "../modals/intranet-user-pendencies-modal";
+import { GetPendingAcceptanceDocumentsResponseDto } from "@/types/api/intranet";
 
 export function IntranetSettingsSection() {
+  // TODO: Depois transformar em um query state | para isso precisa que o backend retorne dados para apenas um user id
+  const [states, setStates] = useState<{
+    userPendenciesModalOpen: boolean;
+    pendencySelected: GetPendingAcceptanceDocumentsResponseDto | null;
+  }>({
+    userPendenciesModalOpen: false,
+    pendencySelected: null,
+  });
+
   const [sectionStates, setSectionStates] = useQueryStates({
     // modal forms
     documentAddNewModalOpen: parseAsBoolean.withDefault(false),
@@ -46,6 +57,22 @@ export function IntranetSettingsSection() {
 
   const { mutateAsync: exportData, isPending: isExportingData } =
     useExportIntranetData();
+
+  // TODO: Depois de transformar em um query state, mudar esses handlers
+  const handleCloseUserPendencyModal = () =>
+    setStates((prev) => ({
+      ...prev,
+      userPendenciesModalOpen: false,
+      pendencySelected: null,
+    }));
+  const handleSelectUserPendency = (
+    newState: GetPendingAcceptanceDocumentsResponseDto | null
+  ) =>
+    setStates((prev) => ({
+      ...prev,
+      userPendenciesModalOpen: true,
+      pendencySelected: newState,
+    }));
 
   return (
     <>
@@ -123,17 +150,19 @@ export function IntranetSettingsSection() {
 
       <Grid container marginTop={0.2} spacing={1}>
         {/** Usuarios */}
-        <Grid item xs={5} sx={{ height: "280px" }}>
+        <Grid item xs={12} md={5} sx={{ height: "280px" }}>
           <Typography fontSize={"12px"} fontWeight={600}>
             Documentos aceitos pelo usuario
           </Typography>
           <IntranetUserAcceptedDocumentsTable />
         </Grid>
-        <Grid item xs={7} sx={{ height: "280px" }}>
+        <Grid item xs={12} md={7} sx={{ height: "280px" }}>
           <Typography fontSize={"12px"} fontWeight={600}>
             Usuarios com pendencias
           </Typography>
-          <IntranetPendingAcceptanceDocumentsTable />
+          <IntranetUsersWithPendenciesTable
+            handleSelectUserPendency={handleSelectUserPendency}
+          />
         </Grid>
       </Grid>
 
@@ -233,6 +262,17 @@ export function IntranetSettingsSection() {
                   : false,
             })
           }
+        />
+      </FinpecModal>
+
+      <FinpecModal
+        title='Pendencias'
+        open={states.userPendenciesModalOpen}
+        onClose={handleCloseUserPendencyModal}
+      >
+        <IntranetUserPendenciesModal
+          pendencySelected={states.pendencySelected}
+          onClose={handleCloseUserPendencyModal}
         />
       </FinpecModal>
     </>
