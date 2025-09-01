@@ -8,6 +8,7 @@ import { FaPlusCircle } from "react-icons/fa";
 import { FaLandmark } from "react-icons/fa6";
 import { IoTrashOutline } from "react-icons/io5";
 import { RiPagesLine } from "react-icons/ri";
+import { LoaderIcon } from "../customized/loader-icon";
 
 interface IntranetDocumentDetailsModalProps {
   id: string;
@@ -43,6 +44,20 @@ export function IntranetDocumentDetailsModal({
 
   const { data: document, isFetching } = useGetIntranetDocument({ id });
 
+  if (isFetching) {
+    return (
+      <Box
+        sx={{
+          display: "grid",
+          height: "300px",
+          bgcolor: "background.paper",
+          placeContent: "center",
+        }}
+      >
+        <LoaderIcon />
+      </Box>
+    );
+  }
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
       <Grid container>

@@ -45,6 +45,7 @@ export function AddUserCompanyModal({
         id='company'
         label='Empresa'
         name='company'
+        size='small'
         value={company}
         onChange={handleSelectCompany}
         disablePortal={false}

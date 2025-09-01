@@ -30,8 +30,10 @@ export function DocumentViewerModal({
     canUserAcceptDocument: false,
   });
 
-  const { mutateAsync: confirmDocumentAcceptance } =
-    useUserConfirmDocumentAcceptance();
+  const {
+    mutateAsync: confirmDocumentAcceptance,
+    isPending: isConfirmDocumentAcceptance,
+  } = useUserConfirmDocumentAcceptance();
 
   const onConfirmDocumentAcceptance = async () => {
     if (!state.currentIp) {
@@ -98,7 +100,9 @@ export function DocumentViewerModal({
         >
           <Button
             variant='contained'
-            disabled={!state.canUserAcceptDocument}
+            disabled={
+              !state.canUserAcceptDocument || isConfirmDocumentAcceptance
+            }
             onClick={onConfirmDocumentAcceptance}
           >
             Confirmar leitura

@@ -191,10 +191,6 @@ export default function AppProvider({ children }: AppContextProviderProps) {
           title: "Configurações",
         },
         {
-          path: PageRoutes.users(),
-          title: "Usuarios",
-        },
-        {
           path: PageRoutes.uploads(),
           title: "Uploads",
         },
