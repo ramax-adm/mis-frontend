@@ -23,9 +23,7 @@ export async function GET(req: Request) {
       );
     }
 
-    const arrayBuffer = await res.arrayBuffer();
-
-    return new NextResponse(arrayBuffer, {
+    return new NextResponse(res.body, {
       headers: {
         "Content-Type": "application/pdf",
         "Content-Disposition": "inline", // 👈 força abrir em vez de baixar
