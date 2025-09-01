@@ -25,6 +25,7 @@ export function DocumentViewerModal({
   // const [pdf, setPdf] = useState<Uint8Array | null>(null);
   const [state, setState] = useState({
     openedAt: new Date(),
+    loadingIp: false,
     currentIp: null as string | null,
     canUserAcceptDocument: false,
   });
@@ -52,16 +53,14 @@ export function DocumentViewerModal({
   };
 
   // 👉 Busca IP
-  // useEffect(() => {
-  //   try {
-  //     getIp().then((res) =>
-  //       setState((prev) => ({ ...prev, currentIp: res.ip }))
-  //     );
-  //     getPdf(signedUrl).then((res) => setPdf(res));
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }, []);
+  useEffect(() => {
+    setState((prev) => ({ ...prev, loadingIp: true }));
+    getIp()
+      .then((res) => setState((prev) => ({ ...prev, currentIp: res.ip })))
+      .catch((error) => console.log(error))
+      .finally(() => setState((prev) => ({ ...prev, loadingIp: false })));
+    // getPdf(signedUrl).then((res) => setPdf(res));
+  }, []);
 
   return (
     <Box
