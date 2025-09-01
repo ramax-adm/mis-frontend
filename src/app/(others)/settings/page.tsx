@@ -7,6 +7,7 @@ import { Tab, Typography } from "@mui/material";
 import { useQueryState, parseAsString } from "nuqs";
 import { useEffect, useRef, useState } from "react";
 import { IntranetSettingsSection } from "./components/sections/intranet-settings-section";
+import { UserSettingsSection } from "./components/sections/user-settings-section";
 
 enum TabSectionsEnum {
   INTRANET = "intranet",
@@ -15,16 +16,12 @@ enum TabSectionsEnum {
 
 export default function SettingsPage() {
   const tabPanelRef = useRef<TabsPanelRef>(null);
-  const [currentIp, setCurrentIp] = useState<string | null>(null);
   const [selectedTab, setSelectedTab] = useQueryState(
     "selectedTab",
     parseAsString.withDefault(TabSectionsEnum.INTRANET)
   );
-  const handleSelectTab = (value: string) => setSelectedTab(value);
 
-  useEffect(() => {
-    getApiData().then((res) => setCurrentIp(res.ip));
-  }, []);
+  const handleSelectTab = (value: string) => setSelectedTab(value);
 
   return (
     <PageContainer>
@@ -32,7 +29,7 @@ export default function SettingsPage() {
       <Tabs.Root defaultTab={selectedTab}>
         <Tabs.Select customHandler={handleSelectTab}>
           <Tab label='Intranet' value={TabSectionsEnum.INTRANET} />
-          <Tab label='Usuarios' value={TabSectionsEnum.USERS} disabled />
+          <Tab label='Usuarios' value={TabSectionsEnum.USERS} />
         </Tabs.Select>
 
         <Tabs.Content>
@@ -40,15 +37,10 @@ export default function SettingsPage() {
             <IntranetSettingsSection />
           </Tabs.Panel>
           <Tabs.Panel tabName={TabSectionsEnum.USERS} ref={tabPanelRef}>
-            <Typography>Usuarios</Typography>
+            <UserSettingsSection />
           </Tabs.Panel>
         </Tabs.Content>
       </Tabs.Root>
     </PageContainer>
   );
 }
-
-const getApiData = async () => {
-  const response = await fetch("/settings/api");
-  return await response.json();
-};

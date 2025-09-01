@@ -76,6 +76,7 @@ export const urls = {
     GET_FIND_ONE_DOCUMENT_VERSION: `${apiLocal}/api/intranet/document/versions/:id`,
     GET_USER_DOCUMENTS: `${apiLocal}/api/intranet/document/get-user-documents`,
     GET_ACCEPTED_DOCUMENTS: `${apiLocal}/api/intranet/document/get-accepted-documents`,
+    GET_PENDING_ACCEPTANCE_DOCUMENTS: `${apiLocal}/api/intranet/document/get-pending-acceptance-documents`,
     POST_ADD_DOCUMENT: `${apiLocal}/api/intranet/document`,
     POST_ADD_DOCUMENT_VERSION: `${apiLocal}/api/intranet/document/version`,
     POST_EXPORT_XLSX: `${apiLocal}/api/intranet/document/export-xlsx`,

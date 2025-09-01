@@ -95,7 +95,18 @@ const EditUserModal = ({
 
       setError(false);
 
-      queryClient.invalidateQueries({ queryKey: [queryKeys.USERS.FIND_ALL] });
+      const queriesToInvalidate = [
+        queryKeys.USERS.FIND_ALL,
+        queryKeys.USERS.FIND_ONE.concat(userData!.id),
+      ];
+
+      queriesToInvalidate.forEach((query) =>
+        queryClient.invalidateQueries({
+          queryKey: [query],
+          exact: false,
+          refetchType: "all",
+        })
+      );
       onClose();
     } catch (error) {
       setError(true);
@@ -223,6 +234,9 @@ const EditUserModal = ({
             <Box
               sx={{
                 display: "flex",
+
+                maxHeight: "200px",
+                overflowY: "auto",
                 flexDirection: "column",
               }}
             >
@@ -282,6 +296,9 @@ const EditUserModal = ({
             <Box
               sx={{
                 display: "flex",
+
+                maxHeight: "200px",
+                overflowY: "auto",
                 flexDirection: "column",
               }}
             >

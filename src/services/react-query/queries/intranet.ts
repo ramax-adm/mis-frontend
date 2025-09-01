@@ -7,7 +7,10 @@ import {
   IntranetDocumentVersion,
   UserIntranetDocumentAcceptance,
 } from "@/types/intranet";
-import { GetIntranetUserDocumentsItem } from "@/types/api/intranet";
+import {
+  GetIntranetUserDocumentsItem,
+  GetPendingAcceptanceDocumentsResponseDto,
+} from "@/types/api/intranet";
 
 export const useGetIntranetDocuments = () => {
   return useQuery<IntranetDocument[]>({
@@ -82,6 +85,19 @@ export const useGetAcceptedIntranetDocumentsData = () => {
     queryKey: [queryKeys.INTRANET.GET_ACCEPTED_DOCUMENTS],
     queryFn: async () => {
       const response = await GetFetch(urls.INTRANET.GET_ACCEPTED_DOCUMENTS);
+
+      return response.data;
+    },
+  });
+};
+
+export const useGetPendingAcceptanceIntranetDocumentsData = () => {
+  return useQuery<GetPendingAcceptanceDocumentsResponseDto[]>({
+    queryKey: [queryKeys.INTRANET.GET_PENDING_ACCEPTANCE_DOCUMENTS],
+    queryFn: async () => {
+      const response = await GetFetch(
+        urls.INTRANET.GET_PENDING_ACCEPTANCE_DOCUMENTS
+      );
 
       return response.data;
     },

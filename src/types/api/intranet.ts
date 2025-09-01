@@ -1,4 +1,8 @@
-import { IntranetDocumentCategoryEnum } from "../intranet";
+import {
+  IntranetDocumentCategoryEnum,
+  IntranetDocumentVersion,
+} from "../intranet";
+import { UserRoleEnum } from "../user";
 
 export interface GetIntranetUserDocumentsItem {
   id: string;
@@ -18,4 +22,13 @@ export interface GetIntranetUserDocumentsItem {
   versionCreatedById: string;
   versionCreatedBy: string;
   signedUrl: string;
+}
+
+export interface GetPendingAcceptanceDocumentsResponseDto {
+  userId: string;
+  userName: string;
+  userRole: UserRoleEnum;
+  userRoleName?: string;
+  pendencesQuantity: number;
+  pendingDocumentVersions: IntranetDocumentVersion[];
 }

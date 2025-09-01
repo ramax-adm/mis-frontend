@@ -23,8 +23,10 @@ export function DocumentVideoModal({
     currentIp: null,
   });
 
-  const { mutateAsync: confirmDocumentAcceptance } =
-    useUserConfirmDocumentAcceptance();
+  const {
+    mutateAsync: confirmDocumentAcceptance,
+    isPending: isConfirmDocumentAcceptance,
+  } = useUserConfirmDocumentAcceptance();
 
   const onConfirmDocumentAcceptance = async () => {
     if (!state.currentIp) {
@@ -77,6 +79,7 @@ export function DocumentVideoModal({
         >
           <Button
             sx={{ marginX: "auto" }}
+            disabled={isConfirmDocumentAcceptance}
             onClick={onConfirmDocumentAcceptance}
           >
             Confirmar visualização
