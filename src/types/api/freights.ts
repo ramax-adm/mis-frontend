@@ -79,6 +79,7 @@ export interface GetAnalyticalCattlePurchaseFreightsResponse {
     openFreights: {
       amount: number;
       cattleQuantity: number;
+      openDays: number;
     };
     closedFreights: {
       amount: number;
@@ -86,51 +87,11 @@ export interface GetAnalyticalCattlePurchaseFreightsResponse {
       price: number;
       tablePrice: number;
       difPrice: number;
-      maxFreightOutOfTable?: {
-        slaughterDate: Date;
-        companyName: string;
-        purchaseCattleOrderId: string;
-        status: string;
-        freightCompanyName: string;
-        supplierName: string;
-        cattleAdvisorName: string;
-        freightTransportPlate: string;
-        freightTransportType: string;
-        feedlotName: string;
-        feedlotKmDistance: number;
-        negotiatedKmDistance: number;
-        cattleQuantity: number;
-        referenceFreightTablePrice: number;
-        negotiatedFreightPrice: number;
-        difPrice: number;
-        priceKm: number;
-        priceKmCattleQuantity: number;
-        entryNf: string;
-        complementNf: string;
-      };
-      minFreightOutOfTable?: {
-        slaughterDate: Date;
-        companyName: string;
-        purchaseCattleOrderId: string;
-        status: string;
-        freightCompanyName: string;
-        supplierName: string;
-        cattleAdvisorName: string;
-        freightTransportPlate: string;
-        freightTransportType: string;
-        feedlotName: string;
-        feedlotKmDistance: number;
-        negotiatedKmDistance: number;
-        cattleQuantity: number;
-        referenceFreightTablePrice: number;
-        negotiatedFreightPrice: number;
-        difPrice: number;
-        priceKm: number;
-        priceKmCattleQuantity: number;
-        entryNf: string;
-        complementNf: string;
-      };
+      otherPrices: number;
+      totalPrice: number;
     };
+    quantity: number;
+    cattleQuantity: number;
   };
 }
 
@@ -165,11 +126,14 @@ export interface ResumeFreightTotals {
   quantityActive: number;
   quantityClosed: number;
   quantityNoFreight: number;
+  cattleQuantity: number;
   cattleQuantityActiveFreights: number;
   cattleQuantityClosedFreights: number;
   cattleQuantityNoFreights: number;
   negotiatedPrice: number;
+  basePrice: number;
   tablePrice: number;
+  openDays: number;
   difPrice: number;
   maxOutTablePrice: number;
   minOutTablePrice: number;
@@ -185,12 +149,12 @@ export interface ResumeFreightStatus {
 }
 
 export interface FreightOverPriceTableItem {
-  date: string;
+  slaughterDate: string;
   purchaseCattleOrderId: string;
   freightCompany: string;
   cattleAdvisor: string;
   cattleQuantity: number;
-  negotiatedPrice: number;
+  basePrice: number;
   tablePrice: number;
   difPrice: number;
 }
