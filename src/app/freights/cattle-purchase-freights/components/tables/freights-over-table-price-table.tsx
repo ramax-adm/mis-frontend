@@ -1,32 +1,80 @@
 import { LoadingOverlay } from "@/components/Loading/loadingSpinner";
 import { Column, CustomizedTable } from "@/components/Table/normal-table/body";
+import { COLORS } from "@/constants/styles/colors";
 import { useGetAnalyticalCattlePurchaseFreights } from "@/services/react-query/queries/freights";
 import {
   FreightOverPriceTableItem,
   GetAnalyticalCattlePurchaseFreightsResponse,
+  ResumeFreightTotals,
 } from "@/types/api/freights";
 import { toLocaleString } from "@/utils/string.utils";
 import { Box, Typography } from "@mui/material";
 
 interface FreightsOverPriceTableProps {
+  totals: ResumeFreightTotals;
   data: FreightOverPriceTableItem[];
 }
-export function FreightsOverPriceTable({ data }: FreightsOverPriceTableProps) {
+export function FreightsOverPriceTable({
+  data,
+  totals,
+}: FreightsOverPriceTableProps) {
   const columns = getColumns();
   const parsedData = data
     .sort((a, b) => b.difPrice - a.difPrice)
     .map((item) => ({
       ...item,
-      negotiatedPrice: toLocaleString(item.negotiatedPrice),
+      basePrice: toLocaleString(item.basePrice),
       tablePrice: toLocaleString(item.tablePrice),
       difPrice: toLocaleString(item.difPrice),
     }));
 
+  const quantityAboveTable = data.filter((item) => item.difPrice > 0).length;
+  const percentageAboveTable = (
+    (quantityAboveTable / totals.quantity) *
+    100
+  ).toFixed(2);
+  const totalDifPrice = data.reduce((acc, item) => acc + item.difPrice, 0);
+
   return (
     <Box sx={{ marginTop: 1 }}>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          gap: 1,
+        }}
+      >
+        <Typography
+          fontWeight={700}
+          color={COLORS.TEXTO}
+          fontSize={"10px"}
+          marginBottom={0.5}
+        >
+          Qtd registros:
+          {quantityAboveTable}
+        </Typography>
+        <Typography
+          fontWeight={700}
+          color={COLORS.TEXTO}
+          fontSize={"10px"}
+          marginBottom={0.5}
+        >
+          % Registros:
+          {`${percentageAboveTable} %`}
+        </Typography>
+        <Typography
+          fontWeight={700}
+          color={COLORS.TEXTO}
+          fontSize={"10px"}
+          marginBottom={0.5}
+        >
+          Total R$ DIF:
+          {toLocaleString(totalDifPrice)}
+        </Typography>
+      </Box>
       <CustomizedTable<any>
         tableStyles={{
-          height: "270px",
+          height: "250px",
           width: "100%",
         }}
         cellStyles={{
@@ -52,7 +100,7 @@ const getColumns = (): Column<FreightOverPriceTableItem>[] => {
       type: "date",
       value: {
         first: {
-          value: "date",
+          value: "slaughterDate",
         },
       },
     },
@@ -97,12 +145,12 @@ const getColumns = (): Column<FreightOverPriceTableItem>[] => {
       },
     },
     {
-      headerName: "R$ Frete",
+      headerName: "R$ Pago",
       maxWidth: "40px",
       type: "string",
       value: {
         first: {
-          value: "negotiatedPrice",
+          value: "basePrice",
         },
       },
     },
