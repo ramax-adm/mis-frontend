@@ -302,8 +302,15 @@ const getColumns = (): PaginatedTableColumn<any>[] => {
       sx: { fontSize: "9.5px", backgroundColor: grey["400"] },
       headerKey: "negotiatedKmDistance",
     },
+
     {
-      headerName: "Cbs",
+      headerName: "Capacidade Cbs",
+      cellSx: { fontSize: "9.5px", backgroundColor: grey["200"] },
+      sx: { fontSize: "9.5px", backgroundColor: grey["400"] },
+      headerKey: "freightTransportCapacity",
+    },
+    {
+      headerName: "Quantidade Cbs",
       cellSx: { fontSize: "9.5px", backgroundColor: grey["200"] },
       sx: { fontSize: "9.5px", backgroundColor: grey["400"] },
       headerKey: "cattleQuantity",
@@ -339,12 +346,12 @@ const getColumns = (): PaginatedTableColumn<any>[] => {
       align: "center",
       cellSx: {
         fontSize: "9.5px",
-        backgroundColor: grey["900"],
+        backgroundColor: "#1b62a8ff",
         fontWeight: 700,
       },
       sx: {
         fontSize: "9.5px",
-        backgroundColor: grey["900"],
+        backgroundColor: "#1b62a8ff",
         color: "white",
         width: "30px",
       },
@@ -386,10 +393,10 @@ const getColumns = (): PaginatedTableColumn<any>[] => {
       align: "center",
       cellSx: {
         fontSize: "9.5px",
-        backgroundColor: grey["900"],
+        backgroundColor: "#1b62a8ff",
         fontWeight: 700,
       },
-      sx: { fontSize: "9.5px", backgroundColor: grey["900"], color: "white" },
+      sx: { fontSize: "9.5px", backgroundColor: "#1b62a8ff", color: "white" },
       render: (value, row) => {
         const parsedValue = fromLocaleStringToNumber(value);
         return (

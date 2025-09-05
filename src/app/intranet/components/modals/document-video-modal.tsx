@@ -2,7 +2,7 @@ import { YouTubePlayer } from "@/components/Video/youtube-player";
 import { useUserConfirmDocumentAcceptance } from "@/services/react-query/mutations/intranet";
 import { useGetIntranetDocumentVersion } from "@/services/react-query/queries/intranet";
 import { getDiffBetweenDates } from "@/utils/date.utils";
-import { Box, Button } from "@mui/material";
+import { Alert, Box, Button } from "@mui/material";
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
 
@@ -68,6 +68,17 @@ export function DocumentVideoModal({
     >
       <YouTubePlayer videoId={videoUrl} />
 
+      {status === "OK" && (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            p: 0.5,
+          }}
+        >
+          <Alert severity='success'>Video já confirmado</Alert>
+        </Box>
+      )}
       {status !== "OK" && (
         <Box
           sx={{

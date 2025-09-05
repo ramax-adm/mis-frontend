@@ -1,4 +1,9 @@
-import { PatchFetch, PostFetch, urls } from "@/services/axios/api-base";
+import {
+  DeleteFetch,
+  PatchFetch,
+  PostFetch,
+  urls,
+} from "@/services/axios/api-base";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { queryKeys } from "../query-keys";
@@ -231,6 +236,44 @@ export const useExportIntranetData = () => {
     onSuccess() {
       toast.success("Sucesso", {
         description: "O arquivo foi exportado com sucesso!",
+      });
+    },
+  });
+};
+
+export const useRemoveDocumentVersion = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async ({ id }: { id: string }) => {
+      const response = await DeleteFetch(
+        urls.INTRANET.DELETE_DOCUMENT_VERSION.replace(":id", id)
+      );
+
+      return response.data;
+    },
+    onSuccess(_, vars) {
+      toast.success("Sucesso", {
+        description: "A remoção do documento foi concluida com sucesso.",
+      });
+
+      const queriesToInvalidate = [
+        queryKeys.INTRANET.GET_USER_DOCUMENTS,
+        queryKeys.INTRANET.GET_FIND_DOCUMENTS,
+        queryKeys.INTRANET.GET_FIND_DOCUMENTS.concat(vars.id),
+        queryKeys.INTRANET.GET_FIND_DOCUMENTS_VERSIONS,
+      ];
+
+      queriesToInvalidate.forEach((query) =>
+        queryClient.invalidateQueries({
+          queryKey: [query],
+          exact: false,
+          refetchType: "all",
+        })
+      );
+    },
+    onError(error) {
+      toast.error("Erro", {
+        description: `Erro na remoção do documento: ${error.message}`,
       });
     },
   });

@@ -159,6 +159,15 @@ export interface FreightOverPriceTableItem {
   difPrice: number;
 }
 
+export interface FreightOverCapacityTableItem {
+  slaughterDate: string;
+  purchaseCattleOrderId: string;
+  freightCompany: string;
+  cattleQuantity: number;
+  freightTransportCapacity: number;
+  dif: number;
+}
+
 export interface FreightByFreightCompanyItem {
   freightCompanyCode: string;
   freightCompany: string;
@@ -199,6 +208,7 @@ export interface GetResumeCattlePurchaseFreightsResponse {
   day: Record<string, number>;
   priceByFreightCompany: Record<string, number>;
   freightsOverPriceTable: FreightOverPriceTableItem[];
+  freightsOverCapacityTable: FreightOverCapacityTableItem[];
   freightsByFreightCompany: FreightByFreightCompanyItem[];
   freightsByCattleAdvisor: FreightByCattleAdvisorItem[];
   freightsByFreightType: FreightByFreightTypeItem[];
