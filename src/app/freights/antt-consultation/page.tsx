@@ -4,7 +4,7 @@ import { PageContainerHeader } from "@/components/PageContainer/header";
 import { Box, Grid, Tab, Typography } from "@mui/material";
 
 import { parseAsString, useQueryStates } from "nuqs";
-import { FreightCompanyConsultationTable } from "./components/table/freight-company-consultation-table";
+import { FreightCompanyConsultationTable } from "./components/tables/freight-company-consultation-table";
 import { green, red } from "@mui/material/colors";
 import { COLORS } from "@/constants/styles/colors";
 import { AnttConsultationOverviewSection } from "./components/sections/overview-section";

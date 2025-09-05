@@ -6,8 +6,8 @@ import {
 import { Grid, Typography } from "@mui/material";
 import { green, red } from "@mui/material/colors";
 import { useQueryStates, parseAsString } from "nuqs";
-import { FreightCompaniesTable } from "../table/freight-companies-table";
-import { FreightCompanyConsultationTable } from "../table/freight-company-consultation-table";
+import { FreightCompaniesTable } from "../tables/freight-companies-table";
+import { FreightCompanyConsultationTable } from "../tables/freight-company-consultation-table";
 
 export function AnttConsultationOverviewSection() {
   const [sectionStates, setSectionStates] = useQueryStates({
