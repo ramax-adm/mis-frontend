@@ -10,12 +10,14 @@ import { useQueryStates, parseAsString } from "nuqs";
 import { FreightCompaniesTable } from "../tables/freight-companies-table";
 import { FreightCompanyConsultationTable } from "../tables/freight-company-consultation-table";
 import { LoaderIcon } from "../customized/loader-icon";
+
 import { COLORS } from "@/constants/styles/colors";
 import { toLocaleString } from "@/utils/string.utils";
 import { ErrorFreightCompaniesConsultationTotals } from "../totals/error-freight-companies-consultations-total";
 import { NotConsultedFreightCompaniesConsultationTotals } from "../totals/not-consulted-freight-companies-consultations-total";
 import { SuccessFreightCompaniesConsultationTotals } from "../totals/success-freight-companies-consultations-total";
 import { TotalFreightCompaniesConsultationTotals } from "../totals/total-freight-companies-consultations-total";
+
 
 export function AnttConsultationOverviewSection() {
   const [sectionStates, setSectionStates] = useQueryStates({
