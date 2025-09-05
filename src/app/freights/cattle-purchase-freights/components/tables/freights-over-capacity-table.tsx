@@ -128,7 +128,7 @@ const getColumns = (): Column<FreightOverCapacityTableItem>[] => {
       },
     },
     {
-      headerName: "Tipo",
+      headerName: "Frota",
       maxWidth: "40px",
       type: "string",
       value: {
