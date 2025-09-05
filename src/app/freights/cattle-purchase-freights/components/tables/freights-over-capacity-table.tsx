@@ -4,7 +4,6 @@ import { COLORS } from "@/constants/styles/colors";
 import { useGetAnalyticalCattlePurchaseFreights } from "@/services/react-query/queries/freights";
 import {
   FreightOverCapacityTableItem,
-  FreightOverPriceTableItem,
   GetAnalyticalCattlePurchaseFreightsResponse,
   ResumeFreightTotals,
 } from "@/types/api/freights";
@@ -76,7 +75,7 @@ export function FreightsOverCapacityTable({
     </Box>
   );
 }
-const getColumns = (): Column<FreightOverPriceTableItem>[] => {
+const getColumns = (): Column<FreightOverCapacityTableItem>[] => {
   return [
     {
       headerName: "Data",
@@ -89,7 +88,7 @@ const getColumns = (): Column<FreightOverPriceTableItem>[] => {
       },
     },
     {
-      headerName: "Cod OC",
+      headerName: "OC",
       // maxWidth: '80px',
       type: "string",
       value: {
@@ -125,6 +124,16 @@ const getColumns = (): Column<FreightOverPriceTableItem>[] => {
       value: {
         first: {
           value: "freightCompany",
+        },
+      },
+    },
+    {
+      headerName: "Tipo",
+      maxWidth: "40px",
+      type: "string",
+      value: {
+        first: {
+          value: "freightTransportType",
         },
       },
     },
