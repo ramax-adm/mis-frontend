@@ -18,10 +18,7 @@ import {
   useGetFreightCompaniesWithConsultation,
   useGetFreightCompanyAnttConsultation,
 } from "@/services/react-query/queries/freight-companies";
-import {
-  GetFreightCompaniesResponseItem,
-  GetFreightCompanyAnttConsultationResponse,
-} from "@/types/api/freight-companies";
+import { GetFreightCompanyAnttConsultationResponse } from "@/types/api/freight-companies";
 import PaginatedTable from "@/components/Table/paginated-table";
 import { formatDateToDDMMYYYY, formatToDate } from "@/utils/formatToDate";
 

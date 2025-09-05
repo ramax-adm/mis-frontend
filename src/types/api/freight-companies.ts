@@ -1,4 +1,4 @@
-export interface GetFreightCompaniesResponseItem {
+export interface GetFreightCompaniesResponseDataItem {
   sensattaCode: string;
   name: string;
   cnpj: string;
@@ -8,6 +8,26 @@ export interface GetFreightCompaniesResponseItem {
   rnrtcCode: string;
   resultStatus: string;
   verifiedAt: Date;
+}
+
+export interface GetFreightCompaniesResponseTotals {
+  quantity: number;
+  success: {
+    quantity: number;
+    percent: number;
+  };
+  error: {
+    quantity: number;
+    percent: number;
+  };
+  notConsulted: {
+    quantity: number;
+    percent: number;
+  };
+}
+export interface GetFreightCompaniesResponse {
+  data: GetFreightCompaniesResponseDataItem[];
+  totals: GetFreightCompaniesResponseTotals;
 }
 
 export interface GetFreightCompanyAnttConsultationResponse {

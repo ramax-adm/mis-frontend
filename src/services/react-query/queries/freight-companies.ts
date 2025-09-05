@@ -2,7 +2,7 @@ import { GetFetch, urls } from "@/services/axios/api-base";
 import { queryKeys } from "../query-keys";
 import { useQuery } from "@tanstack/react-query";
 import {
-  GetFreightCompaniesResponseItem,
+  GetFreightCompaniesResponse,
   GetFreightCompanyAnttConsultationResponse,
 } from "@/types/api/freight-companies";
 
@@ -21,7 +21,7 @@ export const useGetFreightCompaniesFilters = () => {
 };
 
 export const useGetFreightCompaniesWithConsultation = () => {
-  return useQuery<GetFreightCompaniesResponseItem[]>({
+  return useQuery<GetFreightCompaniesResponse>({
     queryKey: [queryKeys.FREIGHTS.FREIGHT_COMPANIES.GET_FIND_ALL],
     queryFn: async () => {
       const response = await GetFetch(
