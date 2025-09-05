@@ -7,12 +7,13 @@ import {
   IntranetDocumentTypeEnum,
   IntranetDocumentVersion,
 } from "@/types/intranet";
-import { Alert, Box, CircularProgress } from "@mui/material";
+import { Alert, Box, Button, CircularProgress } from "@mui/material";
 import { grey } from "@mui/material/colors";
-import { SquareArrowOutUpRight } from "lucide-react";
+import { SquareArrowOutUpRight, Trash } from "lucide-react";
 import { parseAsBoolean, parseAsString, useQueryStates } from "nuqs";
 import { LoaderIcon } from "../customized/loader-icon";
 import { getDocumentType } from "../../utils/get-document-type";
+import { useRemoveDocumentVersion } from "@/services/react-query/mutations/intranet";
 
 type GetParsedDataItemType = {
   id: string;
@@ -42,8 +43,21 @@ export function IntranetDocumentVersionTable() {
 
   const { data: intranetDocumentVersions = [], isFetching } =
     useGetIntranetDocumentVersions();
+  const { mutateAsync: removeVersion, isPending: isRemovingVersion } =
+    useRemoveDocumentVersion();
 
-  const columns = getColumns({ handleOpenDetailsModal });
+  const onDeleteVersion = async (id: string) => {
+    const confirmed = confirm("Tem certeza que deseja remover esta versão?");
+    if (confirmed) {
+      await removeVersion({ id });
+    }
+  };
+
+  const columns = getColumns({
+    handleOpenDetailsModal,
+    onDeleteVersion,
+    isDeleting: isRemovingVersion,
+  });
   const parsedData = getData({ data: intranetDocumentVersions });
   const haveSomeData = parsedData.length > 0;
 
@@ -104,8 +118,12 @@ const getData = ({
 
 const getColumns = ({
   handleOpenDetailsModal,
+  onDeleteVersion,
+  isDeleting,
 }: {
   handleOpenDetailsModal: (id: string) => void;
+  onDeleteVersion: (id: string) => void;
+  isDeleting: boolean;
 }): CustomTableColumn<GetParsedDataItemType>[] => [
   {
     headerKey: "key",
@@ -137,14 +155,17 @@ const getColumns = ({
     sx: { paddingY: 0.5, paddingX: 1 },
     cellSx: { fontSize: 12, paddingX: 1 },
   },
+
   {
     headerKey: "id",
     headerName: "Detalhes",
     align: "center",
     sx: { paddingY: 0.5, paddingX: 1 },
     cellSx: { fontSize: 12, paddingX: 1 },
+
     render: (value, row) => (
-      <Box
+      <Button
+        variant='text'
         onClick={() => handleOpenDetailsModal(row.id)}
         sx={{
           "&:hover": {
@@ -154,7 +175,29 @@ const getColumns = ({
         }}
       >
         <SquareArrowOutUpRight size={14} />
-      </Box>
+      </Button>
     ),
+  },
+  {
+    headerKey: "id",
+    headerName: "Remover",
+    render: (value, row: any) => {
+      return (
+        <Button
+          variant='text'
+          color='error'
+          onClick={() => onDeleteVersion(row.id)}
+          disabled={isDeleting}
+          sx={{
+            "&:hover": {
+              color: grey["700"],
+              cursor: "pointer",
+            },
+          }}
+        >
+          <Trash size={14} />
+        </Button>
+      );
+    },
   },
 ];

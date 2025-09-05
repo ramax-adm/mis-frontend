@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Button, Box, Typography } from "@mui/material";
+import { Button, Box, Typography, Alert } from "@mui/material";
 import { useUserConfirmDocumentAcceptance } from "@/services/react-query/mutations/intranet";
 import { toast } from "sonner";
 import { PdfViewer } from "@/components/PdfViewer";
@@ -74,6 +74,7 @@ export function DocumentViewerModal({
         width: { xs: "90%", md: "50%" },
         height: "80%",
         bgcolor: "background.paper",
+
         boxShadow: 24,
       }}
     >
@@ -88,6 +89,19 @@ export function DocumentViewerModal({
           );
         }}
       />
+
+      {status === "OK" && (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            p: 0.5,
+            bgcolor: "background.paper",
+          }}
+        >
+          <Alert severity='success'>Documento já confirmado</Alert>
+        </Box>
+      )}
 
       {status !== "OK" && (
         <Box

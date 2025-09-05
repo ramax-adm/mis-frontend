@@ -150,6 +150,10 @@ export default function AppProvider({ children }: AppContextProviderProps) {
       submenu: true,
       subMenuItems: [
         {
+          path: PageRoutes.anttConsultation(),
+          title: "Consulta ANTT",
+        },
+        {
           path: PageRoutes.cattlePurchaseFreights(),
           title: "Compra Gado",
         },
