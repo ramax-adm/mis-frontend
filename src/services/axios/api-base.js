@@ -62,6 +62,7 @@ export const urls = {
     FREIGHT_COMPANIES: {
       GET_FIND_ALL: `${apiLocal}/api/freights/freight-companies`,
       GET_FIND_ONE: `${apiLocal}/api/freights/freight-companies/:id`,
+      GET_FREIGHT_COMPANIES_FILTERS: `${apiLocal}/api/freights/freight-companies/filters/freight-company`,
     },
   },
   HUMAN_RESOURCES: {
