@@ -101,6 +101,8 @@ export const queryKeys = {
     GET_LAST_UPDATED_AT: "freights-updated-at",
 
     FREIGHT_COMPANIES: {
+      GET_FREIGHT_COMPANIES_FILTERS:
+        "freight-companies-filters-freight-companies",
       GET_FIND_ALL: "freight-companies-find-all",
       GET_FIND_ONE: "freight-companies-find-one-",
     },

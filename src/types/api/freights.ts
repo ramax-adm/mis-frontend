@@ -164,6 +164,7 @@ export interface FreightOverCapacityTableItem {
   purchaseCattleOrderId: string;
   freightCompany: string;
   cattleQuantity: number;
+  freightTransportType: string;
   freightTransportCapacity: number;
   dif: number;
 }

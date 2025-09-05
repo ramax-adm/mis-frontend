@@ -39,7 +39,11 @@ export function FreightCompaniesTable() {
   const haveSomeData = parsedData.length > 0;
 
   if (isFetching) {
-    return <LoaderIcon />;
+    return (
+      <Box sx={{ height: "300px" }}>
+        <LoaderIcon />
+      </Box>
+    );
   }
 
   if (!haveSomeData) {
@@ -59,7 +63,7 @@ export function FreightCompaniesTable() {
   return (
     <PaginatedTable<GetFreightCompaniesResponseItem>
       tableStyles={{
-        height: "calc(100vh - 200px)",
+        height: "calc(100vh - 300px)",
       }}
       columns={columns}
       rows={parsedData}
