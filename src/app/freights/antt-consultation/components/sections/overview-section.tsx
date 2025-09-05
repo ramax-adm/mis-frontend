@@ -3,11 +3,12 @@ import {
   useGetFreightCompaniesFilters,
   useGetFreightCompanyAnttConsultation,
 } from "@/services/react-query/queries/freight-companies";
-import { Grid, Typography } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import { green, red } from "@mui/material/colors";
 import { useQueryStates, parseAsString } from "nuqs";
 import { FreightCompaniesTable } from "../tables/freight-companies-table";
 import { FreightCompanyConsultationTable } from "../tables/freight-company-consultation-table";
+import { LoaderIcon } from "../customized/loader-icon";
 
 export function AnttConsultationOverviewSection() {
   const [sectionStates, setSectionStates] = useQueryStates({
@@ -41,6 +42,12 @@ export function AnttConsultationOverviewSection() {
           />
         </Grid>
       </Grid>
+
+      {isFetching && (
+        <Box sx={{ height: "120px" }}>
+          <LoaderIcon />
+        </Box>
+      )}
       {freightCompanyConsultationData && !isFetching && (
         <Grid
           container
