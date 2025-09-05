@@ -12,6 +12,7 @@ import { FreightsByCattleAdvisorCard } from "../cards/freights-by-cattle-advisor
 import { FreightsByFreightTypeCard } from "../cards/freights-by-freight-type-card";
 import { toLocaleString } from "@/utils/string.utils";
 import { COLORS } from "@/constants/styles/colors";
+import { FreightsOverCapacityTableCard } from "../cards/freights-over-capacity-table-card";
 
 interface CattlePurchaseFreightsResumeSectionProps {
   companyCode: string | null;
@@ -51,6 +52,10 @@ export function CattlePurchaseFreightsResumeSection({
           sx={{
             display: "flex",
             flexDirection: "column",
+            gap: {
+              xs: 1,
+              md: 0,
+            },
             justifyContent: "space-between",
           }}
         >
@@ -230,15 +235,21 @@ export function CattlePurchaseFreightsResumeSection({
       </Grid>
       <Grid container spacing={1}>
         {/** Qtd Fretes Transportadora */}
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} md={4}>
           <QuantityFreightsClosedByFreightCompanyCard
             data={resumedFreights.quantityClosedByFreightCompany}
           />
         </Grid>
 
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} md={4}>
           <QuantityFreightsOpenByFreightCompanyCard
             data={resumedFreights.quantityActiveByFreightCompany}
+          />
+        </Grid>
+        <Grid item xs={12} md={4}>
+          <FreightsOverCapacityTableCard
+            data={resumedFreights.freightsOverCapacityTable}
+            totals={resumedFreights.totals}
           />
         </Grid>
       </Grid>

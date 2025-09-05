@@ -99,6 +99,11 @@ export const queryKeys = {
     GET_CATTLE_PURCHASE_FREIGHTS_STATUSES:
       "get-cattle-purchase-freights-statuses",
     GET_LAST_UPDATED_AT: "freights-updated-at",
+
+    FREIGHT_COMPANIES: {
+      GET_FIND_ALL: "freight-companies-find-all",
+      GET_FIND_ONE: "freight-companies-find-one-",
+    },
   },
   USERS: {
     FIND_ALL: "users",

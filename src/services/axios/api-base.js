@@ -58,6 +58,11 @@ export const urls = {
     GET_RESUME_CATTLE_PURCHASE_FREIGHTS: `${apiLocal}/api/freights/cattle-purchase-freights/resume`,
     GET_CATTLE_PURCHASE_FREIGHTS_STATUSES: `${apiLocal}/api/freights/cattle-purchase-freights/statuses`,
     POST_EXPORT_XLSX: `${apiLocal}/api/freights/cattle-purchase-freights/export-xlsx`,
+
+    FREIGHT_COMPANIES: {
+      GET_FIND_ALL: `${apiLocal}/api/freights/freight-companies`,
+      GET_FIND_ONE: `${apiLocal}/api/freights/freight-companies/:id`,
+    },
   },
   HUMAN_RESOURCES: {
     GET_DATES: `${apiLocal}/api/human-resources-hours/dates`,
@@ -81,6 +86,7 @@ export const urls = {
     POST_ADD_DOCUMENT_VERSION: `${apiLocal}/api/intranet/document/version`,
     POST_EXPORT_XLSX: `${apiLocal}/api/intranet/document/export-xlsx`,
     PATCH_UPDATE_DOCUMENT: `${apiLocal}/api/intranet/document/:id`,
+    DELETE_DOCUMENT_VERSION: `${apiLocal}/api/intranet/document/version/:id`,
   },
   PURCHASE: {
     GET_LAST_UPDATED_AT: `${apiLocal}/api/purchase/last-update`,
@@ -220,9 +226,12 @@ export const PatchFetch = async (url, params, ...rest) => {
 };
 
 export const DeleteFetch = async (url, params) => {
-  const JWT = localStorage.getItem(StorageKeysEnum.AUTH_SESSION_TOKEN);
-  api.defaults.headers.authorization = `Bearer ${JWT}`;
+  try {
+    const JWT = localStorage.getItem(StorageKeysEnum.AUTH_SESSION_TOKEN);
+    api.defaults.headers.authorization = `Bearer ${JWT}`;
 
-  const data = await api.delete(url, params);
-  return data;
+    return await api.delete(url, params);
+  } catch (err) {
+    throw normalizeError(err);
+  }
 };

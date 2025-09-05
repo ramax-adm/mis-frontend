@@ -84,6 +84,9 @@ export class PageRoutes {
   static freights() {
     return `/freights`;
   }
+  static anttConsultation() {
+    return `/freights/antt-consultation`;
+  }
   static cattlePurchaseFreights() {
     return `/freights/cattle-purchase-freights`;
   }
