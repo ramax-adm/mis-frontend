@@ -1,4 +1,11 @@
-import { QueryClient } from "@tanstack/react-query";
+import { ApiCustomError } from "@/utils/api.utils";
+import {
+  QueryClient,
+  useMutation,
+  UseMutationOptions,
+  useQuery,
+  UseQueryOptions,
+} from "@tanstack/react-query";
 import { AxiosError } from "axios";
 
 export const queryClient = new QueryClient({
@@ -18,3 +25,15 @@ export const queryClient = new QueryClient({
     mutations: {},
   },
 });
+
+export function useApiQuery<TData = unknown>(
+  options: UseQueryOptions<TData, ApiCustomError>
+) {
+  return useQuery<TData, ApiCustomError>(options);
+}
+
+export function useApiMutation<TData = unknown, TVariables = unknown>(
+  options: UseMutationOptions<TData, ApiCustomError, TVariables>
+) {
+  return useMutation<TData, ApiCustomError, TVariables>(options);
+}
