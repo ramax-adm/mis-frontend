@@ -3,7 +3,7 @@ import {
   useGetBusinessAuditConsideredCfops,
   useGetBusinessAuditConsideredNfSituations,
 } from "@/services/react-query/queries/business-audit";
-import { GetBusinessAuditResumeDataResponse } from "@/types/api/business-audit";
+import { GetBusinessAuditOverviewDataResponse } from "@/types/api/business-audit";
 import { InvoicesNfTypesEnum } from "@/types/sales";
 import { PageRoutes } from "@/utils/appRoutes";
 import { toLocaleString } from "@/utils/string.utils";
@@ -21,7 +21,7 @@ type GetDataResponseItem = {
 };
 
 interface ManuallyEnteredInvoicesTableProps {
-  data?: GetBusinessAuditResumeDataResponse["manuallyEnteredInvoicesByCompany"];
+  data?: GetBusinessAuditOverviewDataResponse["manuallyEnteredInvoicesByCompany"];
 }
 export function ManuallyEnteredInvoicesTable({
   data,

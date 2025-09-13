@@ -77,7 +77,7 @@ const NewUserModal = (props: Props) => {
       console.log({ error });
 
       if (error instanceof AxiosError) {
-        setErrorMessage(error?.response?.data.message);
+        setErrorMessage(error?.message);
       } else {
         setErrorMessage("Ocorreu um erro ao cadastrar um novo usuario");
       }

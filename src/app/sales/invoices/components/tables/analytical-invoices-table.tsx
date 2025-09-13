@@ -1,5 +1,5 @@
 import { CustomizedTable } from "@/components/Table/normal-table/body";
-import { GetBusinessAuditResumeDataResponse } from "@/types/api/business-audit";
+import { GetBusinessAuditOverviewDataResponse } from "@/types/api/business-audit";
 import { GetInvoicesItem } from "@/types/api/sales";
 import { PageRoutes } from "@/utils/appRoutes";
 import { formatDateToDDMMYYYY, formatToDate } from "@/utils/formatToDate";
@@ -76,7 +76,7 @@ const getColumns = () => [
     type: "string",
     value: {
       first: {
-        value: "requestId",
+        value: "orderId",
       },
     },
   },
