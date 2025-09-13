@@ -1,4 +1,4 @@
-type GetBusinessAuditResumeDataAggregated = Record<
+type GetBusinessAuditOverviewDataAggregated = Record<
   string,
   {
     companyCode: string;
@@ -21,7 +21,8 @@ type GetBusinessAuditStockDataAggregated = Record<
     daysToExpires: number;
   }
 >;
-export interface GetBusinessAuditResumeDataResponse {
+
+export interface GetBusinessAuditOverviewDataResponse {
   invoicesWithSamePrice: {
     date: Date;
     nfNumber: string;
@@ -41,8 +42,8 @@ export interface GetBusinessAuditResumeDataResponse {
     weightInKg: number;
     totalPrice: number;
   };
-  manuallyEnteredInvoicesByCompany: GetBusinessAuditResumeDataAggregated;
-  manuallyEnteredInvoicesByClient: GetBusinessAuditResumeDataAggregated;
+  manuallyEnteredInvoicesByCompany: GetBusinessAuditOverviewDataAggregated;
+  manuallyEnteredInvoicesByClient: GetBusinessAuditOverviewDataAggregated;
   openCattlePurchaseFreightsTotals: {
     quantity: number;
   };
@@ -101,5 +102,82 @@ export interface GetBusinessAuditResumeDataResponse {
     totalExpiredStockWeightInKg: number; // estoque vencido
     totalFifoExpiresStockWeightInKg: number; // estoque de 0-15 dias, vira fifo
     totalAlertExpiresStockWeightInKg: number; // estoque de 15 a 30 dias
+  };
+}
+
+export type GetBusinessAuditSalesDataTotals = {
+  count: number;
+  totalFatValue: number;
+  totalTableValue: number;
+  totalDiff: number;
+};
+
+export type GetBusinessAuditSalesInvoiceAgg = {
+  companyCode?: string;
+  companyName?: string;
+  date?: Date;
+  nfNumber?: string;
+  orderNumber?: string;
+  clientCode?: string;
+  clientName?: string;
+  representativeCode?: string;
+  representativeName?: string;
+  paymentTerm?: string;
+  salesCount: number;
+  totalFatValue: number;
+  totalTableValue: number;
+  totalDiff: number;
+  totalKg: number;
+};
+
+export type GetBusinessAuditSalesProductAgg = {
+  productCode?: string;
+  productName?: string;
+  salesCount: number;
+  totalKg: number;
+  totalFatValue: number;
+  totalTableValue: number;
+  totalDiff: number;
+  percentValue: number;
+};
+
+export type GetBusinessAuditSalesClientAgg = {
+  clientCode?: string;
+  clientName?: string;
+  salesCount: number;
+  totalKg: number;
+  totalFatValue: number;
+  totalTableValue: number;
+  totalDiff: number;
+  percentValue: number;
+};
+
+export type GetBusinessAuditSalesRepresentativeAgg = {
+  salesRepresentativeCode: string;
+  salesRepresentativeName: string;
+  salesCount: number;
+  totalKg: number;
+  totalFatValue: number;
+  totalTableValue: number;
+  totalDiff: number;
+  percentValue: number;
+};
+
+export interface GetBusinessAuditSalesDataResponse {
+  salesByInvoice: {
+    totals: GetBusinessAuditSalesDataTotals;
+    data: Record<string, GetBusinessAuditSalesInvoiceAgg>; // Map<string, InvoiceAgg>
+  };
+  salesByProduct: {
+    totals: GetBusinessAuditSalesDataTotals;
+    data: Record<string, GetBusinessAuditSalesProductAgg>; // Map<string, ProductAgg>
+  };
+  salesByClient: {
+    totals: GetBusinessAuditSalesDataTotals;
+    data: Record<string, GetBusinessAuditSalesClientAgg>; // Map<string, ClientAgg>
+  };
+  salesByRepresentative: {
+    totals: GetBusinessAuditSalesDataTotals;
+    data: Record<string, GetBusinessAuditSalesRepresentativeAgg>; // Map<string, SalesRepresentativeAgg>
   };
 }

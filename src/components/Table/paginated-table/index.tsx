@@ -150,12 +150,14 @@ export default function PaginatedTable<T extends { [key: string]: any }>({
         }
         sx={{
           "& .MuiTablePagination-toolbar": {
-            minHeight: "24px", // altura mínima menor
+            minHeight: "20px", // altura mínima menor
             padding: 0, // tira padding lateral
+            fontSize: "12px",
           },
           "& .MuiTablePagination-selectLabel, & .MuiTablePagination-displayedRows":
             {
               margin: 0, // remove margens internas
+              fontSize: "12px",
             },
         }}
         component='div'

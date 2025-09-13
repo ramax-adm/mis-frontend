@@ -1,6 +1,6 @@
 import { GetFetch, urls } from "../axios/api-base";
 
-export async function GetBusinessAuditResumeData({
+export async function GetBusinessAuditOverviewData({
   startDate,
   endDate,
 }: {
@@ -8,7 +8,7 @@ export async function GetBusinessAuditResumeData({
   endDate: string;
 }) {
   const response = await GetFetch(
-    urls.BUSINESS_AUDIT.GET_BUSINESS_AUDIT_RESUMED,
+    urls.BUSINESS_AUDIT.GET_BUSINESS_AUDIT_OVERVIEW,
     {
       params: { startDate, endDate },
     }

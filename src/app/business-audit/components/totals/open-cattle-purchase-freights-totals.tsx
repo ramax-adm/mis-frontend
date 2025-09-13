@@ -1,9 +1,9 @@
-import { GetBusinessAuditResumeDataResponse } from "@/types/api/business-audit";
+import { GetBusinessAuditOverviewDataResponse } from "@/types/api/business-audit";
 import { toLocaleString } from "@/utils/string.utils";
 import { Box, Typography } from "@mui/material";
 
 interface OpenCattlePurchaseFreightsTotalsProps {
-  data?: GetBusinessAuditResumeDataResponse["openCattlePurchaseFreightsTotals"];
+  data?: GetBusinessAuditOverviewDataResponse["openCattlePurchaseFreightsTotals"];
 }
 export function OpenCattlePurchaseFreightsTotals({
   data,

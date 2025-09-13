@@ -1,5 +1,5 @@
 import { CustomizedTable } from "@/components/Table/normal-table/body";
-import { GetBusinessAuditResumeDataResponse } from "@/types/api/business-audit";
+import { GetBusinessAuditOverviewDataResponse } from "@/types/api/business-audit";
 import { PageRoutes } from "@/utils/appRoutes";
 import { formatToDate } from "@/utils/formatToDate";
 import { toLocaleString } from "@/utils/string.utils";
@@ -17,7 +17,7 @@ type GetDataResponseItem = {
 };
 
 interface InvoicesWithSamePriceTableProps {
-  data?: GetBusinessAuditResumeDataResponse["invoicesWithSamePrice"];
+  data?: GetBusinessAuditOverviewDataResponse["invoicesWithSamePrice"];
 }
 export function InvoicesWithSamePriceTable({
   data,

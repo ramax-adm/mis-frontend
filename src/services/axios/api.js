@@ -11,77 +11,8 @@ const api = axios.create({
   // },
   // baseURL: 'https://cors-anywhere.herokuapp.com/https://api.finpec.tk/app',
 });
-api.interceptors.response.use(
-  (response) => {
-    return response;
-  },
-  (error) => {
-    const messages = {
-      400: {
-        defaultMessage: "bad request",
-        message:
-          "Erro nos dados enviados na requisição. Por favor, verifique se todos os valores foram informados corretamente.",
-      },
-      401: {
-        message:
-          "Acesso não autorizado. Por favor, refaça o login e tente novamente.",
-      },
-      403: {
-        message: "Acesso não permitido ao recurso solicitado.",
-      },
-
-      404: {
-        message: "Recurso não encontrado.",
-      },
-      409: {
-        defaultMessage: "conflict exception",
-        message: "Conflito, reveja o cadastro e tente novamente",
-      },
-      500: {
-        defaultMessage: "internal server error",
-        message:
-          "Ocorreu um erro inesperado no sistema. Por favor, tente novamente mais tarde.",
-      },
-    };
-
-    if (error instanceof AxiosError) {
-      let errorMessage =
-        "Ocorreu um erro inesperado no sistema. Por favor, tente novamente mais tarde.";
-
-      if (error.response) {
-        const { status, data } = error.response;
-
-        const currentMessage = messages[status];
-        const { defaultMessage, message } = currentMessage;
-
-        if (data?.message) {
-          errorMessage = data.message;
-          console.log("no if data?.message", errorMessage);
-        } else if (currentMessage) {
-          if (defaultMessage && data.message.toLowerCase() !== defaultMessage) {
-            errorMessage = data.message;
-          } else {
-            errorMessage = message;
-          }
-        }
-      } else if (error.request) {
-        errorMessage =
-          "Erro na comunicação com o servidor. Por favor, tente novamente mais tarde.";
-      } else {
-        errorMessage =
-          "Ocorreu um erro inesperado no sistema. Por favor, tente novamente mais tarde.";
-      }
-
-      Object.assign(error, {
-        response: {
-          data: { ...error?.response?.data, message: errorMessage },
-        },
-      });
-      console.log({ error });
-    }
-
-    return Promise.reject(error);
-  }
-);
+api.interceptors.response.use((response) => {
+  return response;
+});
 
 export default api;

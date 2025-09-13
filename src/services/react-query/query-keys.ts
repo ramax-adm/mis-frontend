@@ -10,7 +10,9 @@ export const queryKeys = {
   BUSINESS_AUDIT: {
     GET_CONSIDERED_CFOPS: "business-audit-considered-cfops",
     GET_CONSIDERED_NF_SITUATIONS: "business-audit-nf-situations",
-    GET_BUSINESS_AUDIT_RESUMED: "business-audit-resumed",
+    GET_BUSINESS_AUDIT_OVERVIEW: "business-audit-overview",
+    GET_BUSINESS_AUDIT_SALES: "business-audit-sales",
+    GET_BUSINESS_AUDIT_ORDERS_LINES_DATA: "business-audit-orders-lines-data",
   },
   BUSINESS_SUMMARY: {
     GET_OPERATION_FINANCE_SUMMARY:
