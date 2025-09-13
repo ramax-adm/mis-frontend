@@ -1,23 +1,6 @@
 import { StorageKeysEnum } from "@/constants/app/storage";
+import { normalizeError, setRequestBearerToken } from "@/utils/api.utils";
 import api from "./api";
-
-function normalizeError(error) {
-  if (error?.isAxiosError) {
-    return {
-      message:
-        error.response?.data?.message ??
-        error.message ??
-        "Erro desconhecido da API",
-      status: error.response?.status,
-    };
-  }
-
-  if (error instanceof Error) {
-    return { message: error.message };
-  }
-
-  return { message: "Erro inesperado" };
-}
 
 const apiLocal = "";
 
@@ -34,7 +17,9 @@ export const urls = {
   BUSINESS_AUDIT: {
     GET_CONSIDERED_CFOPS: `${apiLocal}/api/business-audit/constants/considered-cfops`,
     GET_CONSIDERED_NF_SITUATIONS: `${apiLocal}/api/business-audit/constants/nf-situations`,
-    GET_BUSINESS_AUDIT_RESUMED: `${apiLocal}/api/business-audit/resumed`,
+    GET_BUSINESS_AUDIT_OVERVIEW: `${apiLocal}/api/business-audit/overview`,
+    GET_BUSINESS_AUDIT_SALES: `${apiLocal}/api/business-audit/sales`,
+    GET_BUSINESS_AUDIT_ORDERS_LINES_DATA: `${apiLocal}/api/business-audit/data/orders-lines`,
   },
   BUSINESS_SUMMARY: {
     GET_OPERATION_FINANCE_SUMMARY: `${apiLocal}/business-summary/operation-finance/summary`,
@@ -188,10 +173,12 @@ export const urls = {
 };
 
 export const GetFetch = async (url, params) => {
-  const JWT = localStorage.getItem(StorageKeysEnum.AUTH_SESSION_TOKEN);
-  api.defaults.headers.authorization = `Bearer ${JWT}`;
-  const data = await api.get(url, params);
-  return data;
+  try {
+    setRequestBearerToken(api);
+    return await api.get(url, params);
+  } catch (error) {
+    throw normalizeError(error);
+  }
 };
 
 export const GetFetchUnauthenticated = async (url, params) => {
@@ -201,9 +188,7 @@ export const GetFetchUnauthenticated = async (url, params) => {
 
 export const PostFetch = async (url, params, ...rest) => {
   try {
-    const JWT = localStorage.getItem(StorageKeysEnum.AUTH_SESSION_TOKEN);
-    api.defaults.headers.authorization = `Bearer ${JWT}`;
-
+    setRequestBearerToken(api);
     return await api.post(url, params, ...rest);
   } catch (err) {
     throw normalizeError(err);
@@ -211,26 +196,26 @@ export const PostFetch = async (url, params, ...rest) => {
 };
 
 export const PutFetch = async (url, params, ...rest) => {
-  const JWT = localStorage.getItem(StorageKeysEnum.AUTH_SESSION_TOKEN);
-  api.defaults.headers.authorization = `Bearer ${JWT}`;
-
-  const data = await api.put(url, params, ...rest);
-  return data;
+  try {
+    setRequestBearerToken(api);
+    return await api.put(url, params, ...rest);
+  } catch (error) {
+    throw normalizeError(error);
+  }
 };
 
 export const PatchFetch = async (url, params, ...rest) => {
-  const JWT = localStorage.getItem(StorageKeysEnum.AUTH_SESSION_TOKEN);
-  api.defaults.headers.authorization = `Bearer ${JWT}`;
-
-  const data = await api.patch(url, params, ...rest);
-  return data;
+  try {
+    setRequestBearerToken(api);
+    return await api.patch(url, params, ...rest);
+  } catch (error) {
+    throw normalizeError(error);
+  }
 };
 
 export const DeleteFetch = async (url, params) => {
   try {
-    const JWT = localStorage.getItem(StorageKeysEnum.AUTH_SESSION_TOKEN);
-    api.defaults.headers.authorization = `Bearer ${JWT}`;
-
+    setRequestBearerToken(api);
     return await api.delete(url, params);
   } catch (err) {
     throw normalizeError(err);

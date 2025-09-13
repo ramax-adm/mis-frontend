@@ -1,10 +1,10 @@
 import { CustomizedTable } from "@/components/Table/normal-table/body";
-import { GetBusinessAuditResumeDataResponse } from "@/types/api/business-audit";
+import { GetBusinessAuditOverviewDataResponse } from "@/types/api/business-audit";
 import { formatToDate } from "@/utils/formatToDate";
 import { toLocaleString } from "@/utils/string.utils";
 
 interface OpenCattlePurchaseFreightsTableProps {
-  data?: GetBusinessAuditResumeDataResponse["openCattlePurchaseFreights"];
+  data?: GetBusinessAuditOverviewDataResponse["openCattlePurchaseFreights"];
 }
 export function OpenCattlePurchaseFreightsTable({
   data,

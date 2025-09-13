@@ -1,0 +1,199 @@
+import CustomTable, {
+  CustomTableColumn,
+} from "@/components/Table/custom-table";
+import { useGetBusinessAuditSalesData } from "@/services/react-query/queries/business-audit";
+import {
+  GetBusinessAuditSalesDataResponse,
+  GetBusinessAuditSalesInvoiceAgg,
+} from "@/types/api/business-audit";
+import { toLocaleString } from "@/utils/string.utils";
+import { LoaderIcon } from "../customized/loader-icon";
+import { parseAsBoolean, parseAsString, useQueryStates } from "nuqs";
+import { Box } from "@mui/material";
+import { grey } from "@mui/material/colors";
+import { SquareArrowOutUpRight } from "lucide-react";
+import PaginatedTable, {
+  PaginatedTableColumn,
+} from "@/components/Table/paginated-table";
+import { formatToDate } from "@/utils/formatToDate";
+import { OrderPriceConsiderationEnum } from "@/types/sales";
+
+type SalesByInvoiceTableData = {
+  company: string;
+  date?: Date;
+  formatedDate: string;
+  nfNumber: string;
+  clientName: string;
+  salesCount: number;
+  representativeName: string;
+  paymentTerm: string;
+  fatValue: string;
+  tableValue: string;
+  dif: string;
+};
+
+interface SalesByInvoiceTableProps {
+  data?: Record<string, GetBusinessAuditSalesInvoiceAgg>;
+  isFetching: boolean;
+  setSectionStates: (
+    states: Partial<{
+      nfNumber: string;
+      salesByInvoiceModalOpen: boolean;
+      priceConsideration: string;
+    }>
+  ) => void;
+}
+export function SalesByInvoiceTable({
+  data,
+  isFetching,
+  setSectionStates,
+}: SalesByInvoiceTableProps) {
+  const handleOpenDetailsModal = (nfNumber: string) => {
+    setSectionStates({ nfNumber, salesByInvoiceModalOpen: true });
+  };
+
+  const parsedData = getData({ data });
+  const columns = getColumns({ handleOpenDetailsModal });
+
+  if (isFetching) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "250px",
+        }}
+      >
+        <LoaderIcon />
+      </Box>
+    );
+  }
+
+  return (
+    <PaginatedTable<SalesByInvoiceTableData>
+      columns={columns}
+      rows={parsedData}
+      tableStyles={{ height: "250px" }}
+    />
+  );
+}
+
+const getData = ({
+  data = {},
+}: {
+  data?: Record<string, GetBusinessAuditSalesInvoiceAgg>;
+}): SalesByInvoiceTableData[] => {
+  const response: SalesByInvoiceTableData[] = [];
+
+  const keys = Object.keys(data);
+
+  for (const key of keys) {
+    const item = data[key];
+    response.push({
+      company: `${item.companyCode} - ${item.companyName}`,
+      date: item.date,
+      formatedDate: item.date ? formatToDate(item.date) : "S/ Data",
+      nfNumber: key,
+      clientName: item.clientName ?? "N/A",
+      salesCount: item.salesCount ?? 0,
+      representativeName: item.representativeName ?? "N/A",
+      paymentTerm: item.paymentTerm ?? "N/A",
+      fatValue: toLocaleString(item.totalFatValue),
+      tableValue: toLocaleString(item.totalTableValue),
+      dif: toLocaleString(item.totalDiff),
+    });
+  }
+  return response.sort((a, b) =>
+    a.date && b.date
+      ? new Date(b.date).getTime() - new Date(a.date).getTime()
+      : 0
+  );
+};
+
+const getColumns = ({
+  handleOpenDetailsModal,
+}: {
+  handleOpenDetailsModal: (nfNumber: string) => void;
+}): PaginatedTableColumn<SalesByInvoiceTableData>[] => [
+  {
+    headerKey: "company",
+    headerName: "Empresa",
+    sx: { fontSize: "9.5px" },
+    cellSx: { fontSize: "9px" },
+  },
+  {
+    headerKey: "formatedDate",
+    headerName: "Dt. Fat",
+    sx: { fontSize: "9.5px" },
+    cellSx: { fontSize: "9px" },
+  },
+  {
+    headerKey: "nfNumber",
+    headerName: "NF",
+    sx: { fontSize: "9.5px" },
+    cellSx: { fontSize: "9px" },
+  },
+  {
+    headerKey: "salesCount",
+    headerName: "Qtd Itens",
+    sx: { fontSize: "9.5px" },
+    cellSx: { fontSize: "9px" },
+  },
+  {
+    headerKey: "clientName",
+    headerName: "Cliente",
+    sx: { fontSize: "9.5px" },
+    cellSx: { fontSize: "9px" },
+  },
+  {
+    headerKey: "representativeName",
+    headerName: "Representante",
+    sx: { fontSize: "9.5px" },
+    cellSx: { fontSize: "9px" },
+  },
+  {
+    headerKey: "paymentTerm",
+    headerName: "Prazo",
+    sx: { fontSize: "9.5px" },
+    cellSx: { fontSize: "9px" },
+  },
+  {
+    headerKey: "fatValue",
+    headerName: "$ Fat.",
+    sx: { fontSize: "9.5px" },
+    cellSx: { fontSize: "9px" },
+  },
+  {
+    headerKey: "tableValue",
+    headerName: "$ Tabela",
+    sx: { fontSize: "9.5px" },
+    cellSx: { fontSize: "9px" },
+  },
+  {
+    headerKey: "dif",
+    headerName: "Desc.",
+    sx: { fontSize: "9.5px" },
+    cellSx: { fontSize: "9px" },
+  },
+  {
+    headerKey: "nfNumber",
+    headerName: "Detalhes",
+    align: "center",
+    sx: { paddingY: 0.5, paddingX: 1, fontSize: 9.5 },
+    cellSx: { fontSize: 12, paddingX: 1 },
+    render: (value, row) => (
+      <Box
+        onClick={() => handleOpenDetailsModal(row.nfNumber)}
+        sx={{
+          "&:hover": {
+            color: grey["700"],
+            cursor: "pointer",
+          },
+        }}
+      >
+        <SquareArrowOutUpRight size={14} />
+      </Box>
+    ),
+  },
+];

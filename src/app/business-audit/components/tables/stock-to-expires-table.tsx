@@ -1,11 +1,11 @@
 import { CustomizedTable } from "@/components/Table/normal-table/body";
 import { COLORS } from "@/constants/styles/colors";
-import { GetBusinessAuditResumeDataResponse } from "@/types/api/business-audit";
+import { GetBusinessAuditOverviewDataResponse } from "@/types/api/business-audit";
 import { formatToDate } from "@/utils/formatToDate";
 import { toLocaleString } from "@/utils/string.utils";
 
 interface StockToExpiresTableProps {
-  data?: GetBusinessAuditResumeDataResponse["toExpiresStock"];
+  data?: GetBusinessAuditOverviewDataResponse["toExpiresStock"];
 }
 export function StockToExpiresTable({ data }: StockToExpiresTableProps) {
   const parsedData = getData({ data });

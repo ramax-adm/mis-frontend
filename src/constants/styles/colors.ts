@@ -30,7 +30,7 @@ export const COLORS = {
     // ME
     PRODUCAO_ME_FUNDO: "rgba(62, 99, 221, 0.3)",
     PRODUCAO_ME_BORDA: "rgba(62, 99, 221, 0.5)",
-    PRODUCAO_ME_TEXTO: "rgba(62, 99, 221, 1)",
+    PRODUCAO_ME_TEXTO: "#3e63ddff",
     PRODUCAO_ME_DESTAQUE: "rgba(62, 99, 221, 0.4)",
 
     // TT
