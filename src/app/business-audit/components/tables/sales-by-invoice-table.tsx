@@ -16,13 +16,14 @@ import PaginatedTable, {
   PaginatedTableColumn,
 } from "@/components/Table/paginated-table";
 import { formatToDate } from "@/utils/formatToDate";
-import { OrderPriceConsiderationEnum } from "@/types/sales";
+import { MarketEnum } from "@/types/sensatta";
 
 type SalesByInvoiceTableData = {
   company: string;
   date?: Date;
   formatedDate: string;
   nfNumber: string;
+  market: string;
   clientName: string;
   salesCount: number;
   representativeName: string;
@@ -84,6 +85,10 @@ const getData = ({
 }: {
   data?: Record<string, GetBusinessAuditSalesInvoiceAgg>;
 }): SalesByInvoiceTableData[] => {
+  const marketMap = {
+    [MarketEnum.ME]: "ME",
+    [MarketEnum.MI]: "MI",
+  } as Record<string, string>;
   const response: SalesByInvoiceTableData[] = [];
 
   const keys = Object.keys(data);
@@ -95,6 +100,7 @@ const getData = ({
       date: item.date,
       formatedDate: item.date ? formatToDate(item.date) : "S/ Data",
       nfNumber: key,
+      market: marketMap[item.market ?? ""] ?? "N/A",
       clientName: item.clientName ?? "N/A",
       salesCount: item.salesCount ?? 0,
       representativeName: item.representativeName ?? "N/A",
@@ -117,15 +123,21 @@ const getColumns = ({
   handleOpenDetailsModal: (nfNumber: string) => void;
 }): PaginatedTableColumn<SalesByInvoiceTableData>[] => [
   {
+    headerKey: "formatedDate",
+    headerName: "Dt. Fat",
+    sx: { fontSize: "9.5px" },
+    cellSx: { fontSize: "9px" },
+  },
+  {
     headerKey: "company",
     headerName: "Empresa",
     sx: { fontSize: "9.5px" },
     cellSx: { fontSize: "9px" },
   },
   {
-    headerKey: "formatedDate",
-    headerName: "Dt. Fat",
-    sx: { fontSize: "9.5px" },
+    headerKey: "market",
+    headerName: "Mercado",
+    sx: { fontSize: "10px", paddingX: 0.5 },
     cellSx: { fontSize: "9px" },
   },
   {

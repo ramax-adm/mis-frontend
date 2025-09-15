@@ -1,3 +1,5 @@
+import { MarketEnum } from "../sensatta";
+
 type GetBusinessAuditOverviewDataAggregated = Record<
   string,
   {
@@ -123,6 +125,8 @@ export type GetBusinessAuditSalesInvoiceAgg = {
   representativeCode?: string;
   representativeName?: string;
   paymentTerm?: string;
+  market?: MarketEnum;
+  currency?: string;
   salesCount: number;
   totalFatValue: number;
   totalTableValue: number;

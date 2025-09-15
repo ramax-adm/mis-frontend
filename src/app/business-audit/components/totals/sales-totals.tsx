@@ -31,19 +31,19 @@ export function SalesTotals({ data }: SalesTotalsProps) {
           </Typography>
         </Box>
         <Box sx={{ display: "flex", alignItems: "center", gap: 0.3 }}>
-          <Typography fontSize={"8px"}>R$ Fat.</Typography>
+          <Typography fontSize={"8px"}>$ Fat.</Typography>
           <Typography fontSize={"9.5px"} fontWeight={700}>
             {toLocaleString(data?.totalFatValue ?? 0)}
           </Typography>
         </Box>
         <Box sx={{ display: "flex", alignItems: "center", gap: 0.3 }}>
-          <Typography fontSize={"8px"}>R$ Tabela.</Typography>
+          <Typography fontSize={"8px"}>$ Tabela.</Typography>
           <Typography fontSize={"9.5px"} fontWeight={700}>
             {toLocaleString(data?.totalTableValue ?? 0)}
           </Typography>
         </Box>
         <Box sx={{ display: "flex", alignItems: "center", gap: 0.3 }}>
-          <Typography fontSize={"8px"}>R$ Desc.</Typography>
+          <Typography fontSize={"8px"}>$ Desc.</Typography>
           <Typography fontSize={"9.5px"} fontWeight={700}>
             {toLocaleString(data?.totalDiff ?? 0)}
           </Typography>

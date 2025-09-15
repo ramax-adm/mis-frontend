@@ -21,6 +21,7 @@ import { OpenCattlePurchaseFreightsTotals } from "./components/totals/open-cattl
 import { InvoicesWithSamePriceTable } from "./components/tables/invoices-with-same-price-table";
 import { InvoicesWithSamePriceTotals } from "./components/totals/invoices-with-same-price-totals";
 import {
+  parseAsArrayOf,
   parseAsBoolean,
   parseAsString,
   useQueryState,
@@ -31,15 +32,50 @@ import { Tabs } from "@/components/Tabs";
 import { TabsPanelRef } from "@/components/Tabs/panel";
 import { BusinessAuditSalesSection } from "./components/sections/sales-section";
 import { RadioInputControlled } from "@/components/Inputs/RadioInput/controlled";
-import { OrderPriceConsiderationEnum } from "@/types/sales";
+import { OrderPriceConsiderationEnum } from "@/types/business-audit";
+import { MarketEnum } from "@/types/sensatta";
+import { ControlledSelect } from "@/components/Inputs/Select/Customized";
+import { useGetCompanies } from "@/services/react-query/queries/sensatta";
+import { useGetUserCompanies } from "@/services/react-query/queries/user-company";
+import { MultipleSelectInputControlled } from "@/components/Inputs/Select/Multiple/controlled";
 
 enum TabSectionsEnum {
   OVERVIEW_SECTION = "overview",
   SALES_SECTION = "sales",
 }
+const MARKET_OPTIONS = [
+  {
+    label: "Ambos",
+    key: "",
+    value: "",
+  },
+  {
+    label: "ME",
+    key: MarketEnum.ME,
+    value: MarketEnum.ME,
+  },
+  {
+    label: "MI",
+    key: MarketEnum.MI,
+    value: MarketEnum.MI,
+  },
+];
+const PRICE_CONSIDERATION_OPTIONS = [
+  { label: "Todos", value: OrderPriceConsiderationEnum.NONE },
+  {
+    label: "Acima da tabela",
+    value: OrderPriceConsiderationEnum.OVER_TABLE_PRICE,
+  },
+  {
+    label: "Abaixo da tabela",
+    value: OrderPriceConsiderationEnum.UNDER_TABLE_PRICE,
+  },
+];
 
 export default function BusinessAudit() {
   const tabPanelRef = useRef<TabsPanelRef>(null);
+
+  const { data: companies = [] } = useGetUserCompanies({});
 
   const [globalStates, setGlobalStates] = useQueryStates({
     selectedTab: parseAsString.withDefault(TabSectionsEnum.OVERVIEW_SECTION),
@@ -50,6 +86,8 @@ export default function BusinessAudit() {
   });
 
   const [salesSectionStates, setSalesSectionStates] = useQueryStates({
+    companyCodes: parseAsArrayOf(parseAsString, ",").withDefault([]),
+    market: parseAsString.withDefault(MarketEnum.BOTH),
     priceConsideration: parseAsString.withDefault(
       OrderPriceConsiderationEnum.NONE
     ),
@@ -65,6 +103,26 @@ export default function BusinessAudit() {
   };
   const handleSelectTab = (value: string) =>
     setGlobalStates({ selectedTab: value });
+  const handleSelectMarket = (value: string) =>
+    setSalesSectionStates({ market: value });
+  const handleSelectPriceConsideration = (value: string) =>
+    setSalesSectionStates({ priceConsideration: value as string });
+  const handleSelectCompanyCode = (value: string[]) =>
+    setSalesSectionStates({ companyCodes: value });
+
+  const handleToogleCompanyCodes = () => {
+    const companyCodes = salesSectionStates.companyCodes;
+    if (!companyCodes) return;
+
+    const haveSomeSelectedCompanyCodes = companyCodes?.length > 0;
+    if (haveSomeSelectedCompanyCodes) {
+      return setSalesSectionStates({ companyCodes: [] });
+    }
+
+    return setSalesSectionStates({
+      companyCodes: companies?.map((i) => i.sensattaCode),
+    });
+  };
 
   return (
     <PageContainer>
@@ -94,28 +152,85 @@ export default function BusinessAudit() {
         </Grid>
 
         {globalStates.selectedTab === TabSectionsEnum.SALES_SECTION && (
-          <Grid item marginTop={-2} xs={12} sm={4}>
-            <RadioInputControlled
-              label='Tipo consideração preço'
-              emptyMessage='Sem opções'
-              name='priceConsideration'
-              value={salesSectionStates.priceConsideration}
-              options={[
-                { label: "Todos", value: OrderPriceConsiderationEnum.NONE },
-                {
-                  label: "Acima da tabela",
-                  value: OrderPriceConsiderationEnum.OVER_TABLE_PRICE,
-                },
-                {
-                  label: "Abaixo da tabela",
-                  value: OrderPriceConsiderationEnum.UNDER_TABLE_PRICE,
-                },
-              ]}
-              onChange={(value) =>
-                setSalesSectionStates({ priceConsideration: value as string })
-              }
-            />
-          </Grid>
+          <>
+            <Grid
+              item
+              marginTop={{
+                xs: 0,
+                sm: 0,
+              }}
+              xs={12}
+              sm={2}
+            >
+              <MultipleSelectInputControlled
+                label='Empresas'
+                size='small'
+                value={salesSectionStates.companyCodes}
+                onChange={handleSelectCompanyCode}
+                options={companies.map((i) => ({
+                  label: `${i.sensattaCode} - ${i.name}`,
+                  value: i.sensattaCode,
+                  key: i.sensattaCode,
+                }))}
+              />{" "}
+              <Typography
+                fontSize={"9px"}
+                sx={{
+                  marginX: "auto",
+                  "&:hover": {
+                    color: COLORS.TEXTO,
+                    cursor: "pointer",
+                  },
+                }}
+                onClick={handleToogleCompanyCodes}
+              >
+                Selecionar/Deselecionar tudo
+              </Typography>
+            </Grid>
+            <Grid
+              item
+              marginTop={{
+                xs: 0,
+                sm: -2,
+              }}
+              xs={12}
+              sm={2}
+            >
+              <RadioInputControlled
+                row
+                name='market'
+                label='Mercado'
+                emptyMessage='Sem Opções'
+                value={salesSectionStates.market}
+                onChange={
+                  handleSelectMarket as (value: string | number | Date) => void
+                }
+                options={MARKET_OPTIONS}
+              />
+            </Grid>
+            <Grid
+              item
+              marginTop={{
+                xs: 0,
+                sm: -2,
+              }}
+              xs={12}
+              sm={4}
+            >
+              <RadioInputControlled
+                label='Tipo consideração preço'
+                emptyMessage='Sem opções'
+                name='priceConsideration'
+                value={salesSectionStates.priceConsideration}
+                onChange={
+                  handleSelectPriceConsideration as (
+                    value: string | number | Date
+                  ) => void
+                }
+                options={PRICE_CONSIDERATION_OPTIONS}
+              />
+            </Grid>
+          </>
         )}
 
         {globalStates.selectedTab === TabSectionsEnum.OVERVIEW_SECTION && (
