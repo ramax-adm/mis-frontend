@@ -3,9 +3,10 @@ import { BusinessAuditCustomizedCard } from "../customized/card";
 import { SalesByProductGraph } from "../graphs/sales-by-product-graph";
 import { SalesByProductTable } from "../tables/sales-by-product-table";
 import { useGetBusinessAuditSalesData } from "@/services/react-query/queries/business-audit";
-import { useQueryStates, parseAsString } from "nuqs";
-import { OrderPriceConsiderationEnum } from "@/types/sales";
+import { useQueryStates, parseAsString, parseAsArrayOf } from "nuqs";
+import { OrderPriceConsiderationEnum } from "@/types/business-audit";
 import { SalesTotals } from "../totals/sales-totals";
+import { MarketEnum } from "@/types/sensatta";
 
 export function SalesByProductCard() {
   const [globalStates] = useQueryStates({
@@ -16,6 +17,8 @@ export function SalesByProductCard() {
   });
 
   const [sectionStates] = useQueryStates({
+    companyCodes: parseAsArrayOf(parseAsString, ",").withDefault([]),
+    market: parseAsString.withDefault(MarketEnum.BOTH),
     priceConsideration: parseAsString.withDefault(
       OrderPriceConsiderationEnum.NONE
     ),
@@ -28,6 +31,8 @@ export function SalesByProductCard() {
   } = useGetBusinessAuditSalesData({
     startDate: globalStates.startDate,
     endDate: globalStates.endDate,
+    market: sectionStates.market as MarketEnum,
+    companyCodes: sectionStates.companyCodes.join(","),
     priceConsideration:
       sectionStates.priceConsideration as OrderPriceConsiderationEnum,
   });

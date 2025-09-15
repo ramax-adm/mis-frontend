@@ -8,7 +8,7 @@ import { SalesByInvoiceCard } from "../cards/sales-by-invoice-card";
 import { SalesByProductCard } from "../cards/sales-by-product-card";
 import { SalesByClientCard } from "../cards/sales-by-client-card";
 import { SalesByRepresentativeCard } from "../cards/sales-by-representative-card";
-import { OrderPriceConsiderationEnum } from "@/types/sales";
+import { OrderPriceConsiderationEnum } from "@/types/business-audit";
 
 export function BusinessAuditSalesSection() {
   const [globalStates] = useQueryStates({

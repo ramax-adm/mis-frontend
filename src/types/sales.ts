@@ -1,3 +1,5 @@
+import { MarketEnum } from "./sensatta";
+
 export enum InvoicesNfTypesEnum {
   COM_LEITOR = "COM LEITOR",
   AVULSA = "AVULSA",
@@ -10,6 +12,7 @@ export type OrderLine = {
   companyCode?: string;
   companyName?: string;
   orderId?: string;
+  market?: MarketEnum;
   situation?: string;
   clientCode?: string;
   clientName?: string;
@@ -22,6 +25,7 @@ export type OrderLine = {
   productName?: string;
   quantity?: number;
   weightInKg?: number;
+  currency?: string;
   costValue?: number;
   discountPromotionValue?: number;
   saleUnitValue?: number;
@@ -46,9 +50,3 @@ export type OrderLine = {
   cfopDescription?: string;
   createdAt: Date;
 };
-
-export enum OrderPriceConsiderationEnum {
-  NONE = "none",
-  OVER_TABLE_PRICE = "over_table_price",
-  UNDER_TABLE_PRICE = "under_table_price",
-}
