@@ -78,7 +78,7 @@ const getData = ({
     response.push({
       representative: `${item.salesRepresentativeCode} - ${item.salesRepresentativeName}`,
       salesCount: item.salesCount,
-      totalKg: toLocaleString(item.totalKg, 2),
+      totalKg: toLocaleString(item.totalKg),
       totalFatValue: toLocaleString(item.totalFatValue, 2),
       totalTableValue: toLocaleString(item.totalTableValue, 2),
       totalDiff: toLocaleString(item.totalDiff, 2),

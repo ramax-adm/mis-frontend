@@ -11,7 +11,9 @@ import {
 } from "@/types/api/business-audit";
 import { GetFetch, urls } from "@/services/axios/api-base";
 import { useApiQuery } from "../react-query";
-import { OrderLine, OrderPriceConsiderationEnum } from "@/types/sales";
+import { OrderLine } from "@/types/sales";
+import { MarketEnum } from "@/types/sensatta";
+import { OrderPriceConsiderationEnum } from "@/types/business-audit";
 
 export const useGetBusinessAuditOverviewData = ({
   startDate,
@@ -41,10 +43,14 @@ export const useGetBusinessAuditSalesData = ({
   startDate,
   endDate,
   priceConsideration,
+  companyCodes,
+  market,
 }: {
   startDate: string;
   endDate: string;
   priceConsideration?: OrderPriceConsiderationEnum;
+  market?: MarketEnum;
+  companyCodes?: string;
 }) => {
   return useApiQuery<GetBusinessAuditSalesDataResponse>({
     queryKey: [
@@ -52,11 +58,21 @@ export const useGetBusinessAuditSalesData = ({
       startDate,
       endDate,
       priceConsideration,
+      companyCodes,
+      market,
     ],
     queryFn: async () => {
       const response = await GetFetch(
         urls.BUSINESS_AUDIT.GET_BUSINESS_AUDIT_SALES,
-        { params: { startDate, endDate, priceConsideration } }
+        {
+          params: {
+            startDate,
+            endDate,
+            priceConsideration,
+            companyCodes,
+            market,
+          },
+        }
       );
       return response.data;
     },
