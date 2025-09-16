@@ -20,7 +20,7 @@ import PaginatedTable, {
 } from "@/components/Table/paginated-table";
 
 type SalesByRepresentativeTableData = {
-  representative?: string;
+  representative: string;
   salesCount: number;
   totalKg: string;
   totalFatValue: string;
@@ -47,7 +47,7 @@ export function SalesByRepresentativeTable({
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          height: "250px",
+          height: "200px",
         }}
       >
         <LoaderIcon />
@@ -59,7 +59,7 @@ export function SalesByRepresentativeTable({
     <CustomTable<SalesByRepresentativeTableData>
       columns={columns}
       rows={parsedData}
-      tableStyles={{ height: "288px" }}
+      tableStyles={{ height: "150px" }}
     />
   );
 }
@@ -76,7 +76,7 @@ const getData = ({
   for (const key of keys) {
     const item = data[key];
     response.push({
-      representative: `${item.salesRepresentativeCode} - ${item.salesRepresentativeName}`,
+      representative: `${item.salesRepresentativeName}`,
       salesCount: item.salesCount,
       totalKg: toLocaleString(item.totalKg),
       totalFatValue: toLocaleString(item.totalFatValue, 2),
@@ -85,7 +85,9 @@ const getData = ({
       percentValue: toPercent(item.percentValue),
     });
   }
-  return response;
+  return response.sort((a, b) =>
+    a.representative.localeCompare(b.representative, "pt-br")
+  );
 };
 
 const getColumns =

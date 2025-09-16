@@ -24,7 +24,7 @@ export const FinpecModal = <T extends object>({
           top: "50%",
           width: {
             xs: "80%",
-            lg: "50%",
+            lg: "60%",
           },
           left: "50%",
           transform: "translate(-50%, -50%)",

@@ -87,7 +87,7 @@ export default function BusinessAudit() {
 
   const [salesSectionStates, setSalesSectionStates] = useQueryStates({
     companyCodes: parseAsArrayOf(parseAsString, ",").withDefault([]),
-    market: parseAsString.withDefault(MarketEnum.BOTH),
+    market: parseAsString.withDefault(""),
     priceConsideration: parseAsString.withDefault(
       OrderPriceConsiderationEnum.NONE
     ),

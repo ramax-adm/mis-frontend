@@ -9,6 +9,7 @@ import { SalesByProductCard } from "../cards/sales-by-product-card";
 import { SalesByClientCard } from "../cards/sales-by-client-card";
 import { SalesByRepresentativeCard } from "../cards/sales-by-representative-card";
 import { OrderPriceConsiderationEnum } from "@/types/business-audit";
+import { MarketEnum } from "@/types/sensatta";
 
 export function BusinessAuditSalesSection() {
   const [globalStates] = useQueryStates({
@@ -18,44 +19,45 @@ export function BusinessAuditSalesSection() {
     endDate: parseAsString.withDefault(new Date().toISOString().split("T")[0]),
   });
   const [salesSectionStates, setSalesSectionStates] = useQueryStates({
-    nfNumber: parseAsString.withDefault(""),
+    nfId: parseAsString.withDefault(""),
     salesByInvoiceModalOpen: parseAsBoolean.withDefault(false),
+    market: parseAsString.withDefault(""),
     priceConsideration: parseAsString.withDefault(
       OrderPriceConsiderationEnum.NONE
     ),
   });
 
   const handleCloseSalesByInvoiceModal = () => {
-    setSalesSectionStates({ salesByInvoiceModalOpen: false, nfNumber: "" });
+    setSalesSectionStates({ salesByInvoiceModalOpen: false, nfId: "" });
   };
 
   return (
     <>
-      <Grid container marginTop={0.5} spacing={1}>
-        <Grid item xs={12} md={6}>
+      <Grid container marginTop={0.5}>
+        <Grid item xs={12}>
           <SalesByInvoiceCard />
         </Grid>
-        <Grid item xs={12} md={6}>
+      </Grid>
+      <Grid container marginTop={0.1} spacing={1}>
+        <Grid item xs={12} md={4}>
           <SalesByProductCard />
         </Grid>
-      </Grid>
-      <Grid container marginTop={0.5} spacing={1}>
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} md={4}>
           <SalesByClientCard />
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} md={4}>
           <SalesByRepresentativeCard />
         </Grid>
       </Grid>
       <FinpecModal
-        title={`Detalhes - NF ${salesSectionStates.nfNumber}`}
+        title={`Detalhes - Nota Fiscal`}
         open={salesSectionStates.salesByInvoiceModalOpen}
         onClose={handleCloseSalesByInvoiceModal}
       >
         <SalesByInvoiceDetailsModal
           startDate={globalStates.startDate}
           endDate={globalStates.endDate}
-          nfNumber={salesSectionStates.nfNumber}
+          nfId={salesSectionStates.nfId}
           onClose={handleCloseSalesByInvoiceModal}
         />
       </FinpecModal>
