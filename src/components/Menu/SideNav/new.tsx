@@ -105,7 +105,9 @@ export function SideNav() {
                   alignItems: "center",
                   justifyContent: "center",
                   color: "#27272a",
-                  backgroundColor: isCurrentPath ? "#3e63dd" : "",
+                  backgroundColor: isCurrentPath
+                    ? "rgba(62, 99, 221, 0.2)"
+                    : "",
                   borderRadius: 1,
                   width: "85%",
                   marginX: "auto",
@@ -122,7 +124,7 @@ export function SideNav() {
                     style={{
                       fontSize: "1.4rem",
                       lineHeight: 0,
-                      color: isCurrentPath ? "white" : "#27272a",
+                      color: isCurrentPath ? "#3e63dd" : "#27272a",
                     }}
                   >
                     <Icon />
@@ -134,7 +136,7 @@ export function SideNav() {
                     fontWeight: 700,
                     fontFamily: "sans-serif",
                     textAlign: "center",
-                    color: isCurrentPath ? "white" : "#27272a",
+                    color: isCurrentPath ? "#3e63dd" : "#27272a",
                   }}
                 >
                   {item.title}

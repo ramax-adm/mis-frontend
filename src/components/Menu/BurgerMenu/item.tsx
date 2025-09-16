@@ -46,7 +46,7 @@ export const BurgerMenuItem = ({
   };
 
   return (
-    <Box sx={{ width: "98%" }}>
+    <Box sx={{ width: "95%" }}>
       <Box
         onClick={handleClick}
         sx={{

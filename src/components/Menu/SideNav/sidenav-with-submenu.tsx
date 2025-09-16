@@ -67,15 +67,18 @@ export function SideNavWithSubmenu({
             width: "85%",
             marginX: "auto",
             padding: 0.8,
-            backgroundColor: isCurrentSubmenu ? "#3e63dd" : "",
+            backgroundColor: isCurrentSubmenu ? "rgba(62, 99, 221, 0.2)" : "",
             borderRadius: 1,
+            "&:hover": {
+              backgroundColor: "rgba(62, 99, 221, 0.1)",
+            },
           }}
         >
           {Icon && (
             <span
               style={{
                 fontSize: "1.4rem",
-                color: isCurrentSubmenu ? "white" : "#27272a",
+                color: isCurrentSubmenu ? "#3e63dd" : "#27272a",
               }}
             >
               <Icon />
@@ -87,7 +90,7 @@ export function SideNavWithSubmenu({
               fontWeight: 600,
               fontFamily: "sans-serif",
               textAlign: "center",
-              color: isCurrentSubmenu ? "white" : "#27272a",
+              color: isCurrentSubmenu ? "#3e63dd" : "#27272a",
             }}
           >
             {item.title}
@@ -100,7 +103,7 @@ export function SideNavWithSubmenu({
             right: 5,
             top: "50%",
             transform: "translateY(-50%)",
-            color: isCurrentSubmenu ? "white" : "#3e63dd",
+            color: isCurrentSubmenu ? "#3e63dd" : "#3e63dd",
           }}
         >
           <ChevronDown size={10} />
