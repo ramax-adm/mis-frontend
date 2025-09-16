@@ -19,7 +19,7 @@ import PaginatedTable, {
 } from "@/components/Table/paginated-table";
 
 type SalesByClientTableData = {
-  client?: string;
+  client: string;
   salesCount: number;
   totalKg: string;
   totalFatValue: string;
@@ -46,7 +46,7 @@ export function SalesByClientTable({
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          height: "250px",
+          height: "200px",
         }}
       >
         <LoaderIcon />
@@ -58,7 +58,7 @@ export function SalesByClientTable({
     <CustomTable<SalesByClientTableData>
       columns={columns}
       rows={parsedData}
-      tableStyles={{ height: "288px" }}
+      tableStyles={{ height: "150px" }}
     />
   );
 }
@@ -75,7 +75,7 @@ const getData = ({
   for (const key of keys) {
     const item = data[key];
     response.push({
-      client: `${item.clientCode} - ${item.clientName}`,
+      client: `${item.clientName ?? ""}`,
       salesCount: item.salesCount,
       totalKg: toLocaleString(item.totalKg, 2),
       totalFatValue: toLocaleString(item.totalFatValue, 2),
@@ -84,7 +84,7 @@ const getData = ({
       percentValue: toPercent(item.percentValue),
     });
   }
-  return response;
+  return response.sort((a, b) => a.client?.localeCompare(b.client, "pt-br"));
 };
 
 const getColumns = ({}: {}): CustomTableColumn<SalesByClientTableData>[] => [

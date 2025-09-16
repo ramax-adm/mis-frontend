@@ -80,25 +80,25 @@ export const useGetBusinessAuditSalesData = ({
 };
 
 export const useGetBusinessAuditOrdersLinesData = ({
-  nfNumber,
+  nfId,
   startDate,
   endDate,
 }: {
-  nfNumber: string;
+  nfId: string;
   startDate: string;
   endDate: string;
 }) => {
   return useApiQuery<OrderLine[]>({
     queryKey: [
       queryKeys.BUSINESS_AUDIT.GET_BUSINESS_AUDIT_ORDERS_LINES_DATA,
-      nfNumber,
+      nfId,
       startDate,
       endDate,
     ],
     queryFn: async () => {
       const response = await GetFetch(
         urls.BUSINESS_AUDIT.GET_BUSINESS_AUDIT_ORDERS_LINES_DATA,
-        { params: { nfNumber, startDate, endDate } }
+        { params: { nfId, startDate, endDate } }
       );
       return response.data;
     },

@@ -22,9 +22,9 @@ export function SalesByInvoiceCard() {
 
   const [sectionStates, setSectionStates] = useQueryStates({
     companyCodes: parseAsArrayOf(parseAsString, ",").withDefault([]),
-    nfNumber: parseAsString.withDefault(""),
+    nfId: parseAsString.withDefault(""),
     salesByInvoiceModalOpen: parseAsBoolean.withDefault(false),
-    market: parseAsString.withDefault(MarketEnum.BOTH),
+    market: parseAsString.withDefault(""),
     priceConsideration: parseAsString.withDefault(
       OrderPriceConsiderationEnum.NONE
     ),
