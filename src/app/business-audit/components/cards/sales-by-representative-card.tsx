@@ -22,7 +22,7 @@ export function SalesByRepresentativeCard() {
 
   const [sectionStates] = useQueryStates({
     companyCodes: parseAsArrayOf(parseAsString, ",").withDefault([]),
-    market: parseAsString.withDefault(MarketEnum.BOTH),
+    market: parseAsString.withDefault(""),
     priceConsideration: parseAsString.withDefault(
       OrderPriceConsiderationEnum.NONE
     ),
@@ -53,20 +53,16 @@ export function SalesByRepresentativeCard() {
           <Alert severity='info'>Sem Dados</Alert>
         </Box>
       ) : (
-        <Box sx={{ display: "flex", flexDirection: "row", gap: 0.5 }}>
-          <Box sx={{ width: "50%" }}>
-            <SalesByRepresentativeTable
-              data={salesData}
-              isFetching={isFetching}
-            />
-          </Box>
+        <Box sx={{ display: "flex", flexDirection: "column", gap: 0.5 }}>
+          <SalesByRepresentativeTable
+            data={salesData}
+            isFetching={isFetching}
+          />
 
-          <Box sx={{ width: "50%" }}>
-            <SalesByRepresentativeGraph
-              data={salesData}
-              isFetching={isFetching}
-            />
-          </Box>
+          <SalesByRepresentativeGraph
+            data={salesData}
+            isFetching={isFetching}
+          />
         </Box>
       )}
     </BusinessAuditCustomizedCard>

@@ -23,6 +23,9 @@ type SalesByInvoiceTableData = {
   date?: Date;
   formatedDate: string;
   nfNumber: string;
+  orderNumber: string;
+  cfop: string;
+  nfId: string;
   market: string;
   clientName: string;
   salesCount: number;
@@ -38,7 +41,7 @@ interface SalesByInvoiceTableProps {
   isFetching: boolean;
   setSectionStates: (
     states: Partial<{
-      nfNumber: string;
+      nfId: string;
       salesByInvoiceModalOpen: boolean;
       priceConsideration: string;
     }>
@@ -49,8 +52,8 @@ export function SalesByInvoiceTable({
   isFetching,
   setSectionStates,
 }: SalesByInvoiceTableProps) {
-  const handleOpenDetailsModal = (nfNumber: string) => {
-    setSectionStates({ nfNumber, salesByInvoiceModalOpen: true });
+  const handleOpenDetailsModal = (nfId: string) => {
+    setSectionStates({ nfId, salesByInvoiceModalOpen: true });
   };
 
   const parsedData = getData({ data });
@@ -63,7 +66,7 @@ export function SalesByInvoiceTable({
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          height: "250px",
+          height: "150px",
         }}
       >
         <LoaderIcon />
@@ -75,7 +78,7 @@ export function SalesByInvoiceTable({
     <PaginatedTable<SalesByInvoiceTableData>
       columns={columns}
       rows={parsedData}
-      tableStyles={{ height: "250px" }}
+      tableStyles={{ height: "150px" }}
     />
   );
 }
@@ -95,11 +98,15 @@ const getData = ({
 
   for (const key of keys) {
     const item = data[key];
+
     response.push({
       company: `${item.companyCode} - ${item.companyName}`,
       date: item.date,
       formatedDate: item.date ? formatToDate(item.date) : "S/ Data",
-      nfNumber: key,
+      nfNumber: item.nfNumber ?? "N/D",
+      orderNumber: item.orderNumber ?? "N/D",
+      nfId: key,
+      cfop: `${item.cfopCode} - ${item.cfopDescription}`,
       market: marketMap[item.market ?? ""] ?? "N/A",
       clientName: item.clientName ?? "N/A",
       salesCount: item.salesCount ?? 0,
@@ -125,68 +132,80 @@ const getColumns = ({
   {
     headerKey: "formatedDate",
     headerName: "Dt. Fat",
-    sx: { fontSize: "9.5px" },
-    cellSx: { fontSize: "9px" },
+    sx: { fontSize: "11px", paddingX: 0.5 },
+    cellSx: { fontSize: "10px" },
   },
   {
     headerKey: "company",
     headerName: "Empresa",
-    sx: { fontSize: "9.5px" },
-    cellSx: { fontSize: "9px" },
+    sx: { fontSize: "11px", paddingX: 0.5 },
+    cellSx: { fontSize: "10px" },
   },
   {
     headerKey: "market",
     headerName: "Mercado",
-    sx: { fontSize: "10px", paddingX: 0.5 },
-    cellSx: { fontSize: "9px" },
+    sx: { fontSize: "11px", paddingX: 0.5 },
+    cellSx: { fontSize: "10px" },
+  },
+  {
+    headerKey: "orderNumber",
+    headerName: "N° Pedido",
+    sx: { fontSize: "11px", paddingX: 0.5 },
+    cellSx: { fontSize: "10px" },
   },
   {
     headerKey: "nfNumber",
     headerName: "NF",
-    sx: { fontSize: "9.5px" },
-    cellSx: { fontSize: "9px" },
+    sx: { fontSize: "11px", paddingX: 0.5 },
+    cellSx: { fontSize: "10px" },
   },
   {
     headerKey: "salesCount",
-    headerName: "Qtd Itens",
-    sx: { fontSize: "9.5px" },
-    cellSx: { fontSize: "9px" },
+    headerName: "NF Itens",
+    sx: { fontSize: "11px", paddingX: 0.5 },
+    cellSx: { fontSize: "10px" },
+  },
+  {
+    headerKey: "cfop",
+    headerName: "CFOP",
+    sx: { fontSize: "11px", paddingX: 0.5 },
+    cellSx: { fontSize: "10px" },
   },
   {
     headerKey: "clientName",
     headerName: "Cliente",
-    sx: { fontSize: "9.5px" },
-    cellSx: { fontSize: "9px" },
+    sx: { fontSize: "11px", paddingX: 0.5 },
+    cellSx: { fontSize: "10px" },
   },
   {
     headerKey: "representativeName",
     headerName: "Representante",
-    sx: { fontSize: "9.5px" },
-    cellSx: { fontSize: "9px" },
+    sx: { fontSize: "11px", paddingX: 0.5 },
+    cellSx: { fontSize: "10px" },
   },
   {
     headerKey: "paymentTerm",
     headerName: "Prazo",
-    sx: { fontSize: "9.5px" },
-    cellSx: { fontSize: "9px" },
+    sx: { fontSize: "11px", paddingX: 0.5 },
+    cellSx: { fontSize: "10px" },
   },
   {
     headerKey: "fatValue",
     headerName: "$ Fat.",
-    sx: { fontSize: "9.5px" },
-    cellSx: { fontSize: "9px" },
+    sx: { fontSize: "11px", paddingX: 0.5 },
+    cellSx: { fontSize: "10px" },
   },
   {
     headerKey: "tableValue",
     headerName: "$ Tabela",
-    sx: { fontSize: "9.5px" },
-    cellSx: { fontSize: "9px" },
+    sx: { fontSize: "11px", paddingX: 0.5 },
+    cellSx: { fontSize: "10px" },
   },
   {
     headerKey: "dif",
     headerName: "Desc.",
-    sx: { fontSize: "9.5px" },
-    cellSx: { fontSize: "9px" },
+    sx: { fontSize: "11px", paddingX: 0.5 },
+    cellSx: { fontSize: "10px" },
   },
   {
     headerKey: "nfNumber",
@@ -196,7 +215,7 @@ const getColumns = ({
     cellSx: { fontSize: 12, paddingX: 1 },
     render: (value, row) => (
       <Box
-        onClick={() => handleOpenDetailsModal(row.nfNumber)}
+        onClick={() => handleOpenDetailsModal(row.nfId)}
         sx={{
           "&:hover": {
             color: grey["700"],
@@ -204,7 +223,7 @@ const getColumns = ({
           },
         }}
       >
-        <SquareArrowOutUpRight size={14} />
+        <SquareArrowOutUpRight size={12} />
       </Box>
     ),
   },

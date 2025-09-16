@@ -20,7 +20,7 @@ export function SalesByClientCard() {
 
   const [sectionStates] = useQueryStates({
     companyCodes: parseAsArrayOf(parseAsString, ",").withDefault([]),
-    market: parseAsString.withDefault(MarketEnum.BOTH),
+    market: parseAsString.withDefault(""),
     priceConsideration: parseAsString.withDefault(
       OrderPriceConsiderationEnum.NONE
     ),
@@ -51,14 +51,10 @@ export function SalesByClientCard() {
           <Alert severity='info'>Sem Dados</Alert>
         </Box>
       ) : (
-        <Box sx={{ display: "flex", flexDirection: "row", gap: 0.5 }}>
-          <Box sx={{ width: "50%" }}>
-            <SalesByClientTable data={salesData} isFetching={isFetching} />
-          </Box>
+        <Box sx={{ display: "flex", flexDirection: "column", gap: 0.5 }}>
+          <SalesByClientTable data={salesData} isFetching={isFetching} />
 
-          <Box sx={{ width: "50%" }}>
-            <SalesByClientGraph data={salesData} isFetching={isFetching} />
-          </Box>
+          <SalesByClientGraph data={salesData} isFetching={isFetching} />
         </Box>
       )}
     </BusinessAuditCustomizedCard>

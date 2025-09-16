@@ -17,6 +17,7 @@ import { OrderLine } from "@/types/sales";
 import { MarketEnum } from "@/types/sensatta";
 
 type SalesByInvoiceDetailsTableData = OrderLine & {
+  product: string;
   marketFormated: string;
   difPrice: number;
   totalFatPrice: number;
@@ -70,6 +71,7 @@ const getData = ({
   } as Record<string, string>;
   return data.map((i) => ({
     ...i,
+    product: `${i.productCode} - ${i.productName}`,
     marketFormated: marketMap[i.market ?? ""] ?? "N/A",
     difPrice: (i.saleUnitValue || 0) - (i.referenceTableUnitValue || 0),
     totalFatPrice: (i.saleUnitValue || 0) * (i.weightInKg || 0),
@@ -82,94 +84,75 @@ const getData = ({
 
 const getColumns = (): CustomTableColumn<SalesByInvoiceDetailsTableData>[] => [
   {
-    headerKey: "productCode",
-    headerName: "Cod produto",
-    sx: { fontSize: "10px", paddingX: 0.5 },
-    cellSx: { fontSize: "9px" },
-  },
-  {
-    headerKey: "productName",
+    headerKey: "product",
     headerName: "Produto",
-    sx: { fontSize: "10px", paddingX: 0.5 },
-    cellSx: { fontSize: "9px" },
+    sx: { fontSize: "11px", paddingX: 0.5 },
+    cellSx: { fontSize: "10px" },
   },
   {
     headerKey: "marketFormated",
     headerName: "Mercado",
-    sx: { fontSize: "10px", paddingX: 0.5 },
-    cellSx: { fontSize: "9px" },
-  },
-  {
-    headerKey: "nfNumber",
-    headerName: "NF",
-    sx: { fontSize: "10px", paddingX: 0.5 },
-    cellSx: { fontSize: "9px" },
+    sx: { fontSize: "11px", paddingX: 0.5 },
+    cellSx: { fontSize: "10px" },
   },
   {
     headerKey: "situation",
     headerName: "Situação",
-    sx: { fontSize: "10px", paddingX: 0.5 },
-    cellSx: { fontSize: "9px" },
+    sx: { fontSize: "11px", paddingX: 0.5 },
+    cellSx: { fontSize: "10px" },
   },
   {
     headerKey: "quantity",
-    headerName: "Qtd. itens",
-    sx: { fontSize: "10px", paddingX: 0.5 },
-    cellSx: { fontSize: "9px" },
+    headerName: "Qtd.",
+    sx: { fontSize: "11px", paddingX: 0.5 },
+    cellSx: { fontSize: "10px" },
   },
   {
     headerKey: "weightInKg",
     headerName: "Peso KG",
     render: (value) => toLocaleString(value as number),
-    sx: { fontSize: "10px", paddingX: 0.5 },
-    cellSx: { fontSize: "9px" },
+    sx: { fontSize: "11px", paddingX: 0.5 },
+    cellSx: { fontSize: "10px" },
   },
   {
     headerKey: "currency",
     headerName: "Moeda",
-    sx: { fontSize: "10px", paddingX: 0.5 },
-    cellSx: { fontSize: "9px" },
+    sx: { fontSize: "11px", paddingX: 0.5 },
+    cellSx: { fontSize: "10px" },
   },
   {
     headerKey: "saleUnitValue",
     headerName: "Preço Un.",
     render: (value) => toLocaleString(value as number, 2),
-    sx: { fontSize: "10px", paddingX: 0.5 },
-    cellSx: { fontSize: "9px" },
+    sx: { fontSize: "11px", paddingX: 0.5 },
+    cellSx: { fontSize: "10px" },
   },
   {
     headerKey: "referenceTableUnitValue",
     headerName: "Preço Tab. Un.",
     render: (value) => toLocaleString(value as number, 2),
-    sx: { fontSize: "10px", paddingX: 0.5 },
-    cellSx: { fontSize: "9px" },
-  },
-  {
-    headerKey: "difPrice",
-    render: (value) => toLocaleString(value as number, 2),
-    headerName: "Desc.",
-    sx: { fontSize: "10px", paddingX: 0.5 },
-    cellSx: { fontSize: "9px" },
+    sx: { fontSize: "11px", paddingX: 0.5 },
+    cellSx: { fontSize: "10px" },
   },
   {
     headerKey: "totalFatPrice",
     headerName: "Total NF",
     render: (value) => toLocaleString(value as number, 2),
-    sx: { fontSize: "10px", paddingX: 0.5 },
-    cellSx: { fontSize: "9px" },
+    sx: { fontSize: "11px", paddingX: 0.5 },
+    cellSx: { fontSize: "10px" },
   },
   {
     headerKey: "totalTablePrice",
     headerName: "Total Tab.",
     render: (value) => toLocaleString(value as number, 2),
-    sx: { fontSize: "10px", paddingX: 0.5 },
-    cellSx: { fontSize: "9px" },
+    sx: { fontSize: "11px", paddingX: 0.5 },
+    cellSx: { fontSize: "10px" },
   },
   {
     headerKey: "totalDifPrice",
     headerName: "Total Desc.",
     render: (value) => toLocaleString(value as number, 2),
-    sx: { fontSize: "10px", paddingX: 0.5 },
-    cellSx: { fontSize: "9px" },
+    sx: { fontSize: "11px", paddingX: 0.5 },
+    cellSx: { fontSize: "10px" },
   },
 ];

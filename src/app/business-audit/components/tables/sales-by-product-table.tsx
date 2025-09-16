@@ -18,6 +18,7 @@ import PaginatedTable, {
 } from "@/components/Table/paginated-table";
 
 type SalesByProductTableData = {
+  productCode?: string;
   product?: string;
   salesCount: number;
   totalKg: string;
@@ -44,7 +45,7 @@ export function SalesByProductTable({
         sx={{
           display: "grid",
           placeContent: "center",
-          height: "250px",
+          height: "200px",
         }}
       >
         <LoaderIcon />
@@ -56,7 +57,7 @@ export function SalesByProductTable({
     <CustomTable<SalesByProductTableData>
       columns={columns}
       rows={parsedData}
-      tableStyles={{ height: "288px" }}
+      tableStyles={{ height: "150px" }}
     />
   );
 }
@@ -73,6 +74,7 @@ const getData = ({
   for (const key of keys) {
     const item = data[key];
     response.push({
+      productCode: item.productCode,
       product: `${item.productCode} - ${item.productName}`,
       salesCount: item.salesCount,
       totalKg: toLocaleString(item.totalKg),
@@ -82,7 +84,7 @@ const getData = ({
       percentValue: toPercent(item.percentValue),
     });
   }
-  return response;
+  return response.sort((a, b) => Number(a.productCode) - Number(b.productCode));
 };
 
 const getColumns = ({}: {}): CustomTableColumn<SalesByProductTableData>[] => [
