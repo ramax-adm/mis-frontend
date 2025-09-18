@@ -3,23 +3,9 @@ import { DateInputControlled } from "@/components/Inputs/DateInput/controlled";
 import { PageContainer } from "@/components/PageContainer";
 import { PageContainerHeader } from "@/components/PageContainer/header";
 import { COLORS } from "@/constants/styles/colors";
-import { useGetBusinessAuditOverviewData } from "@/services/react-query/queries/business-audit";
-import { Alert, Box, Grid, Tab, Typography } from "@mui/material";
+import { Alert, Box, Button, Grid, Tab, Typography } from "@mui/material";
 import dayjs from "dayjs";
 import { Suspense, useRef, useState } from "react";
-import { ManuallyEnteredInvoicesTable } from "./components/tables/manually-entered-invoices-table";
-import { LoadingOverlay } from "@/components/Loading/loadingSpinner";
-import { ManuallyEnteredInvoicesTotals } from "./components/totals/manually-entered-invoices-totals";
-import { CattlePurchaseFreightsDuplicatedTable } from "./components/tables/cattle-purchase-freights-duplicated-table";
-import { CattlePurchaseFreightsOverTablePriceTable } from "./components/tables/cattle-purchase-freights-over-table-price-table";
-import { OpenCattlePurchaseFreightsTable } from "./components/tables/open-cattle-purchase-freights-table";
-import { CattlePurchaseFreightsDuplicatedTotals } from "./components/totals/cattle-purchase-freights-duplicated-totals";
-import { CattlePurchaseFreightsOverTablePriceTotals } from "./components/totals/cattle-purchase-freights-over-table-price-totals";
-import { StockToExpiresTotals } from "./components/totals/stock-to-expires-totals";
-import { StockToExpiresTable } from "./components/tables/stock-to-expires-table";
-import { OpenCattlePurchaseFreightsTotals } from "./components/totals/open-cattle-purchase-freights-totals";
-import { InvoicesWithSamePriceTable } from "./components/tables/invoices-with-same-price-table";
-import { InvoicesWithSamePriceTotals } from "./components/totals/invoices-with-same-price-totals";
 import {
   parseAsArrayOf,
   parseAsBoolean,
@@ -34,21 +20,15 @@ import { BusinessAuditSalesSection } from "./components/sections/sales-section";
 import { RadioInputControlled } from "@/components/Inputs/RadioInput/controlled";
 import { OrderPriceConsiderationEnum } from "@/types/business-audit";
 import { MarketEnum } from "@/types/sensatta";
-import { ControlledSelect } from "@/components/Inputs/Select/Customized";
-import { useGetCompanies } from "@/services/react-query/queries/sensatta";
 import { useGetUserCompanies } from "@/services/react-query/queries/user-company";
 import { MultipleSelectInputControlled } from "@/components/Inputs/Select/Multiple/controlled";
+import { useExportBusinessAuditXlsx } from "@/services/react-query/mutations/business-audit";
 
 enum TabSectionsEnum {
   OVERVIEW_SECTION = "overview",
   SALES_SECTION = "sales",
 }
 const MARKET_OPTIONS = [
-  {
-    label: "Ambos",
-    key: "",
-    value: "",
-  },
   {
     label: "ME",
     key: MarketEnum.ME,
@@ -87,11 +67,18 @@ export default function BusinessAudit() {
 
   const [salesSectionStates, setSalesSectionStates] = useQueryStates({
     companyCodes: parseAsArrayOf(parseAsString, ",").withDefault([]),
-    market: parseAsString.withDefault(""),
+    market: parseAsString.withDefault(MarketEnum.MI),
     priceConsideration: parseAsString.withDefault(
       OrderPriceConsiderationEnum.NONE
     ),
   });
+
+  const {
+    mutateAsync: exportBusinessAuditReport,
+    isPending: isExportingBusinessAuditReport,
+  } = useExportBusinessAuditXlsx(
+    globalStates.selectedTab as "overview" | "sales"
+  );
 
   const handleSelectStartDate = (value: Date) => {
     const rawString = value.toISOString().split("T")[0];
@@ -126,8 +113,42 @@ export default function BusinessAudit() {
 
   return (
     <PageContainer>
-      <PageContainerHeader title='Monitoramento' />
-      <Grid container spacing={1}>
+      <Box
+        sx={{
+          width: "100%",
+          display: "flex",
+          flexDirection: { xs: "column", md: "row" },
+          alignItems: { md: "center" },
+          gap: 1,
+        }}
+      >
+        <PageContainerHeader
+          title='Monitoramento'
+          sx={{ flexDirection: "column", alignItems: "flex-start", gap: 0 }}
+        />
+        <Box sx={{ display: "flex", flexDirection: "row", gap: 1 }}>
+          <Button
+            variant='contained'
+            size='small'
+            disabled={isExportingBusinessAuditReport}
+            onClick={async () =>
+              await exportBusinessAuditReport({
+                filters: {
+                  startDate: globalStates.startDate,
+                  endDate: globalStates.endDate,
+                  companyCodes: salesSectionStates.companyCodes.join(","),
+                  market: salesSectionStates.market as MarketEnum,
+                  priceConsideration:
+                    salesSectionStates.priceConsideration as OrderPriceConsiderationEnum,
+                },
+              })
+            }
+          >
+            Exportar XLSX
+          </Button>
+        </Box>
+      </Box>
+      <Grid container spacing={1.5}>
         <Grid item xs={12}>
           <Typography fontSize={"12px"} fontWeight={600}>
             Filtros Globais
@@ -191,10 +212,10 @@ export default function BusinessAudit() {
               item
               marginTop={{
                 xs: 0,
-                sm: -2,
+                sm: -2.5,
               }}
               xs={12}
-              sm={2}
+              sm={1.5}
             >
               <RadioInputControlled
                 row
@@ -212,7 +233,7 @@ export default function BusinessAudit() {
               item
               marginTop={{
                 xs: 0,
-                sm: -2,
+                sm: -2.5,
               }}
               xs={12}
               sm={4}

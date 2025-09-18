@@ -26,7 +26,8 @@ type SalesByRepresentativeTableData = {
   totalFatValue: string;
   totalTableValue: string;
   totalDiff: string;
-  percentValue: string;
+  percentValueFormated: string;
+  percentValue: number;
 };
 
 interface SalesByRepresentativeTableProps {
@@ -82,12 +83,11 @@ const getData = ({
       totalFatValue: toLocaleString(item.totalFatValue, 2),
       totalTableValue: toLocaleString(item.totalTableValue, 2),
       totalDiff: toLocaleString(item.totalDiff, 2),
-      percentValue: toPercent(item.percentValue),
+      percentValueFormated: toPercent(item.percentValue),
+      percentValue: item.percentValue,
     });
   }
-  return response.sort((a, b) =>
-    a.representative.localeCompare(b.representative, "pt-br")
-  );
+  return response.sort((a, b) => b.percentValue - a.percentValue);
 };
 
 const getColumns =
@@ -117,7 +117,7 @@ const getColumns =
       cellSx: { fontSize: "9px" },
     },
     {
-      headerKey: "percentValue",
+      headerKey: "percentValueFormated",
       headerName: "%",
       sx: { fontSize: "9.5px" },
       cellSx: { fontSize: "9px" },

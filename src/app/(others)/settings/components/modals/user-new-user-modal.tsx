@@ -18,6 +18,7 @@ import { queryKeys } from "@/services/react-query/query-keys";
 import { userRoles } from "@/contexts/auth";
 import { useGetUserDepartmentsFilters } from "@/services/react-query/queries/user";
 import { TextInputControlled } from "@/components/Inputs/TextInput/controlled";
+import { ApiCustomError } from "@/utils/api.utils";
 
 type Props = { onClose: () => void };
 const NewUserModal = (props: Props) => {
@@ -76,8 +77,8 @@ const NewUserModal = (props: Props) => {
       setError(true);
       console.log({ error });
 
-      if (error instanceof AxiosError) {
-        setErrorMessage(error?.message);
+      if (error instanceof ApiCustomError) {
+        setErrorMessage(error.getMessage);
       } else {
         setErrorMessage("Ocorreu um erro ao cadastrar um novo usuario");
       }

@@ -1,37 +1,45 @@
-'use client'
-import { useState } from 'react'
-import { Box, Button, TextField, Typography } from '@mui/material'
-import { z } from 'zod'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useMutation } from '@tanstack/react-query'
-import { HiCheckCircle } from 'react-icons/hi'
-import { green } from '@mui/material/colors'
-import ResetPassword from './components/resetPassword'
-import CheckToken from './components/checkToken'
-import { useRouter } from 'next/navigation'
-import { PageRoutes } from '@/utils/appRoutes'
-import { PostForgotPassword } from '@/services/webApi/auth-api'
+"use client";
+import { useState } from "react";
+import {
+  Box,
+  Button,
+  FormHelperText,
+  TextField,
+  Typography,
+} from "@mui/material";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import { HiCheckCircle } from "react-icons/hi";
+import { green, red } from "@mui/material/colors";
+import ResetPassword from "./components/resetPassword";
+import CheckToken from "./components/checkToken";
+import { useRouter } from "next/navigation";
+import { PageRoutes } from "@/utils/appRoutes";
+import { PostForgotPassword } from "@/services/webApi/auth-api";
+import { useApiMutation } from "@/services/react-query/react-query";
+import { PostFetch, urls } from "@/services/axios/api-base";
 
 const forgotPasswordSchema = z.object({
   email: z
     .string()
-    .min(1, { message: 'Por favor, informe o e-mail.' })
-    .email('Esse e-mail não é válido.'),
-})
+    .min(1, { message: "Por favor, informe o e-mail." })
+    .email("Esse e-mail não é válido."),
+});
 
-type ForgotPasswordSchema = z.infer<typeof forgotPasswordSchema>
+type ForgotPasswordSchema = z.infer<typeof forgotPasswordSchema>;
 
 export type ForgotPasswordPayload = {
-  userEmail: string
-}
+  userEmail: string;
+};
 
 export default function ForgotPassword() {
-  const router = useRouter()
-  const [confirmComponent, setConfirmComponent] = useState<boolean>(false)
-  const [email, setEmail] = useState<string>('')
-  const [token, setToken] = useState<string>('')
-  const [checkToken, setCheckToken] = useState<boolean>(false)
+  const router = useRouter();
+  const [confirmComponent, setConfirmComponent] = useState<boolean>(false);
+  const [email, setEmail] = useState<string>("");
+  const [token, setToken] = useState<string>("");
+  const [checkToken, setCheckToken] = useState<boolean>(false);
   const {
     register,
     handleSubmit,
@@ -39,38 +47,42 @@ export default function ForgotPassword() {
   } = useForm<ForgotPasswordSchema>({
     resolver: zodResolver(forgotPasswordSchema),
     defaultValues: {
-      email: '',
+      email: "",
     },
-  })
+  });
 
-  const { mutateAsync: senForgotPasswordRequest } = useMutation({
-    mutationFn: async (data: ForgotPasswordPayload) => {
-      await PostForgotPassword({ email: data.userEmail })
-    },
-    onError() {
-      setConfirmComponent(false)
-    },
-    onSuccess() {
-      setConfirmComponent(true)
-    },
-  })
+  const { mutateAsync: senForgotPasswordRequest, error: forgotPasswordError } =
+    useApiMutation({
+      mutationFn: async (data: ForgotPasswordPayload) => {
+        const response = await PostFetch(urls.AUTH.POST_FORGOT_PASSWORD, {
+          email: data.userEmail,
+        });
+        return response.data;
+      },
+      onError() {
+        setConfirmComponent(false);
+      },
+      onSuccess() {
+        setConfirmComponent(true);
+      },
+    });
 
   async function handleSendForgotPasswordRequest(data: ForgotPasswordSchema) {
-    const { email } = data
-    setEmail(email)
+    const { email } = data;
+    setEmail(email);
 
     await senForgotPasswordRequest({
       userEmail: email,
-    })
+    });
   }
 
   return (
     <Box
       sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        height: '100%',
-        width: '100%',
+        display: "flex",
+        flexDirection: "column",
+        height: "100%",
+        width: "100%",
         paddingBottom: 2,
       }}
     >
@@ -80,7 +92,7 @@ export default function ForgotPassword() {
         variant='contained'
         sx={{
           borderRadius: 2,
-          width: '100px',
+          width: "100px",
         }}
         onClick={() => router.push(PageRoutes.login())}
       >
@@ -89,36 +101,40 @@ export default function ForgotPassword() {
 
       <Box
         sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          width: '100%',
-          height: '100%',
+          display: "flex",
+          flexDirection: "column",
+          width: "100%",
+          height: "100%",
           paddingTop: { xs: 4, sm: 8 },
-          alignItems: 'center',
-          overflow: 'hidden',
+          alignItems: "center",
+          overflow: "hidden",
         }}
       >
         <Box
           sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            width: { xs: '100%', sm: 600 },
+            display: "flex",
+            flexDirection: "column",
+            width: { xs: "100%", sm: 600 },
           }}
         >
           {confirmComponent ? (
             <Box
               sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                alignItems: 'center',
-                width: '100%',
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+                width: "100%",
               }}
             >
-              <Typography sx={{ fontSize: { xs: 24, sm: 48 }, fontWeight: 700 }}>
+              <Typography
+                sx={{ fontSize: { xs: 24, sm: 48 }, fontWeight: 700 }}
+              >
                 Solicitação confirmada!
               </Typography>
-              <Typography sx={{ fontSize: { xs: 16, sm: 24 }, textAlign: 'center' }}>
+              <Typography
+                sx={{ fontSize: { xs: 16, sm: 24 }, textAlign: "center" }}
+              >
                 O token de autenticação foi enviado para o seu e-mail.
               </Typography>
               <HiCheckCircle fontSize='70px' color={green[500]} />
@@ -127,34 +143,37 @@ export default function ForgotPassword() {
             <>
               <Box
                 sx={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  width: '100%',
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  width: "100%",
                 }}
               >
-                <Typography sx={{ fontSize: { xs: 24, sm: 48 }, fontWeight: 700 }}>
+                <Typography
+                  sx={{ fontSize: { xs: 24, sm: 48 }, fontWeight: 700 }}
+                >
                   Esqueci minha senha
                 </Typography>
                 <Typography sx={{ fontSize: { xs: 16, sm: 24 } }}>
-                  Por favor, informe o e-mail de acesso para recuperar sua senha.
+                  Por favor, informe o e-mail de acesso para recuperar sua
+                  senha.
                 </Typography>
               </Box>
-              <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+              <Box sx={{ display: "flex", flexDirection: "column" }}>
                 <Box
                   sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
+                    display: "flex",
+                    flexDirection: "column",
                     marginY: 3,
-                    gap: 3,
+                    gap: 0,
                   }}
                 >
                   <TextField
                     sx={{
-                      border: '1px',
-                      borderColor: '#323232',
-                      placeHolderColor: '#464646',
+                      border: "1px",
+                      borderColor: "#323232",
+                      placeHolderColor: "#464646",
                       borderRadius: 2,
                     }}
                     error={!!errors.email}
@@ -163,8 +182,11 @@ export default function ForgotPassword() {
                     id={`email`}
                     label='E-mail'
                     size='small'
-                    {...register('email')}
+                    {...register("email")}
                   />
+                  <FormHelperText sx={{ color: red["900"] }}>
+                    {forgotPasswordError?.message}
+                  </FormHelperText>
                 </Box>
 
                 <Button
@@ -179,13 +201,17 @@ export default function ForgotPassword() {
                   }}
                   fullWidth
                 >
-                  {isSubmitting ? 'Carregando...' : 'Solicitar nova senha'}
+                  {isSubmitting ? "Carregando..." : "Solicitar nova senha"}
                 </Button>
               </Box>
             </>
           )}
           {confirmComponent && (
-            <CheckToken email={email} setToken={setToken} setCheckToken={setCheckToken} />
+            <CheckToken
+              email={email}
+              setToken={setToken}
+              setCheckToken={setCheckToken}
+            />
           )}
           {checkToken && <ResetPassword email={email} token={token} />}
         </Box>
@@ -194,14 +220,14 @@ export default function ForgotPassword() {
       <Typography
         variant='h3'
         sx={{
-          fontSize: '14px',
-          position: 'fixed',
+          fontSize: "14px",
+          position: "fixed",
           bottom: 1,
-          color: '#29323a',
+          color: "#29323a",
         }}
       >
         {new Date().getFullYear()} © RAMAX - GROUP
       </Typography>
     </Box>
-  )
+  );
 }
