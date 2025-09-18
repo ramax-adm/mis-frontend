@@ -20,7 +20,7 @@ export function SalesByClientCard() {
 
   const [sectionStates] = useQueryStates({
     companyCodes: parseAsArrayOf(parseAsString, ",").withDefault([]),
-    market: parseAsString.withDefault(""),
+    market: parseAsString.withDefault(MarketEnum.MI),
     priceConsideration: parseAsString.withDefault(
       OrderPriceConsiderationEnum.NONE
     ),

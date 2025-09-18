@@ -20,6 +20,7 @@ export const urls = {
     GET_BUSINESS_AUDIT_OVERVIEW: `${apiLocal}/api/business-audit/overview`,
     GET_BUSINESS_AUDIT_SALES: `${apiLocal}/api/business-audit/sales`,
     GET_BUSINESS_AUDIT_ORDERS_LINES_DATA: `${apiLocal}/api/business-audit/data/orders-lines`,
+    POST_EXPORT_XLSX: `${apiLocal}/api/business-audit/export-xlsx/:type`,
   },
   BUSINESS_SUMMARY: {
     GET_OPERATION_FINANCE_SUMMARY: `${apiLocal}/business-summary/operation-finance/summary`,

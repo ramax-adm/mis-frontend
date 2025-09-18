@@ -76,7 +76,7 @@ export const PageContainer = ({ children }: { children: ReactNode }) => {
           <Box
             sx={{
               height: "100%",
-              marginLeft: width > 1000 ? "3.5rem" : "",
+              marginLeft: width > 1000 ? "3.6rem" : "",
             }}
           >
             {children}

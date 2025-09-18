@@ -24,7 +24,7 @@ export function SalesByInvoiceCard() {
     companyCodes: parseAsArrayOf(parseAsString, ",").withDefault([]),
     nfId: parseAsString.withDefault(""),
     salesByInvoiceModalOpen: parseAsBoolean.withDefault(false),
-    market: parseAsString.withDefault(""),
+    market: parseAsString.withDefault(MarketEnum.MI),
     priceConsideration: parseAsString.withDefault(
       OrderPriceConsiderationEnum.NONE
     ),

@@ -76,13 +76,17 @@ export class ApiCustomError {
   set setStatus(status: number) {
     this.status = status;
   }
+
+  get getMessage() {
+    return this.message ?? null;
+  }
 }
 
 export const normalizeError = (error: any): ApiCustomError => {
   const customError = new ApiCustomError({});
-  if (error instanceof Error || error?.isAxiosError === undefined) {
+  if (error?.isAxiosError === undefined) {
     customError.setMessage = error?.message ?? "Erro desconhecido da API";
-    return customError;
+    return customError.toEntity();
   }
 
   if (
@@ -92,7 +96,7 @@ export const normalizeError = (error: any): ApiCustomError => {
   ) {
     customError.setMessage = error?.message ?? "Erro desconhecido da API";
     customError.setStatus = error?.response?.status;
-    return customError;
+    return customError.toEntity();
   }
 
   customError.setMessage = error?.response?.data?.message;

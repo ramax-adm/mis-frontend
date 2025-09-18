@@ -1,6 +1,7 @@
 import { SideNavItem } from "@/contexts/app";
 import { Box, Fade, Link, Popover, Typography } from "@mui/material";
 import { ChevronDown } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { IconType } from "react-icons";
 
@@ -16,6 +17,7 @@ export function SideNavWithSubmenu({
   icon: Icon,
   pathname,
 }: SideNavWithSubmenuProps) {
+  const router = useRouter();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [popoverSubMenus, setPopoverSubMenus] = useState<SideNavItem[] | null>(
     null
@@ -148,15 +150,18 @@ export function SideNavWithSubmenu({
           {item.title}
         </Typography>
         {popoverSubMenus?.map((subItem: any) => (
-          <Link
+          <Box
             key={subItem.path}
-            href={subItem.path}
-            style={{
+            onClick={() => router.push(subItem.path)}
+            sx={{
               display: "block",
               textDecoration: "none",
               color: "#27272a",
               fontSize: "0.8rem",
               width: "100%",
+              "&:hover": {
+                cursor: "pointer",
+              },
             }}
           >
             <Box
@@ -171,7 +176,7 @@ export function SideNavWithSubmenu({
             >
               <Typography fontSize={"12px"}>{subItem.title}</Typography>
             </Box>
-          </Link>
+          </Box>
         ))}
       </Popover>
     </Box>

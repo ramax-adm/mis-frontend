@@ -1,14 +1,15 @@
 import { useAppContext } from "@/contexts/app";
-import { Box, Divider, Skeleton, Typography } from "@mui/material";
+import { Box, Button, Divider, Skeleton, Typography } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import RamaxMiniLogo from "@/assets/RAMAX-Group_Vertical_Cor.png";
 import { SideNavWithSubmenu } from "./sidenav-with-submenu";
 import { useAuthContext } from "@/contexts/auth";
 
 export function SideNav() {
   const pathname = usePathname();
+  const router = useRouter();
   const { NAV_ITEMS, webpages, isFetchingWebpages, checkPagePermission } =
     useAppContext();
   const { user, isFetchingUser } = useAuthContext();
@@ -88,14 +89,17 @@ export function SideNav() {
               pathname={pathname}
             />
           ) : (
-            <Link
+            <Box
               key={index}
-              href={item.path}
-              style={{
+              onClick={() => router.push(item.path)}
+              sx={{
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "space-between",
                 textDecoration: "none",
+                "&:hover": {
+                  cursor: "pointer",
+                },
               }}
             >
               <Box
@@ -142,7 +146,7 @@ export function SideNav() {
                   {item.title}
                 </Typography>
               </Box>
-            </Link>
+            </Box>
           );
         })}
     </Box>
