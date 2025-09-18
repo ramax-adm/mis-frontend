@@ -25,26 +25,26 @@ export function SalesTotals({ data }: SalesTotalsProps) {
       </Typography>
       <Box sx={{ display: "inline-flex", gap: 2 }}>
         <Box sx={{ display: "flex", alignItems: "center", gap: 0.3 }}>
-          <Typography fontSize={"8px"}>NFs</Typography>
-          <Typography fontSize={"9.5px"} fontWeight={700}>
+          <Typography fontSize={"9.5px"}>NFs</Typography>
+          <Typography fontSize={"11px"} fontWeight={700}>
             {data?.count ?? 0}
           </Typography>
         </Box>
         <Box sx={{ display: "flex", alignItems: "center", gap: 0.3 }}>
-          <Typography fontSize={"8px"}>$ Fat.</Typography>
-          <Typography fontSize={"9.5px"} fontWeight={700}>
+          <Typography fontSize={"9.5px"}>$ Fat.</Typography>
+          <Typography fontSize={"11px"} fontWeight={700}>
             {toLocaleString(data?.totalFatValue ?? 0)}
           </Typography>
         </Box>
         <Box sx={{ display: "flex", alignItems: "center", gap: 0.3 }}>
-          <Typography fontSize={"8px"}>$ Tabela.</Typography>
-          <Typography fontSize={"9.5px"} fontWeight={700}>
+          <Typography fontSize={"9.5px"}>$ Tabela.</Typography>
+          <Typography fontSize={"11px"} fontWeight={700}>
             {toLocaleString(data?.totalTableValue ?? 0)}
           </Typography>
         </Box>
         <Box sx={{ display: "flex", alignItems: "center", gap: 0.3 }}>
-          <Typography fontSize={"8px"}>$ Desc.</Typography>
-          <Typography fontSize={"9.5px"} fontWeight={700}>
+          <Typography fontSize={"9.5px"}>$ Desc.</Typography>
+          <Typography fontSize={"11px"} fontWeight={700}>
             {toLocaleString(data?.totalDiff ?? 0)}
           </Typography>
         </Box>

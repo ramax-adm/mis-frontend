@@ -29,6 +29,7 @@ import {
 } from "@/services/react-query/queries/user";
 import { RiPagesLine } from "react-icons/ri";
 import { useRemoveUserCompany } from "@/services/react-query/mutations/user-company";
+import { ApiCustomError } from "@/utils/api.utils";
 
 type Props = {
   onClose: () => void;
@@ -64,6 +65,9 @@ const EditUserModal = ({
   const { data: userData } = useGetUser(userId);
 
   // states de inputs
+  const [username, setUsername] = useState("");
+
+  const [email, setEmail] = useState("");
   const [roleSelected, setRoleSelected] = useState<string>("");
   const [isActiveSelected, setIsActiveSelected] = useState<string>("ativo");
 
@@ -72,6 +76,8 @@ const EditUserModal = ({
 
   useEffect(() => {
     if (userData) {
+      setUsername(userData.name);
+      setEmail(userData.email);
       setRoleSelected(userData.role);
       setIsActiveSelected(userData.isActive ? "ativo" : "inativo");
     }
@@ -89,6 +95,8 @@ const EditUserModal = ({
       setLoad(true);
 
       await UpdateUser(userData!.id, {
+        name: username,
+        email,
         role: roleSelected,
         isActive: isActiveSelected === "ativo",
       });
@@ -109,9 +117,11 @@ const EditUserModal = ({
       );
       onClose();
     } catch (error) {
+      console.log({ error });
+
       setError(true);
-      if (error instanceof AxiosError) {
-        setErrorMessage(error.response?.data.message);
+      if (error instanceof ApiCustomError) {
+        setErrorMessage(error.getMessage);
       } else {
         setErrorMessage("Ocorreu um erro ao tentar atualizar o usuário");
       }
@@ -120,6 +130,12 @@ const EditUserModal = ({
     }
   };
 
+  const usernameHandler = (value: string) => {
+    setUsername(value);
+  };
+  const emailHandler = (value: string) => {
+    setEmail(value);
+  };
   const roleHandler = (value: string) => {
     setRoleSelected(value);
   };
@@ -158,8 +174,8 @@ const EditUserModal = ({
               id={`name`}
               label='Nome'
               size='small'
-              value={userData?.name || ""}
-              disabled
+              value={username}
+              onChange={(e) => usernameHandler(e.currentTarget.value)}
             />
           </FormControl>
 
@@ -179,8 +195,8 @@ const EditUserModal = ({
             id={`email`}
             label='E-mail'
             size='small'
-            value={userData?.email || ""}
-            disabled
+            value={email}
+            onChange={(e) => emailHandler(e.currentTarget.value)}
           />
         </FormControl>
 
@@ -198,11 +214,6 @@ const EditUserModal = ({
           </FormControl>
         </Box>
 
-        {error && (
-          <Typography variant='h6' color='red' component='h2'>
-            {errorMessage}
-          </Typography>
-        )}
         <Box sx={{ display: "flex", gap: 2 }}>
           <FormControl fullWidth>
             <TextField
@@ -228,6 +239,12 @@ const EditUserModal = ({
             />
           </FormControl>
         </Box>
+
+        {error && (
+          <Typography variant='h6' color='red' component='h2'>
+            {errorMessage}
+          </Typography>
+        )}
 
         <Grid container spacing={2}>
           <Grid item xs={12}>

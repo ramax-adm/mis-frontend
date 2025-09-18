@@ -27,9 +27,9 @@ type SalesByInvoiceTableData = {
   cfop: string;
   nfId: string;
   market: string;
-  clientName: string;
+  client: string;
   salesCount: number;
-  representativeName: string;
+  representative: string;
   paymentTerm: string;
   fatValue: string;
   tableValue: string;
@@ -78,7 +78,7 @@ export function SalesByInvoiceTable({
     <PaginatedTable<SalesByInvoiceTableData>
       columns={columns}
       rows={parsedData}
-      tableStyles={{ height: "150px" }}
+      tableStyles={{ height: "200px" }}
     />
   );
 }
@@ -108,9 +108,10 @@ const getData = ({
       nfId: key,
       cfop: `${item.cfopCode} - ${item.cfopDescription}`,
       market: marketMap[item.market ?? ""] ?? "N/A",
-      clientName: item.clientName ?? "N/A",
+
+      client: `${item.clientCode} - ${item.clientName}`,
       salesCount: item.salesCount ?? 0,
-      representativeName: item.representativeName ?? "N/A",
+      representative: `${item.representativeCode} - ${item.representativeName}`,
       paymentTerm: item.paymentTerm ?? "N/A",
       fatValue: toLocaleString(item.totalFatValue),
       tableValue: toLocaleString(item.totalTableValue),
@@ -132,80 +133,80 @@ const getColumns = ({
   {
     headerKey: "formatedDate",
     headerName: "Dt. Fat",
-    sx: { fontSize: "11px", paddingX: 0.5 },
-    cellSx: { fontSize: "10px" },
+    sx: { fontSize: "9.5px", paddingX: 0.5 },
+    cellSx: { fontSize: "9px" },
   },
   {
     headerKey: "company",
     headerName: "Empresa",
-    sx: { fontSize: "11px", paddingX: 0.5 },
-    cellSx: { fontSize: "10px" },
+    sx: { fontSize: "9.5px", paddingX: 0.5 },
+    cellSx: { fontSize: "9px" },
   },
   {
     headerKey: "market",
     headerName: "Mercado",
-    sx: { fontSize: "11px", paddingX: 0.5 },
-    cellSx: { fontSize: "10px" },
+    sx: { fontSize: "9.5px", paddingX: 0.5 },
+    cellSx: { fontSize: "9px" },
   },
   {
     headerKey: "orderNumber",
     headerName: "N° Pedido",
-    sx: { fontSize: "11px", paddingX: 0.5 },
-    cellSx: { fontSize: "10px" },
+    sx: { fontSize: "9.5px", paddingX: 0.5 },
+    cellSx: { fontSize: "9px" },
   },
   {
     headerKey: "nfNumber",
     headerName: "NF",
-    sx: { fontSize: "11px", paddingX: 0.5 },
-    cellSx: { fontSize: "10px" },
+    sx: { fontSize: "9.5px", paddingX: 0.5 },
+    cellSx: { fontSize: "9px" },
   },
   {
     headerKey: "salesCount",
     headerName: "NF Itens",
-    sx: { fontSize: "11px", paddingX: 0.5 },
-    cellSx: { fontSize: "10px" },
+    sx: { fontSize: "9.5px", paddingX: 0.5 },
+    cellSx: { fontSize: "9px" },
   },
   {
     headerKey: "cfop",
     headerName: "CFOP",
-    sx: { fontSize: "11px", paddingX: 0.5 },
-    cellSx: { fontSize: "10px" },
+    sx: { fontSize: "9.5px", paddingX: 0.5 },
+    cellSx: { fontSize: "9px" },
   },
   {
-    headerKey: "clientName",
+    headerKey: "client",
     headerName: "Cliente",
-    sx: { fontSize: "11px", paddingX: 0.5 },
-    cellSx: { fontSize: "10px" },
+    sx: { fontSize: "9.5px", paddingX: 0.5 },
+    cellSx: { fontSize: "9px" },
   },
   {
-    headerKey: "representativeName",
+    headerKey: "representative",
     headerName: "Representante",
-    sx: { fontSize: "11px", paddingX: 0.5 },
-    cellSx: { fontSize: "10px" },
+    sx: { fontSize: "9.5px", paddingX: 0.5 },
+    cellSx: { fontSize: "9px" },
   },
   {
     headerKey: "paymentTerm",
     headerName: "Prazo",
-    sx: { fontSize: "11px", paddingX: 0.5 },
-    cellSx: { fontSize: "10px" },
+    sx: { fontSize: "9.5px", paddingX: 0.5 },
+    cellSx: { fontSize: "9px" },
   },
   {
     headerKey: "fatValue",
     headerName: "$ Fat.",
-    sx: { fontSize: "11px", paddingX: 0.5 },
-    cellSx: { fontSize: "10px" },
+    sx: { fontSize: "9.5px", paddingX: 0.5 },
+    cellSx: { fontSize: "9px" },
   },
   {
     headerKey: "tableValue",
     headerName: "$ Tabela",
-    sx: { fontSize: "11px", paddingX: 0.5 },
-    cellSx: { fontSize: "10px" },
+    sx: { fontSize: "9.5px", paddingX: 0.5 },
+    cellSx: { fontSize: "9px" },
   },
   {
     headerKey: "dif",
     headerName: "Desc.",
-    sx: { fontSize: "11px", paddingX: 0.5 },
-    cellSx: { fontSize: "10px" },
+    sx: { fontSize: "9.5px", paddingX: 0.5 },
+    cellSx: { fontSize: "9px" },
   },
   {
     headerKey: "nfNumber",
