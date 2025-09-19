@@ -35,11 +35,11 @@ export function BusinessAuditOverviewSection() {
 
   return (
     <Grid container marginTop={1} gap={2}>
-      {/* Notas fiscais 
-          * Totais Notas avulsas entre 2 datas
-          * Tabela Notas avulsas entre 2 datas
-
-        */}
+      {/*
+       * Notas fiscais
+       * Totais Notas avulsas entre 2 datas
+       * Tabela Notas avulsas entre 2 datas
+       */}
       <Grid item xs={12} md={3}>
         <Typography
           color={"#fff"}
@@ -98,8 +98,6 @@ export function BusinessAuditOverviewSection() {
        * Totais
        * fretes com mesma placa 2 vezes no mesmo dia
        * fretes com preço 10% acima da tabela
-       *
-       *
        */}
       <Grid item xs={12} md={5}>
         <Typography
@@ -179,8 +177,8 @@ export function BusinessAuditOverviewSection() {
         </Box>
       </Grid>
       {/* Estoque
-            Produtos abaixo de 15 dias para fifo
-            Produtos entre 15 e 30 dias para fifo
+          Produtos abaixo de 15 dias para fifo
+          Produtos entre 15 e 30 dias para fifo
         */}
       <Grid item xs={12} sm={3.5}>
         <Typography

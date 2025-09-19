@@ -23,6 +23,7 @@ import { MarketEnum } from "@/types/sensatta";
 import { useGetUserCompanies } from "@/services/react-query/queries/user-company";
 import { MultipleSelectInputControlled } from "@/components/Inputs/Select/Multiple/controlled";
 import { useExportBusinessAuditXlsx } from "@/services/react-query/mutations/business-audit";
+import { getIso8601DateString } from "@/utils/date.utils";
 
 enum TabSectionsEnum {
   OVERVIEW_SECTION = "overview",
@@ -71,6 +72,8 @@ export default function BusinessAudit() {
     priceConsideration: parseAsString.withDefault(
       OrderPriceConsiderationEnum.NONE
     ),
+    clientCode: parseAsString.withDefault(""),
+    salesRepresentativeCode: parseAsString.withDefault(""),
   });
 
   const {
@@ -80,14 +83,10 @@ export default function BusinessAudit() {
     globalStates.selectedTab as "overview" | "sales"
   );
 
-  const handleSelectStartDate = (value: Date) => {
-    const rawString = value.toISOString().split("T")[0];
-    setGlobalStates({ startDate: rawString });
-  };
-  const handleSelectEndDate = (value: Date) => {
-    const rawString = value.toISOString().split("T")[0];
-    setGlobalStates({ endDate: rawString });
-  };
+  const handleSelectStartDate = (value: Date) =>
+    setGlobalStates({ startDate: getIso8601DateString(value) });
+  const handleSelectEndDate = (value: Date) =>
+    setGlobalStates({ endDate: getIso8601DateString(value) });
   const handleSelectTab = (value: string) =>
     setGlobalStates({ selectedTab: value });
   const handleSelectMarket = (value: string) =>
@@ -140,6 +139,9 @@ export default function BusinessAudit() {
                   market: salesSectionStates.market as MarketEnum,
                   priceConsideration:
                     salesSectionStates.priceConsideration as OrderPriceConsiderationEnum,
+                  clientCode: salesSectionStates.clientCode,
+                  salesRepresentativeCode:
+                    salesSectionStates.salesRepresentativeCode,
                 },
               })
             }

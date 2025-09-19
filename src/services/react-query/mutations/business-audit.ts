@@ -16,6 +16,8 @@ export const useExportBusinessAuditXlsx = (type: "overview" | "sales") => {
         companyCodes?: string;
         market?: MarketEnum;
         priceConsideration?: OrderPriceConsiderationEnum;
+        clientCode?: string;
+        salesRepresentativeCode?: string;
       };
     }) => {
       const { data, headers } = await PostFetch(
