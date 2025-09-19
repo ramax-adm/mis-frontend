@@ -26,6 +26,8 @@ export function SalesByRepresentativeCard() {
     priceConsideration: parseAsString.withDefault(
       OrderPriceConsiderationEnum.NONE
     ),
+    clientCode: parseAsString.withDefault(""),
+    salesRepresentativeCode: parseAsString.withDefault(""),
   });
 
   const {
@@ -39,6 +41,8 @@ export function SalesByRepresentativeCard() {
     companyCodes: sectionStates.companyCodes.join(","),
     priceConsideration:
       sectionStates.priceConsideration as OrderPriceConsiderationEnum,
+    clientCode: sectionStates.clientCode,
+    salesRepresentativeCode: sectionStates.salesRepresentativeCode,
   });
 
   const salesData = sales?.salesByRepresentative.data ?? {};

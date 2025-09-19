@@ -25,6 +25,8 @@ export function BusinessAuditSalesSection() {
     priceConsideration: parseAsString.withDefault(
       OrderPriceConsiderationEnum.NONE
     ),
+    clientCode: parseAsString.withDefault(""),
+    salesRepresentativeCode: parseAsString.withDefault(""),
   });
 
   const handleCloseSalesByInvoiceModal = () => {

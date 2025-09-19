@@ -35,3 +35,9 @@ export enum UnitTypesEnum {
   MONEY = "money",
   NUMBER = "number",
 }
+
+export type FilterOptionItem = {
+  label: string;
+  value: any;
+  key: string | number;
+};

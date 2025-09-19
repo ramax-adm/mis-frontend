@@ -15,12 +15,18 @@ export const urls = {
     POST_CHECK_TOKEN: `${apiLocal}/api/user/check-password-token`,
   },
   BUSINESS_AUDIT: {
+    POST_EXPORT_XLSX: `${apiLocal}/api/business-audit/export-xlsx/:type`,
+
+    // overview
     GET_CONSIDERED_CFOPS: `${apiLocal}/api/business-audit/constants/considered-cfops`,
     GET_CONSIDERED_NF_SITUATIONS: `${apiLocal}/api/business-audit/constants/nf-situations`,
     GET_BUSINESS_AUDIT_OVERVIEW: `${apiLocal}/api/business-audit/overview`,
+
+    // sales
     GET_BUSINESS_AUDIT_SALES: `${apiLocal}/api/business-audit/sales`,
     GET_BUSINESS_AUDIT_ORDERS_LINES_DATA: `${apiLocal}/api/business-audit/data/orders-lines`,
-    POST_EXPORT_XLSX: `${apiLocal}/api/business-audit/export-xlsx/:type`,
+    GET_SALES_CLIENTS_FILTERS: `${apiLocal}/api/business-audit/filters/clients`,
+    GET_SALES_REPRESENTATIVE_FILTERS: `${apiLocal}/api/business-audit/filters/sales-representatives`,
   },
   BUSINESS_SUMMARY: {
     GET_OPERATION_FINANCE_SUMMARY: `${apiLocal}/business-summary/operation-finance/summary`,
