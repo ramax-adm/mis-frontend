@@ -8,9 +8,14 @@ export const queryKeys = {
     WEBPAGES: "app-webpages",
   },
   BUSINESS_AUDIT: {
+    // overview
     GET_CONSIDERED_CFOPS: "business-audit-considered-cfops",
     GET_CONSIDERED_NF_SITUATIONS: "business-audit-nf-situations",
     GET_BUSINESS_AUDIT_OVERVIEW: "business-audit-overview",
+
+    // sales
+    GET_SALES_CLIENTS_FILTERS: "business-audit-filters-clients",
+    GET_SALES_REPRESENTATIVES_FILTERS: "business-audit-filters-representatives",
     GET_BUSINESS_AUDIT_SALES: "business-audit-sales",
     GET_BUSINESS_AUDIT_ORDERS_LINES_DATA: "business-audit-orders-lines-data",
   },

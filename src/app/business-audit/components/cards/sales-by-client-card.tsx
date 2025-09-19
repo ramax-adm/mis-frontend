@@ -1,7 +1,5 @@
 import { Alert, Box } from "@mui/material";
 import { BusinessAuditCustomizedCard } from "../customized/card";
-import { SalesByProductGraph } from "../graphs/sales-by-product-graph";
-import { SalesByProductTable } from "../tables/sales-by-product-table";
 import { SalesByClientTable } from "../tables/sales-by-client-table";
 import { SalesByClientGraph } from "../graphs/sales-by-client-graph";
 import { useGetBusinessAuditSalesData } from "@/services/react-query/queries/business-audit";
@@ -24,6 +22,8 @@ export function SalesByClientCard() {
     priceConsideration: parseAsString.withDefault(
       OrderPriceConsiderationEnum.NONE
     ),
+    clientCode: parseAsString.withDefault(""),
+    salesRepresentativeCode: parseAsString.withDefault(""),
   });
 
   const {
@@ -37,6 +37,8 @@ export function SalesByClientCard() {
     companyCodes: sectionStates.companyCodes.join(","),
     priceConsideration:
       sectionStates.priceConsideration as OrderPriceConsiderationEnum,
+    clientCode: sectionStates.clientCode,
+    salesRepresentativeCode: sectionStates.salesRepresentativeCode,
   });
 
   const salesData = sales?.salesByClient.data ?? {};

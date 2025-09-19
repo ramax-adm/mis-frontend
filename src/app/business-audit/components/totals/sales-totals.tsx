@@ -25,7 +25,7 @@ export function SalesTotals({ data }: SalesTotalsProps) {
       </Typography>
       <Box sx={{ display: "inline-flex", gap: 2 }}>
         <Box sx={{ display: "flex", alignItems: "center", gap: 0.3 }}>
-          <Typography fontSize={"9.5px"}>NFs</Typography>
+          <Typography fontSize={"9.5px"}>NF Itens</Typography>
           <Typography fontSize={"11px"} fontWeight={700}>
             {data?.count ?? 0}
           </Typography>
