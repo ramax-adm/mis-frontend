@@ -138,6 +138,7 @@ export function SalesByInvoiceDetailsModal({
           />
         </Grid>
       </Grid>
+
       <Divider />
 
       <SalesByInvoiceDetailsTable data={ordersData} isFetching={isFetching} />

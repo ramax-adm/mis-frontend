@@ -24,6 +24,9 @@ import { useGetUserCompanies } from "@/services/react-query/queries/user-company
 import { MultipleSelectInputControlled } from "@/components/Inputs/Select/Multiple/controlled";
 import { useExportBusinessAuditXlsx } from "@/services/react-query/mutations/business-audit";
 import { getIso8601DateString } from "@/utils/date.utils";
+import { StorageKeysEnum } from "@/constants/app/storage";
+import { usePersistedFilters } from "@/hooks/use-persisted-filters";
+import { FiltersProvider, useFilter } from "@/contexts/persisted-filters";
 
 enum TabSectionsEnum {
   OVERVIEW_SECTION = "overview",
@@ -56,8 +59,6 @@ const PRICE_CONSIDERATION_OPTIONS = [
 export default function BusinessAudit() {
   const tabPanelRef = useRef<TabsPanelRef>(null);
 
-  const { data: companies = [] } = useGetUserCompanies({});
-
   const [globalStates, setGlobalStates] = useQueryStates({
     selectedTab: parseAsString.withDefault(TabSectionsEnum.OVERVIEW_SECTION),
     startDate: parseAsString.withDefault(
@@ -66,15 +67,28 @@ export default function BusinessAudit() {
     endDate: parseAsString.withDefault(new Date().toISOString().split("T")[0]),
   });
 
-  const [salesSectionStates, setSalesSectionStates] = useQueryStates({
-    companyCodes: parseAsArrayOf(parseAsString, ",").withDefault([]),
-    market: parseAsString.withDefault(MarketEnum.MI),
-    priceConsideration: parseAsString.withDefault(
-      OrderPriceConsiderationEnum.NONE
-    ),
-    clientCode: parseAsString.withDefault(""),
-    salesRepresentativeCode: parseAsString.withDefault(""),
-  });
+  const { filters: companyCodes, setFilters: setCompanyCodes } = useFilter<
+    string[]
+  >(StorageKeysEnum.MONITORING_SALES_COMPANIES_FILTER);
+
+  const { filters: market, setFilters: setMarket } = useFilter<string>(
+    StorageKeysEnum.MONITORING_SALES_MARKET_FILTER
+  );
+
+  const { filters: priceConsideration, setFilters: setPriceConsideration } =
+    useFilter<string>(
+      StorageKeysEnum.MONITORING_SALES_PRICE_CONSIDERATION_FILTER
+    );
+
+  const { filters: clientCodes } = useFilter<string[]>(
+    StorageKeysEnum.MONITORING_SALES_CLIENT_FILTER
+  );
+
+  const { filters: representativeCodes } = useFilter<string[]>(
+    StorageKeysEnum.MONITORING_SALES_REPRESENTATIVE_FILTER
+  );
+
+  const { data: companies = [] } = useGetUserCompanies({});
 
   const {
     mutateAsync: exportBusinessAuditReport,
@@ -89,25 +103,20 @@ export default function BusinessAudit() {
     setGlobalStates({ endDate: getIso8601DateString(value) });
   const handleSelectTab = (value: string) =>
     setGlobalStates({ selectedTab: value });
-  const handleSelectMarket = (value: string) =>
-    setSalesSectionStates({ market: value });
+  const handleSelectMarket = (value: string) => setMarket(value);
   const handleSelectPriceConsideration = (value: string) =>
-    setSalesSectionStates({ priceConsideration: value as string });
-  const handleSelectCompanyCode = (value: string[]) =>
-    setSalesSectionStates({ companyCodes: value });
+    setPriceConsideration(value as string);
+  const handleSelectCompanyCode = (value: string[]) => setCompanyCodes(value);
 
   const handleToogleCompanyCodes = () => {
-    const companyCodes = salesSectionStates.companyCodes;
     if (!companyCodes) return;
 
     const haveSomeSelectedCompanyCodes = companyCodes?.length > 0;
     if (haveSomeSelectedCompanyCodes) {
-      return setSalesSectionStates({ companyCodes: [] });
+      return setCompanyCodes([]);
     }
 
-    return setSalesSectionStates({
-      companyCodes: companies?.map((i) => i.sensattaCode),
-    });
+    return setCompanyCodes(companies?.map((i) => i.sensattaCode));
   };
 
   return (
@@ -135,13 +144,12 @@ export default function BusinessAudit() {
                 filters: {
                   startDate: globalStates.startDate,
                   endDate: globalStates.endDate,
-                  companyCodes: salesSectionStates.companyCodes.join(","),
-                  market: salesSectionStates.market as MarketEnum,
+                  companyCodes: companyCodes.join(","),
+                  market: market as MarketEnum,
                   priceConsideration:
-                    salesSectionStates.priceConsideration as OrderPriceConsiderationEnum,
-                  clientCode: salesSectionStates.clientCode,
-                  salesRepresentativeCode:
-                    salesSectionStates.salesRepresentativeCode,
+                    priceConsideration as OrderPriceConsiderationEnum,
+                  clientCodes: clientCodes.join(","),
+                  salesRepresentativeCodes: representativeCodes.join(","),
                 },
               })
             }
@@ -188,7 +196,7 @@ export default function BusinessAudit() {
               <MultipleSelectInputControlled
                 label='Empresas'
                 size='small'
-                value={salesSectionStates.companyCodes}
+                value={companyCodes}
                 onChange={handleSelectCompanyCode}
                 options={companies.map((i) => ({
                   label: `${i.sensattaCode} - ${i.name}`,
@@ -224,7 +232,7 @@ export default function BusinessAudit() {
                 name='market'
                 label='Mercado'
                 emptyMessage='Sem Opções'
-                value={salesSectionStates.market}
+                value={market}
                 onChange={
                   handleSelectMarket as (value: string | number | Date) => void
                 }
@@ -244,7 +252,7 @@ export default function BusinessAudit() {
                 label='Tipo consideração preço'
                 emptyMessage='Sem opções'
                 name='priceConsideration'
-                value={salesSectionStates.priceConsideration}
+                value={priceConsideration}
                 onChange={
                   handleSelectPriceConsideration as (
                     value: string | number | Date

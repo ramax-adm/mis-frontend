@@ -1,5 +1,5 @@
-import { StockMarket } from "@/constants/app/stock";
 import { MarketEnum } from "../sensatta";
+import { StockMarket } from "../stock";
 
 export interface GetAllStocksResponse {
   companyCode: string;

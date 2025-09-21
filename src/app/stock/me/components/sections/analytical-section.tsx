@@ -10,8 +10,7 @@ import {
 import { useGetAnalyticalAllStocks } from "@/services/react-query/queries/stock";
 import { Box, Grid, Typography } from "@mui/material";
 import { useHttpState } from "@/hooks/use-http-state";
-import { SelectedProductLinesByCompany } from "@/types/stock";
-import { StockMarket } from "@/constants/app/stock";
+import { SelectedProductLinesByCompany, StockMarket } from "@/types/stock";
 import { MultipleSelectInputControlled } from "@/app/stock/_components/customized/multiple-select-input";
 import { AnalyticalStockTable } from "@/app/stock/_components/tables/analytical-stock-table";
 import { useGetFilteredAnalyticalStockData } from "@/app/stock/_hooks/use-get-filtered-analytical-stock-data";

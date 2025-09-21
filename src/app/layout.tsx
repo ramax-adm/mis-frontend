@@ -39,10 +39,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         >
           <ThemeProvider theme={CustomTheme}>
             <NuqsAdapter>
-              <QueryClientProvider client={queryClient}>
-                <AppProvider>{children}</AppProvider>
-                <Toaster position='top-center' richColors />
-              </QueryClientProvider>
+              <AppProvider>{children}</AppProvider>
+              <Toaster position='top-center' richColors />
             </NuqsAdapter>
           </ThemeProvider>
         </LocalizationProvider>
