@@ -1,73 +1,97 @@
-import { FloatInput } from '@/components/Inputs/FloatInput'
-import { NumberInput } from '@/components/Inputs/NumberInput'
-import { DEFAULT_ME_CONTROLS_FORM_VALUES } from '@/constants/app/cash-flow'
-import { MeControls, MiControls, Operation, RawMaterialControls } from '@/types/cash-flow'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { Button, FormControl, Grid, InputAdornment, TextField, Typography } from '@mui/material'
-import { forwardRef, useImperativeHandle, useRef } from 'react'
-import { useForm } from 'react-hook-form'
-import { z } from 'zod'
+import { FloatInput } from "@/components/Inputs/FloatInput";
+import { NumberInput } from "@/components/Inputs/NumberInput";
+import { DEFAULT_ME_CONTROLS_FORM_VALUES } from "@/app/cash-flow/simulate/constants/cash-flow";
+import {
+  MeControls,
+  MiControls,
+  Operation,
+  RawMaterialControls,
+} from "@/types/cash-flow";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  Button,
+  FormControl,
+  Grid,
+  InputAdornment,
+  TextField,
+  Typography,
+} from "@mui/material";
+import { forwardRef, useImperativeHandle, useRef } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 // schema do zod
 const meFormSchema = z.object({
   vendasMeDias: z.coerce.number(),
   pAntecipacaoMe: z.coerce.number(),
-  diasPosicao: z.coerce.number().refine((value) => value > 0, 'Insira qtd de dias maior que 0'),
-  ptax: z.coerce.number().refine((value) => value > 0, 'Insira valor maior que 0'),
-  precoFreteRodoviario: z.coerce.number().refine((value) => value > 0, 'Insira valor maior que 0'),
-  precoPorto: z.coerce.number().refine((value) => value > 0, 'Insira valor maior que 0'),
-  precoFreteInter: z.coerce.number().refine((value) => value > 0, 'Insira valor maior que 0'),
-  precoFinanc: z.coerce.number().refine((value) => value > 0, 'Insira valor maior que 0'),
-})
+  diasPosicao: z.coerce
+    .number()
+    .refine((value) => value > 0, "Insira qtd de dias maior que 0"),
+  ptax: z.coerce
+    .number()
+    .refine((value) => value > 0, "Insira valor maior que 0"),
+  precoFreteRodoviario: z.coerce
+    .number()
+    .refine((value) => value > 0, "Insira valor maior que 0"),
+  precoPorto: z.coerce
+    .number()
+    .refine((value) => value > 0, "Insira valor maior que 0"),
+  precoFreteInter: z.coerce
+    .number()
+    .refine((value) => value > 0, "Insira valor maior que 0"),
+  precoFinanc: z.coerce
+    .number()
+    .refine((value) => value > 0, "Insira valor maior que 0"),
+});
 
-export type MeFormSchema = z.infer<typeof meFormSchema>
+export type MeFormSchema = z.infer<typeof meFormSchema>;
 
 interface MeInputsProps {
-  setMeValores: React.Dispatch<React.SetStateAction<MeControls>>
-  onSimulate: () => Promise<void>
-  isSubmitting: boolean
+  setMeValores: React.Dispatch<React.SetStateAction<MeControls>>;
+  onSimulate: () => Promise<void>;
+  isSubmitting: boolean;
 }
 export interface MeFormRef {
-  resetForm: () => void
+  resetForm: () => void;
 }
 export const MeInputs = forwardRef<MeFormRef, MeInputsProps>(
   ({ setMeValores, isSubmitting, onSimulate }, ref) => {
     const formMethods = useForm<MeFormSchema>({
       resolver: zodResolver(meFormSchema),
       defaultValues: DEFAULT_ME_CONTROLS_FORM_VALUES,
-    })
+    });
 
     const {
       control,
       formState: { errors },
       handleSubmit,
       reset,
-    } = formMethods
+    } = formMethods;
 
     useImperativeHandle(ref, () => ({
       resetForm: () => reset(),
-    }))
+    }));
 
     const onSubmitMeForm = async (data: MeFormSchema) => {
-      setMeValores(data)
-    }
+      setMeValores(data);
+    };
 
     return (
       <Grid
         container
         sx={{
-          border: '1px solid #3E63DD',
-          paddingX: '12px',
-          paddingY: '8px',
-          borderRadius: '8px',
-          backgroundColor: 'white',
-          boxShadow: '4px 4px 8px rgba(0, 0, 0, 0.2)',
+          border: "1px solid #3E63DD",
+          paddingX: "12px",
+          paddingY: "8px",
+          borderRadius: "8px",
+          backgroundColor: "white",
+          boxShadow: "4px 4px 8px rgba(0, 0, 0, 0.2)",
         }}
         rowGap={2}
         columnGap={1}
       >
         <Grid item xs={12}>
-          <Typography variant='body2' fontWeight={700} color={'#3E63DD'}>
+          <Typography variant='body2' fontWeight={700} color={"#3E63DD"}>
             Dados de ME
           </Typography>
         </Grid>
@@ -154,6 +178,6 @@ export const MeInputs = forwardRef<MeFormRef, MeInputsProps>(
           SIMULAR
         </Button>
       </Grid>
-    )
-  },
-)
+    );
+  }
+);

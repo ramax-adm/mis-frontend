@@ -14,8 +14,7 @@ import { useGetProductLines } from "@/services/react-query/queries/sensatta";
 import { useSetSelectedProductLinesInitialState } from "../../hooks/use-set-selected-product-lines-initial-state";
 import { useSelectProductLinesFilters } from "../../hooks/use-select-product-lines-filters";
 import { storeStockProductLineFilters } from "../../utils/store-stock-product-line-filters";
-import { SelectedProductLinesByCompany } from "@/types/stock";
-import { StockMarket } from "@/constants/app/stock";
+import { SelectedProductLinesByCompany, StockMarket } from "@/types/stock";
 
 // Ref Interface
 export interface ResumeSectionRef {

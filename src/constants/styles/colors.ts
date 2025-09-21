@@ -58,6 +58,7 @@ export const COLORS = {
   },
 
   GRAFICOS: {
+    // old
     SAIDAS_LINHA: "rgba(255, 0, 0, 1)",
     SAIDAS_FUNDO: "rgba(255, 0, 0, 0.2)",
     ENTRADAS_LINHA: "rgba(0, 146, 13, 1)",

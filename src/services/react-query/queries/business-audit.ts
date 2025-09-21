@@ -46,16 +46,16 @@ export const useGetBusinessAuditSalesData = ({
   priceConsideration,
   companyCodes,
   market,
-  clientCode,
-  salesRepresentativeCode,
+  clientCodes,
+  salesRepresentativeCodes,
 }: {
   startDate: string;
   endDate: string;
   priceConsideration?: OrderPriceConsiderationEnum;
   market?: MarketEnum;
   companyCodes?: string;
-  clientCode?: string;
-  salesRepresentativeCode?: string;
+  clientCodes?: string;
+  salesRepresentativeCodes?: string;
 }) => {
   return useApiQuery<GetBusinessAuditSalesDataResponse>({
     queryKey: [
@@ -65,8 +65,8 @@ export const useGetBusinessAuditSalesData = ({
       priceConsideration,
       companyCodes,
       market,
-      clientCode,
-      salesRepresentativeCode,
+      clientCodes,
+      salesRepresentativeCodes,
     ],
     queryFn: async () => {
       const response = await GetFetch(
@@ -78,8 +78,8 @@ export const useGetBusinessAuditSalesData = ({
             priceConsideration,
             companyCodes,
             market,
-            clientCode,
-            salesRepresentativeCode,
+            clientCodes,
+            salesRepresentativeCodes,
           },
         }
       );

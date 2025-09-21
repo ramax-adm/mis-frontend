@@ -16,7 +16,7 @@ import {
   DEFAULT_MI_PRICES_FORM_VALUES,
   DEFAULT_ME_PRICES_FORM_VALUES,
   DEFAULT_PROJECTION_FORM_VALUES,
-} from "@/constants/app/cash-flow";
+} from "@/app/cash-flow/simulate/constants/cash-flow";
 import {
   RawMaterialFormRef,
   RawMaterialInputs,
