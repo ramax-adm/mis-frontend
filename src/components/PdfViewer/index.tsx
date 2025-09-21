@@ -11,7 +11,7 @@ interface PdfViewerProps {
   onReachEnd?: () => void; // callback quando chegar no fim
 }
 
-export const PdfViewer: React.FC<PdfViewerProps> = ({
+const PdfViewer: React.FC<PdfViewerProps> = ({
   pdfUrl,
   containerStyle,
   onReachEnd,
@@ -41,3 +41,4 @@ export const PdfViewer: React.FC<PdfViewerProps> = ({
     </div>
   );
 };
+export default PdfViewer;
