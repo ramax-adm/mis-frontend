@@ -1,6 +1,4 @@
-import { useGetBusinessAuditSalesData } from "@/services/react-query/queries/business-audit";
 import { Grid } from "@mui/material";
-import { SalesByInvoiceTable } from "../tables/sales-by-invoice-table";
 import { useQueryStates, parseAsString, parseAsBoolean } from "nuqs";
 import { FinpecModal } from "@/components/Modal/FinpecModal/FinpecModal";
 import { SalesByInvoiceDetailsModal } from "../modals/sales-by-invoice-details-modal";
@@ -8,8 +6,6 @@ import { SalesByInvoiceCard } from "../cards/sales-by-invoice-card";
 import { SalesByProductCard } from "../cards/sales-by-product-card";
 import { SalesByClientCard } from "../cards/sales-by-client-card";
 import { SalesByRepresentativeCard } from "../cards/sales-by-representative-card";
-import { OrderPriceConsiderationEnum } from "@/types/business-audit";
-import { MarketEnum } from "@/types/sensatta";
 
 export function BusinessAuditSalesSection() {
   const [globalStates] = useQueryStates({
@@ -21,17 +17,10 @@ export function BusinessAuditSalesSection() {
   const [salesSectionStates, setSalesSectionStates] = useQueryStates({
     nfId: parseAsString.withDefault(""),
     salesByInvoiceModalOpen: parseAsBoolean.withDefault(false),
-    market: parseAsString.withDefault(MarketEnum.MI),
-    priceConsideration: parseAsString.withDefault(
-      OrderPriceConsiderationEnum.NONE
-    ),
-    clientCode: parseAsString.withDefault(""),
-    salesRepresentativeCode: parseAsString.withDefault(""),
   });
 
-  const handleCloseSalesByInvoiceModal = () => {
+  const handleCloseSalesByInvoiceModal = () =>
     setSalesSectionStates({ salesByInvoiceModalOpen: false, nfId: "" });
-  };
 
   return (
     <>
@@ -66,4 +55,3 @@ export function BusinessAuditSalesSection() {
     </>
   );
 }
-// quando clica em uma nf -> bate na rota /data/orders com o id da nf e o date range

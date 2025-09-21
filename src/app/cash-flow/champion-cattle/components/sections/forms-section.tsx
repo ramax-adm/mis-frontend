@@ -1,5 +1,11 @@
-import React, { useState, forwardRef, useImperativeHandle, useRef, useEffect } from 'react'
-import { Alert, Box, Button, Grid } from '@mui/material'
+import React, {
+  useState,
+  forwardRef,
+  useImperativeHandle,
+  useRef,
+  useEffect,
+} from "react";
+import { Alert, Box, Button, Grid } from "@mui/material";
 import {
   DEFAULT_RAW_MATERIAL_FORM_VALUES,
   DEFAULT_OPERATION_FORM_VALUES,
@@ -10,34 +16,37 @@ import {
   DEFAULT_MI_PRICES_FORM_VALUES,
   DEFAULT_ME_PRICES_FORM_VALUES,
   DEFAULT_PROJECTION_FORM_VALUES,
-} from '@/constants/app/cash-flow-champion-cattle'
-import { UseMutateAsyncFunction } from '@tanstack/react-query'
+} from "@/app/cash-flow/champion-cattle/constants/cash-flow-champion-cattle";
+import { UseMutateAsyncFunction } from "@tanstack/react-query";
 import {
   UseExportCashFlowSimulationRequest,
   UseSaveUserSimulationRequest,
   UseSimulateCashFlowRequest,
-} from '@/types/mutations/cash-flow-champion-cattle'
-import { PostSimulateDataResponse } from '@/types/api/cash-flow'
+} from "@/types/mutations/cash-flow-champion-cattle";
+import { PostSimulateDataResponse } from "@/types/api/cash-flow";
 import {
   ProjectionControlsFormRef,
   ProjectionControlsInputs,
-} from '../forms/projection-controls-form'
-import { RawMaterialFormRef, RawMaterialInputs } from '../forms/raw-material-form'
-import { OperationFormRef, OperationInputs } from '../forms/operation-form'
-import { MiFormRef, MiInputs } from '../forms/mi-controls-form'
-import { MeFormRef, MeInputs } from '../forms/me-controls-form'
-import { MePricesFormRef, MePricesInputs } from '../forms/me-prices-form'
-import { MiPricesFormRef, MiPricesInputs } from '../forms/mi-prices-form'
-import { MeIncomesFormRef, MeIncomesInputs } from '../forms/me-incomes-form'
-import { MiIncomesFormRef, MiIncomesInputs } from '../forms/mi-incomes-form'
-import { PostSimulateCashFlowChampionCattleResponse } from '@/types/api/cash-flow-champion-cattle'
+} from "../forms/projection-controls-form";
+import {
+  RawMaterialFormRef,
+  RawMaterialInputs,
+} from "../forms/raw-material-form";
+import { OperationFormRef, OperationInputs } from "../forms/operation-form";
+import { MiFormRef, MiInputs } from "../forms/mi-controls-form";
+import { MeFormRef, MeInputs } from "../forms/me-controls-form";
+import { MePricesFormRef, MePricesInputs } from "../forms/me-prices-form";
+import { MiPricesFormRef, MiPricesInputs } from "../forms/mi-prices-form";
+import { MeIncomesFormRef, MeIncomesInputs } from "../forms/me-incomes-form";
+import { MiIncomesFormRef, MiIncomesInputs } from "../forms/mi-incomes-form";
+import { PostSimulateCashFlowChampionCattleResponse } from "@/types/api/cash-flow-champion-cattle";
 
 export interface SimulateCashFlowChampionCattleFormRef {
-  onResetForm: () => void
+  onResetForm: () => void;
   onGetValues: () =>
     | UseSimulateCashFlowRequest
     | UseSaveUserSimulationRequest
-    | UseExportCashFlowSimulationRequest
+    | UseExportCashFlowSimulationRequest;
 }
 
 interface SimulateCashFlowFormProps {
@@ -46,8 +55,8 @@ interface SimulateCashFlowFormProps {
     Error,
     UseSimulateCashFlowRequest,
     unknown
-  >
-  isSubmitting: boolean
+  >;
+  isSubmitting: boolean;
 }
 
 /**
@@ -64,35 +73,45 @@ export const SimulateCashFlowChampionCattleForm = forwardRef<
   SimulateCashFlowFormProps
 >(({ isSubmitting, simulateCashFlow }, ref) => {
   // refs
-  const projecaoFormRef = useRef<ProjectionControlsFormRef>(null)
-  const matPrimaFormRef = useRef<RawMaterialFormRef>(null)
-  const operacaoFormRef = useRef<OperationFormRef>(null)
-  const miFormRef = useRef<MiFormRef>(null)
-  const meFormRef = useRef<MeFormRef>(null)
-  const mePricesFormRef = useRef<MePricesFormRef>(null)
-  const miPricesFormRef = useRef<MiPricesFormRef>(null)
-  const meIncomesFormRef = useRef<MeIncomesFormRef>(null)
-  const miIncomesFormRef = useRef<MiIncomesFormRef>(null)
+  const projecaoFormRef = useRef<ProjectionControlsFormRef>(null);
+  const matPrimaFormRef = useRef<RawMaterialFormRef>(null);
+  const operacaoFormRef = useRef<OperationFormRef>(null);
+  const miFormRef = useRef<MiFormRef>(null);
+  const meFormRef = useRef<MeFormRef>(null);
+  const mePricesFormRef = useRef<MePricesFormRef>(null);
+  const miPricesFormRef = useRef<MiPricesFormRef>(null);
+  const meIncomesFormRef = useRef<MeIncomesFormRef>(null);
+  const miIncomesFormRef = useRef<MiIncomesFormRef>(null);
 
   useImperativeHandle(ref, () => ({
     onResetForm,
     onGetValues,
-  }))
+  }));
 
   // states
-  const [projecaoValores, setProjecaoValores] = useState(DEFAULT_PROJECTION_FORM_VALUES)
-  const [matPrimaValores, setMatPrimaValores] = useState(DEFAULT_RAW_MATERIAL_FORM_VALUES)
+  const [projecaoValores, setProjecaoValores] = useState(
+    DEFAULT_PROJECTION_FORM_VALUES
+  );
+  const [matPrimaValores, setMatPrimaValores] = useState(
+    DEFAULT_RAW_MATERIAL_FORM_VALUES
+  );
 
-  const [operacaoValores, setOperacaoValores] = useState(DEFAULT_OPERATION_FORM_VALUES)
+  const [operacaoValores, setOperacaoValores] = useState(
+    DEFAULT_OPERATION_FORM_VALUES
+  );
 
-  const [miValores, setMiValores] = useState(DEFAULT_MI_CONTROLS_FORM_VALUES)
-  const [meValores, setMeValores] = useState(DEFAULT_ME_CONTROLS_FORM_VALUES)
+  const [miValores, setMiValores] = useState(DEFAULT_MI_CONTROLS_FORM_VALUES);
+  const [meValores, setMeValores] = useState(DEFAULT_ME_CONTROLS_FORM_VALUES);
 
-  const [rendimentosMi, setRendimentosMi] = useState(DEFAULT_MI_INCOMES_FORM_VALUES)
-  const [rendimentosMe, setRendimentosMe] = useState(DEFAULT_ME_INCOMES_FORM_VALUES)
+  const [rendimentosMi, setRendimentosMi] = useState(
+    DEFAULT_MI_INCOMES_FORM_VALUES
+  );
+  const [rendimentosMe, setRendimentosMe] = useState(
+    DEFAULT_ME_INCOMES_FORM_VALUES
+  );
 
-  const [precosMi, setPrecosMi] = useState(DEFAULT_MI_PRICES_FORM_VALUES)
-  const [precosMe, setPrecosMe] = useState(DEFAULT_ME_PRICES_FORM_VALUES)
+  const [precosMi, setPrecosMi] = useState(DEFAULT_MI_PRICES_FORM_VALUES);
+  const [precosMe, setPrecosMe] = useState(DEFAULT_ME_PRICES_FORM_VALUES);
 
   // functions
   const onSimulate = async () => {
@@ -106,11 +125,11 @@ export const SimulateCashFlowChampionCattleForm = forwardRef<
       rendimentosMe,
       precosMi,
       precosMe,
-    }
+    };
 
     // chamada para o axios
-    await simulateCashFlow(data)
-  }
+    await simulateCashFlow(data);
+  };
 
   const onGetValues = ():
     | UseSimulateCashFlowRequest
@@ -126,52 +145,52 @@ export const SimulateCashFlowChampionCattleForm = forwardRef<
       rendimentosMe,
       precosMi,
       precosMe,
-    }
-  }
+    };
+  };
   const onResetForm = () => {
-    setProjecaoValores(DEFAULT_PROJECTION_FORM_VALUES)
-    setMatPrimaValores(DEFAULT_RAW_MATERIAL_FORM_VALUES)
-    setOperacaoValores(DEFAULT_OPERATION_FORM_VALUES)
-    setMiValores(DEFAULT_MI_CONTROLS_FORM_VALUES)
-    setMeValores(DEFAULT_ME_CONTROLS_FORM_VALUES)
-    setRendimentosMi(DEFAULT_MI_INCOMES_FORM_VALUES)
-    setRendimentosMe(DEFAULT_ME_INCOMES_FORM_VALUES)
-    setPrecosMi(DEFAULT_MI_PRICES_FORM_VALUES)
-    setPrecosMe(DEFAULT_ME_PRICES_FORM_VALUES)
+    setProjecaoValores(DEFAULT_PROJECTION_FORM_VALUES);
+    setMatPrimaValores(DEFAULT_RAW_MATERIAL_FORM_VALUES);
+    setOperacaoValores(DEFAULT_OPERATION_FORM_VALUES);
+    setMiValores(DEFAULT_MI_CONTROLS_FORM_VALUES);
+    setMeValores(DEFAULT_ME_CONTROLS_FORM_VALUES);
+    setRendimentosMi(DEFAULT_MI_INCOMES_FORM_VALUES);
+    setRendimentosMe(DEFAULT_ME_INCOMES_FORM_VALUES);
+    setPrecosMi(DEFAULT_MI_PRICES_FORM_VALUES);
+    setPrecosMe(DEFAULT_ME_PRICES_FORM_VALUES);
 
     if (projecaoFormRef.current) {
-      projecaoFormRef.current.resetForm()
+      projecaoFormRef.current.resetForm();
     }
     if (matPrimaFormRef.current) {
-      matPrimaFormRef.current.resetForm()
+      matPrimaFormRef.current.resetForm();
     }
     if (operacaoFormRef.current) {
-      operacaoFormRef.current.resetForm()
+      operacaoFormRef.current.resetForm();
     }
     if (miFormRef.current) {
-      miFormRef.current.resetForm()
+      miFormRef.current.resetForm();
     }
     if (meFormRef.current) {
-      meFormRef.current.resetForm()
+      meFormRef.current.resetForm();
     }
     if (mePricesFormRef.current) {
-      mePricesFormRef.current.resetForm()
+      mePricesFormRef.current.resetForm();
     }
     if (miPricesFormRef.current) {
-      miPricesFormRef.current.resetForm()
+      miPricesFormRef.current.resetForm();
     }
     if (meIncomesFormRef.current) {
-      meIncomesFormRef.current.resetForm()
+      meIncomesFormRef.current.resetForm();
     }
     if (miIncomesFormRef.current) {
-      miIncomesFormRef.current.resetForm()
+      miIncomesFormRef.current.resetForm();
     }
 
-    onSimulate()
-  }
+    onSimulate();
+  };
 
   useEffect(() => {
-    onSimulate()
+    onSimulate();
   }, [
     projecaoValores,
     matPrimaValores,
@@ -182,23 +201,30 @@ export const SimulateCashFlowChampionCattleForm = forwardRef<
     rendimentosMe,
     precosMi,
     precosMe,
-  ])
+  ]);
 
   return (
     <>
       {/** CONTROLS  */}
       <Box
         sx={{
-          display: 'flex',
-          flexDirection: 'row',
-          flexWrap: 'wrap',
+          display: "flex",
+          flexDirection: "row",
+          flexWrap: "wrap",
           gap: 2,
           marginTop: 1,
-          justifyContent: 'space-between',
-          width: { xs: '350px', sm: '98%' },
+          justifyContent: "space-between",
+          width: { xs: "350px", sm: "98%" },
         }}
       >
-        <Box sx={{ display: 'flex', flexDirection: 'column', width: { xl: '350px' }, gap: 3 }}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            width: { xl: "350px" },
+            gap: 3,
+          }}
+        >
           {/* <ProjectionControlsInputs
             onSimulate={onSimulate}
             isSubmitting={isSubmitting}
@@ -230,7 +256,14 @@ export const SimulateCashFlowChampionCattleForm = forwardRef<
             ref={meFormRef}
           />
         </Box>
-        <Box sx={{ display: 'flex', flexDirection: 'column', width: { xl: '400px' }, gap: 3 }}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            width: { xl: "400px" },
+            gap: 3,
+          }}
+        >
           <MePricesInputs
             onSimulate={onSimulate}
             isSubmitting={isSubmitting}
@@ -244,7 +277,14 @@ export const SimulateCashFlowChampionCattleForm = forwardRef<
             ref={miPricesFormRef}
           />
         </Box>
-        <Box sx={{ display: 'flex', flexDirection: 'column', width: { xl: '400px' }, gap: 3 }}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            width: { xl: "400px" },
+            gap: 3,
+          }}
+        >
           <MeIncomesInputs
             onSimulate={onSimulate}
             isSubmitting={isSubmitting}
@@ -260,5 +300,5 @@ export const SimulateCashFlowChampionCattleForm = forwardRef<
         </Box>
       </Box>
     </>
-  )
-})
+  );
+});

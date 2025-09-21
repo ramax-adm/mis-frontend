@@ -20,8 +20,7 @@ import { useSelectProductLinesFilters } from "../../hooks/use-select-product-lin
 import { calculateTotalStockWeightToExpires } from "../../../_utils/calculate-total-stock-weight-to-expires";
 import { storeStockProductLineFilters } from "../../utils/store-stock-product-line-filters";
 import { useHttpState } from "@/hooks/use-http-state";
-import { SelectedProductLinesByCompany } from "@/types/stock";
-import { StockMarket } from "@/constants/app/stock";
+import { SelectedProductLinesByCompany, StockMarket } from "@/types/stock";
 import { useAuthContext } from "@/contexts/auth";
 
 export interface AnalyticalSectionRef {

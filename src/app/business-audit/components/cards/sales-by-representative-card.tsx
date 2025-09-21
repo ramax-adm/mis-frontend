@@ -11,6 +11,9 @@ import { useQueryStates, parseAsString, parseAsArrayOf } from "nuqs";
 import { OrderPriceConsiderationEnum } from "@/types/business-audit";
 import { SalesTotals } from "../totals/sales-totals";
 import { MarketEnum } from "@/types/sensatta";
+import { StorageKeysEnum } from "@/constants/app/storage";
+import { usePersistedFilters } from "@/hooks/use-persisted-filters";
+import { useFilter } from "@/contexts/persisted-filters";
 
 export function SalesByRepresentativeCard() {
   const [globalStates] = useQueryStates({
@@ -20,15 +23,25 @@ export function SalesByRepresentativeCard() {
     endDate: parseAsString.withDefault(new Date().toISOString().split("T")[0]),
   });
 
-  const [sectionStates] = useQueryStates({
-    companyCodes: parseAsArrayOf(parseAsString, ",").withDefault([]),
-    market: parseAsString.withDefault(MarketEnum.MI),
-    priceConsideration: parseAsString.withDefault(
-      OrderPriceConsiderationEnum.NONE
-    ),
-    clientCode: parseAsString.withDefault(""),
-    salesRepresentativeCode: parseAsString.withDefault(""),
-  });
+  const { filters: companyCodes, setFilters: setCompanyCodes } = useFilter<
+    string[]
+  >(StorageKeysEnum.MONITORING_SALES_COMPANIES_FILTER);
+
+  const { filters: market, setFilters: setMarket } = useFilter<string>(
+    StorageKeysEnum.MONITORING_SALES_MARKET_FILTER
+  );
+
+  const { filters: priceConsideration, setFilters: setPriceConsideration } =
+    useFilter<string>(
+      StorageKeysEnum.MONITORING_SALES_PRICE_CONSIDERATION_FILTER
+    );
+
+  const { filters: clientCodes, setFilters: setClientCodes } = useFilter<
+    string[]
+  >(StorageKeysEnum.MONITORING_SALES_CLIENT_FILTER);
+
+  const { filters: representativeCodes, setFilters: setRepresentativeCodes } =
+    useFilter<string[]>(StorageKeysEnum.MONITORING_SALES_REPRESENTATIVE_FILTER);
 
   const {
     data: sales,
@@ -37,12 +50,11 @@ export function SalesByRepresentativeCard() {
   } = useGetBusinessAuditSalesData({
     startDate: globalStates.startDate,
     endDate: globalStates.endDate,
-    market: sectionStates.market as MarketEnum,
-    companyCodes: sectionStates.companyCodes.join(","),
-    priceConsideration:
-      sectionStates.priceConsideration as OrderPriceConsiderationEnum,
-    clientCode: sectionStates.clientCode,
-    salesRepresentativeCode: sectionStates.salesRepresentativeCode,
+    market: market as MarketEnum,
+    companyCodes: companyCodes.join(","),
+    priceConsideration: priceConsideration as OrderPriceConsiderationEnum,
+    clientCodes: clientCodes.join(","),
+    salesRepresentativeCodes: representativeCodes.join(","),
   });
 
   const salesData = sales?.salesByRepresentative.data ?? {};

@@ -108,7 +108,6 @@ const getData = ({
       nfId: key,
       cfop: `${item.cfopCode} - ${item.cfopDescription}`,
       market: marketMap[item.market ?? ""] ?? "N/A",
-
       client: `${item.clientCode} - ${item.clientName}`,
       salesCount: item.salesCount ?? 0,
       representative: `${item.representativeCode} - ${item.representativeName}`,
