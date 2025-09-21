@@ -4,10 +4,15 @@ import { useEffect, useRef, useState } from "react";
 import { Button, Box, Typography, Alert } from "@mui/material";
 import { useUserConfirmDocumentAcceptance } from "@/services/react-query/mutations/intranet";
 import { toast } from "sonner";
-import { PdfViewer } from "@/components/PdfViewer";
 import { NextResponse } from "next/server";
 import dayjs from "dayjs";
 import { getDiffBetweenDates } from "@/utils/date.utils";
+import dynamic from "next/dynamic";
+
+// Import dinâmico
+const PdfViewer = dynamic(() => import("@/components/PdfViewer"), {
+  ssr: false, // se precisar desabilitar renderização no servidor
+});
 
 interface DocumentViewerModalProps {
   versionId: string;
