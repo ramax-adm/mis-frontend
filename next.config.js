@@ -2,6 +2,8 @@
 const nextConfig = {
   // output: 'export',
   webpack: (config, { isServer }) => {
+    config.resolve.alias.canvas = false;
+
     if (!isServer) {
       config.resolve.fallback = {
         ...config.resolve.fallback,
