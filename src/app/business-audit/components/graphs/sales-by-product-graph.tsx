@@ -1,6 +1,7 @@
 import {
   GetBusinessAuditSalesClientAgg,
   GetBusinessAuditSalesProductAgg,
+  GetBusinessAuditSalesRepresentativeAgg,
 } from "@/types/api/business-audit";
 import { formatToDateMinified } from "@/utils/formatToDate";
 import { stringSubstr, toLocaleString, toPercent } from "@/utils/string.utils";
@@ -20,27 +21,48 @@ import {
   YAxis,
 } from "recharts";
 import { LoaderIcon } from "../customized/loader-icon";
+import CustomTable, {
+  CustomTableColumn,
+} from "@/components/Table/custom-table";
 
-const COLORS_TOP_5 = [
-  "#312E81", // Azul 800
-  "#4338CA", // Azul 600
-  "#6366F1", // Azul 500
-  "#A5B4FC", // Azul 300
-  "#E0E7FF", // Azul 200
+type ParsedDataItem = {
+  id?: string;
+  name: string;
+  totalFatValue: number;
+  percent: number;
+  acc: number;
+};
+
+type GetDataResponse = {
+  top10: ParsedDataItem[];
+  rest: ParsedDataItem[];
+};
+
+const COLORS_TOP_10 = [
+  "#1E1B4B", // Indigo 950
+  "#312E81", // Indigo 900
+  "#3730A3", // Indigo 800
+  "#4338CA", // Indigo 700
+  "#4F46E5", // Indigo 600
+  "#6366F1", // Indigo 500
+  "#818CF8", // Indigo 400
+  "#A5B4FC", // Indigo 300
+  "#C7D2FE", // Indigo 200
+  "#E0E7FF", // Indigo 100
 ];
 
-const COLORS = [
-  "#064E3B", // VERDE 900
-  "#065F46", // VERDE 800
-  "#047857", // VERDE 700
-  "#059669", // VERDE 600
-  "#10B981", // VERDE 500
-  "#34D399", // VERDE 400
-  "#6EE7B7", // VERDE 300
-  "#A7F3D0", // VERDE 200
-  "#D1FAE5", // VERDE 100
-  "#ECFDF5", // VERDE 50
-];
+// const COLORS = [
+//   "#064E3B", // VERDE 900
+//   "#065F46", // VERDE 800
+//   "#047857", // VERDE 700
+//   "#059669", // VERDE 600
+//   "#10B981", // VERDE 500
+//   "#34D399", // VERDE 400
+//   "#6EE7B7", // VERDE 300
+//   "#A7F3D0", // VERDE 200
+//   "#D1FAE5", // VERDE 100
+//   "#ECFDF5", // VERDE 50
+// ];
 
 interface SalesByProductGraphProps {
   data?: Record<string, GetBusinessAuditSalesProductAgg>;
@@ -52,7 +74,7 @@ export function SalesByProductGraph({
 }: SalesByProductGraphProps) {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
-  const { top5, rest } = getData({ data });
+  const { top10, rest } = getData({ data });
 
   if (isFetching) {
     return (
@@ -71,29 +93,28 @@ export function SalesByProductGraph({
 
   return (
     <>
-      {/* Top 5 */}
       <Typography fontSize={12} fontWeight={700}>
-        Top 5 produtos
+        Top 10 Produtos
       </Typography>
-      <ResponsiveContainer width='100%' height={180}>
+      <ResponsiveContainer width='100%' height={250}>
         <PieChart style={{ fontSize: 12, fontFamily: "roboto" }}>
           <Pie
             dataKey='totalFatValue'
-            data={top5}
+            data={top10}
             cx='50%'
             cy='50%'
-            outerRadius={65}
-            innerRadius={45}
+            outerRadius={85}
+            innerRadius={60}
             strokeWidth={1}
             onMouseEnter={(_, index) => setHoveredIndex(index)}
             onMouseLeave={() => setHoveredIndex(null)}
             labelLine={false}
             label={<CustomLabel />}
           >
-            {top5.map((entry, index) => (
+            {top10.map((entry, index) => (
               <Cell
                 key={`cell-top-${index}`}
-                fill={COLORS_TOP_5[index % COLORS_TOP_5.length]}
+                fill={COLORS_TOP_10[index % COLORS_TOP_10.length]}
                 fillOpacity={hoveredIndex === index ? 0.8 : 1}
               />
             ))}
@@ -101,68 +122,41 @@ export function SalesByProductGraph({
           <Tooltip content={<CustomTooltip />} />
         </PieChart>
       </ResponsiveContainer>
-
-      {/* Restante */}
-      <Typography fontSize={12} fontWeight={700}>
-        Restante dos produtos
-      </Typography>
-      <ResponsiveContainer width='100%' height={180}>
-        <PieChart style={{ fontSize: 12, fontFamily: "roboto" }}>
-          <Pie
-            dataKey='totalFatValue'
-            data={rest}
-            cx='50%'
-            cy='50%'
-            outerRadius={55}
-            strokeWidth={1}
-            labelLine={false}
-            label={<CustomLabel />}
-          >
-            {rest.map((entry, index) => (
-              <Cell
-                key={`cell-rest-${index}`}
-                fill={COLORS[index % COLORS.length]}
-              />
-            ))}
-          </Pie>
-          <Tooltip content={<CustomTooltip />} />
-        </PieChart>
-      </ResponsiveContainer>
+      <Box>
+        <CustomGraphTable data={{ top10, rest }} />
+      </Box>
+      {/** Use a table aqui: */}
     </>
   );
 }
 
-const getData = ({ data }: SalesByProductGraphProps) => {
-  const response: {
-    id?: string;
-    name: string;
-    totalFatValue: number;
-    percent: number;
-  }[] = [];
+const getData = ({ data }: SalesByProductGraphProps): GetDataResponse => {
   if (!data) {
-    return { top5: [], rest: [] };
+    return { top10: [], rest: [] };
   }
 
-  const values = Object.values(data);
-
-  for (const value of values) {
-    response.push({
-      id: value.productCode,
-      name: `${value.productCode} - ${value.productName}`,
-      totalFatValue: value.totalFatValue,
-      percent: value.percentValue,
-    });
-  }
+  const response: ParsedDataItem[] = Object.values(data).map((value) => ({
+    id: value.productCode,
+    name: `${value.productCode} - ${value.productName}`,
+    totalFatValue: value.totalFatValue,
+    percent: value.percentValue,
+    acc: 0, // será recalculado depois
+  }));
 
   // Ordena por valor
-  const sorted = response.sort((a, b) => b.totalFatValue - a.totalFatValue);
+  let accumulated = 0;
+  const sorted = response
+    .sort((a, b) => b.totalFatValue - a.totalFatValue)
+    .map((item) => {
+      accumulated += item.percent;
+      return { ...item, acc: accumulated };
+    });
 
-  // Top 5
-  const top5 = sorted.slice(0, 5);
+  // Top 10
+  const top10 = sorted.slice(0, 10);
 
-  // Restante
-  // Do 6º até o 15º
-  const middle = sorted.slice(5, 15);
+  // Restante (11º até 15º)
+  const middle = sorted.slice(10, 15);
 
   // Soma do 16º em diante
   const othersTotal = sorted.slice(15).reduce(
@@ -173,20 +167,27 @@ const getData = ({ data }: SalesByProductGraphProps) => {
     { totalFatValue: 0, percent: 0 }
   );
 
-  // Monta o restante
-  const rest =
-    othersTotal.totalFatValue > 0
-      ? [
-          ...middle,
-          {
-            name: "Outros",
-            totalFatValue: othersTotal.totalFatValue,
-            percent: othersTotal.percent,
-          },
-        ]
-      : middle;
+  let rest: ParsedDataItem[] = [...middle];
 
-  return { top5, rest };
+  if (othersTotal.totalFatValue > 0) {
+    // pega o último acumulado calculado até agora
+    const lastAcc =
+      middle.length > 0
+        ? middle[middle.length - 1].acc
+        : top10[top10.length - 1].acc;
+
+    rest = [
+      ...middle,
+      {
+        name: "Outros",
+        totalFatValue: othersTotal.totalFatValue,
+        percent: othersTotal.percent,
+        acc: lastAcc + othersTotal.percent,
+      },
+    ];
+  }
+
+  return { top10, rest };
 };
 
 const CustomTooltip = ({ active, payload, label }: any) => {
@@ -250,5 +251,54 @@ const CustomLabel = ({
         {toLocaleString(value)} - {toPercent(payload.percent)}
       </tspan>
     </text>
+  );
+};
+
+export const CustomGraphTable = ({ data }: { data: GetDataResponse }) => {
+  // calcula o acumulado em %
+  const rows = [...data.top10, ...data.rest];
+
+  const columns: CustomTableColumn<ParsedDataItem>[] = [
+    {
+      headerKey: "name",
+      headerName: "Produto",
+      align: "left",
+      sx: { fontSize: "9.5px" },
+      cellSx: { fontSize: "9px" },
+    },
+    {
+      headerKey: "totalFatValue",
+      headerName: "Fat (R$)",
+      align: "right",
+      sx: { fontSize: "9.5px" },
+      cellSx: { fontSize: "9px" },
+      format: (value) => toLocaleString(value),
+    },
+    {
+      headerKey: "percent",
+      headerName: "%",
+      align: "right",
+      sx: { fontSize: "9.5px" },
+      cellSx: { fontSize: "9px" },
+      format: (value) => toPercent(value),
+    },
+    {
+      headerKey: "acc",
+      headerName: "% Acc",
+      align: "right",
+      sx: { fontSize: "9.5px" },
+      cellSx: { fontSize: "9px" },
+      format: (value) => toPercent(value),
+    },
+  ];
+
+  return (
+    <Box margin={2}>
+      <CustomTable<ParsedDataItem>
+        columns={columns}
+        rows={rows}
+        tableStyles={{ height: "150px" }}
+      />
+    </Box>
   );
 };
