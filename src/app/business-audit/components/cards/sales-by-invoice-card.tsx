@@ -118,7 +118,9 @@ export function SalesByInvoiceCard() {
           gap: 1,
         }}
       >
-        <SalesTotals data={sales?.salesByInvoice.totals} />
+        <Box sx={{ width: "450px" }}>
+          <SalesTotals data={sales?.salesByInvoice.totals} />
+        </Box>
         <Box sx={{ width: "250px" }}>
           <MultipleSelectInputControlled
             size='small'
