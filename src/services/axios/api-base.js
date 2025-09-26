@@ -27,6 +27,9 @@ export const urls = {
     GET_BUSINESS_AUDIT_ORDERS_LINES_DATA: `${apiLocal}/api/business-audit/data/orders-lines`,
     GET_SALES_CLIENTS_FILTERS: `${apiLocal}/api/business-audit/filters/clients`,
     GET_SALES_REPRESENTATIVE_FILTERS: `${apiLocal}/api/business-audit/filters/sales-representatives`,
+
+    // return occurrences
+    GET_BUSINESS_AUDIT_RETURN_OCCURRENCES: `${apiLocal}/api/business-audit/return-occurrences`,
   },
   BUSINESS_SUMMARY: {
     GET_OPERATION_FINANCE_SUMMARY: `${apiLocal}/business-summary/operation-finance/summary`,

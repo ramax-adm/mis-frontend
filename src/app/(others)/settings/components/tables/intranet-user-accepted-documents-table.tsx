@@ -25,10 +25,10 @@ type GetParsedDataItemType = {
   username: string;
   documentName: string;
   documentType: IntranetDocumentTypeEnum;
-  key: string;
-  version: string;
-  reviewNumber: number;
-  majorChanges: string;
+  key?: string;
+  version?: string;
+  reviewNumber?: number;
+  majorChanges?: string;
   category: IntranetDocumentCategoryEnum | undefined;
   acceptanceTime: string;
 };

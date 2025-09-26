@@ -86,7 +86,7 @@ export const normalizeError = (error: any): ApiCustomError => {
   const customError = new ApiCustomError({});
   if (error?.isAxiosError === undefined) {
     customError.setMessage = error?.message ?? "Erro desconhecido da API";
-    return customError.toEntity();
+    return customError;
   }
 
   if (
@@ -96,13 +96,13 @@ export const normalizeError = (error: any): ApiCustomError => {
   ) {
     customError.setMessage = error?.message ?? "Erro desconhecido da API";
     customError.setStatus = error?.response?.status;
-    return customError.toEntity();
+    return customError;
   }
 
   customError.setMessage = error?.response?.data?.message;
   customError.setStatus = error?.response?.status;
 
-  return customError.toEntity();
+  return customError;
 };
 
 export const setRequestBearerToken = (api: AxiosInstance) => {

@@ -112,8 +112,8 @@ export function IntranetDocumentDetailsModal({
               {document?.versions?.map((item, index) => (
                 <ListItemCustom
                   key={item.id}
-                  title={`Versão - ${item.version}`}
-                  content={item.key}
+                  title={`Versão - ${item?.version}`}
+                  content={`${item?.key}`}
                   icon={<RiPagesLine />}
                 />
               ))}

@@ -6,23 +6,26 @@ import { queryKeys } from "../query-keys";
 import { Dispatch } from "react";
 import { getFromLocalStorage } from "@/utils/storage.utils";
 import { StorageKeysEnum } from "@/constants/app/storage";
+import { GetFetch, urls } from "@/services/axios/api-base";
+import { useApiQuery } from "../react-query";
 
 export const useGetUserProfile = () => {
   let userId = "";
   if (typeof window !== "undefined") {
     const localUser = getStoredUser();
-
     userId = localUser?.id ?? "";
   }
-  return useQuery<User>({
-    queryKey: [queryKeys.AUTH.GET_PROFILE.concat(userId ?? "")],
+  return useApiQuery<User>({
+    queryKey: [queryKeys.AUTH.GET_PROFILE.concat(userId)],
     queryFn: async () => {
-      const response = await GetUserProfile(userId ?? "");
-      const profile = response.data;
+      const response = await GetFetch(urls.USER.GET_PROFILE, {
+        params: { id: userId },
+      });
 
-      return profile;
+      return response.data;
     },
-    enabled: typeof window !== "undefined" && !!userId,
+
+    enabled: typeof window !== "undefined",
   });
 };
 

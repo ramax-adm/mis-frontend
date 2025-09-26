@@ -19,11 +19,11 @@ type GetParsedDataItemType = {
   id: string;
   documentName: string;
   documentType: IntranetDocumentTypeEnum;
-  key: string;
-  version: string;
-  reviewNumber: number;
-  storageType: string | undefined;
-  storageKey: string | undefined;
+  key?: string;
+  version?: string;
+  reviewNumber?: number;
+  storageType?: string;
+  storageKey?: string;
   createdAt: Date;
   createdBy: string;
 };

@@ -1,10 +1,16 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // output: 'export',
-  api: {
-    bodyParser: {
-      sizeLimit: '50mb', // ou maior
-    },
+  webpack: (config, { isServer }) => {
+    config.resolve.alias.canvas = false;
+
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        canvas: false,
+      };
+    }
+    return config;
   },
   images: { unoptimized: true },
   eslint: {
