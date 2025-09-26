@@ -81,7 +81,12 @@ export default function AuthContextProvider({
   const [loadingLogin, setLoadingLogin] = useState(false);
   const [loginError, setLoginError] = useState(false);
   const [loginErrorMessage, setLoadingLoginMessage] = useState("");
-  const { data: profile, isFetching: isFetchingProfile } = useGetUserProfile();
+  const {
+    data: profile,
+    isFetching: isFetchingProfile,
+    isError: isProfileError,
+    error: profileError,
+  } = useGetUserProfile();
   const { data: appWebpages = [] } = useGetAppWebpages();
 
   const getAuthRoutes = () => {
@@ -196,6 +201,7 @@ export default function AuthContextProvider({
   };
 
   const logoutUser = () => {
+    console.log("[LOGOUT USER]: redirecting to /login");
     const userPayload = {
       id: "",
       name: "",
@@ -246,30 +252,27 @@ export default function AuthContextProvider({
     const storedWebpages = getStoredWebpages();
     const authRoutes = getAuthRoutes();
 
-    const isCurrentPageAnAuthRoute = !!authRoutes?.find((i) => i === pathname);
-    // checar se a pagina atual é um auth route
-    if (!isCurrentPageAnAuthRoute) {
-      return;
-    }
-
-    console.log("isCurrentPageAnAuthRoute passed");
-
+    // checar se tem algum usuario
     const haveSomeUserDataStored = !!storedToken && !!storedUser;
     if (!haveSomeUserDataStored) {
       return logoutUser();
     }
-
     console.log("haveSomeDataStored passed");
 
     // checar se tem algum profile
-
     const localProfile = profile ?? storedUser;
-    console.log({ localProfile });
     if (!localProfile) {
       return logoutUser();
     }
 
     console.log("profile passed");
+
+    // checar se a pagina atual é uma rota autenticada
+    const isCurrentPageAnAuthRoute = !!authRoutes?.find((i) => i === pathname);
+    if (!isCurrentPageAnAuthRoute) {
+      return;
+    }
+    console.log("isCurrentPageAnAuthRoute passed");
 
     const localWebpages = appWebpages && storedWebpages;
     const currentPage = localWebpages?.find((i) => i.page === pathname);
@@ -292,12 +295,19 @@ export default function AuthContextProvider({
 
     // checar se o usuario tem a webpage
     if (!isCurrentPageAllowed) {
-      console.log("redirecting to /login");
-
       return logoutUser();
     }
     console.log("isCurrentPageAllowed passed");
   }, [pathname]);
+
+  useEffect(() => {
+    console.log("[PROFILE]: Use Effect");
+    console.log({ isFetchingProfile, profileError });
+
+    if (!isFetchingProfile && profileError?.isUnauthorized()) {
+      return logoutUser();
+    }
+  }, [pathname, isFetchingProfile]);
 
   return (
     <AuthContext.Provider

@@ -7,6 +7,7 @@ import {
 } from "@/services/webApi/business-audit-api";
 import {
   GetBusinessAuditOverviewDataResponse,
+  GetBusinessAuditReturnOccurrencesDataResponse,
   GetBusinessAuditSalesDataResponse,
 } from "@/types/api/business-audit";
 import { GetFetch, urls } from "@/services/axios/api-base";
@@ -83,6 +84,51 @@ export const useGetBusinessAuditSalesData = ({
           },
         }
       );
+      return response.data;
+    },
+  });
+};
+
+export const useGetBusinessAuditReturnOccurrencesData = ({
+  startDate,
+  endDate,
+  companyCodes,
+  occurrenceCauses,
+  occurrenceNumber,
+  returnTypes,
+}: {
+  startDate: string;
+  endDate: string;
+  occurrenceNumber?: string;
+  companyCodes?: string;
+  returnTypes?: string;
+  occurrenceCauses?: string;
+}) => {
+  return useApiQuery<GetBusinessAuditReturnOccurrencesDataResponse>({
+    queryKey: [
+      queryKeys.BUSINESS_AUDIT.GET_BUSINESS_AUDIT_RETURN_OCCURRENCES,
+      startDate,
+      endDate,
+      companyCodes,
+      occurrenceCauses,
+      occurrenceNumber,
+      returnTypes,
+    ],
+    queryFn: async () => {
+      const response = await GetFetch(
+        urls.BUSINESS_AUDIT.GET_BUSINESS_AUDIT_RETURN_OCCURRENCES,
+        {
+          params: {
+            startDate,
+            endDate,
+            companyCodes,
+            occurrenceCauses,
+            occurrenceNumber,
+            returnTypes,
+          },
+        }
+      );
+
       return response.data;
     },
   });

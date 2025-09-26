@@ -139,6 +139,7 @@ const getData = ({
     [IntranetDocumentTypeEnum.POP]: "POP",
   };
   return data
+    .map((i) => ({ ...i, key: i.key ?? "N/D" }))
     .sort((a, b) => a.key.localeCompare(b.key, undefined, { numeric: true }))
     .map((i) => ({
       ...i,

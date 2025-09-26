@@ -27,10 +27,12 @@ import { getIso8601DateString } from "@/utils/date.utils";
 import { StorageKeysEnum } from "@/constants/app/storage";
 import { usePersistedFilters } from "@/hooks/use-persisted-filters";
 import { FiltersProvider, useFilter } from "@/contexts/persisted-filters";
+import { BusinessAuditReturnOccurrencesSection } from "./components/sections/return-occurrences-section";
 
 enum TabSectionsEnum {
   OVERVIEW_SECTION = "overview",
   SALES_SECTION = "sales",
+  RETURN_OCCURRENCES_SECTION = "return-occurrences",
 }
 const MARKET_OPTIONS = [
   {
@@ -293,6 +295,10 @@ export default function BusinessAudit() {
         <Tabs.Select customHandler={handleSelectTab}>
           <Tab label='Visão Geral' value={TabSectionsEnum.OVERVIEW_SECTION} />
           <Tab label='Vendas' value={TabSectionsEnum.SALES_SECTION} />
+          <Tab
+            label='Devoluções'
+            value={TabSectionsEnum.RETURN_OCCURRENCES_SECTION}
+          />
         </Tabs.Select>
 
         <Tabs.Content>
@@ -302,10 +308,14 @@ export default function BusinessAudit() {
           >
             <BusinessAuditOverviewSection />
           </Tabs.Panel>
-        </Tabs.Content>
-        <Tabs.Content>
           <Tabs.Panel tabName={TabSectionsEnum.SALES_SECTION} ref={tabPanelRef}>
             <BusinessAuditSalesSection />
+          </Tabs.Panel>
+          <Tabs.Panel
+            tabName={TabSectionsEnum.RETURN_OCCURRENCES_SECTION}
+            ref={tabPanelRef}
+          >
+            <BusinessAuditReturnOccurrencesSection />
           </Tabs.Panel>
         </Tabs.Content>
       </Tabs.Root>

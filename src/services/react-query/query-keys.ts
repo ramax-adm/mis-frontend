@@ -18,6 +18,9 @@ export const queryKeys = {
     GET_SALES_REPRESENTATIVES_FILTERS: "business-audit-filters-representatives",
     GET_BUSINESS_AUDIT_SALES: "business-audit-sales",
     GET_BUSINESS_AUDIT_ORDERS_LINES_DATA: "business-audit-orders-lines-data",
+
+    // return occurrences
+    GET_BUSINESS_AUDIT_RETURN_OCCURRENCES: "business-audit-return-occurrences",
   },
   BUSINESS_SUMMARY: {
     GET_OPERATION_FINANCE_SUMMARY:

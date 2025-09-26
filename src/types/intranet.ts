@@ -26,10 +26,10 @@ export interface IntranetDocumentVersion {
   id: string;
   document: IntranetDocument;
   documentId: string;
-  key: string;
-  version: string;
-  reviewNumber: number;
-  majorChanges: string;
+  key?: string;
+  version?: string;
+  reviewNumber?: number;
+  majorChanges?: string;
   category?: IntranetDocumentCategoryEnum;
   extension?: string;
   storageType?: string;
