@@ -170,7 +170,12 @@ export const BurgerMenuContainer = () => {
           return (
             <BurgerMenuItem
               key={item.title}
-              item={item}
+              item={{
+                ...item,
+                subMenuItems: item?.subMenuItems?.filter((i) =>
+                  checkPagePermission({ user, webpages, item: i })
+                ),
+              }}
               submenuOpen={submenuOpen}
               setSubmenuOpen={setSubmenuOpen}
             />

@@ -1,5 +1,3 @@
-import { Column, CustomizedTable } from "@/components/Table/normal-table/body";
-import { IoMdDownload } from "react-icons/io";
 import "@/app/globals.css";
 import { useQueryStates, parseAsBoolean, parseAsString } from "nuqs";
 import { Button } from "@mui/material";
@@ -97,6 +95,7 @@ const getData = ({
     [IntranetDocumentTypeEnum.POP]: "POP",
   };
   return data
+    .map((i) => ({ ...i, key: i.key ?? "N/D" }))
     .sort((a, b) => a.key.localeCompare(b.key, undefined, { numeric: true }))
     .map((i) => ({
       ...i,

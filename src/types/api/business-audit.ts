@@ -1,3 +1,4 @@
+import { ReturnOccurrence } from "../business-audit";
 import { MarketEnum } from "../sensatta";
 
 type GetBusinessAuditOverviewDataAggregated = Record<
@@ -186,4 +187,89 @@ export interface GetBusinessAuditSalesDataResponse {
     totals: GetBusinessAuditSalesDataTotals;
     data: Record<string, GetBusinessAuditSalesRepresentativeAgg>; // Map<string, SalesRepresentativeAgg>
   };
+}
+
+export type GetBusinessAuditReturnOccurrenceByCompanyAgg = {
+  count: number;
+  quantity: number;
+  weightInKg: number;
+  value: number;
+};
+
+export type GetBusinessAuditReturnOccurrenceByCauseAgg = {
+  count: number;
+  quantity: number;
+  weightInKg: number;
+  value: number;
+};
+
+export type GetBusinessAuditReturnOccurrenceByRepresentativeAgg = {
+  count: number;
+  quantity: number;
+  weightInKg: number;
+  value: number;
+};
+
+export type GetBusinessAuditReturnOccurrenceByClientAgg = {
+  count: number;
+  quantity: number;
+  weightInKg: number;
+  value: number;
+};
+
+export type GetBusinessAuditReturnOccurrenceByProductAgg = {
+  count: number;
+  quantity: number;
+  weightInKg: number;
+  value: number;
+};
+
+export type GetBusinessAuditReturnOccurrenceByDayAgg = {
+  count: number;
+  quantity: number;
+  weightInKg: number;
+  value: number;
+};
+
+export type GetBusinessAuditReturnOccurrenceByTypeAgg = {
+  count: number;
+  quantity: number;
+  weightInKg: number;
+  value: number;
+};
+
+export type BusinessAuditReturnOccurrencesDataTotals = {
+  count: number;
+  quantity: number;
+  weightInKg: number;
+  value: number;
+};
+
+export interface GetBusinessAuditReturnOccurrencesDataResponse {
+  occurrencesByCompany?: {
+    totals: BusinessAuditReturnOccurrencesDataTotals;
+    data: Record<string, GetBusinessAuditReturnOccurrenceByCompanyAgg>;
+  };
+  occurrencesByCause?: {
+    totals: BusinessAuditReturnOccurrencesDataTotals;
+    data: Record<string, GetBusinessAuditReturnOccurrenceByCauseAgg>;
+  };
+  occurrencesByRepresentative?: {
+    totals: BusinessAuditReturnOccurrencesDataTotals;
+    data: Record<string, GetBusinessAuditReturnOccurrenceByRepresentativeAgg>;
+  };
+  occurrencesByClient?: {
+    totals: BusinessAuditReturnOccurrencesDataTotals;
+    data: Record<string, GetBusinessAuditReturnOccurrenceByClientAgg>;
+  };
+  occurrencesByProduct?: {
+    totals: BusinessAuditReturnOccurrencesDataTotals;
+    data: Record<string, GetBusinessAuditReturnOccurrenceByProductAgg>;
+  };
+  occurrencesByDay?: {
+    totals: BusinessAuditReturnOccurrencesDataTotals;
+    data: Record<string, GetBusinessAuditReturnOccurrenceByDayAgg>;
+  };
+  occurrencesByType?: Record<string, GetBusinessAuditReturnOccurrenceByTypeAgg>;
+  returnOccurrences: ReturnOccurrence[];
 }
