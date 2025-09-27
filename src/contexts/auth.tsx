@@ -44,7 +44,7 @@ export const userRoles: UserRoles = {
   industry: "industry",
 };
 
-type AuthContext = {
+interface AuthContextInterface {
   user: User;
   isFetchingUser: boolean;
   userRoles: UserRoles;
@@ -67,9 +67,9 @@ type AuthContext = {
     setErrorMessage: Dispatch<SetStateAction<string>>;
   }) => Promise<void>;
   logoutUser: () => void;
-};
+}
 
-export const AuthContext = createContext<AuthContext | null>(null);
+export const AuthContext = createContext<AuthContextInterface | null>(null);
 
 // TODO: provide JWT token
 export default function AuthContextProvider({
@@ -238,10 +238,20 @@ export default function AuthContextProvider({
     return router.push(PageRoutes.login());
   };
 
-  /*
-   * This is a function that tests user authentication for routes
+  /**
+   * Controle de acesso:
+   * 1. Verificar `appWebpages`
+   *    - Se não existir → redireciona para login. (Nesse caso se trata do primeiro acesso)
+   *    - Se existir passa para a frente
+   * 2. Verificar a rota atual, se ela é publica
+   *    - Se rota pública → não faz nada.
+   *    - Se rota privada:
+   *        Verifica o usuario logado, se possui os dados de token e dele proprio:
+   *          - Caso tenha → não faz nada
+   *          - Caso nao tenha → redirect p/ login
+   *
+   *        Verifica se o usuario tem permissão de acesso a rota e faz ou nao redirect com base no retorn
    */
-
   useEffect(() => {
     console.log("[AUTH PROVIDER]: Use Effect");
     if (typeof window === "undefined") {
@@ -252,30 +262,36 @@ export default function AuthContextProvider({
     const storedWebpages = getStoredWebpages();
     const authRoutes = getAuthRoutes();
 
-    // checar se tem algum usuario
-    const haveSomeUserDataStored = !!storedToken && !!storedUser;
-    if (!haveSomeUserDataStored) {
-      return logoutUser();
-    }
-    console.log("haveSomeDataStored passed");
-
-    // checar se tem algum profile
+    const localToken = storedToken;
     const localProfile = profile ?? storedUser;
-    if (!localProfile) {
+    const localWebpages =
+      appWebpages && appWebpages.length > 0 ? appWebpages : storedWebpages;
+
+    // checar se tem alguma webpage
+    if (!localWebpages) {
+      console.log("localWebpages not passed");
       return logoutUser();
     }
-
-    console.log("profile passed");
 
     // checar se a pagina atual é uma rota autenticada
     const isCurrentPageAnAuthRoute = !!authRoutes?.find((i) => i === pathname);
-    if (!isCurrentPageAnAuthRoute) {
-      return;
-    }
-    console.log("isCurrentPageAnAuthRoute passed");
+    if (!isCurrentPageAnAuthRoute) return;
 
-    const localWebpages = appWebpages && storedWebpages;
-    const currentPage = localWebpages?.find((i) => i.page === pathname);
+    if (profileError?.isUnauthorized()) {
+      console.log("profile error unauthorized");
+      return logoutUser();
+    }
+
+    // checar se tem algum usuario
+    const haveSomeUserData = !!localToken && !!localProfile;
+    if (!haveSomeUserData) {
+      console.log("haveSomeUserData not passed");
+      return logoutUser();
+    }
+
+    // checar se tem algum profile
+    const currentPage = localWebpages.find((i) => i.page === pathname);
+
     const isPublicPage = currentPage?.isPublic ?? false;
     const isAdminUser = localProfile?.role === "admin";
     const hasPagePermission = localProfile?.userWebpages?.some(
@@ -285,29 +301,23 @@ export default function AuthContextProvider({
     const isCurrentPageAllowed =
       isPublicPage || isAdminUser || hasPagePermission;
 
-    console.log({ pathname, currentPage, localProfile });
-    console.log({
-      isPublicPage,
-      isAdminUser,
-      hasPagePermission,
-      isCurrentPageAllowed,
-    });
+    console.log({ currentPage, localWebpages, appWebpages, storedWebpages });
 
     // checar se o usuario tem a webpage
     if (!isCurrentPageAllowed) {
+      console.log("isCurrentPageAllowed not passed");
       return logoutUser();
     }
-    console.log("isCurrentPageAllowed passed");
-  }, [pathname]);
+  }, [pathname, profile, appWebpages]);
 
-  useEffect(() => {
-    console.log("[PROFILE]: Use Effect");
-    console.log({ isFetchingProfile, profileError });
+  // useEffect(() => {
+  //   console.log("[PROFILE]: Use Effect");
+  //   console.log({ isFetchingProfile, profileError });
 
-    if (!isFetchingProfile && profileError?.isUnauthorized()) {
-      return logoutUser();
-    }
-  }, [pathname, isFetchingProfile]);
+  //   if (!isFetchingProfile && profileError?.isUnauthorized()) {
+  //     return logoutUser();
+  //   }
+  // }, [pathname, isFetchingProfile]);
 
   return (
     <AuthContext.Provider
