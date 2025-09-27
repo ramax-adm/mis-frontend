@@ -8,6 +8,7 @@ import { getFromLocalStorage } from "@/utils/storage.utils";
 import { StorageKeysEnum } from "@/constants/app/storage";
 import { GetFetch, urls } from "@/services/axios/api-base";
 import { useApiQuery } from "../react-query";
+import { AppWebpage } from "@/types/application";
 
 export const useGetUserProfile = () => {
   let userId = "";
