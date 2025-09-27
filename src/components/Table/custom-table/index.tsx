@@ -36,9 +36,9 @@ export default function CustomTable<T extends { [key: string]: any }>({
         <Table stickyHeader aria-label='sticky table'>
           <TableHead>
             <TableRow>
-              {columns.map((column) => (
+              {columns.map((column, idx) => (
                 <TableCell
-                  key={String(column.headerKey)}
+                  key={`thead-${String(column.headerKey)}-${idx}`}
                   align={column.align}
                   style={{ minWidth: column.minWidth }}
                   sx={{
@@ -59,12 +59,12 @@ export default function CustomTable<T extends { [key: string]: any }>({
           <TableBody>
             {rows.map((row, rowIndex) => (
               <TableRow hover role='checkbox' tabIndex={-1} key={rowIndex}>
-                {columns.map((column) => {
+                {columns.map((column, idx) => {
                   const value = row[column.headerKey];
 
                   return (
                     <TableCell
-                      key={String(column.headerKey)}
+                      key={`tbody-${String(column.headerKey)}-${idx}`}
                       align={column.align}
                       sx={{
                         padding: 0.5,
