@@ -11,4 +11,11 @@ export enum StorageKeysEnum {
   MONITORING_SALES_PRICE_CONSIDERATION_FILTER = "m.monitoring.sales.price-consideration-filter",
   MONITORING_SALES_CLIENT_FILTER = "m.monitoring.sales.client-filter",
   MONITORING_SALES_REPRESENTATIVE_FILTER = "m.monitoring.sales.representatives-filter",
+
+  MONITORING_RETURN_OCCURRENCES_COMPANIES_FILTER = "m.monitoring.return-occurrences.companies-filter",
+  MONITORING_RETURN_OCCURRENCES_OCCURRENCE_NUMBER_FILTER = "m.monitoring.return-occurrences.occurrence-number-filter",
+  MONITORING_RETURN_OCCURRENCES_RETURN_TYPES_FILTER = "m.monitoring.return-occurrences.return-types-filter",
+  MONITORING_RETURN_OCCURRENCES_CAUSES_FILTER = "m.monitoring.return-occurrences.causes-filter",
+  MONITORING_RETURN_OCCURRENCES_CLIENT_FILTER = "m.monitoring.return-occurrences.client-filter",
+  MONITORING_RETURN_OCCURRENCES_REPRESENTATIVE_FILTER = "m.monitoring.return-occurrences.representatives-filter",
 }

@@ -25,6 +25,7 @@ type ParsedDataItem = {
   quantity: number;
   value: number;
   weightInKg: number;
+  percentValue: number;
 };
 
 const COLORS_TOP_10 = [
@@ -52,8 +53,6 @@ export function ReturnOccurrencesByProductGraph({
 
   const parsedData = getData({ data });
 
-  console.log({ parsedData });
-
   if (isFetching) {
     return (
       <Box
@@ -61,7 +60,7 @@ export function ReturnOccurrencesByProductGraph({
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          height: "250px",
+          height: "340px",
         }}
       >
         <LoaderIcon />
@@ -71,15 +70,15 @@ export function ReturnOccurrencesByProductGraph({
 
   return (
     <>
-      <ResponsiveContainer width='100%' height={250}>
+      <ResponsiveContainer width='100%' height={295}>
         <PieChart style={{ fontSize: 12, fontFamily: "roboto" }}>
           <Pie
             dataKey='value'
             data={parsedData}
             cx='50%'
             cy='50%'
-            outerRadius={70}
-            innerRadius={45}
+            outerRadius={75}
+            innerRadius={50}
             strokeWidth={1}
             onMouseEnter={(_, index) => setHoveredIndex(index)}
             onMouseLeave={() => setHoveredIndex(null)}
@@ -111,6 +110,7 @@ const getData = ({ data = {} }: ReturnOccurrencesByProductGraphProps) => {
       quantity: data[key].quantity,
       value: data[key].value,
       weightInKg: data[key].weightInKg,
+      percentValue: data[key].percentValue,
     });
   }
 
@@ -133,8 +133,8 @@ const CustomTooltip = ({ active, payload, label }: any) => {
         {payload.map((item: any) => {
           return (
             <>
-              <Typography variant='caption'>{`${item.name}`}</Typography>
-              <Typography variant='body2'>{`Faturamento $: ${toLocaleString(item.value)} - ${toPercent(item.payload.percent)}`}</Typography>
+              <Typography variant='caption'>{`${item.payload.type}`}</Typography>
+              <Typography variant='body2'>{`Faturamento $: ${toLocaleString(item.value)} - ${toPercent(item.payload.percentValue)}`}</Typography>
             </>
           );
         })}
@@ -164,7 +164,7 @@ const CustomLabel = ({
       x={x}
       y={y}
       style={{
-        fontSize: "8.5px",
+        fontSize: "8px",
         fontFamily: "roboto",
         fontWeight: 500,
       }}
@@ -175,7 +175,10 @@ const CustomLabel = ({
         {stringSubstr(payload?.type ?? "", 30)}
       </tspan>
       <tspan x={x} dy='1.1em'>
-        {toLocaleString(payload.value)}
+        {`${toLocaleString(payload.value)}`}
+      </tspan>
+      <tspan x={x} dy='1.1em'>
+        {`${toPercent(payload.percentValue)}`}
       </tspan>
     </text>
   );

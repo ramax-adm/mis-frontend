@@ -29,7 +29,12 @@ export const urls = {
     GET_SALES_REPRESENTATIVE_FILTERS: `${apiLocal}/api/business-audit/filters/sales-representatives`,
 
     // return occurrences
-    GET_BUSINESS_AUDIT_RETURN_OCCURRENCES: `${apiLocal}/api/business-audit/return-occurrences`,
+    RETURN_OCCURRENCES: {
+      GET_BUSINESS_AUDIT_RETURN_OCCURRENCES: `${apiLocal}/api/business-audit/return-occurrences`,
+      GET_RETURN_OCCURRENCES_CAUSES_FILTERS: `${apiLocal}/api/business-audit/return-occurrences/filters/causes`,
+      GET_RETURN_OCCURRENCES_CLIENTS_FILTERS: `${apiLocal}/api/business-audit/return-occurrences/filters/clients`,
+      GET_RETURN_OCCURRENCES_REPRESENTATIVE_FILTERS: `${apiLocal}/api/business-audit/return-occurrences/filters/sales-representatives`,
+    },
   },
   BUSINESS_SUMMARY: {
     GET_OPERATION_FINANCE_SUMMARY: `${apiLocal}/business-summary/operation-finance/summary`,

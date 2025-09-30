@@ -21,6 +21,12 @@ export const queryKeys = {
 
     // return occurrences
     GET_BUSINESS_AUDIT_RETURN_OCCURRENCES: "business-audit-return-occurrences",
+    GET_RETURN_OCCURRENCES_CAUSES_FILTERS:
+      "business-audit-filters-return-occurrences-causes",
+    GET_RETURN_OCCURRENCES_CLIENTS_FILTERS:
+      "business-audit-filters-return-occurrences-clients",
+    GET_RETURN_OCCURRENCES_REPRESENTATIVES_FILTERS:
+      "business-audit-filters-return-occurrences-representatives",
   },
   BUSINESS_SUMMARY: {
     GET_OPERATION_FINANCE_SUMMARY:
