@@ -3,7 +3,15 @@ import { DateInputControlled } from "@/components/Inputs/DateInput/controlled";
 import { PageContainer } from "@/components/PageContainer";
 import { PageContainerHeader } from "@/components/PageContainer/header";
 import { COLORS } from "@/constants/styles/colors";
-import { Alert, Box, Button, Grid, Tab, Typography } from "@mui/material";
+import {
+  Alert,
+  Box,
+  Button,
+  Grid,
+  switchClasses,
+  Tab,
+  Typography,
+} from "@mui/material";
 import dayjs from "dayjs";
 import { Suspense, useRef, useState } from "react";
 import {
@@ -26,77 +34,55 @@ import { useExportBusinessAuditXlsx } from "@/services/react-query/mutations/bus
 import { getIso8601DateString } from "@/utils/date.utils";
 import { StorageKeysEnum } from "@/constants/app/storage";
 import { usePersistedFilters } from "@/hooks/use-persisted-filters";
-import { FiltersProvider, useFilter } from "@/contexts/persisted-filters";
+import {
+  FiltersProvider,
+  useAllFilters,
+  useFilter,
+} from "@/contexts/persisted-filters";
 import { BusinessAuditReturnOccurrencesSection } from "./components/sections/return-occurrences-section";
-
-enum TabSectionsEnum {
-  OVERVIEW_SECTION = "overview",
-  SALES_SECTION = "sales",
-  RETURN_OCCURRENCES_SECTION = "return-occurrences",
-}
-const MARKET_OPTIONS = [
-  {
-    label: "ME",
-    key: MarketEnum.ME,
-    value: MarketEnum.ME,
-  },
-  {
-    label: "MI",
-    key: MarketEnum.MI,
-    value: MarketEnum.MI,
-  },
-];
-const PRICE_CONSIDERATION_OPTIONS = [
-  { label: "Todos", value: OrderPriceConsiderationEnum.NONE },
-  {
-    label: "Acima da tabela",
-    value: OrderPriceConsiderationEnum.OVER_TABLE_PRICE,
-  },
-  {
-    label: "Abaixo da tabela",
-    value: OrderPriceConsiderationEnum.UNDER_TABLE_PRICE,
-  },
-];
+import { SalesSectionFilters } from "./components/filters/sales-section-filters";
+import { ReturnOccurrencesSectionFilters } from "./components/filters/return-occurrences-filters";
+import { BusinessAuditTabSectionsEnum } from "./constants/business-audit-tab-sections.enum";
 
 export default function BusinessAudit() {
   const tabPanelRef = useRef<TabsPanelRef>(null);
 
   const [globalStates, setGlobalStates] = useQueryStates({
-    selectedTab: parseAsString.withDefault(TabSectionsEnum.OVERVIEW_SECTION),
+    selectedTab: parseAsString.withDefault(
+      BusinessAuditTabSectionsEnum.OVERVIEW_SECTION
+    ),
     startDate: parseAsString.withDefault(
       new Date().toISOString().split("T")[0]
     ),
     endDate: parseAsString.withDefault(new Date().toISOString().split("T")[0]),
   });
 
-  const { filters: companyCodes, setFilters: setCompanyCodes } = useFilter<
-    string[]
-  >(StorageKeysEnum.MONITORING_SALES_COMPANIES_FILTER);
-
-  const { filters: market, setFilters: setMarket } = useFilter<string>(
-    StorageKeysEnum.MONITORING_SALES_MARKET_FILTER
-  );
-
-  const { filters: priceConsideration, setFilters: setPriceConsideration } =
-    useFilter<string>(
-      StorageKeysEnum.MONITORING_SALES_PRICE_CONSIDERATION_FILTER
-    );
-
-  const { filters: clientCodes } = useFilter<string[]>(
-    StorageKeysEnum.MONITORING_SALES_CLIENT_FILTER
-  );
-
-  const { filters: representativeCodes } = useFilter<string[]>(
-    StorageKeysEnum.MONITORING_SALES_REPRESENTATIVE_FILTER
-  );
-
-  const { data: companies = [] } = useGetUserCompanies({});
+  const {
+    // sales
+    [StorageKeysEnum.MONITORING_SALES_COMPANIES_FILTER]: {
+      filters: salesCompanyCodes,
+    },
+    [StorageKeysEnum.MONITORING_SALES_MARKET_FILTER]: { filters: salesMarket },
+    [StorageKeysEnum.MONITORING_SALES_PRICE_CONSIDERATION_FILTER]: {
+      filters: salesPriceConsideration,
+    },
+    [StorageKeysEnum.MONITORING_SALES_CLIENT_FILTER]: {
+      filters: salesClientCodes,
+    },
+    [StorageKeysEnum.MONITORING_SALES_REPRESENTATIVE_FILTER]: {
+      filters: salesRepresentativeCodes,
+    },
+    // return occurrences
+    [StorageKeysEnum.MONITORING_RETURN_OCCURRENCES_COMPANIES_FILTER]: {
+      filters: returnOccurrencesCompanyCodes,
+    },
+  } = useAllFilters();
 
   const {
     mutateAsync: exportBusinessAuditReport,
     isPending: isExportingBusinessAuditReport,
   } = useExportBusinessAuditXlsx(
-    globalStates.selectedTab as "overview" | "sales"
+    globalStates.selectedTab as BusinessAuditTabSectionsEnum
   );
 
   const handleSelectStartDate = (value: Date) =>
@@ -105,20 +91,34 @@ export default function BusinessAudit() {
     setGlobalStates({ endDate: getIso8601DateString(value) });
   const handleSelectTab = (value: string) =>
     setGlobalStates({ selectedTab: value });
-  const handleSelectMarket = (value: string) => setMarket(value);
-  const handleSelectPriceConsideration = (value: string) =>
-    setPriceConsideration(value as string);
-  const handleSelectCompanyCode = (value: string[]) => setCompanyCodes(value);
 
-  const handleToogleCompanyCodes = () => {
-    if (!companyCodes) return;
+  const getExportReportFiltersPayload = () => {
+    const payload = {
+      startDate: globalStates.startDate,
+      endDate: globalStates.endDate,
+    };
 
-    const haveSomeSelectedCompanyCodes = companyCodes?.length > 0;
-    if (haveSomeSelectedCompanyCodes) {
-      return setCompanyCodes([]);
+    switch (globalStates.selectedTab) {
+      case BusinessAuditTabSectionsEnum.SALES_SECTION: {
+        Object.assign(payload, {
+          companyCodes: salesCompanyCodes.join(","),
+          market: salesMarket as MarketEnum,
+          priceConsideration:
+            salesPriceConsideration as OrderPriceConsiderationEnum,
+          clientCodes: salesClientCodes.join(","),
+          salesRepresentativeCodes: salesRepresentativeCodes.join(","),
+        });
+        break;
+      }
+      case BusinessAuditTabSectionsEnum.RETURN_OCCURRENCES_SECTION: {
+        Object.assign(payload, {
+          companyCodes: returnOccurrencesCompanyCodes.join(","),
+        });
+        break;
+      }
     }
 
-    return setCompanyCodes(companies?.map((i) => i.sensattaCode));
+    return payload;
   };
 
   return (
@@ -133,7 +133,7 @@ export default function BusinessAudit() {
         }}
       >
         <PageContainerHeader
-          title='Monitoramento'
+          title='Monitoramento (Auditoria)'
           sx={{ flexDirection: "column", alignItems: "flex-start", gap: 0 }}
         />
         <Box sx={{ display: "flex", flexDirection: "row", gap: 1 }}>
@@ -142,17 +142,9 @@ export default function BusinessAudit() {
             size='small'
             disabled={isExportingBusinessAuditReport}
             onClick={async () =>
+              // Esse endpoint serve para todas as paginas, pela seção que esta ele sabe qual report deve tirar
               await exportBusinessAuditReport({
-                filters: {
-                  startDate: globalStates.startDate,
-                  endDate: globalStates.endDate,
-                  companyCodes: companyCodes.join(","),
-                  market: market as MarketEnum,
-                  priceConsideration:
-                    priceConsideration as OrderPriceConsiderationEnum,
-                  clientCodes: clientCodes.join(","),
-                  salesRepresentativeCodes: representativeCodes.join(","),
-                },
+                filters: getExportReportFiltersPayload(),
               })
             }
           >
@@ -184,89 +176,16 @@ export default function BusinessAudit() {
           />
         </Grid>
 
-        {globalStates.selectedTab === TabSectionsEnum.SALES_SECTION && (
-          <>
-            <Grid
-              item
-              marginTop={{
-                xs: 0,
-                sm: 0,
-              }}
-              xs={12}
-              sm={2}
-            >
-              <MultipleSelectInputControlled
-                label='Empresas'
-                size='small'
-                value={companyCodes}
-                onChange={handleSelectCompanyCode}
-                options={companies.map((i) => ({
-                  label: `${i.sensattaCode} - ${i.name}`,
-                  value: i.sensattaCode,
-                  key: i.sensattaCode,
-                }))}
-              />{" "}
-              <Typography
-                fontSize={"9px"}
-                sx={{
-                  marginX: "auto",
-                  "&:hover": {
-                    color: COLORS.TEXTO,
-                    cursor: "pointer",
-                  },
-                }}
-                onClick={handleToogleCompanyCodes}
-              >
-                Selecionar/Deselecionar tudo
-              </Typography>
-            </Grid>
-            <Grid
-              item
-              marginTop={{
-                xs: 0,
-                sm: -2.5,
-              }}
-              xs={12}
-              sm={1.5}
-            >
-              <RadioInputControlled
-                row
-                name='market'
-                label='Mercado'
-                emptyMessage='Sem Opções'
-                value={market}
-                onChange={
-                  handleSelectMarket as (value: string | number | Date) => void
-                }
-                options={MARKET_OPTIONS}
-              />
-            </Grid>
-            <Grid
-              item
-              marginTop={{
-                xs: 0,
-                sm: -2.5,
-              }}
-              xs={12}
-              sm={4}
-            >
-              <RadioInputControlled
-                label='Tipo consideração preço'
-                emptyMessage='Sem opções'
-                name='priceConsideration'
-                value={priceConsideration}
-                onChange={
-                  handleSelectPriceConsideration as (
-                    value: string | number | Date
-                  ) => void
-                }
-                options={PRICE_CONSIDERATION_OPTIONS}
-              />
-            </Grid>
-          </>
+        {globalStates.selectedTab ===
+          BusinessAuditTabSectionsEnum.SALES_SECTION && <SalesSectionFilters />}
+
+        {globalStates.selectedTab ===
+          BusinessAuditTabSectionsEnum.RETURN_OCCURRENCES_SECTION && (
+          <ReturnOccurrencesSectionFilters />
         )}
 
-        {globalStates.selectedTab === TabSectionsEnum.OVERVIEW_SECTION && (
+        {globalStates.selectedTab ===
+          BusinessAuditTabSectionsEnum.OVERVIEW_SECTION && (
           <Grid item>
             <Alert
               severity='info'
@@ -293,26 +212,35 @@ export default function BusinessAudit() {
 
       <Tabs.Root defaultTab={globalStates.selectedTab}>
         <Tabs.Select customHandler={handleSelectTab}>
-          <Tab label='Visão Geral' value={TabSectionsEnum.OVERVIEW_SECTION} />
-          <Tab label='Vendas' value={TabSectionsEnum.SALES_SECTION} />
+          <Tab
+            label='Visão Geral'
+            value={BusinessAuditTabSectionsEnum.OVERVIEW_SECTION}
+          />
+          <Tab
+            label='Vendas'
+            value={BusinessAuditTabSectionsEnum.SALES_SECTION}
+          />
           <Tab
             label='Devoluções'
-            value={TabSectionsEnum.RETURN_OCCURRENCES_SECTION}
+            value={BusinessAuditTabSectionsEnum.RETURN_OCCURRENCES_SECTION}
           />
         </Tabs.Select>
 
         <Tabs.Content>
           <Tabs.Panel
-            tabName={TabSectionsEnum.OVERVIEW_SECTION}
+            tabName={BusinessAuditTabSectionsEnum.OVERVIEW_SECTION}
             ref={tabPanelRef}
           >
             <BusinessAuditOverviewSection />
           </Tabs.Panel>
-          <Tabs.Panel tabName={TabSectionsEnum.SALES_SECTION} ref={tabPanelRef}>
+          <Tabs.Panel
+            tabName={BusinessAuditTabSectionsEnum.SALES_SECTION}
+            ref={tabPanelRef}
+          >
             <BusinessAuditSalesSection />
           </Tabs.Panel>
           <Tabs.Panel
-            tabName={TabSectionsEnum.RETURN_OCCURRENCES_SECTION}
+            tabName={BusinessAuditTabSectionsEnum.RETURN_OCCURRENCES_SECTION}
             ref={tabPanelRef}
           >
             <BusinessAuditReturnOccurrencesSection />

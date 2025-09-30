@@ -50,3 +50,38 @@ export type OrderLine = {
   cfopDescription?: string;
   createdAt: Date;
 };
+
+export type ReturnOccurrences = {
+  id: string;
+  date?: Date;
+  occurrenceNumber?: string;
+  occurrenceCause?: string;
+  returnType?: string;
+  observation?: string;
+  invoiceDate?: Date;
+  reInvoicingDate?: Date;
+  companyCode?: string;
+  companyName?: string;
+  productCode?: string;
+  productName?: string;
+  clientCode?: string;
+  clientName?: string;
+  salesRepresentativeCode?: string;
+  salesRepresentativeName?: string;
+  invoiceNf?: string;
+  invoiceWeightInKg?: number;
+  invoiceQuantity?: number;
+  invoiceUnitValue?: number;
+  invoiceValue?: number;
+  returnNf?: string;
+  returnWeightInKg?: number;
+  returnQuantity?: number;
+  returnUnitValue?: number;
+  returnValue?: number;
+  reInvoicingNf?: string;
+  reInvoicingWeightInKg?: number;
+  reInvoicingQuantity?: number;
+  reInvoicingUnitValue?: number;
+  reInvoicingValue?: number;
+  createdAt: Date;
+};

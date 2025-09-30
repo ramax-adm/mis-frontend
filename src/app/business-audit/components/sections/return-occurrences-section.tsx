@@ -13,41 +13,41 @@ export function BusinessAuditReturnOccurrencesSection() {
     <>
       <Grid container marginTop={0.1} spacing={1}>
         {/** Tabela de listagem das devoluções */}
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} md={7.14}>
           <ReturnOccurrencesByItemCard />
         </Grid>
         {/** Grafico pizza para devoluções p/ tipo */}
-        <Grid item xs={12} md={3}>
+        <Grid item xs={12} md={2.38}>
           <ReturnOccurrencesByTypeCard />
         </Grid>
         {/** Grafico linha para devoluções p/ dia */}
-        <Grid item xs={12} md={3}>
+        <Grid item xs={12} md={2.38}>
           <ReturnOccurrencesByDayCard />
         </Grid>
       </Grid>
       <Grid container marginTop={0.1} spacing={1}>
         {/** Card p/ fabrica */}
-        <Grid item xs={2.4}>
+        <Grid item xs={12} md={2.38}>
           <ReturnOccurrencesByCompanyCard />
         </Grid>
 
         {/** Card p/ Motivo */}
-        <Grid item xs={2.4}>
+        <Grid item xs={12} md={2.38}>
           <ReturnOccurrencesByCauseCard />
         </Grid>
 
         {/** Card p/ Representante */}
-        <Grid item xs={2.4}>
+        <Grid item xs={12} md={2.38}>
           <ReturnOccurrencesByRepresentativeCard />
         </Grid>
 
         {/** Card p/ Cliente */}
-        <Grid item xs={2.4}>
+        <Grid item xs={12} md={2.38}>
           <ReturnOccurrencesByClientCard />
         </Grid>
 
         {/** Card p/ Produto */}
-        <Grid item xs={2.4}>
+        <Grid item xs={12} md={2.38}>
           <ReturnOccurrencesByProductCard />
         </Grid>
       </Grid>
