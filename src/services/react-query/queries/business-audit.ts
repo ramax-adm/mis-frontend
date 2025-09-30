@@ -95,14 +95,18 @@ export const useGetBusinessAuditReturnOccurrencesData = ({
   companyCodes,
   occurrenceCauses,
   occurrenceNumber,
-  returnTypes,
+  returnType,
+  clientCodes,
+  representativeCodes,
 }: {
   startDate: string;
   endDate: string;
   occurrenceNumber?: string;
   companyCodes?: string;
-  returnTypes?: string;
+  returnType?: string;
   occurrenceCauses?: string;
+  clientCodes?: string;
+  representativeCodes?: string;
 }) => {
   return useApiQuery<GetBusinessAuditReturnOccurrencesDataResponse>({
     queryKey: [
@@ -112,11 +116,14 @@ export const useGetBusinessAuditReturnOccurrencesData = ({
       companyCodes,
       occurrenceCauses,
       occurrenceNumber,
-      returnTypes,
+      returnType,
+      clientCodes,
+      representativeCodes,
     ],
     queryFn: async () => {
       const response = await GetFetch(
-        urls.BUSINESS_AUDIT.GET_BUSINESS_AUDIT_RETURN_OCCURRENCES,
+        urls.BUSINESS_AUDIT.RETURN_OCCURRENCES
+          .GET_BUSINESS_AUDIT_RETURN_OCCURRENCES,
         {
           params: {
             startDate,
@@ -124,7 +131,9 @@ export const useGetBusinessAuditReturnOccurrencesData = ({
             companyCodes,
             occurrenceCauses,
             occurrenceNumber,
-            returnTypes,
+            returnType,
+            clientCodes,
+            representativeCodes,
           },
         }
       );
@@ -276,6 +285,50 @@ export const useGetBusinessAuditConsideredNfSituations = () => {
       const response = await GetBusinessAuditConsideredNfSituations();
 
       return response;
+    },
+  });
+};
+
+export const useGetBusinessAuditReturnOccurrencesCauses = () => {
+  return useApiQuery<FilterOptionItem[]>({
+    queryKey: [queryKeys.BUSINESS_AUDIT.GET_RETURN_OCCURRENCES_CAUSES_FILTERS],
+    queryFn: async () => {
+      const response = await GetFetch(
+        urls.BUSINESS_AUDIT.RETURN_OCCURRENCES
+          .GET_RETURN_OCCURRENCES_CAUSES_FILTERS
+      );
+
+      return response.data;
+    },
+  });
+};
+
+export const useGetBusinessAuditReturnOccurrencesClients = () => {
+  return useApiQuery<FilterOptionItem[]>({
+    queryKey: [queryKeys.BUSINESS_AUDIT.GET_RETURN_OCCURRENCES_CLIENTS_FILTERS],
+    queryFn: async () => {
+      const response = await GetFetch(
+        urls.BUSINESS_AUDIT.RETURN_OCCURRENCES
+          .GET_RETURN_OCCURRENCES_CLIENTS_FILTERS
+      );
+
+      return response.data;
+    },
+  });
+};
+
+export const useGetBusinessAuditReturnOccurrencesRepresentatives = () => {
+  return useApiQuery<FilterOptionItem[]>({
+    queryKey: [
+      queryKeys.BUSINESS_AUDIT.GET_RETURN_OCCURRENCES_REPRESENTATIVES_FILTERS,
+    ],
+    queryFn: async () => {
+      const response = await GetFetch(
+        urls.BUSINESS_AUDIT.RETURN_OCCURRENCES
+          .GET_RETURN_OCCURRENCES_REPRESENTATIVE_FILTERS
+      );
+
+      return response.data;
     },
   });
 };

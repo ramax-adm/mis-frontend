@@ -4,6 +4,12 @@ export enum OrderPriceConsiderationEnum {
   UNDER_TABLE_PRICE = "under_table_price",
 }
 
+export enum ReturnOccurrenceReturnTypeEnum {
+  NONE = "",
+  PARTIAL = "partial",
+  FULL = "full",
+}
+
 export interface ReturnOccurrence {
   id: string;
   date?: Date;

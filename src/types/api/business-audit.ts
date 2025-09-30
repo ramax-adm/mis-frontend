@@ -236,6 +236,7 @@ export type GetBusinessAuditReturnOccurrenceByTypeAgg = {
   quantity: number;
   weightInKg: number;
   value: number;
+  percentValue: number;
 };
 
 export type BusinessAuditReturnOccurrencesDataTotals = {
@@ -271,5 +272,8 @@ export interface GetBusinessAuditReturnOccurrencesDataResponse {
     data: Record<string, GetBusinessAuditReturnOccurrenceByDayAgg>;
   };
   occurrencesByType?: Record<string, GetBusinessAuditReturnOccurrenceByTypeAgg>;
-  returnOccurrences: ReturnOccurrence[];
+  returnOccurrences: {
+    data: ReturnOccurrence[];
+    totals: BusinessAuditReturnOccurrencesDataTotals;
+  };
 }

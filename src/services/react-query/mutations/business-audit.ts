@@ -4,8 +4,11 @@ import { toast } from "sonner";
 import { PostFetch, urls } from "@/services/axios/api-base";
 import { MarketEnum } from "@/types/sensatta";
 import { OrderPriceConsiderationEnum } from "@/types/business-audit";
+import { BusinessAuditTabSectionsEnum } from "@/app/business-audit/constants/business-audit-tab-sections.enum";
 
-export const useExportBusinessAuditXlsx = (type: "overview" | "sales") => {
+export const useExportBusinessAuditXlsx = (
+  type: BusinessAuditTabSectionsEnum
+) => {
   return useApiMutation({
     mutationFn: async ({
       filters,
