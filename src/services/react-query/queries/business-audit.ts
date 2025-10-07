@@ -71,7 +71,7 @@ export const useGetBusinessAuditSalesData = ({
     ],
     queryFn: async () => {
       const response = await GetFetch(
-        urls.BUSINESS_AUDIT.GET_BUSINESS_AUDIT_SALES,
+        urls.BUSINESS_AUDIT.SALES.GET_BUSINESS_AUDIT_SALES,
         {
           params: {
             startDate,
@@ -161,7 +161,7 @@ export const useGetBusinessAuditOrdersLinesData = ({
     ],
     queryFn: async () => {
       const response = await GetFetch(
-        urls.BUSINESS_AUDIT.GET_BUSINESS_AUDIT_ORDERS_LINES_DATA,
+        urls.BUSINESS_AUDIT.SALES.GET_BUSINESS_AUDIT_ORDERS_LINES_DATA,
         { params: { nfId, startDate, endDate } }
       );
       return response.data;
@@ -199,7 +199,7 @@ export const useGetBusinessAuditSalesClientFilters = ({
     ],
     queryFn: async () => {
       const response = await GetFetch(
-        urls.BUSINESS_AUDIT.GET_SALES_CLIENTS_FILTERS,
+        urls.BUSINESS_AUDIT.SALES.GET_SALES_CLIENTS_FILTERS,
         {
           params: {
             startDate,
@@ -248,7 +248,7 @@ export const useGetBusinessAuditSalesRepresentativeFilters = ({
     ],
     queryFn: async () => {
       const response = await GetFetch(
-        urls.BUSINESS_AUDIT.GET_SALES_REPRESENTATIVE_FILTERS,
+        urls.BUSINESS_AUDIT.SALES.GET_SALES_REPRESENTATIVE_FILTERS,
         {
           params: {
             startDate,

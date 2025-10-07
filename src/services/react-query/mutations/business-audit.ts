@@ -21,6 +21,9 @@ export const useExportBusinessAuditXlsx = (
         priceConsideration?: OrderPriceConsiderationEnum;
         clientCodes?: string;
         salesRepresentativeCodes?: string;
+        occurrenceNumber?: string;
+        returnType?: string;
+        occurrenceCauses?: string;
       };
     }) => {
       const { data, headers } = await PostFetch(
