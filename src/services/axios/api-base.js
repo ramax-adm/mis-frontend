@@ -16,17 +16,21 @@ export const urls = {
   },
   BUSINESS_AUDIT: {
     POST_EXPORT_XLSX: `${apiLocal}/api/business-audit/export-xlsx/:type`,
-
-    // overview
     GET_CONSIDERED_CFOPS: `${apiLocal}/api/business-audit/constants/considered-cfops`,
     GET_CONSIDERED_NF_SITUATIONS: `${apiLocal}/api/business-audit/constants/nf-situations`,
-    GET_BUSINESS_AUDIT_OVERVIEW: `${apiLocal}/api/business-audit/overview`,
+
+    // overview
+    OVERVIEW: {
+      GET_BUSINESS_AUDIT_OVERVIEW: `${apiLocal}/api/business-audit/overview`,
+    },
 
     // sales
-    GET_BUSINESS_AUDIT_SALES: `${apiLocal}/api/business-audit/sales`,
-    GET_BUSINESS_AUDIT_ORDERS_LINES_DATA: `${apiLocal}/api/business-audit/data/orders-lines`,
-    GET_SALES_CLIENTS_FILTERS: `${apiLocal}/api/business-audit/filters/clients`,
-    GET_SALES_REPRESENTATIVE_FILTERS: `${apiLocal}/api/business-audit/filters/sales-representatives`,
+    SALES: {
+      GET_BUSINESS_AUDIT_SALES: `${apiLocal}/api/business-audit/sales`,
+      GET_BUSINESS_AUDIT_ORDERS_LINES_DATA: `${apiLocal}/api/business-audit/sales/data/orders-lines`,
+      GET_SALES_CLIENTS_FILTERS: `${apiLocal}/api/business-audit/sales/filters/clients`,
+      GET_SALES_REPRESENTATIVE_FILTERS: `${apiLocal}/api/business-audit/sales/filters/sales-representatives`,
+    },
 
     // return occurrences
     RETURN_OCCURRENCES: {

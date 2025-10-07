@@ -8,7 +8,7 @@ export async function GetBusinessAuditOverviewData({
   endDate: string;
 }) {
   const response = await GetFetch(
-    urls.BUSINESS_AUDIT.GET_BUSINESS_AUDIT_OVERVIEW,
+    urls.BUSINESS_AUDIT.OVERVIEW.GET_BUSINESS_AUDIT_OVERVIEW,
     {
       params: { startDate, endDate },
     }
