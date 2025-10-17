@@ -80,6 +80,10 @@ export class PageRoutes {
     return `/stock/stock-balance`;
   }
 
+  static inventory() {
+    return `/stock/inventory`;
+  }
+
   // freights
   static freights() {
     return `/freights`;

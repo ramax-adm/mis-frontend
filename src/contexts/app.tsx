@@ -101,12 +101,6 @@ export default function AppProvider({ children }: AppContextProviderProps) {
       icon: MdFactCheck,
       submenu: false,
     },
-    // {
-    //   title: "DRE OPERAÇÃO",
-    //   path: PageRoutes.operationFinanceSummary(),
-    //   icon: RiMoneyDollarCircleFill,
-    //   submenu: false,
-    // },
     {
       title: "Compras",
       path: PageRoutes.cattleRegistries(),
@@ -140,6 +134,10 @@ export default function AppProvider({ children }: AppContextProviderProps) {
         {
           path: PageRoutes.stockBalance(),
           title: "Saldo Estoque",
+        },
+        {
+          path: PageRoutes.inventory(),
+          title: "Inventário",
         },
       ],
     },
