@@ -142,6 +142,13 @@ export const urls = {
       GET_AGGREGATED_ANALYTICAL_DATA: `${apiLocal}/api/stock-balance/analytical/aggregated`,
       POST_EXPORT_XLSX: `${apiLocal}/api/stock-balance/export-xlsx`,
     },
+    INVENTORY: {
+      GET_LAST_UPDATED_AT: `${apiLocal}/api/stock/inventory/last-update`,
+      GET_RESUME_DATA: `${apiLocal}/api/stock/inventory/resume`,
+      GET_ANALYTICAL_DATA: `${apiLocal}/api/stock/inventory/analytical`,
+
+      GET_INVENTORY_FILTERS: `${apiLocal}/api/stock/inventory/filters/inventories`,
+    },
   },
   SENSATTA: {
     GET_COMPANIES: `${apiLocal}/api/sensatta/company`,

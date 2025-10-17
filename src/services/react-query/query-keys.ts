@@ -91,6 +91,14 @@ export const queryKeys = {
     GET_ALL: "get-all-stocks",
     GET_ANALYTICAL_ALL: "get-all-analytical-stocks",
     GET_LAST_UPDATED_AT: "stock-updated-at",
+
+    INVENTORY: {
+      GET_LAST_UPDATED_AT: "stock-inventory-updated-at",
+      GET_RESUME_DATA: "stock-inventory-resume-data",
+      GET_ANALYTICAL_DATA: "stock-inventory-analytical-data",
+
+      GET_INVENTORY_FILTERS: "stock-inventory-inventories-filters",
+    },
   },
   STOCK_INCOMING_BATCHES: {
     GET_PRODUCT_LINES_FILTERS: "stock-incoming-batches-product-lines-filters",
