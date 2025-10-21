@@ -26,29 +26,30 @@ import {
   useGetInventoriesFilters,
   useGetInventoryLastUpdatedAt,
 } from "@/services/react-query/queries/inventory";
-import { TextInput } from "@/components/Inputs/TextInput/uncontrolled";
-import { TextInputControlled } from "@/components/Inputs/TextInput/controlled";
 import { InventoryResumeSection } from "./components/sections/resume-section";
 import { InventoryResumeFilters } from "./components/filters/resume-filters";
 import { InventoryAnalyticalFilters } from "./components/filters/analytical-filters";
-
-enum TabSectionsEnum {
-  RESUME = "resumed",
-  ANALYTICAL = "analytical",
-}
+import { useExportInventoryXlsx } from "@/services/react-query/mutations/inventory";
+import { InventoryTabSectionsEnum } from "./constants/inventory-tab-sections.enum";
 
 export default function InventoryPage() {
   const tabPanelRef = useRef<TabsPanelRef>(null);
 
   const [selectedTab, setSelectedTab] = useQueryState(
     "selectedTab",
-    parseAsString.withDefault(TabSectionsEnum.RESUME)
+    parseAsString.withDefault(InventoryTabSectionsEnum.RESUME)
   );
 
   const [globalStates, setGlobalStates] = useQueryStates({
     companyCode: parseAsString.withDefault(""),
     inventoryId: parseAsString.withDefault(""),
   });
+  const [analyticalStates] = useQueryStates({
+    boxNumber: parseAsString.withDefault(""),
+  });
+
+  const { mutateAsync: exportInventory, isPending: isExportingInventory } =
+    useExportInventoryXlsx(selectedTab as InventoryTabSectionsEnum);
 
   const { data: companies } = useGetUserCompanies({
     isConsideredOnStock: true,
@@ -87,6 +88,24 @@ export default function InventoryPage() {
             Ultima atualização: {lastUpdatedAt?.parsedUpdatedAt}
           </Typography>
         </PageContainerHeader>
+        <Box sx={{ display: "flex", flexDirection: "row", gap: 1 }}>
+          <Button
+            variant='contained'
+            size='small'
+            disabled={isExportingInventory}
+            onClick={async () =>
+              await exportInventory({
+                filters: {
+                  companyCode: globalStates.companyCode,
+                  inventoryId: globalStates.inventoryId,
+                  boxNumber: analyticalStates.boxNumber,
+                },
+              })
+            }
+          >
+            Exportar XLSX
+          </Button>
+        </Box>
       </Box>
 
       <Grid container spacing={1} marginTop={0.5}>
@@ -121,23 +140,31 @@ export default function InventoryPage() {
           />
         </Grid>
 
-        {selectedTab === TabSectionsEnum.RESUME && <InventoryResumeFilters />}
-        {selectedTab === TabSectionsEnum.ANALYTICAL && (
+        {selectedTab === InventoryTabSectionsEnum.RESUME && (
+          <InventoryResumeFilters />
+        )}
+        {selectedTab === InventoryTabSectionsEnum.ANALYTICAL && (
           <InventoryAnalyticalFilters />
         )}
       </Grid>
 
       <Tabs.Root defaultTab={selectedTab}>
         <Tabs.Select customHandler={handleSelectTab}>
-          <Tab label='Resumo' value={TabSectionsEnum.RESUME} />
-          <Tab label='Analitico' value={TabSectionsEnum.ANALYTICAL} />
+          <Tab label='Resumo' value={InventoryTabSectionsEnum.RESUME} />
+          <Tab label='Analitico' value={InventoryTabSectionsEnum.ANALYTICAL} />
         </Tabs.Select>
 
         <Tabs.Content>
-          <Tabs.Panel tabName={TabSectionsEnum.RESUME} ref={tabPanelRef}>
+          <Tabs.Panel
+            tabName={InventoryTabSectionsEnum.RESUME}
+            ref={tabPanelRef}
+          >
             <InventoryResumeSection />
           </Tabs.Panel>
-          <Tabs.Panel tabName={TabSectionsEnum.ANALYTICAL} ref={tabPanelRef}>
+          <Tabs.Panel
+            tabName={InventoryTabSectionsEnum.ANALYTICAL}
+            ref={tabPanelRef}
+          >
             <InventoryAnaliticalSection />
           </Tabs.Panel>
         </Tabs.Content>

@@ -148,6 +148,7 @@ export const urls = {
       GET_ANALYTICAL_DATA: `${apiLocal}/api/stock/inventory/analytical`,
 
       GET_INVENTORY_FILTERS: `${apiLocal}/api/stock/inventory/filters/inventories`,
+      POST_EXPORT_XLSX: `${apiLocal}/api/stock/inventory/export-xlsx/:type`,
     },
   },
   SENSATTA: {
