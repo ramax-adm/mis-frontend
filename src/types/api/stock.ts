@@ -11,6 +11,7 @@ export interface GetAllStocksResponse {
 export interface GetStockByCompanyResponse {
   companyName: string;
   productLineAcronym: string;
+  productLineCode: string;
   productLineName: string;
   productCode: string;
   productName: string;
@@ -25,6 +26,7 @@ export interface GetStockByCompanyResponse {
 
 export interface GetAnalyticalStockByCompanyResponse {
   companyName: string;
+  productLineCode: string;
   productLineAcronym: string;
   productLineName: string;
   productCode: string;
@@ -84,6 +86,7 @@ export interface GetToExpiresByCompanyResponse {
   dueDate: string;
   companyName: string;
   productLineAcronym: string;
+  productLineCode: string;
   productLineName: string;
   productCode: string;
   productName: string;
@@ -95,6 +98,7 @@ export interface GetToExpiresByCompanyResponse {
 }
 
 export interface GetAnalyticalToExpiresByCompanyResponse {
+  productionDate: string;
   dueDate: string;
   companyName: string;
   productLineAcronym: string;
@@ -109,6 +113,7 @@ export interface GetAnalyticalToExpiresByCompanyResponse {
   basePriceCar: string;
   basePriceTruck: string;
   totalPrice: string;
+  daysFromProduction: number;
   daysToExpires: number;
 }
 

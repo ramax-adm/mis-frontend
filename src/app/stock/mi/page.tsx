@@ -18,10 +18,16 @@ import {
 import { useExportStockXlsx } from "@/services/react-query/mutations/stock";
 import { useRef, useState } from "react";
 import { TabsPanelRef } from "@/components/Tabs/panel";
+import { parseAsString, useQueryState } from "nuqs";
+import { StockTabSectionsEnum } from "../_constants/stock-tab-sections.enum";
 
 export default function StockPage() {
   // states
   // todo: fix this (use http state)
+  const [selectedTab, setSelectedTab] = useQueryState(
+    "selectedTab",
+    parseAsString.withDefault(StockTabSectionsEnum.RESUME)
+  );
   const [selectCompanyInputError, setSelectCompanyInputError] = useState(false);
 
   // queries and mutations
@@ -44,14 +50,13 @@ export default function StockPage() {
       return;
     }
 
-    const selectedTab = tabPanelRef.current.getCurrentTabName() as
-      | "resumed"
-      | "analytical";
+    const selectedTab =
+      tabPanelRef.current.getCurrentTabName() as StockTabSectionsEnum;
     let selectedCompany: string = "";
     let selectedProductLineAcronyms: any = {};
 
     switch (selectedTab) {
-      case "analytical": {
+      case StockTabSectionsEnum.ANALYTICAL: {
         selectedCompany =
           analyticalSectionRef.current?.getSelectedCompany() as string;
         if (!selectedCompany || selectedCompany.length === 0) {
@@ -63,7 +68,7 @@ export default function StockPage() {
         break;
       }
 
-      case "resumed": {
+      case StockTabSectionsEnum.RESUME: {
         selectedCompany = "";
         selectedProductLineAcronyms =
           resumedSectionRef.current?.getSelectedProductLines();
@@ -108,13 +113,19 @@ export default function StockPage() {
           </Typography> */}
         </PageContainerHeader>
         <Box sx={{ display: "flex", flexDirection: "row", gap: 1 }}>
-          <Button variant='contained' size='small' onClick={syncStock}>
+          <Button
+            variant='contained'
+            size='small'
+            onClick={syncStock}
+            disabled={isSyncStockWithSensatta}
+          >
             Atualizar c/ SENSATTA
           </Button>
           <Button
             variant='contained'
             size='small'
             onClick={handleExportStockReport}
+            disabled={isExportingStockReport}
           >
             Exportar XLSX
           </Button>
@@ -129,19 +140,19 @@ export default function StockPage() {
        *
        * Estilização da tab
        */}
-      {(isSyncStockWithSensatta || isExportingStockReport) && (
-        <LoadingOverlay />
-      )}
-      <Tabs.Root defaultTab='resumed' sx={{ marginTop: -1 }}>
-        <Tabs.Select>
-          <Tab label='Resumo' value={"resumed"} />
-          <Tab label='Analitico' value={"analytical"} />
+      <Tabs.Root defaultTab={selectedTab} sx={{ marginTop: -1 }}>
+        <Tabs.Select customHandler={setSelectedTab}>
+          <Tab label='Resumo' value={StockTabSectionsEnum.RESUME} />
+          <Tab label='Analitico' value={StockTabSectionsEnum.ANALYTICAL} />
         </Tabs.Select>
         <Tabs.Content>
-          <Tabs.Panel tabName='resumed' ref={tabPanelRef}>
+          <Tabs.Panel tabName={StockTabSectionsEnum.RESUME} ref={tabPanelRef}>
             <ResumeSection ref={resumedSectionRef} />
           </Tabs.Panel>
-          <Tabs.Panel tabName='analytical' ref={tabPanelRef}>
+          <Tabs.Panel
+            tabName={StockTabSectionsEnum.ANALYTICAL}
+            ref={tabPanelRef}
+          >
             <AnalyticalSection
               ref={analyticalSectionRef}
               selectCompanyInputError={selectCompanyInputError}
