@@ -7,7 +7,7 @@ import { fromLocaleStringToNumber, toLocaleString } from "@/utils/number.utils";
 export function calculateTotalStockWeightToExpires(
   data:
     | GetToExpiresByCompanyResponse[]
-    | GetAnalyticalToExpiresByCompanyResponse[],
+    | GetAnalyticalToExpiresByCompanyResponse[] = [],
   daysQuantityA: number,
   daysQuantityB: number
 ) {
