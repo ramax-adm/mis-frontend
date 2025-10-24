@@ -22,6 +22,7 @@ import { useSelectProductLinesFilters } from "../../hooks/use-select-product-lin
 import { AnalyticalStockToExpiresTable } from "@/app/stock/_components/tables/analytical-stock-to-expires-table";
 import { storeStockProductLineFilters } from "../../utils/store-stock-product-line-filters";
 import { useAuthContext } from "@/contexts/auth";
+import { useGetUserCompanies } from "@/services/react-query/queries/user-company";
 
 export interface AnalyticalSectionRef {
   getSelectedCompany: () => string | undefined;
@@ -40,7 +41,9 @@ export const AnalyticalSection = forwardRef<
   const [selectedProductLinesByCompany, setSelectedProductLinesByCompany] =
     useState<SelectedProductLinesByCompany[]>([]);
   const [selectedCompany, setSelectedCompany] = useState<string | undefined>();
-  const { data: companies } = useGetCompanies({ token: user.name });
+  const { data: companies } = useGetUserCompanies({
+    isConsideredOnStock: true,
+  });
   const { data: productLines } = useGetProductLines({ market: StockMarket.ME });
   const { data, isFetching } = useGetAnalyticalAllStocks({
     companyCode: selectedCompany,
@@ -152,7 +155,7 @@ export const AnalyticalSection = forwardRef<
           onChange={handleSelectCompany}
           options={companies?.map((item) => ({
             key: item.sensattaCode,
-            label: item.name,
+            label: `${item.sensattaCode} - ${item.name}`,
             value: item.sensattaCode,
           }))}
         />
@@ -162,7 +165,7 @@ export const AnalyticalSection = forwardRef<
         <Grid
           key={filteredData.companyCode.concat("section")}
           container
-          gap={1}
+          spacing={1}
           columns={16}
           marginTop={1}
         >
@@ -170,7 +173,7 @@ export const AnalyticalSection = forwardRef<
             key={filteredData.companyCode.concat("stock")}
             item
             xs={16}
-            lg={8.9}
+            lg={8}
           >
             <Box
               sx={{
@@ -264,7 +267,7 @@ export const AnalyticalSection = forwardRef<
             key={filteredData.companyCode.concat("to-expires")}
             item
             xs={16}
-            lg={6.9}
+            lg={8}
           >
             <Box
               sx={{

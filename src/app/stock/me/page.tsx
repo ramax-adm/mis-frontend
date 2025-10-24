@@ -18,9 +18,15 @@ import {
   ResumeSection,
   ResumeSectionRef,
 } from "./components/sections/resume-section";
+import { useQueryState, parseAsString } from "nuqs";
+import { StockTabSectionsEnum } from "../_constants/stock-tab-sections.enum";
 
 export default function StockPage() {
   // states
+  const [selectedTab, setSelectedTab] = useQueryState(
+    "selectedTab",
+    parseAsString.withDefault(StockTabSectionsEnum.RESUME)
+  );
   const [selectCompanyInputError, setSelectCompanyInputError] = useState(false);
 
   // queries and mutations
@@ -131,16 +137,19 @@ export default function StockPage() {
       {(isSyncStockWithSensatta || isExportingStockReport) && (
         <LoadingOverlay />
       )}
-      <Tabs.Root defaultTab='resumed' sx={{ marginTop: -1 }}>
-        <Tabs.Select>
-          <Tab label='Resumo' value={"resumed"} />
-          <Tab label='Analitico' value={"analytical"} />
+      <Tabs.Root defaultTab={selectedTab} sx={{ marginTop: -1 }}>
+        <Tabs.Select customHandler={setSelectedTab}>
+          <Tab label='Resumo' value={StockTabSectionsEnum.RESUME} />
+          <Tab label='Analitico' value={StockTabSectionsEnum.ANALYTICAL} />
         </Tabs.Select>
         <Tabs.Content>
-          <Tabs.Panel tabName='resumed' ref={tabPanelRef}>
+          <Tabs.Panel tabName={StockTabSectionsEnum.RESUME} ref={tabPanelRef}>
             <ResumeSection ref={resumedSectionRef} />
           </Tabs.Panel>
-          <Tabs.Panel tabName='analytical' ref={tabPanelRef}>
+          <Tabs.Panel
+            tabName={StockTabSectionsEnum.ANALYTICAL}
+            ref={tabPanelRef}
+          >
             <AnalyticalSection
               ref={analyticalSectionRef}
               selectCompanyInputError={selectCompanyInputError}

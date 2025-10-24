@@ -15,6 +15,7 @@ import { calculateTotalStockWeight } from "@/app/stock/_utils/calculate-total-st
 import { useSetSelectedProductLinesInitialState } from "../../hooks/use-set-selected-product-lines-initial-state";
 import { useSelectProductLinesFilters } from "../../hooks/use-select-product-lines-filters";
 import { storeStockProductLineFilters } from "../../utils/store-stock-product-line-filters";
+import { LoaderIcon } from "@/app/stock/_components/customized/loader-icon";
 
 // Ref Interface
 export interface ResumeSectionRef {
@@ -113,114 +114,129 @@ export const ResumeSection = forwardRef<ResumeSectionRef, ResumeSectionProps>(
           marginTop: 1,
         }}
       >
-        {isFetching && <LoadingOverlay />}
-
-        <Grid container gap={1} columns={16}>
-          {filteredData.map((item) => (
-            <Grid key={item.companyCode} item xs={16} md={7.9}>
+        <Grid container spacing={1} columns={12}>
+          {isFetching && (
+            <Grid item xs={12}>
               <Box
                 sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  backgroundColor: "white",
-                  padding: 1,
-                  border: `1px solid ${COLORS.BORDAS}`,
-                  borderRadius: 3,
+                  display: "grid",
+                  height: "calc(100vh - 200px)",
+                  placeContent: "center",
                 }}
               >
-                <Box>
-                  <Typography
-                    variant='body2'
-                    fontWeight={700}
-                    color={"#3E63DD"}
-                    fontSize={"14px"}
-                  >
-                    {item.companyName}
-                  </Typography>
-                </Box>
-
-                <Box>
-                  <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                    <DisplayItem
-                      title='Σ KG estoque'
-                      content={calculateTotalStockWeight(item.stockData)}
-                      headerFontSize='9px'
-                      contentFontSize='14px'
-                    />
-                    <DisplayItem
-                      title='Σ R$ estoque'
-                      content={calculateTotalStockPrice(item.stockData)}
-                      headerFontSize='9px'
-                      contentFontSize='14px'
-                      sx={{
-                        paddingX: "4px",
-                        paddingY: "2px",
-                        borderRadius: "8px",
-                        backgroundColor: COLORS.FUNDO_PRIMARIO,
-                        color: COLORS.TEXTO,
-                      }}
-                    />
-
-                    <Box
-                      sx={{
-                        width: "200px",
-                        marginLeft: "auto",
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: 0.5,
-                      }}
-                    >
-                      <MultipleSelectInputControlled
-                        key={item.companyCode}
-                        size='small'
-                        options={
-                          productLines?.map((item) => ({
-                            key: item.acronym,
-                            label: item.name,
-                          })) ?? []
-                        }
-                        companyCode={item.companyCode}
-                        selectedCategoryByCompany={
-                          selectedProductLinesByCompany
-                        }
-                        setSelectedCategoryByCompany={
-                          handleUpdateSelectedProductLines
-                        }
-                        label='Classificações'
-                      />
-                      <Typography
-                        fontSize={"10px"}
-                        sx={{
-                          marginX: "auto",
-                          "&:hover": {
-                            color: COLORS.TEXTO,
-                            cursor: "pointer",
-                          },
-                        }}
-                        onClick={() =>
-                          handleProductLineFilter(item.companyCode)
-                        }
-                      >
-                        Selecionar/Deselecionar tudo
-                      </Typography>
-                    </Box>
-                  </Box>
-                </Box>
-
-                <Grid container spacing={1} columns={16}>
-                  <Grid item xs={16} lg={8}>
-                    <StockCard isFetching={isFetching} data={item.stockData} />
-                  </Grid>
-                  <Grid item xs={16} lg={8}>
-                    <StockToExpireCard
-                      isFetching={isFetching}
-                      data={item.toExpiresData}
-                    />
-                  </Grid>
-                </Grid>
+                <LoaderIcon size={64} />
               </Box>
             </Grid>
-          ))}
+          )}
+          {!isFetching &&
+            filteredData.map((item) => (
+              <Grid key={item.companyCode} item xs={16} md={6}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    backgroundColor: "white",
+                    padding: 1,
+                    border: `1px solid ${COLORS.BORDAS}`,
+                    borderRadius: 3,
+                  }}
+                >
+                  <Box>
+                    <Typography
+                      variant='body2'
+                      fontWeight={700}
+                      color={"#3E63DD"}
+                      fontSize={"14px"}
+                    >
+                      {item.companyName}
+                    </Typography>
+                  </Box>
+
+                  <Box>
+                    <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                      <DisplayItem
+                        title='Σ KG estoque'
+                        content={calculateTotalStockWeight(item.stockData)}
+                        headerFontSize='9px'
+                        contentFontSize='14px'
+                      />
+                      <DisplayItem
+                        title='Σ R$ estoque'
+                        content={calculateTotalStockPrice(item.stockData)}
+                        headerFontSize='9px'
+                        contentFontSize='14px'
+                        sx={{
+                          paddingX: "4px",
+                          paddingY: "2px",
+                          borderRadius: "8px",
+                          backgroundColor: COLORS.FUNDO_PRIMARIO,
+                          color: COLORS.TEXTO,
+                        }}
+                      />
+
+                      <Box
+                        sx={{
+                          width: "200px",
+                          marginLeft: "auto",
+                          display: "flex",
+                          flexDirection: "column",
+                          gap: 0.5,
+                        }}
+                      >
+                        <MultipleSelectInputControlled
+                          key={item.companyCode}
+                          size='small'
+                          options={
+                            productLines?.map((item) => ({
+                              key: item.acronym,
+                              label: item.name,
+                            })) ?? []
+                          }
+                          companyCode={item.companyCode}
+                          selectedCategoryByCompany={
+                            selectedProductLinesByCompany
+                          }
+                          setSelectedCategoryByCompany={
+                            handleUpdateSelectedProductLines
+                          }
+                          label='Classificações'
+                        />
+                        <Typography
+                          fontSize={"10px"}
+                          sx={{
+                            marginX: "auto",
+                            "&:hover": {
+                              color: COLORS.TEXTO,
+                              cursor: "pointer",
+                            },
+                          }}
+                          onClick={() =>
+                            handleProductLineFilter(item.companyCode)
+                          }
+                        >
+                          Selecionar/Deselecionar tudo
+                        </Typography>
+                      </Box>
+                    </Box>
+                  </Box>
+
+                  <Grid container spacing={1} columns={16}>
+                    <Grid item xs={16} lg={8}>
+                      <StockCard
+                        isFetching={isFetching}
+                        data={item.stockData}
+                      />
+                    </Grid>
+                    <Grid item xs={16} lg={8}>
+                      <StockToExpireCard
+                        isFetching={isFetching}
+                        data={item.toExpiresData}
+                      />
+                    </Grid>
+                  </Grid>
+                </Box>
+              </Grid>
+            ))}
         </Grid>
       </Box>
     );
