@@ -254,7 +254,10 @@ export const AnalyticalSection = forwardRef<
                   </Box>
                 </Box>
               </Box>
-              <AnalyticalStockTable data={filteredData.stockData} />
+              <AnalyticalStockTable
+                isFetching={isFetching}
+                data={filteredData?.stockData}
+              />
             </Box>
           </Grid>
           <Grid
@@ -358,7 +361,8 @@ export const AnalyticalSection = forwardRef<
                 </Box>
               </Box>
               <AnalyticalStockToExpiresTable
-                data={filteredData.toExpiresData}
+                isFetching={isFetching}
+                data={filteredData?.toExpiresData}
               />
             </Box>
           </Grid>

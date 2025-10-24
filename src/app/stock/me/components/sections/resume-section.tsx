@@ -207,12 +207,15 @@ export const ResumeSection = forwardRef<ResumeSectionRef, ResumeSectionProps>(
                   </Box>
                 </Box>
 
-                <Grid container gap={1} columns={16}>
-                  <Grid item xs={16} lg={7.9}>
-                    <StockCard data={item.stockData} />
+                <Grid container spacing={1} columns={16}>
+                  <Grid item xs={16} lg={8}>
+                    <StockCard isFetching={isFetching} data={item.stockData} />
                   </Grid>
-                  <Grid item xs={16} lg={7.4}>
-                    <StockToExpireCard data={item.toExpiresData} />
+                  <Grid item xs={16} lg={8}>
+                    <StockToExpireCard
+                      isFetching={isFetching}
+                      data={item.toExpiresData}
+                    />
                   </Grid>
                 </Grid>
               </Box>
