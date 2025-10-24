@@ -1,94 +1,94 @@
+import CustomTable, {
+  CustomTableColumn,
+} from "@/components/Table/custom-table";
 import { Column, CustomizedTable } from "@/components/Table/normal-table/body";
 import { GetStockByCompanyResponse } from "@/types/api/stock";
+import { LoaderIcon } from "../customized/loader-icon";
+import { Box } from "@mui/material";
+
+type ParsedDataItem = GetStockByCompanyResponse & {
+  product: string;
+};
 
 interface StockTableProps {
-  data: GetStockByCompanyResponse[];
+  data?: GetStockByCompanyResponse[];
+  isFetching: boolean;
 }
-export function StockTable({ data }: StockTableProps) {
+export function StockTable({ data = [], isFetching }: StockTableProps) {
   const columns = getColumns();
+  const parsedData = getData({ data });
+
+  if (isFetching) {
+    return (
+      <Box
+        sx={{
+          display: "grid",
+          height: "calc(100vh - 230px)",
+          bgcolor: "background.paper",
+          placeContent: "center",
+        }}
+      >
+        <LoaderIcon />
+      </Box>
+    );
+  }
 
   return (
-    <CustomizedTable<any>
+    <CustomTable<ParsedDataItem>
       tableStyles={{
-        height: "500px",
+        height: "400px",
         width: "100%",
       }}
-      cellStyles={{
-        paddingX: 1,
-        fontSize: "9px",
-        paddingY: 0.2,
-      }}
-      headCellStyles={{
-        paddingX: 1,
-        fontSize: "10px",
-      }}
       columns={columns}
-      data={data}
+      rows={parsedData}
     />
   );
 }
 
-const getColumns = (): Column<GetStockByCompanyResponse>[] => {
-  return [
-    {
-      headerName: "Cod.",
-      maxWidth: "20px",
-      type: "string",
-      value: {
-        first: {
-          value: "productCode",
-        },
-      },
-    },
-    {
-      headerName: "Produto",
-      maxWidth: "80px",
-      type: "string",
-      value: {
-        first: {
-          value: "productName",
-        },
-      },
-    },
-    {
-      headerName: "KG",
-      maxWidth: "30px",
-      type: "string",
-      value: {
-        first: {
-          value: "totalWeightInKg",
-        },
-      },
-    },
-    {
-      headerName: "$ CAR",
-      maxWidth: "30px",
-      type: "string",
-      value: {
-        first: {
-          value: "basePriceCar",
-        },
-      },
-    },
-    {
-      headerName: "$ TRUCK",
-      maxWidth: "30px",
-      type: "string",
-      value: {
-        first: {
-          value: "basePriceTruck",
-        },
-      },
-    },
-    {
-      headerName: "$ Total",
-      maxWidth: "30px",
-      type: "string",
-      value: {
-        first: {
-          value: "totalPrice",
-        },
-      },
-    },
-  ];
+const getData = ({
+  data,
+}: {
+  data: GetStockByCompanyResponse[];
+}): ParsedDataItem[] => {
+  return data.map((i) => ({
+    ...i,
+    product: `${i.productCode} - ${i.productName}`,
+  }));
 };
+
+const getColumns = (): CustomTableColumn<ParsedDataItem>[] => [
+  {
+    headerKey: "product",
+    headerName: "Produto",
+    sx: { padding: 0.5, fontSize: 9.5, maxWidth: "80px" },
+    cellSx: { fontSize: 9 },
+  },
+  {
+    headerKey: "totalWeightInKg",
+    headerName: "KG",
+    align: "center",
+    sx: { padding: 0.5, fontSize: 9.5, maxWidth: "30px" },
+    cellSx: { fontSize: 9 },
+  },
+  {
+    headerKey: "basePriceCar",
+    headerName: "$ CAR",
+    align: "center",
+    sx: { padding: 0.5, fontSize: 9.5, maxWidth: "30px" },
+    cellSx: { fontSize: 9 },
+  },
+  {
+    headerKey: "basePriceTruck",
+    headerName: "$ TRUCK",
+    align: "center",
+    sx: { padding: 0.5, fontSize: 9.5, maxWidth: "30px" },
+    cellSx: { fontSize: 9 },
+  },
+  {
+    headerKey: "totalPrice",
+    headerName: "$ Total",
+    align: "center",
+    sx: { padding: 0.5, fontSize: 9.5, maxWidth: "30px" },
+    cellSx: { fontSize: 9 },
+  },
+];

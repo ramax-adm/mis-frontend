@@ -1,99 +1,110 @@
+import CustomTable, {
+  CustomTableColumn,
+} from "@/components/Table/custom-table";
 import { Column, CustomizedTable } from "@/components/Table/normal-table/body";
 import { COLORS } from "@/constants/styles/colors";
 import { GetToExpiresByCompanyResponse } from "@/types/api/stock";
+import { Box, TableCell } from "@mui/material";
+import { LoaderIcon } from "../customized/loader-icon";
+
+type ParsedDataItem = GetToExpiresByCompanyResponse & {
+  product: string;
+};
 
 interface StockToExpiresTableProps {
-  data: GetToExpiresByCompanyResponse[];
+  data?: GetToExpiresByCompanyResponse[];
+  isFetching: boolean;
 }
-export function StockToExpiresTable({ data }: StockToExpiresTableProps) {
+export function StockToExpiresTable({
+  data = [],
+  isFetching,
+}: StockToExpiresTableProps) {
   const columns = getColumns();
+  const parsedData = getData({ data });
+
+  if (isFetching) {
+    return (
+      <Box
+        sx={{
+          display: "grid",
+          height: "calc(100vh - 230px)",
+          bgcolor: "background.paper",
+          placeContent: "center",
+        }}
+      >
+        <LoaderIcon />
+      </Box>
+    );
+  }
 
   return (
-    <CustomizedTable<any>
+    <CustomTable<ParsedDataItem>
       tableStyles={{
-        height: "500px",
+        height: "400px",
         width: "100%",
       }}
-      cellStyles={{
-        paddingX: 1,
-        fontSize: "9px",
-        paddingY: 0.2,
-      }}
-      headCellStyles={{
-        paddingX: 1,
-        fontSize: "10px",
-      }}
       columns={columns}
-      data={data}
+      rows={parsedData}
     />
   );
 }
 
-const getColumns = (): Column<GetToExpiresByCompanyResponse>[] => {
-  return [
-    {
-      headerName: "Cod.",
-      maxWidth: "20px",
-      type: "string",
-      value: {
-        first: {
-          value: "productCode",
-        },
-      },
-    },
-    {
-      headerName: "Produto",
-      type: "string",
-      value: {
-        first: {
-          value: "productName",
-        },
-      },
-    },
-    {
-      headerName: "Venc.",
-      type: "string",
-      value: {
-        first: {
-          value: "dueDate",
-        },
-      },
-    },
-    {
-      headerName: "Prazo",
-      type: "string",
-      conditionalColor: (row: GetToExpiresByCompanyResponse) => {
-        if (row.daysToExpires < 0) {
-          return COLORS.TABELAS.FUNDO_PRETO;
-        } else if (row.daysToExpires <= 15) {
-          return COLORS.TABELAS.FUNDO_VERMELHO;
-        } else if (row.daysToExpires > 15 && row.daysToExpires <= 30) {
-          return COLORS.TABELAS.FUNDO_AMARELO;
-        }
-
-        return COLORS.TABELAS.FUNDO_VERDE;
-      },
-      conditionalFontColor: (row: GetToExpiresByCompanyResponse) => {
-        if (row.daysToExpires < 0) {
-          return "white";
-        } else {
-          return "black";
-        }
-      },
-      value: {
-        first: {
-          value: "daysToExpires",
-        },
-      },
-    },
-    {
-      headerName: "KG",
-      type: "string",
-      value: {
-        first: {
-          value: "totalWeightInKg",
-        },
-      },
-    },
-  ];
+const getData = ({
+  data,
+}: {
+  data: GetToExpiresByCompanyResponse[];
+}): ParsedDataItem[] => {
+  return data.map((i) => ({
+    ...i,
+    product: `${i.productCode} - ${i.productName}`,
+    productLine: `${i.productLineCode} - ${i.productLineName}`,
+  }));
 };
+
+const getColumns = (): CustomTableColumn<ParsedDataItem>[] => [
+  {
+    headerKey: "product",
+    headerName: "Produto",
+    sx: { padding: 0.5, fontSize: 9.5 },
+    cellSx: { fontSize: 9 },
+  },
+  {
+    headerKey: "dueDate",
+    headerName: "Venc.",
+    align: "center",
+    sx: { padding: 0.5, fontSize: 9.5 },
+    cellSx: { fontSize: 9 },
+  },
+  {
+    headerKey: "daysToExpires",
+    headerName: "Prazo",
+    align: "center",
+    sx: { padding: 0.5, fontSize: 9.5 },
+    render: (value, row) => (
+      <TableCell
+        sx={{
+          padding: 0.5,
+          fontSize: 9,
+          bgcolor:
+            row.daysToExpires < 0
+              ? COLORS.TABELAS.FUNDO_PRETO
+              : row.daysToExpires <= 15
+                ? COLORS.TABELAS.FUNDO_VERMELHO
+                : row.daysToExpires <= 30
+                  ? COLORS.TABELAS.FUNDO_AMARELO
+                  : COLORS.TABELAS.FUNDO_VERDE,
+          color: row.daysToExpires < 0 ? "white" : "black",
+        }}
+      >
+        {value}
+      </TableCell>
+    ),
+  },
+  {
+    headerKey: "totalWeightInKg",
+    headerName: "KG",
+    align: "center",
+    sx: { padding: 0.5, fontSize: 9.5 },
+    cellSx: { fontSize: 9 },
+  },
+];

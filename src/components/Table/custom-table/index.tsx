@@ -61,6 +61,9 @@ export default function CustomTable<T extends { [key: string]: any }>({
               <TableRow hover role='checkbox' tabIndex={-1} key={rowIndex}>
                 {columns.map((column, idx) => {
                   const value = row[column.headerKey];
+                  if (column.render) {
+                    return column.render(value, row);
+                  }
 
                   return (
                     <TableCell
@@ -72,11 +75,9 @@ export default function CustomTable<T extends { [key: string]: any }>({
                         ...column?.cellSx,
                       }}
                     >
-                      {column.render
-                        ? column.render(value, row) // 👈 se tiver render, usa
-                        : column.format && typeof value === "number"
-                          ? column.format(value ?? 0)
-                          : value}
+                      {column.format && typeof value === "number"
+                        ? column.format(value ?? 0)
+                        : value}
                     </TableCell>
                   );
                 })}
