@@ -12,6 +12,9 @@ import { toLocaleString } from "@/utils/number.utils";
 type ReturnOccurrencesByRepresentativeTableData =
   GetBusinessAuditReturnOccurrenceByRepresentativeAgg & {
     representative: string;
+    valueFormated: string;
+    quantityFormated: string;
+    weightInKgFormated: string;
   };
 
 interface ReturnOccurrencesByRepresentativeTableProps {
@@ -65,6 +68,9 @@ const getData = ({
       value: data[key].value,
       quantity: data[key].quantity,
       weightInKg: data[key].weightInKg,
+      valueFormated: toLocaleString(data[key].value),
+      quantityFormated: toLocaleString(data[key].quantity),
+      weightInKgFormated: toLocaleString(data[key].weightInKg),
     });
   }
   return response.sort((a, b) => b.count - a.count);
@@ -85,23 +91,21 @@ const getColumns =
       cellSx: { fontSize: "9px" },
     },
     {
-      headerKey: "quantity",
+      headerKey: "quantityFormated",
       headerName: "Qtd. Itens",
       sx: { fontSize: "9.5px", paddingX: 0.5 },
       cellSx: { fontSize: "9px" },
     },
     {
-      headerKey: "value",
+      headerKey: "valueFormated",
       headerName: "$ Fat.",
       sx: { fontSize: "9.5px", paddingX: 0.5 },
-      render: (value) => toLocaleString(Number(value)),
       cellSx: { fontSize: "9px" },
     },
     {
-      headerKey: "weightInKg",
+      headerKey: "weightInKgFormated",
       headerName: "Peso Kg",
       sx: { fontSize: "9.5px", paddingX: 0.5 },
-      render: (value) => toLocaleString(Number(value)),
       cellSx: { fontSize: "9px" },
     },
   ];
