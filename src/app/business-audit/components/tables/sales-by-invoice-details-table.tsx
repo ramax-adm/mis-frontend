@@ -9,7 +9,7 @@ import {
 import { toLocaleString } from "@/utils/string.utils";
 import { LoaderIcon } from "../customized/loader-icon";
 import { parseAsBoolean, parseAsString, useQueryStates } from "nuqs";
-import { Box } from "@mui/material";
+import { Box, TableCell } from "@mui/material";
 import { grey } from "@mui/material/colors";
 
 import { formatToDate } from "@/utils/formatToDate";
@@ -87,72 +87,90 @@ const getColumns = (): CustomTableColumn<SalesByInvoiceDetailsTableData>[] => [
     headerKey: "product",
     headerName: "Produto",
     sx: { fontSize: "11px", paddingX: 0.5 },
-    cellSx: { fontSize: "10px" },
+    cellSx: { fontSize: "10px", paddingX: 0.5 },
   },
   {
     headerKey: "marketFormated",
     headerName: "Mercado",
     sx: { fontSize: "11px", paddingX: 0.5 },
-    cellSx: { fontSize: "10px" },
+    cellSx: { fontSize: "10px", paddingX: 0.5 },
   },
   {
     headerKey: "situation",
     headerName: "Situação",
     sx: { fontSize: "11px", paddingX: 0.5 },
-    cellSx: { fontSize: "10px" },
+    cellSx: { fontSize: "10px", paddingX: 0.5 },
   },
   {
     headerKey: "quantity",
     headerName: "Qtd.",
     sx: { fontSize: "11px", paddingX: 0.5 },
-    cellSx: { fontSize: "10px" },
+    cellSx: { fontSize: "10px", paddingX: 0.5 },
   },
   {
     headerKey: "weightInKg",
     headerName: "Peso KG",
-    render: (value) => toLocaleString(value as number),
+    render: (value) => (
+      <TableCell sx={{ fontSize: "10px", padding: 0.5 }}>
+        {toLocaleString(value as number)}
+      </TableCell>
+    ),
     sx: { fontSize: "11px", paddingX: 0.5 },
-    cellSx: { fontSize: "10px" },
   },
   {
     headerKey: "currency",
     headerName: "Moeda",
     sx: { fontSize: "11px", paddingX: 0.5 },
-    cellSx: { fontSize: "10px" },
+    cellSx: { fontSize: "10px", paddingX: 0.5 },
   },
   {
     headerKey: "saleUnitValue",
     headerName: "Preço Un.",
-    render: (value) => toLocaleString(value as number, 2),
+    render: (value) => (
+      <TableCell sx={{ fontSize: "10px", padding: 0.5 }}>
+        {toLocaleString(value as number, 2)}
+      </TableCell>
+    ),
     sx: { fontSize: "11px", paddingX: 0.5 },
-    cellSx: { fontSize: "10px" },
   },
   {
     headerKey: "referenceTableUnitValue",
     headerName: "Preço Tab. Un.",
-    render: (value) => toLocaleString(value as number, 2),
+    render: (value) => (
+      <TableCell sx={{ fontSize: "10px", padding: 0.5 }}>
+        {toLocaleString(value as number, 2)}
+      </TableCell>
+    ),
     sx: { fontSize: "11px", paddingX: 0.5 },
-    cellSx: { fontSize: "10px" },
   },
   {
     headerKey: "totalFatPrice",
     headerName: "Total NF",
-    render: (value) => toLocaleString(value as number, 2),
-    sx: { fontSize: "11px", paddingX: 0.5 },
-    cellSx: { fontSize: "10px" },
+    render: (value) => (
+      <TableCell sx={{ fontSize: "10px", padding: 0.5 }}>
+        {toLocaleString(value as number, 2)}
+      </TableCell>
+    ),
+    sx: { fontSize: "11px", padding: 0.5 },
   },
   {
     headerKey: "totalTablePrice",
     headerName: "Total Tab.",
-    render: (value) => toLocaleString(value as number, 2),
+    render: (value) => (
+      <TableCell sx={{ fontSize: "10px", padding: 0.5 }}>
+        {toLocaleString(value as number, 2)}
+      </TableCell>
+    ),
     sx: { fontSize: "11px", paddingX: 0.5 },
-    cellSx: { fontSize: "10px" },
   },
   {
     headerKey: "totalDifPrice",
     headerName: "Total Desc.",
-    render: (value) => toLocaleString(value as number, 2),
+    render: (value) => (
+      <TableCell sx={{ fontSize: "10px", padding: 0.5 }}>
+        {toLocaleString(value as number, 2)}
+      </TableCell>
+    ),
     sx: { fontSize: "11px", paddingX: 0.5 },
-    cellSx: { fontSize: "10px" },
   },
 ];
