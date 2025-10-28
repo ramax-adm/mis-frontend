@@ -3,15 +3,9 @@ import { PageContainer } from "@/components/PageContainer";
 import { PageContainerHeader } from "@/components/PageContainer/header";
 import { Tabs } from "@/components/Tabs";
 import { Box, Button, Tab, Typography } from "@mui/material";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { TabsPanelRef } from "@/components/Tabs/panel";
-import { LoadingOverlay } from "@/components/Loading/loadingSpinner";
-import { useExportStockBalanceAllXlsx } from "@/services/react-query/mutations/stock-balance";
-import { useGetStockBalanceLastUpdatedAt } from "@/services/react-query/queries/stock-balance";
-import {
-  useSyncStockBalanceWithSensatta,
-  useSyncStockWithSensatta,
-} from "@/services/react-query/mutations/sensatta";
+import { useSyncStockWithSensatta } from "@/services/react-query/mutations/sensatta";
 import { useGetStockLastUpdatedAt } from "@/services/react-query/queries/stock";
 import {
   parseAsArrayOf,
@@ -20,9 +14,16 @@ import {
   useQueryStates,
 } from "nuqs";
 import { StockIncomingBatchesResumeSection } from "./components/sections/resume-section";
-import { useExportStockIncomingBatchesAllXlsx } from "@/services/react-query/mutations/stock-incoming-batches";
+import { useExportStockIncomingBatchesXlsx } from "@/services/react-query/mutations/stock-incoming-batches";
 import { MarketEnum } from "@/types/sensatta";
 import { StockIncomingBatchesAnalyticalSection } from "./components/sections/analytical-section";
+import {
+  PopoverContent,
+  PopoverTrigger,
+  PopoverTypography,
+  PopoverRoot,
+} from "@/components/Button/PopoverButton";
+import { IoMdDownload } from "react-icons/io";
 
 enum TabSectionsEnum {
   RESUME = "resumed",
@@ -44,14 +45,25 @@ export default function StockIncomingBatchesPage() {
   const tabPanelRef = useRef<TabsPanelRef>(null);
 
   const { mutateAsync: exportStock, isPending: isExportingStock } =
-    useExportStockIncomingBatchesAllXlsx();
+    useExportStockIncomingBatchesXlsx();
   const { data: stockLastUpdatedAt } = useGetStockLastUpdatedAt();
   const { mutateAsync: syncStock, isPending: isSyncStock } =
     useSyncStockWithSensatta();
 
+  const onExportReport = async (selectedTab: string) =>
+    await exportStock({
+      exportType: selectedTab,
+      filters: {
+        companyCode: resumeSectionStates.companyCode,
+        market: resumeSectionStates.market as MarketEnum,
+        productLineCodes: resumeSectionStates.productLineCodes.map(
+          (i) => i.split("-")[0]
+        ),
+      },
+    });
+
   return (
     <PageContainer>
-      {isSyncStock && <LoadingOverlay />}
       <Box
         sx={{
           width: "100%",
@@ -78,25 +90,27 @@ export default function StockIncomingBatchesPage() {
           >
             Atualizar c/ SENSATTA
           </Button>
-          <Button
-            variant='contained'
-            size='small'
-            disabled={isExportingStock}
-            onClick={async () =>
-              await exportStock({
-                exportType: selectedTab as "resumed" | "analytical",
-                filters: {
-                  companyCode: resumeSectionStates.companyCode,
-                  market: resumeSectionStates.market as MarketEnum,
-                  productLineCodes: resumeSectionStates.productLineCodes.map(
-                    (i) => i.split("-")[0]
-                  ),
-                },
-              })
-            }
-          >
-            Exportar XLSX
-          </Button>
+          <PopoverRoot>
+            <PopoverTrigger
+              startIcon={<IoMdDownload size={15} />}
+              disabled={isExportingStock}
+            >
+              Exportar XLSX
+            </PopoverTrigger>
+            <PopoverContent>
+              <PopoverTypography onClick={() => onExportReport("resumed")}>
+                Exportar Resumo
+              </PopoverTypography>
+              <PopoverTypography onClick={() => onExportReport("analytical")}>
+                Exportar Analitico
+              </PopoverTypography>
+              <PopoverTypography
+                onClick={() => onExportReport("all-analytical")}
+              >
+                Exportar Analitico (TODOS OS DADOS)
+              </PopoverTypography>
+            </PopoverContent>
+          </PopoverRoot>
         </Box>
       </Box>
 

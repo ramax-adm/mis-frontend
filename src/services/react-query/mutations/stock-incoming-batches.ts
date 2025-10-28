@@ -1,31 +1,37 @@
 import { toast } from "sonner";
 import { useMutation } from "@tanstack/react-query";
 import { ExportService } from "@/services/export";
-import { PostExportStockIncomingBatchesAllXlsx } from "@/services/webApi/stock-incoming-batches-api";
 import { MarketEnum } from "@/types/sensatta";
+import { PostFetch, urls } from "@/services/axios/api-base";
 
-export const useExportStockIncomingBatchesAllXlsx = () => {
+export const useExportStockIncomingBatchesXlsx = () => {
   return useMutation({
     mutationFn: async ({
       exportType,
       filters,
     }: {
-      exportType: "resumed" | "analytical";
+      exportType: string;
       filters: {
         companyCode?: string;
         market?: MarketEnum;
         productLineCodes?: string[];
       };
     }) => {
-      const { data, headers } = await PostExportStockIncomingBatchesAllXlsx({
-        exportType,
-        filters,
-      });
-      const contentDispositionHeader = headers["content-disposition"] as string;
+      const response = await PostFetch(
+        urls.STOCK.INCOMING_BATCHES.POST_EXPORT_XLSX,
+        { exportType, filters },
+        {
+          responseType: "blob",
+        }
+      );
+
+      const contentDispositionHeader = response.headers[
+        "content-disposition"
+      ] as string;
       const filenameMatches =
         contentDispositionHeader.match(/filename=(.+\.xlsx)/);
       const filename = filenameMatches?.[1] || `stock-incoming-batches.xlsx`;
-      await ExportService.toExcel({ filename, data });
+      await ExportService.toExcel({ filename, data: response.data });
     },
     onError() {
       toast.error("Erro", {
