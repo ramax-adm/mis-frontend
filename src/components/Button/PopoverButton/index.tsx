@@ -77,11 +77,17 @@ export const PopoverContent: React.FC<{ children: React.ReactNode }> = ({
 
 export const PopoverTypography: React.FC<TypographyProps> = ({
   children,
+  onClick,
   ...props
 }) => {
+  const { handleClose } = usePopoverContext();
   return (
     <Typography
       {...props}
+      onClick={(e) => {
+        onClick?.(e);
+        handleClose();
+      }}
       sx={{
         paddingY: 1.5,
         paddingX: 2,
