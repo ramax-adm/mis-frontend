@@ -144,15 +144,15 @@ export function CattleFreightsTable({
               </Typography>
             </Box>
             <Box sx={{ display: "flex", flexDirection: "column" }}>
-              <Typography fontSize={"9px"}>Σ R$ Tabela</Typography>
-              <Typography fontSize={"10px"} fontWeight={700}>
-                {cattleFreights.totals.closedFreights.tablePrice}
-              </Typography>
-            </Box>
-            <Box sx={{ display: "flex", flexDirection: "column" }}>
               <Typography fontSize={"9px"}>Σ R$ Base</Typography>
               <Typography fontSize={"10px"} fontWeight={700}>
                 {cattleFreights.totals.closedFreights.price}
+              </Typography>
+            </Box>
+            <Box sx={{ display: "flex", flexDirection: "column" }}>
+              <Typography fontSize={"9px"}>Σ R$ Tabela</Typography>
+              <Typography fontSize={"10px"} fontWeight={700}>
+                {cattleFreights.totals.closedFreights.tablePrice}
               </Typography>
             </Box>
 
