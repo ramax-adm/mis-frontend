@@ -5,98 +5,47 @@ import { usePathname, useRouter } from "next/navigation";
 import { SideNavItem, useAppContext } from "@/contexts/app";
 import { blue, grey, orange } from "@mui/material/colors";
 
-import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
-import { BurgerMenu } from "../Menu/BurgerMenu";
-import { SideNav as SideNavNew } from "../Menu/SideNav/new";
-import { useAuthContext } from "@/contexts/auth";
-import { IconType } from "react-icons";
-import { LogOut } from "lucide-react";
-
-type MenuItemWithSubMenuProps = {
-  item: SideNavItem;
-  Icon?: IconType;
-};
+import { SideMenu } from "../Menu/side-menu";
+import { PageHeader } from "./page-header";
+import { DrawerMenuOverlay } from "../Menu/drawer-menu";
 
 export const PageContainer = ({ children }: { children: ReactNode }) => {
-  const {
-    width,
-    isBurgerMenuOpened,
-    isCollapsed,
-    NAV_ITEMS,
-    toggleBurgerMenuOpened,
-    isMobile,
-  } = useAppContext();
-  const { logoutUser } = useAuthContext();
-
+  const { width, isDrawerMenuOpened } = useAppContext();
   return (
     <>
       <Box
         sx={{
-          display: "flex",
+          height: "100vh",
           backgroundColor: "#FAFAFA",
-          height: "100%",
+          ...(isDrawerMenuOpened && {
+            overflow: "hidden",
+          }),
         }}
       >
         {/** Componentes auxiliares de navegação - PARA DESKTOP */}
-        {width > 1000 && (
-          <>
-            <SideNavNew />
-            <Button
-              variant='outlined'
-              sx={{
-                position: "absolute",
-                top: 10,
-                right: 10,
-                alignSelf: "center",
-                display: "flex",
-                gap: 2,
-              }}
-              startIcon={<LogOut size={14} strokeWidth={2} />}
-              onClick={() => logoutUser()}
-            >
-              Sair
-            </Button>
-          </>
-        )}
+        {width > 1000 && <SideMenu />}
 
         {/** Conteudo da pagina */}
         <Box
           sx={{
-            display: "flex",
-            flexDirection: "column",
             width: "100%",
             height: "100%",
-            marginLeft: isMobile ? 0 : 2,
-            marginY: 0.5,
           }}
         >
-          {}
-          {width < 1000 && <BurgerMenu />}
-
+          <PageHeader />
           <Box
             sx={{
-              height: "100%",
-              marginLeft: width > 1000 ? "3.6rem" : "",
+              marginTop: "48px",
+              marginLeft: width > 1000 ? "70px" : "",
+              paddingBottom: 1,
+              zIndex: 10,
             }}
           >
             {children}
           </Box>
         </Box>
       </Box>
-      {isBurgerMenuOpened && (
-        <Box
-          onClick={toggleBurgerMenuOpened}
-          sx={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            width: "100vw",
-            height: "100vh",
-            backgroundColor: "rgba(0,0,0,0.5)",
-            zIndex: 120, // maior que conteúdo, menor que menus/dialogs
-          }}
-        />
-      )}
+      <DrawerMenuOverlay />
     </>
   );
 };
