@@ -40,7 +40,7 @@ type AppContext = {
   webpages: AppWebpage[];
   isFetchingWebpages: boolean;
   isCollapsed: boolean;
-  isBurgerMenuOpened: boolean;
+  isDrawerMenuOpened: boolean;
   width: number;
   isMobile: boolean;
   menuItems: MenuItem;
@@ -48,9 +48,9 @@ type AppContext = {
   toggleSidebarcollapse: () => void;
   openSidebarcollapse: () => void;
   closeSidebarcollapse: () => void;
-  toggleBurgerMenuOpened: () => void;
-  openBurgerMenu: () => void;
-  closeBurgerMenu: () => void;
+  toggleDrawerMenuOpened: () => void;
+  openDrawerMenu: () => void;
+  closeDrawerMenu: () => void;
   checkPagePermission: ({
     user,
     webpages,
@@ -66,7 +66,7 @@ export const AppContext = createContext<AppContext | null>(null);
 
 export default function AppProvider({ children }: AppContextProviderProps) {
   const [isCollapsed, setCollapse] = useState(false);
-  const [isBurgerMenuOpened, setIsBurgerMenuOpened] = useState(false);
+  const [isDrawerMenuOpened, setIsDrawerMenuOpened] = useState(false);
   const [width, setWidth] = useState(0);
 
   const { data: webpages = [], isFetching: isFetchingWebpages } =
@@ -227,16 +227,16 @@ export default function AppProvider({ children }: AppContextProviderProps) {
     setCollapse(false);
   };
 
-  const toggleBurgerMenuOpened = () => {
-    setIsBurgerMenuOpened((prevState) => !prevState);
+  const toggleDrawerMenuOpened = () => {
+    setIsDrawerMenuOpened((prevState) => !prevState);
   };
 
-  const openBurgerMenu = () => {
-    setIsBurgerMenuOpened(true);
+  const openDrawerMenu = () => {
+    setIsDrawerMenuOpened(true);
   };
 
-  const closeBurgerMenu = () => {
-    setIsBurgerMenuOpened(false);
+  const closeDrawerMenu = () => {
+    setIsDrawerMenuOpened(false);
   };
 
   const updateWidth = () => {
@@ -277,7 +277,7 @@ export default function AppProvider({ children }: AppContextProviderProps) {
         webpages,
         isFetchingWebpages,
         isCollapsed,
-        isBurgerMenuOpened,
+        isDrawerMenuOpened,
         width,
         isMobile,
         menuItems,
@@ -285,9 +285,9 @@ export default function AppProvider({ children }: AppContextProviderProps) {
         toggleSidebarcollapse,
         openSidebarcollapse,
         closeSidebarcollapse,
-        toggleBurgerMenuOpened,
-        openBurgerMenu,
-        closeBurgerMenu,
+        toggleDrawerMenuOpened,
+        openDrawerMenu,
+        closeDrawerMenu,
         checkPagePermission,
       }}
     >
