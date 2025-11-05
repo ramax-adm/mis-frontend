@@ -7,6 +7,8 @@ import {
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "../query-keys";
 import { toast } from "sonner";
+import { PostFetch, urls } from "@/services/axios/api-base";
+import { url } from "inspector";
 
 export const useSyncStockWithSensatta = () => {
   const queryClient = useQueryClient();
@@ -117,6 +119,35 @@ export const useSyncPurchaseWithSensatta = () => {
         queryKeys.PURCHASE.GET_CATTLE_PURCHASE_CATTLE_CLASSIFICATION,
         queryKeys.PURCHASE.GET_CATTLE_PURCHASE_CATTLE_ADVISOR,
         queryKeys.PURCHASE.GET_LAST_UPDATED_AT,
+      ];
+
+      queriesToInvalidate.forEach((query) =>
+        queryClient.invalidateQueries({ queryKey: [query] })
+      );
+
+      toast.success("Sucesso", {
+        description: "A sincronização foi concluida com sucesso!",
+      });
+    },
+  });
+};
+
+export const useSyncFinanceWithSensatta = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async () => await PostFetch(urls.SENSATTA.POST_SYNC_FINANCE),
+    onError() {
+      toast.error("Erro", {
+        description: "Erro ao sincronizar com o sensatta!",
+      });
+    },
+
+    onSuccess() {
+      const queriesToInvalidate = [
+        queryKeys.FINANCE.ACCOUNTS_RECEIVABLE
+          .GET_ANALYTICAL_ACCOUNTS_RECEIVABLE,
+        queryKeys.FINANCE.ACCOUNTS_RECEIVABLE.GET_CLIENTS_FILTERS,
+        queryKeys.FINANCE.ACCOUNTS_RECEIVABLE.GET_LAST_UPDATED_AT,
       ];
 
       queriesToInvalidate.forEach((query) =>

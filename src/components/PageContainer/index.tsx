@@ -29,7 +29,6 @@ export const PageContainer = ({ children }: { children: ReactNode }) => {
         <Box
           sx={{
             width: "100%",
-            height: "100%",
           }}
         >
           <PageHeader />
