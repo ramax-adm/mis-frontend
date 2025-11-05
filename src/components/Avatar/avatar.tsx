@@ -49,6 +49,7 @@ export const CustomAvatar = ({ name = "", email = "" }: CustomAvatarProps) => {
             overflow: "hidden",
             textOverflow: "ellipsis",
             maxWidth: 200,
+            lineHeight: 1.2,
           }}
           title={email}
         >

@@ -27,7 +27,7 @@ export default function Home({}: HomePageProps) {
   useEffect(() => setMounted(true), []);
   return (
     <PageContainer>
-      <Grid container columns={12} sx={{ height: "100%" }}>
+      <Grid container columns={12} sx={{ height: "95vh" }}>
         <Grid item xs={12} md={5}>
           <Box
             sx={{

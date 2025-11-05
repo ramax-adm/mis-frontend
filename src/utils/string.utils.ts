@@ -79,10 +79,11 @@ export function stringToColor(string: string) {
 export function stringAvatar(name: string) {
   return {
     sx: {
-      width: 30,
-      height: 30,
-      fontSize: 14,
+      width: 28,
+      height: 28,
+      fontSize: 12,
       bgcolor: stringToColor(name),
+      fontWeight: 600,
     },
     children: !name ? "" : `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`,
   };
