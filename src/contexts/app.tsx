@@ -16,6 +16,7 @@ import { FaMoneyCheckAlt } from "react-icons/fa";
 import { FaMoneyBillTransfer } from "react-icons/fa6";
 import { FaGlobe } from "react-icons/fa";
 import { User, UserRoleEnum } from "@/types/user";
+import { ImCalculator } from "react-icons/im";
 
 type AppContextProviderProps = {
   children: React.ReactNode;
@@ -138,6 +139,18 @@ export default function AppProvider({ children }: AppContextProviderProps) {
         {
           path: PageRoutes.inventory(),
           title: "Inventário",
+        },
+      ],
+    },
+    {
+      title: "Contabilidade",
+      path: PageRoutes.finance(),
+      icon: ImCalculator,
+      submenu: true,
+      subMenuItems: [
+        {
+          path: PageRoutes.financeAccounts(),
+          title: "Titulos financeiros",
         },
       ],
     },

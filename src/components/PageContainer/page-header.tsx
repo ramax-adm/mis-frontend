@@ -44,20 +44,24 @@ export const PageHeader = () => {
           alignItems: "center",
         }}
       >
-        {width <= 1000 && <DrawerMenu />}
         <CustomAvatar name={user.name} email={user.email} />
-        <Button
-          variant='outlined'
-          sx={{
-            alignSelf: "center",
-            display: "flex",
-            gap: 1,
-          }}
-          startIcon={<LogOut size={14} strokeWidth={2} />}
-          onClick={() => logoutUser()}
-        >
-          Sair
-        </Button>
+
+        {width <= 1000 ? (
+          <DrawerMenu />
+        ) : (
+          <Button
+            variant='outlined'
+            sx={{
+              alignSelf: "center",
+              display: "flex",
+              gap: 1,
+            }}
+            startIcon={<LogOut size={14} strokeWidth={2} />}
+            onClick={() => logoutUser()}
+          >
+            Sair
+          </Button>
+        )}
       </Box>
     </Box>
   );
