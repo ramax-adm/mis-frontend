@@ -84,6 +84,14 @@ export class PageRoutes {
     return `/stock/inventory`;
   }
 
+  // finance
+  static finance() {
+    return `/finance`;
+  }
+  static financeAccounts() {
+    return `/finance/finance-accounts`;
+  }
+
   // freights
   static freights() {
     return `/freights`;

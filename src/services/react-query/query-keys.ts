@@ -115,6 +115,14 @@ export const queryKeys = {
     FIND_ALL: "find-all-upload-files",
     FIND_BY_TYPE: "find-by-type-upload-files-",
   },
+  FINANCE: {
+    ACCOUNTS_RECEIVABLE: {
+      GET_LAST_UPDATED_AT: "finance-accounts-receivable-get-last-updated-at",
+      GET_CLIENTS_FILTERS: "finance-accounts-receivable-get-clients-filters",
+      GET_ANALYTICAL_ACCOUNTS_RECEIVABLE:
+        "finance-accounts-receivable-get-analytical-accounts-receivable",
+    },
+  },
   FREIGHTS: {
     GET_CATTLE_PURCHASE_FREIGHTS_ANALYTICAL:
       "get-all-analytical-cattle-purchase-freights",

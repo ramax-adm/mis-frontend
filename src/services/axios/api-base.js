@@ -56,6 +56,14 @@ export const urls = {
     POST_SIMULATE_CASH_FLOW_CHAMPION_CATTLE: `${apiLocal}/api/cash-flow/simulate/champion-cattle`,
     EXPORT_XLSX: `${apiLocal}/api/cash-flow/export-xlsx/champion-cattle`,
   },
+  FINANCE: {
+    ACCOUNTS_RECEIVABLE: {
+      GET_LAST_UPDATED_AT: `${apiLocal}/api/finance/account-receivable/last-update`,
+      GET_CLIENTS_FILTERS: `${apiLocal}/api/finance/account-receivable/filters/clients`,
+      GET_ANALYTICAL_ACCOUNTS_RECEIVABLE: `${apiLocal}/api/finance/account-receivable/analytical`,
+    },
+    POST_EXPORT_XLSX: `${apiLocal}/api/finance/export-xlsx/:type`,
+  },
   FREIGHTS: {
     GET_LAST_UPDATED_AT: `${apiLocal}/api/freights/last-update`,
     GET_ANALYTICAL_CATTLE_PURCHASE_FREIGHTS: `${apiLocal}/api/freights/cattle-purchase-freights/analytical`,
@@ -162,6 +170,7 @@ export const urls = {
     POST_SYNC_STOCK_BALANCE: `${apiLocal}/api/sensatta/stock-balance/sync`,
     POST_SYNC_FREIGHTS: `${apiLocal}/api/sensatta/freights/sync`,
     POST_SYNC_PURCHASE: `${apiLocal}/api/sensatta/purchase/sync`,
+    POST_SYNC_FINANCE: `${apiLocal}/api/sensatta/finance/sync`,
   },
   USER: {
     GET_USERS: `${apiLocal}/api/user`,
