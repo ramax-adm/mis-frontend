@@ -1,5 +1,6 @@
 "use client";
 import { StorageKeysEnum } from "@/constants/app/storage";
+import { GetFetch, urls } from "@/services/axios/api-base";
 import { useGetAppWebpages } from "@/services/react-query/queries/application";
 import { useGetUserProfile } from "@/services/react-query/queries/auth";
 import { queryKeys } from "@/services/react-query/query-keys";
@@ -238,6 +239,45 @@ export default function AuthContextProvider({
     return router.push(PageRoutes.login());
   };
 
+  const validateUser = async () => {
+    try {
+      const user = getStoredUser();
+
+      // Se não há usuário salvo, já retorna falso
+      if (!user?.id) {
+        return false;
+      }
+
+      // Faz fetch com retry e controle de erro explícito
+      const userProfile = await queryClient.fetchQuery<User | null>({
+        queryKey: [queryKeys.AUTH.GET_PROFILE.concat(user.id)],
+        queryFn: async () => {
+          const response = await GetFetch(urls.USER.GET_PROFILE, {
+            params: { id: user.id },
+          });
+
+          if (!response?.data) {
+            throw new Error("Perfil do usuário não encontrado.");
+          }
+
+          return response.data;
+        },
+        staleTime: 1000 * 60 * 5, // cache de 5 minutos
+        retry: 1, // tenta apenas uma vez
+      });
+
+      if (!userProfile) {
+        // Se a API não retornar usuário válido, limpa o cache local
+        return false;
+      }
+
+      return true;
+    } catch (error) {
+      console.error("[validateUser] erro ao validar usuário:", error);
+      return false;
+    }
+  };
+
   /**
    * Controle de acesso:
    * 1. Verificar `appWebpages`
@@ -254,59 +294,67 @@ export default function AuthContextProvider({
    */
   useEffect(() => {
     console.log("[AUTH PROVIDER]: Use Effect");
-    if (typeof window === "undefined") {
-      return;
+    async function runValidation() {
+      if (typeof window === "undefined") {
+        return;
+      }
+      const storedUser = getStoredUser();
+      const storedToken = getStoredToken();
+      const storedWebpages = getStoredWebpages();
+      const authRoutes = getAuthRoutes();
+
+      const localToken = storedToken;
+      const localProfile = profile ?? storedUser;
+      const localWebpages =
+        appWebpages && appWebpages.length > 0 ? appWebpages : storedWebpages;
+
+      // checar se tem alguma webpage
+      if (!localWebpages) {
+        console.log("localWebpages not passed");
+        return logoutUser();
+      }
+
+      // checar se a pagina atual é uma rota autenticada
+      const isCurrentPageAnAuthRoute = !!authRoutes?.find(
+        (i) => i === pathname
+      );
+      if (!isCurrentPageAnAuthRoute) {
+        return;
+      }
+
+      // checar se tem algum usuario
+      const haveSomeUserData = !!localToken && !!localProfile;
+      if (!haveSomeUserData) {
+        console.log("haveSomeUserData not passed");
+        return logoutUser();
+      }
+
+      const userValidation = await validateUser();
+      if (!userValidation) {
+        return logoutUser();
+      }
+
+      // checar se tem algum profile
+      const currentPage = localWebpages.find((i) => i.page === pathname);
+
+      const isPublicPage = currentPage?.isPublic ?? false;
+      const isAdminUser = localProfile?.role === "admin";
+      const hasPagePermission = localProfile?.userWebpages?.some(
+        (i) => i.page.page === pathname
+      );
+
+      const isCurrentPageAllowed =
+        isPublicPage || isAdminUser || hasPagePermission;
+
+      console.log({ currentPage, localWebpages, appWebpages, storedWebpages });
+
+      // checar se o usuario tem a webpage
+      if (!isCurrentPageAllowed) {
+        console.log("isCurrentPageAllowed not passed");
+        return logoutUser();
+      }
     }
-    const storedUser = getStoredUser();
-    const storedToken = getStoredToken();
-    const storedWebpages = getStoredWebpages();
-    const authRoutes = getAuthRoutes();
-
-    const localToken = storedToken;
-    const localProfile = profile ?? storedUser;
-    const localWebpages =
-      appWebpages && appWebpages.length > 0 ? appWebpages : storedWebpages;
-
-    // checar se tem alguma webpage
-    if (!localWebpages) {
-      console.log("localWebpages not passed");
-      return logoutUser();
-    }
-
-    // checar se a pagina atual é uma rota autenticada
-    const isCurrentPageAnAuthRoute = !!authRoutes?.find((i) => i === pathname);
-    if (!isCurrentPageAnAuthRoute) {
-      return;
-    }
-
-    // checar se tem algum usuario
-    const haveSomeUserData = !!localToken && !!localProfile;
-    if (!haveSomeUserData) {
-      console.log("haveSomeUserData not passed");
-      return logoutUser();
-    }
-
-    // validate user
-
-    // checar se tem algum profile
-    const currentPage = localWebpages.find((i) => i.page === pathname);
-
-    const isPublicPage = currentPage?.isPublic ?? false;
-    const isAdminUser = localProfile?.role === "admin";
-    const hasPagePermission = localProfile?.userWebpages?.some(
-      (i) => i.page.page === pathname
-    );
-
-    const isCurrentPageAllowed =
-      isPublicPage || isAdminUser || hasPagePermission;
-
-    console.log({ currentPage, localWebpages, appWebpages, storedWebpages });
-
-    // checar se o usuario tem a webpage
-    if (!isCurrentPageAllowed) {
-      console.log("isCurrentPageAllowed not passed");
-      return logoutUser();
-    }
+    runValidation();
   }, [pathname, profile, appWebpages]);
 
   // useEffect(() => {
