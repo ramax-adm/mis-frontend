@@ -25,37 +25,37 @@ export function AnalyticalInvoicesTotals({
           color: "#3E63DD",
         }}
       >
-        <Typography fontWeight={700} fontSize={"12px"}>
+        <Typography fontWeight={700} fontSize={"10px"}>
           Totais
         </Typography>
-        <Box sx={{ display: "inline-flex", gap: 2 }}>
-          <Box sx={{ display: "flex", flexDirection: "column" }}>
-            <Typography fontSize={"9px"}>Qtd. NFs</Typography>
-            <Typography fontSize={"14px"} fontWeight={700}>
+        <Box sx={{ display: "inline-flex", gap: 2, flexWrap: "wrap" }}>
+          <Box sx={{ display: "flex", alignItems: "center", gap: 0.3 }}>
+            <Typography fontSize={"9.5px"}>Qtd. NFs</Typography>
+            <Typography fontSize={"11px"} fontWeight={700}>
               {toLocaleString(data?.quantity ?? 0)}
             </Typography>
           </Box>
-          <Box sx={{ display: "flex", flexDirection: "column" }}>
-            <Typography fontSize={"9px"}>Qtd. Produtos</Typography>
-            <Typography fontSize={"14px"} fontWeight={700}>
+          <Box sx={{ display: "flex", alignItems: "center", gap: 0.3 }}>
+            <Typography fontSize={"9.5px"}>Qtd. Produtos</Typography>
+            <Typography fontSize={"11px"} fontWeight={700}>
               {toLocaleString(data?.productQuantity ?? 0)}
             </Typography>
           </Box>
-          <Box sx={{ display: "flex", flexDirection: "column" }}>
-            <Typography fontSize={"9px"}>Caixas</Typography>
-            <Typography fontSize={"14px"} fontWeight={700}>
+          <Box sx={{ display: "flex", alignItems: "center", gap: 0.3 }}>
+            <Typography fontSize={"9.5px"}>Caixas</Typography>
+            <Typography fontSize={"11px"} fontWeight={700}>
               {toLocaleString(data?.boxAmount ?? 0)}
             </Typography>
           </Box>
-          <Box sx={{ display: "flex", flexDirection: "column" }}>
-            <Typography fontSize={"9px"}>Σ Peso KG</Typography>
-            <Typography fontSize={"14px"} fontWeight={700}>
+          <Box sx={{ display: "flex", alignItems: "center", gap: 0.3 }}>
+            <Typography fontSize={"9.5px"}>Peso KG</Typography>
+            <Typography fontSize={"11px"} fontWeight={700}>
               {toLocaleString(data?.weightInKg ?? 0)}
             </Typography>
           </Box>
-          <Box sx={{ display: "flex", flexDirection: "column" }}>
-            <Typography fontSize={"9px"}>R$ Total</Typography>
-            <Typography fontSize={"14px"} fontWeight={700}>
+          <Box sx={{ display: "flex", alignItems: "center", gap: 0.3 }}>
+            <Typography fontSize={"9.5px"}>$ Total</Typography>
+            <Typography fontSize={"11px"} fontWeight={700}>
               {toLocaleString(data?.totalPrice ?? 0)}
             </Typography>
           </Box>

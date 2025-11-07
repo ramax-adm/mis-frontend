@@ -1,184 +1,172 @@
-import { CustomizedTable } from "@/components/Table/normal-table/body";
-import { GetBusinessAuditOverviewDataResponse } from "@/types/api/business-audit";
+import { Alert, Box } from "@mui/material";
+import PaginatedTable from "@/components/Table/paginated-table";
+import { LoaderIcon } from "@/components/Loading/loader-icon";
+import CustomTable, {
+  CustomTableColumn,
+} from "@/components/Table/custom-table";
 import { GetInvoicesItem } from "@/types/api/sales";
-import { PageRoutes } from "@/utils/appRoutes";
-import { formatDateToDDMMYYYY, formatToDate } from "@/utils/formatToDate";
+import { formatToDate } from "@/utils/formatToDate";
 import { toLocaleString } from "@/utils/string.utils";
-import { useRouter } from "next/navigation";
+
+type AnalyticalInvoicesTableData = GetInvoicesItem & {
+  company: string;
+  client: string;
+  product: string;
+  dateFormated: string;
+  cfop: string;
+  valueFormated: string;
+  weightFormated: string;
+  unitPriceFormated: string;
+};
 
 interface AnalyticalInvoicesTableProps {
   data?: GetInvoicesItem[];
+  isFetching: boolean;
 }
+
 export function AnalyticalInvoicesTable({
-  data = [],
+  data,
+  isFetching,
 }: AnalyticalInvoicesTableProps) {
   const parsedData = getData({ data });
   const columns = getColumns();
+  const haveSomeData = parsedData.length > 0;
 
-  const haveSomeData = data.length > 0;
+  if (isFetching) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "calc(100vh - 300px)",
+        }}
+      >
+        <LoaderIcon />
+      </Box>
+    );
+  }
 
   if (!haveSomeData) {
-    return null;
+    return <Alert severity='info'>Sem Dados</Alert>;
   }
 
   return (
-    <CustomizedTable
+    <PaginatedTable<AnalyticalInvoicesTableData>
       columns={columns}
-      data={parsedData}
-      tableStyles={{ height: "calc(100vh - 300px);" }}
-      cellStyles={{
-        fontSize: "10px",
-        paddingX: 0.5,
-        paddingY: 0.2,
-      }}
-      headCellStyles={{
-        paddingX: 0.5,
-        paddingY: 0.2,
-        fontSize: "11px",
-      }}
+      rows={parsedData}
+      tableStyles={{ height: "calc(100vh - 300px)" }}
     />
   );
 }
 
-const getData = ({ data = [] }: AnalyticalInvoicesTableProps) => {
+// 🔧 Mapeamento e formatação dos dados
+const getData = ({
+  data = [],
+}: {
+  data?: GetInvoicesItem[];
+}): AnalyticalInvoicesTableData[] => {
   return data
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-    .map((d) => ({
-      ...d,
-      date: formatToDate(d.date),
-      weightInKg: toLocaleString(d.weightInKg),
-      unitPrice: toLocaleString(d.unitPrice, 2),
-      totalPrice: toLocaleString(d.totalPrice, 2),
-    }));
+    .map((i) => ({
+      ...i,
+      company: `${i.companyCode} - ${i.companyName}`,
+      client: `${i.clientCode} - ${i.clientName}`,
+      dateFormated: i.date ? formatToDate(i.date) : "",
+      cfop: `${i.cfopCode ?? ""} - ${i.cfopDescription ?? ""}`,
+      product: `${i.productCode} - ${i.productName}`,
+      weightFormated: toLocaleString(i.weightInKg ?? 0),
+      unitPriceFormated: toLocaleString(i.unitPrice ?? 0, 2),
+      valueFormated: toLocaleString(i.totalPrice ?? 0, 2),
+    }))
+    .sort((a, b) => {
+      if (a.date && b.date) {
+        return new Date(b.date).getTime() - new Date(a.date).getTime();
+      }
+      return 0;
+    });
 };
 
-const getColumns = () => [
+// 🧩 Definição das colunas da tabela
+const getColumns = (): CustomTableColumn<AnalyticalInvoicesTableData>[] => [
   {
+    headerKey: "dateFormated",
     headerName: "Data",
-    type: "string",
-    value: {
-      first: {
-        value: "date",
-      },
-    },
+    sx: { fontSize: "11px", paddingX: 0.5 },
+    cellSx: { fontSize: "10px" },
   },
   {
+    headerKey: "nfType",
+    headerName: "Tipo NF",
+    sx: { fontSize: "11px", paddingX: 0.5 },
+    cellSx: { fontSize: "10px" },
+  },
+  {
+    headerKey: "nfDocumentType",
+    headerName: "Documento",
+    sx: { fontSize: "11px", paddingX: 0.5 },
+    cellSx: { fontSize: "10px" },
+  },
+  {
+    headerKey: "company",
+    headerName: "Empresa",
+    sx: { fontSize: "11px", paddingX: 0.5 },
+    cellSx: { fontSize: "10px" },
+  },
+  {
+    headerKey: "nfNumber",
     headerName: "N° NF",
-    type: "string",
-    value: {
-      first: {
-        value: "nfNumber",
-      },
-    },
+    sx: { fontSize: "11px", paddingX: 0.5 },
+    cellSx: { fontSize: "10px" },
   },
   {
-    headerName: "Cod. pedido",
-    type: "string",
-    value: {
-      first: {
-        value: "orderId",
-      },
-    },
-  },
-  {
-    headerName: "Tipo",
-    type: "string",
-    value: {
-      first: {
-        value: "nfType",
-      },
-    },
-  },
-  {
+    headerKey: "nfSituation",
     headerName: "Situação",
-    type: "string",
-    value: {
-      first: {
-        value: "nfSituation",
-      },
-    },
+    sx: { fontSize: "11px", paddingX: 0.5 },
+    cellSx: { fontSize: "10px" },
   },
   {
-    headerName: "Cod Cfop",
-    type: "string",
-    value: {
-      first: {
-        value: "cfopCode",
-      },
-    },
-  },
-  {
-    headerName: "Cfop",
-    type: "string",
-    value: {
-      first: {
-        value: "cfopDescription",
-      },
-    },
-  },
-
-  {
+    headerKey: "client",
     headerName: "Cliente",
-    type: "string",
-    value: {
-      first: {
-        value: "clientName",
-      },
-    },
+    sx: { fontSize: "11px", paddingX: 0.5 },
+    cellSx: { fontSize: "10px" },
   },
 
   {
-    headerName: "Cod Produto",
-    type: "string",
-    value: {
-      first: {
-        value: "productCode",
-      },
-    },
+    headerKey: "cfop",
+    headerName: "CFOP",
+    sx: { fontSize: "11px", paddingX: 0.5 },
+    cellSx: { fontSize: "10px" },
   },
   {
+    headerKey: "product",
     headerName: "Produto",
-    type: "string",
-    value: {
-      first: {
-        value: "productName",
-      },
-    },
+    sx: { fontSize: "11px", paddingX: 0.5 },
+    cellSx: { fontSize: "10px" },
   },
   {
+    headerKey: "boxAmount",
     headerName: "Caixas",
-    type: "string",
-    value: {
-      first: {
-        value: "boxAmount",
-      },
-    },
+    sx: { fontSize: "11px", paddingX: 0.5 },
+    cellSx: { fontSize: "10px" },
   },
   {
-    headerName: "Peso KG",
-    type: "string",
-    value: {
-      first: {
-        value: "weightInKg",
-      },
-    },
+    headerKey: "weightFormated",
+    headerName: "Peso (Kg)",
+    sx: { fontSize: "11px", paddingX: 0.5 },
+    cellSx: { fontSize: "10px" },
   },
   {
-    headerName: "Valor Un.",
-    type: "string",
-    value: {
-      first: {
-        value: "unitPrice",
-      },
-    },
+    headerKey: "unitPriceFormated",
+    headerName: "$ Valor Un.",
+    align: "right",
+    sx: { fontSize: "11px", paddingX: 0.5 },
+    cellSx: { fontSize: "10px", textAlign: "right" },
   },
   {
-    headerName: "Valor Nota",
-    type: "string",
-    value: {
-      first: {
-        value: "totalPrice",
-      },
-    },
+    headerKey: "valueFormated",
+    headerName: "$ Total",
+    align: "right",
+    sx: { fontSize: "11px", paddingX: 0.5 },
+    cellSx: { fontSize: "10px", textAlign: "right" },
   },
 ];
