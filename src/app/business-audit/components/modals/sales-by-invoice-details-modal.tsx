@@ -5,7 +5,7 @@ import { RiPagesLine } from "react-icons/ri";
 import { LoaderIcon } from "../customized/loader-icon";
 import { SalesByInvoiceDetailsTable } from "../tables/sales-by-invoice-details-table";
 import { DisplayItem } from "@/components/Info/display-item";
-import { toLocaleString } from "@/utils/string.utils";
+import { toLocaleString, toPercent } from "@/utils/string.utils";
 import { formatToDate } from "@/utils/formatToDate";
 
 interface SalesByInvoiceDetailsModalProps {
@@ -57,6 +57,8 @@ export function SalesByInvoiceDetailsModal({
     }
   );
 
+  const percentValue = totalDiscount / (totalTableValue ?? 1);
+
   if (isFetching) {
     return (
       <Box sx={{ height: "300px", display: "grid", placeItems: "center" }}>
@@ -74,13 +76,13 @@ export function SalesByInvoiceDetailsModal({
       }}
     >
       <Grid container gap={2}>
-        <Grid item xs={3} md={1}>
+        <Grid item xs={3} md={0.5}>
           <DisplayItem title='NF' content={ordersData?.[0].nfNumber} />
         </Grid>
         <Grid item xs={3} md={1}>
           <DisplayItem title='Data' content={formatedBillingDate} />
         </Grid>
-        <Grid item xs={3} md={1}>
+        <Grid item xs={3} md={0.5}>
           <DisplayItem title='N° Pedido' content={ordersData?.[0].orderId} />
         </Grid>
         <Grid item xs={3} md={2}>
@@ -116,6 +118,9 @@ export function SalesByInvoiceDetailsModal({
             content={toLocaleString(totalDiscount, 2)}
           />
         </Grid>
+        <Grid item xs={3} md={1}>
+          <DisplayItem title='Dif %' content={toPercent(percentValue)} />
+        </Grid>
       </Grid>
       <Divider />
       <Grid container>
@@ -138,7 +143,15 @@ export function SalesByInvoiceDetailsModal({
           />
         </Grid>
       </Grid>
-
+      <Divider />
+      <Grid container>
+        <Grid item xs={4}>
+          <DisplayItem title='Cidade' content={`${ordersData?.[0].city} `} />
+        </Grid>
+        <Grid item xs={4}>
+          <DisplayItem title='UF' content={`${ordersData?.[0].uf} `} />
+        </Grid>
+      </Grid>
       <Divider />
 
       <SalesByInvoiceDetailsTable data={ordersData} isFetching={isFetching} />

@@ -17,7 +17,7 @@ import PaginatedTable, {
   PaginatedTableColumn,
 } from "@/components/Table/paginated-table";
 
-type SalesByProductTableData = {
+type SalesDiscountByProductTableData = {
   productCode?: string;
   product?: string;
   salesCount: number;
@@ -25,18 +25,20 @@ type SalesByProductTableData = {
   totalFatValue: string;
   totalTableValue: string;
   totalDiff: string;
+  totalDiffPercent: number;
+  totalDiffPercentFormated: string;
   percentValueFormated: string;
   percentValue: number;
 };
 
-interface SalesByProductTableProps {
+interface SalesDiscountByProductTableProps {
   data?: Record<string, GetBusinessAuditSalesProductAgg>;
   isFetching?: boolean;
 }
-export function SalesByProductTable({
+export function SalesDiscountByProductTable({
   data,
   isFetching,
-}: SalesByProductTableProps) {
+}: SalesDiscountByProductTableProps) {
   const parsedData = getData({ data });
   const columns = getColumns({});
 
@@ -55,7 +57,7 @@ export function SalesByProductTable({
   }
 
   return (
-    <CustomTable<SalesByProductTableData>
+    <CustomTable<SalesDiscountByProductTableData>
       columns={columns}
       rows={parsedData}
       tableStyles={{ height: "150px" }}
@@ -67,8 +69,8 @@ const getData = ({
   data = {},
 }: {
   data?: Record<string, GetBusinessAuditSalesProductAgg>;
-}): SalesByProductTableData[] => {
-  const response: SalesByProductTableData[] = [];
+}): SalesDiscountByProductTableData[] => {
+  const response: SalesDiscountByProductTableData[] = [];
 
   const keys = Object.keys(data);
 
@@ -79,45 +81,60 @@ const getData = ({
       product: `${item.productCode} - ${item.productName}`,
       salesCount: item.salesCount,
       totalKg: toLocaleString(item.totalKg),
-      totalFatValue: toLocaleString(item.totalFatValue, 2),
-      totalTableValue: toLocaleString(item.totalTableValue, 2),
-      totalDiff: toLocaleString(item.totalDiff, 2),
+      totalFatValue: toLocaleString(item.totalFatValue),
+      totalTableValue: toLocaleString(item.totalTableValue),
+      totalDiff: toLocaleString(item.totalDiff),
+      totalDiffPercent: item.totalDiffPercent,
+      totalDiffPercentFormated: toPercent(item.totalDiffPercent),
       percentValueFormated: toPercent(item.percentValue),
       percentValue: item.percentValue,
     });
   }
-  return response.sort((a, b) => b.percentValue - a.percentValue);
+  return response.sort((a, b) => a.totalDiffPercent - b.totalDiffPercent);
 };
 
-const getColumns = ({}: {}): CustomTableColumn<SalesByProductTableData>[] => [
-  {
-    headerKey: "product",
-    headerName: "Produto",
-    sx: { fontSize: "9.5px" },
-    cellSx: { fontSize: "9px" },
-  },
-  {
-    headerKey: "salesCount",
-    headerName: "Qtd.",
-    sx: { fontSize: "9.5px" },
-    cellSx: { fontSize: "9px" },
-  },
-  {
-    headerKey: "totalKg",
-    headerName: "Total KG",
-    sx: { fontSize: "9.5px" },
-    cellSx: { fontSize: "9px" },
-  },
-  {
-    headerKey: "totalDiff",
-    headerName: "Desc.",
-    sx: { fontSize: "9.5px" },
-    cellSx: { fontSize: "9px" },
-  },
-  {
-    headerKey: "percentValueFormated",
-    headerName: "%",
-    sx: { fontSize: "9.5px" },
-    cellSx: { fontSize: "9px" },
-  },
-];
+const getColumns =
+  ({}: {}): CustomTableColumn<SalesDiscountByProductTableData>[] => [
+    {
+      headerKey: "product",
+      headerName: "Produto",
+      sx: { fontSize: "9.5px" },
+      cellSx: { fontSize: "9px" },
+    },
+    {
+      headerKey: "salesCount",
+      headerName: "Qtd.",
+      sx: { fontSize: "9.5px" },
+      cellSx: { fontSize: "9px" },
+    },
+    {
+      headerKey: "totalKg",
+      headerName: "KGs",
+      sx: { fontSize: "9.5px" },
+      cellSx: { fontSize: "9px" },
+    },
+    {
+      headerKey: "totalFatValue",
+      headerName: "$ Fat.",
+      sx: { fontSize: "9.5px" },
+      cellSx: { fontSize: "9px" },
+    },
+    {
+      headerKey: "totalTableValue",
+      headerName: "$ Tab.",
+      sx: { fontSize: "9.5px" },
+      cellSx: { fontSize: "9px" },
+    },
+    {
+      headerKey: "totalDiff",
+      headerName: "$ Dif.",
+      sx: { fontSize: "9.5px" },
+      cellSx: { fontSize: "9px" },
+    },
+    {
+      headerKey: "totalDiffPercentFormated",
+      headerName: "% Dif.",
+      sx: { fontSize: "9.5px" },
+      cellSx: { fontSize: "9px" },
+    },
+  ];

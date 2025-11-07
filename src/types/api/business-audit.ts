@@ -1,4 +1,5 @@
 import { ReturnOccurrence } from "../business-audit";
+import { OrderLine } from "../sales";
 import { MarketEnum } from "../sensatta";
 
 type GetBusinessAuditOverviewDataAggregated = Record<
@@ -108,11 +109,25 @@ export interface GetBusinessAuditOverviewDataResponse {
   };
 }
 
+export type GetOrderLineItem = OrderLine & {
+  city: string;
+  uf: string;
+  tableValue: number;
+  invoicingValue: number;
+  dif: number;
+  difPercent: number;
+  additionPercent: number;
+  discountPercent: number;
+};
+
 export type GetBusinessAuditSalesDataTotals = {
   count: number;
+  totalKg: number;
   totalFatValue: number;
   totalTableValue: number;
   totalDiff: number;
+  totalAdditionValue: number;
+  totalDiscountValue: number;
 };
 
 export type GetBusinessAuditSalesInvoiceAgg = {
@@ -127,6 +142,8 @@ export type GetBusinessAuditSalesInvoiceAgg = {
   clientName?: string;
   representativeCode?: string;
   representativeName?: string;
+  city?: string;
+  uf?: string;
   paymentTerm?: string;
   market?: MarketEnum;
   currency?: string;
@@ -134,6 +151,12 @@ export type GetBusinessAuditSalesInvoiceAgg = {
   totalFatValue: number;
   totalTableValue: number;
   totalDiff: number;
+  totalDiffPercent: number;
+  additionPercent: number;
+  additionValue: number;
+  discountPercent: number;
+  discountValue: number;
+  percentValue: number;
   totalKg: number;
 };
 
@@ -145,6 +168,11 @@ export type GetBusinessAuditSalesProductAgg = {
   totalFatValue: number;
   totalTableValue: number;
   totalDiff: number;
+  totalDiffPercent: number;
+  additionPercent: number;
+  additionValue: number;
+  discountPercent: number;
+  discountValue: number;
   percentValue: number;
 };
 
@@ -156,6 +184,11 @@ export type GetBusinessAuditSalesClientAgg = {
   totalFatValue: number;
   totalTableValue: number;
   totalDiff: number;
+  totalDiffPercent: number;
+  additionPercent: number;
+  additionValue: number;
+  discountPercent: number;
+  discountValue: number;
   percentValue: number;
 };
 
@@ -167,6 +200,11 @@ export type GetBusinessAuditSalesRepresentativeAgg = {
   totalFatValue: number;
   totalTableValue: number;
   totalDiff: number;
+  totalDiffPercent: number;
+  additionPercent: number;
+  additionValue: number;
+  discountPercent: number;
+  discountValue: number;
   percentValue: number;
 };
 
