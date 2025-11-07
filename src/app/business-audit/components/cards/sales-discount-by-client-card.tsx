@@ -1,7 +1,7 @@
 import { Alert, Box } from "@mui/material";
 import { BusinessAuditCustomizedCard } from "../customized/card";
-import { SalesByClientTable } from "../tables/sales-by-client-table";
-import { SalesByClientGraph } from "../graphs/sales-by-client-graph";
+import { SalesDiscountByClientTable } from "../tables/sales-discount-by-client-table";
+import { SalesDiscountByClientGraph } from "../graphs/sales-discount-by-client-graph";
 import { useGetBusinessAuditSalesData } from "@/services/react-query/queries/business-audit";
 import { useQueryStates, parseAsString, parseAsArrayOf } from "nuqs";
 import { OrderPriceConsiderationEnum } from "@/types/business-audit";
@@ -11,7 +11,7 @@ import { StorageKeysEnum } from "@/constants/app/storage";
 import { usePersistedFilters } from "@/hooks/use-persisted-filters";
 import { useFilter } from "@/contexts/persisted-filters";
 
-export function SalesByClientCard() {
+export function SalesDiscountByClientCard() {
   const [globalStates] = useQueryStates({
     startDate: parseAsString.withDefault(
       new Date().toISOString().split("T")[0]
@@ -56,7 +56,7 @@ export function SalesByClientCard() {
   const haveSomeData = Object.values(salesData).length > 0;
 
   return (
-    <BusinessAuditCustomizedCard cardTitle='Vendas por Cliente'>
+    <BusinessAuditCustomizedCard cardTitle='Desconto por Cliente'>
       <SalesTotals data={sales?.salesByClient.totals} />
 
       {!haveSomeData && !isFetching ? (
@@ -65,9 +65,15 @@ export function SalesByClientCard() {
         </Box>
       ) : (
         <Box sx={{ display: "flex", flexDirection: "column", gap: 0.5 }}>
-          <SalesByClientTable data={salesData} isFetching={isFetching} />
+          <SalesDiscountByClientTable
+            data={salesData}
+            isFetching={isFetching}
+          />
 
-          <SalesByClientGraph data={salesData} isFetching={isFetching} />
+          <SalesDiscountByClientGraph
+            data={salesData}
+            isFetching={isFetching}
+          />
         </Box>
       )}
     </BusinessAuditCustomizedCard>

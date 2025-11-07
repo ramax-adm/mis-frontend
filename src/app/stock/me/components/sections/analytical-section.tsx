@@ -328,7 +328,7 @@ export const AnalyticalSection = forwardRef<
                     }}
                   />
                   <DisplayItem
-                    title='KGs FIFO 16-30 Dias'
+                    title='KGs Alerta 16-30 Dias'
                     content={calculateTotalStockWeightToExpires(
                       filteredData.toExpiresData,
                       16,
@@ -345,7 +345,7 @@ export const AnalyticalSection = forwardRef<
                     }}
                   />
                   <DisplayItem
-                    title='KGs FIFO +30 Dias'
+                    title='KGs +30 Dias'
                     content={calculateTotalStockWeightToExpires(
                       filteredData.toExpiresData,
                       31,

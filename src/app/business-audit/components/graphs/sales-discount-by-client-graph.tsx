@@ -28,7 +28,11 @@ import CustomTable, {
 type ParsedDataItem = {
   id?: string;
   name: string;
+  totalKg: number;
   totalFatValue: number;
+  totalTableValue: number;
+  totalDif: number;
+  totalDifPercent: number;
   percent: number;
   acc: number;
 };
@@ -64,14 +68,14 @@ const COLORS_TOP_10 = [
 //   "#ECFDF5", // VERDE 50
 // ];
 
-interface SalesByRepresentativeGraphProps {
-  data?: Record<string, GetBusinessAuditSalesRepresentativeAgg>;
+interface SalesDiscountByClientGraphProps {
+  data?: Record<string, GetBusinessAuditSalesClientAgg>;
   isFetching?: boolean;
 }
-export function SalesByRepresentativeGraph({
+export function SalesDiscountByClientGraph({
   data = {},
   isFetching,
-}: SalesByRepresentativeGraphProps) {
+}: SalesDiscountByClientGraphProps) {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   const { top10, rest } = getData({ data });
@@ -93,13 +97,14 @@ export function SalesByRepresentativeGraph({
 
   return (
     <>
+      {/* Top 5 */}
       <Typography fontSize={12} fontWeight={700}>
-        Top 10 Produtos
+        Top 10 Clientes
       </Typography>
       <ResponsiveContainer width='100%' height={250}>
         <PieChart style={{ fontSize: 12, fontFamily: "roboto" }}>
           <Pie
-            dataKey='totalFatValue'
+            dataKey='totalDifPercentAbs'
             data={top10}
             cx='50%'
             cy='50%'
@@ -132,25 +137,35 @@ export function SalesByRepresentativeGraph({
 
 const getData = ({
   data,
-}: SalesByRepresentativeGraphProps): GetDataResponse => {
+}: SalesDiscountByClientGraphProps): GetDataResponse => {
   if (!data) {
     return { top10: [], rest: [] };
   }
 
+  const totalDiscounts = Object.values(data).reduce(
+    (acc, item) => acc + item.totalDiff,
+    0
+  );
   const response: ParsedDataItem[] = Object.values(data).map((value) => ({
-    id: value.salesRepresentativeCode,
-    name: `${value.salesRepresentativeCode} - ${value.salesRepresentativeName}`,
+    id: value.clientCode,
+    name: `${value.clientCode} - ${value.clientName}`,
+    totalKg: value.totalKg,
     totalFatValue: value.totalFatValue,
-    percent: value.percentValue,
+    totalTableValue: value.totalTableValue,
+    totalDif: value.totalDiff,
+    totalDifAbs: Math.abs(value.totalDiff),
+    totalDifPercent: value.totalDiffPercent,
+    totalDifPercentAbs: Math.abs(value.totalDiffPercent),
+    percent: value.totalDiff / totalDiscounts,
     acc: 0, // será recalculado depois
   }));
 
   // Ordena por valor
   let accumulated = 0;
   const sorted = response
-    .sort((a, b) => b.totalFatValue - a.totalFatValue)
+    .sort((a, b) => a.totalDifPercent - b.totalDifPercent)
     .map((item) => {
-      accumulated += item.percent;
+      accumulated += item.percent ?? 0;
       return { ...item, acc: accumulated };
     });
 
@@ -161,18 +176,31 @@ const getData = ({
   const middle = sorted.slice(10, 15);
 
   // Soma do 16º em diante
-  const othersTotal = sorted.slice(15).reduce(
+  const othersTotal = sorted.slice(15)?.reduce(
     (acc, curr) => ({
+      totalKg: acc.totalKg + curr.totalKg,
       totalFatValue: acc.totalFatValue + curr.totalFatValue,
+      totalTableValue: acc.totalTableValue + curr.totalTableValue,
+      totalDif: acc.totalDif + curr.totalDif,
+      totalDifPercent: acc.totalDifPercent + curr.totalDifPercent,
       percent: acc.percent + curr.percent,
     }),
-    { totalFatValue: 0, percent: 0 }
+    {
+      totalFatValue: 0,
+      percent: 0,
+      totalKg: 0,
+      totalDifPercent: 0,
+      totalTableValue: 0,
+      totalDif: 0,
+    }
   );
 
   let rest: ParsedDataItem[] = [...middle];
 
-  if (othersTotal.totalFatValue > 0) {
+  if (othersTotal.totalDif !== 0) {
     // pega o último acumulado calculado até agora
+    console.log(middle.length, top10.length);
+
     const lastAcc =
       middle.length > 0
         ? middle[middle.length - 1].acc
@@ -182,7 +210,11 @@ const getData = ({
       ...middle,
       {
         name: "Outros",
+        totalDif: othersTotal.totalDif,
+        totalTableValue: othersTotal.totalTableValue,
         totalFatValue: othersTotal.totalFatValue,
+        totalKg: othersTotal.totalKg,
+        totalDifPercent: othersTotal.totalDif / othersTotal.totalTableValue,
         percent: othersTotal.percent,
         acc: lastAcc + othersTotal.percent,
       },
@@ -209,7 +241,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
           return (
             <>
               <Typography variant='caption'>{`${item.name}`}</Typography>
-              <Typography variant='body2'>{`Faturamento $: ${toLocaleString(item.value)} - ${toPercent(item.payload.percent)}`}</Typography>
+              <Typography variant='body2'>{`$ Dif ${toLocaleString(item.payload.totalDif)} (${toPercent(item.payload.totalDifPercent)})`}</Typography>
             </>
           );
         })}
@@ -250,7 +282,8 @@ const CustomLabel = ({
         {stringSubstr(payload?.name, 30)}
       </tspan>
       <tspan x={x} dy='1.1em'>
-        {toLocaleString(value)} - {toPercent(payload.percent)}
+        {toLocaleString(payload.totalDif)} ({toPercent(payload.totalDifPercent)}
+        )
       </tspan>
     </text>
   );
@@ -259,22 +292,47 @@ const CustomLabel = ({
 export const CustomGraphTable = ({ data }: { data: GetDataResponse }) => {
   // calcula o acumulado em %
   const rows = [...data.top10, ...data.rest];
+  console.log({ data });
 
   const columns: CustomTableColumn<ParsedDataItem>[] = [
     {
       headerKey: "name",
-      headerName: "Representante",
+      headerName: "Cliente",
       align: "left",
       sx: { fontSize: "9.5px" },
       cellSx: { fontSize: "9px" },
     },
     {
       headerKey: "totalFatValue",
-      headerName: "Fat (R$)",
+      headerName: "$ Fat",
       align: "right",
       sx: { fontSize: "9.5px" },
       cellSx: { fontSize: "9px" },
       format: (value) => toLocaleString(value),
+    },
+    {
+      headerKey: "totalTableValue",
+      headerName: "$ Tab.",
+      align: "right",
+      sx: { fontSize: "9.5px" },
+      cellSx: { fontSize: "9px" },
+      format: (value) => toLocaleString(value),
+    },
+    {
+      headerKey: "totalDif",
+      headerName: "$ Dif.",
+      align: "right",
+      sx: { fontSize: "9.5px" },
+      cellSx: { fontSize: "9px" },
+      format: (value) => toLocaleString(value),
+    },
+    {
+      headerKey: "totalDifPercent",
+      headerName: "% Dif.",
+      align: "right",
+      sx: { fontSize: "9.5px" },
+      cellSx: { fontSize: "9px" },
+      format: (value) => toPercent(value),
     },
     {
       headerKey: "percent",

@@ -3,9 +3,9 @@ import { useQueryStates, parseAsString, parseAsBoolean } from "nuqs";
 import { FinpecModal } from "@/components/Modal/FinpecModal/FinpecModal";
 import { SalesByInvoiceDetailsModal } from "../modals/sales-by-invoice-details-modal";
 import { SalesByInvoiceCard } from "../cards/sales-by-invoice-card";
-import { SalesByProductCard } from "../cards/sales-by-product-card";
-import { SalesByClientCard } from "../cards/sales-by-client-card";
-import { SalesByRepresentativeCard } from "../cards/sales-by-representative-card";
+import { SalesDiscountByProductCard } from "../cards/sales-discount-by-product-card";
+import { SalesDiscountByClientCard } from "../cards/sales-discount-by-client-card";
+import { SalesDiscountByRepresentativeCard } from "../cards/sales-discount-by-representative-card";
 
 export function BusinessAuditSalesSection() {
   const [globalStates] = useQueryStates({
@@ -31,13 +31,13 @@ export function BusinessAuditSalesSection() {
       </Grid>
       <Grid container marginTop={0.1} spacing={1}>
         <Grid item xs={12} md={4}>
-          <SalesByProductCard />
+          <SalesDiscountByProductCard />
         </Grid>
         <Grid item xs={12} md={4}>
-          <SalesByClientCard />
+          <SalesDiscountByClientCard />
         </Grid>
         <Grid item xs={12} md={4}>
-          <SalesByRepresentativeCard />
+          <SalesDiscountByRepresentativeCard />
         </Grid>
       </Grid>
       <FinpecModal

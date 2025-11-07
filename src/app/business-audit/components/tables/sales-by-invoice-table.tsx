@@ -6,7 +6,7 @@ import {
   GetBusinessAuditSalesDataResponse,
   GetBusinessAuditSalesInvoiceAgg,
 } from "@/types/api/business-audit";
-import { toLocaleString } from "@/utils/string.utils";
+import { toLocaleString, toPercent } from "@/utils/string.utils";
 import { LoaderIcon } from "../customized/loader-icon";
 import { parseAsBoolean, parseAsString, useQueryStates } from "nuqs";
 import { Box } from "@mui/material";
@@ -29,11 +29,18 @@ type SalesByInvoiceTableData = {
   market: string;
   client: string;
   salesCount: number;
+  address: string;
   representative: string;
   paymentTerm: string;
+  totalKg: string;
   fatValue: string;
   tableValue: string;
+  additionPercent: string;
+  additionValue: string;
+  discountPercent: string;
+  discountValue: string;
   dif: string;
+  difPercent: string;
 };
 
 interface SalesByInvoiceTableProps {
@@ -111,10 +118,17 @@ const getData = ({
       client: `${item.clientCode} - ${item.clientName}`,
       salesCount: item.salesCount ?? 0,
       representative: `${item.representativeCode} - ${item.representativeName}`,
+      address: `${item.city} - ${item.uf}`,
       paymentTerm: item.paymentTerm ?? "N/A",
+      totalKg: toLocaleString(item.totalKg),
       fatValue: toLocaleString(item.totalFatValue),
       tableValue: toLocaleString(item.totalTableValue),
+      additionPercent: toPercent(item.additionPercent),
+      additionValue: toLocaleString(item.additionValue),
+      discountPercent: toPercent(item.discountPercent),
+      discountValue: toLocaleString(item.discountValue),
       dif: toLocaleString(item.totalDiff),
+      difPercent: toPercent(item.totalDiffPercent),
     });
   }
   return response.sort((a, b) =>
@@ -184,8 +198,20 @@ const getColumns = ({
     cellSx: { fontSize: "9px" },
   },
   {
+    headerKey: "address",
+    headerName: "Localidade",
+    sx: { fontSize: "9.5px", paddingX: 0.5 },
+    cellSx: { fontSize: "9px" },
+  },
+  {
     headerKey: "paymentTerm",
     headerName: "Prazo",
+    sx: { fontSize: "9.5px", paddingX: 0.5 },
+    cellSx: { fontSize: "9px" },
+  },
+  {
+    headerKey: "totalKg",
+    headerName: "KGs",
     sx: { fontSize: "9.5px", paddingX: 0.5 },
     cellSx: { fontSize: "9px" },
   },
@@ -197,13 +223,43 @@ const getColumns = ({
   },
   {
     headerKey: "tableValue",
-    headerName: "$ Tabela",
+    headerName: "$ Tab.",
+    sx: { fontSize: "9.5px", paddingX: 0.5 },
+    cellSx: { fontSize: "9px" },
+  },
+  // {
+  //   headerKey: "additionValue",
+  //   headerName: "$ Add.",
+  //   sx: { fontSize: "9.5px", paddingX: 0.5 },
+  //   cellSx: { fontSize: "9px" },
+  // },
+  // {
+  //   headerKey: "additionPercent",
+  //   headerName: "% Add.",
+  //   sx: { fontSize: "9.5px", paddingX: 0.5 },
+  //   cellSx: { fontSize: "9px" },
+  // },
+  // {
+  //   headerKey: "discountValue",
+  //   headerName: "$ Desc.",
+  //   sx: { fontSize: "9.5px", paddingX: 0.5 },
+  //   cellSx: { fontSize: "9px" },
+  // },
+  // {
+  //   headerKey: "discountPercent",
+  //   headerName: "% Desc.",
+  //   sx: { fontSize: "9.5px", paddingX: 0.5 },
+  //   cellSx: { fontSize: "9px" },
+  // },
+  {
+    headerKey: "dif",
+    headerName: "$ Dif.",
     sx: { fontSize: "9.5px", paddingX: 0.5 },
     cellSx: { fontSize: "9px" },
   },
   {
-    headerKey: "dif",
-    headerName: "Desc.",
+    headerKey: "difPercent",
+    headerName: "% Dif.",
     sx: { fontSize: "9.5px", paddingX: 0.5 },
     cellSx: { fontSize: "9px" },
   },
