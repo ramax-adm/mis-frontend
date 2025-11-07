@@ -118,7 +118,7 @@ export function SalesByInvoiceCard() {
           gap: 1,
         }}
       >
-        <Box sx={{ width: "450px" }}>
+        <Box sx={{ width: { sm: "80%" } }}>
           <SalesTotals data={sales?.salesByInvoice.totals} />
         </Box>
         <Box sx={{ width: "250px" }}>

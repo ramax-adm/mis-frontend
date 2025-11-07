@@ -3,41 +3,42 @@ import CustomTable, {
 } from "@/components/Table/custom-table";
 import { useGetBusinessAuditSalesData } from "@/services/react-query/queries/business-audit";
 import {
-  GetBusinessAuditSalesClientAgg,
   GetBusinessAuditSalesDataResponse,
   GetBusinessAuditSalesInvoiceAgg,
-  GetBusinessAuditSalesProductAgg,
   GetBusinessAuditSalesRepresentativeAgg,
 } from "@/types/api/business-audit";
 import { toLocaleString, toPercent } from "@/utils/string.utils";
 import { LoaderIcon } from "../customized/loader-icon";
 import { parseAsBoolean, parseAsString, useQueryStates } from "nuqs";
-import { Box } from "@mui/material";
+import { Alert, Box } from "@mui/material";
 import { grey } from "@mui/material/colors";
 import { SquareArrowOutUpRight } from "lucide-react";
 import PaginatedTable, {
   PaginatedTableColumn,
 } from "@/components/Table/paginated-table";
 
-type SalesByRepresentativeTableData = {
-  representative: string;
+type SalesDiscountByRepresentativeTableData = {
+  representativeCode?: string;
+  representative?: string;
   salesCount: number;
   totalKg: string;
   totalFatValue: string;
   totalTableValue: string;
   totalDiff: string;
+  totalDiffPercent: number;
+  totalDiffPercentFormated: string;
   percentValueFormated: string;
   percentValue: number;
 };
 
-interface SalesByRepresentativeTableProps {
+interface SalesDiscountByRepresentativeTableProps {
   data?: Record<string, GetBusinessAuditSalesRepresentativeAgg>;
   isFetching?: boolean;
 }
-export function SalesByRepresentativeTable({
+export function SalesDiscountByRepresentativeTable({
   data,
   isFetching,
-}: SalesByRepresentativeTableProps) {
+}: SalesDiscountByRepresentativeTableProps) {
   const parsedData = getData({ data });
   const columns = getColumns({});
 
@@ -45,9 +46,8 @@ export function SalesByRepresentativeTable({
     return (
       <Box
         sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
+          display: "grid",
+          placeContent: "center",
           height: "200px",
         }}
       >
@@ -57,7 +57,7 @@ export function SalesByRepresentativeTable({
   }
 
   return (
-    <CustomTable<SalesByRepresentativeTableData>
+    <CustomTable<SalesDiscountByRepresentativeTableData>
       columns={columns}
       rows={parsedData}
       tableStyles={{ height: "150px" }}
@@ -69,29 +69,32 @@ const getData = ({
   data = {},
 }: {
   data?: Record<string, GetBusinessAuditSalesRepresentativeAgg>;
-}): SalesByRepresentativeTableData[] => {
-  const response: SalesByRepresentativeTableData[] = [];
+}): SalesDiscountByRepresentativeTableData[] => {
+  const response: SalesDiscountByRepresentativeTableData[] = [];
 
   const keys = Object.keys(data);
 
   for (const key of keys) {
     const item = data[key];
     response.push({
-      representative: `${item.salesRepresentativeName}`,
+      representativeCode: item.salesRepresentativeCode,
+      representative: `${item.salesRepresentativeCode} - ${item.salesRepresentativeName}`,
       salesCount: item.salesCount,
       totalKg: toLocaleString(item.totalKg),
-      totalFatValue: toLocaleString(item.totalFatValue, 2),
-      totalTableValue: toLocaleString(item.totalTableValue, 2),
-      totalDiff: toLocaleString(item.totalDiff, 2),
+      totalFatValue: toLocaleString(item.totalFatValue),
+      totalTableValue: toLocaleString(item.totalTableValue),
+      totalDiff: toLocaleString(item.totalDiff),
+      totalDiffPercent: item.totalDiffPercent,
+      totalDiffPercentFormated: toPercent(item.totalDiffPercent),
       percentValueFormated: toPercent(item.percentValue),
       percentValue: item.percentValue,
     });
   }
-  return response.sort((a, b) => b.percentValue - a.percentValue);
+  return response.sort((a, b) => a.totalDiffPercent - b.totalDiffPercent);
 };
 
 const getColumns =
-  ({}: {}): CustomTableColumn<SalesByRepresentativeTableData>[] => [
+  ({}: {}): CustomTableColumn<SalesDiscountByRepresentativeTableData>[] => [
     {
       headerKey: "representative",
       headerName: "Representante",
@@ -106,19 +109,31 @@ const getColumns =
     },
     {
       headerKey: "totalKg",
-      headerName: "Total KG",
+      headerName: "KGs",
+      sx: { fontSize: "9.5px" },
+      cellSx: { fontSize: "9px" },
+    },
+    {
+      headerKey: "totalFatValue",
+      headerName: "$ Fat.",
+      sx: { fontSize: "9.5px" },
+      cellSx: { fontSize: "9px" },
+    },
+    {
+      headerKey: "totalTableValue",
+      headerName: "$ Tab.",
       sx: { fontSize: "9.5px" },
       cellSx: { fontSize: "9px" },
     },
     {
       headerKey: "totalDiff",
-      headerName: "Desc.",
+      headerName: "$ Dif.",
       sx: { fontSize: "9.5px" },
       cellSx: { fontSize: "9px" },
     },
     {
-      headerKey: "percentValueFormated",
-      headerName: "%",
+      headerKey: "totalDiffPercentFormated",
+      headerName: "% Dif.",
       sx: { fontSize: "9.5px" },
       cellSx: { fontSize: "9px" },
     },

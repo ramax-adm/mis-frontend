@@ -5,8 +5,9 @@ import { useGetBusinessAuditSalesData } from "@/services/react-query/queries/bus
 import {
   GetBusinessAuditSalesDataResponse,
   GetBusinessAuditSalesInvoiceAgg,
+  GetOrderLineItem,
 } from "@/types/api/business-audit";
-import { toLocaleString } from "@/utils/string.utils";
+import { toLocaleString, toPercent } from "@/utils/string.utils";
 import { LoaderIcon } from "../customized/loader-icon";
 import { parseAsBoolean, parseAsString, useQueryStates } from "nuqs";
 import { Box, TableCell } from "@mui/material";
@@ -16,17 +17,13 @@ import { formatToDate } from "@/utils/formatToDate";
 import { OrderLine } from "@/types/sales";
 import { MarketEnum } from "@/types/sensatta";
 
-type SalesByInvoiceDetailsTableData = OrderLine & {
+type SalesByInvoiceDetailsTableData = GetOrderLineItem & {
   product: string;
   marketFormated: string;
-  difPrice: number;
-  totalFatPrice: number;
-  totalTablePrice: number;
-  totalDifPrice: number;
 };
 
 interface SalesByInvoiceDetailsTableProps {
-  data?: OrderLine[];
+  data?: GetOrderLineItem[];
   isFetching: boolean;
 }
 export function SalesByInvoiceDetailsTable({
@@ -63,7 +60,7 @@ export function SalesByInvoiceDetailsTable({
 const getData = ({
   data = [],
 }: {
-  data?: OrderLine[];
+  data?: GetOrderLineItem[];
 }): SalesByInvoiceDetailsTableData[] => {
   const marketMap = {
     [MarketEnum.ME]: "ME",
@@ -73,12 +70,6 @@ const getData = ({
     ...i,
     product: `${i.productCode} - ${i.productName}`,
     marketFormated: marketMap[i.market ?? ""] ?? "N/A",
-    difPrice: (i.saleUnitValue || 0) - (i.referenceTableUnitValue || 0),
-    totalFatPrice: (i.saleUnitValue || 0) * (i.weightInKg || 0),
-    totalTablePrice: (i.referenceTableUnitValue || 0) * (i.weightInKg || 0),
-    totalDifPrice:
-      ((i.saleUnitValue || 0) - (i.referenceTableUnitValue || 0)) *
-      (i.weightInKg || 0),
   }));
 };
 
@@ -109,7 +100,7 @@ const getColumns = (): CustomTableColumn<SalesByInvoiceDetailsTableData>[] => [
   },
   {
     headerKey: "weightInKg",
-    headerName: "Peso KG",
+    headerName: "KGs",
     render: (value) => (
       <TableCell sx={{ fontSize: "10px", padding: 0.5 }}>
         {toLocaleString(value as number)}
@@ -125,7 +116,7 @@ const getColumns = (): CustomTableColumn<SalesByInvoiceDetailsTableData>[] => [
   },
   {
     headerKey: "saleUnitValue",
-    headerName: "Preço Un.",
+    headerName: "$ Un.",
     render: (value) => (
       <TableCell sx={{ fontSize: "10px", padding: 0.5 }}>
         {toLocaleString(value as number, 2)}
@@ -135,7 +126,7 @@ const getColumns = (): CustomTableColumn<SalesByInvoiceDetailsTableData>[] => [
   },
   {
     headerKey: "referenceTableUnitValue",
-    headerName: "Preço Tab. Un.",
+    headerName: "$ Tab. Un.",
     render: (value) => (
       <TableCell sx={{ fontSize: "10px", padding: 0.5 }}>
         {toLocaleString(value as number, 2)}
@@ -143,9 +134,30 @@ const getColumns = (): CustomTableColumn<SalesByInvoiceDetailsTableData>[] => [
     ),
     sx: { fontSize: "11px", paddingX: 0.5 },
   },
+  // {
+  //   headerKey: "additionPercent",
+  //   headerName: "% Add.",
+  //   render: (value) => (
+  //     <TableCell sx={{ fontSize: "10px", padding: 0.5 }}>
+  //       {toPercent(value as number)}
+  //     </TableCell>
+  //   ),
+  //   sx: { fontSize: "11px", paddingX: 0.5 },
+  // },
+  // {
+  //   headerKey: "discountPercent",
+  //   headerName: "% Desc.",
+  //   render: (value) => (
+  //     <TableCell sx={{ fontSize: "10px", padding: 0.5 }}>
+  //       {toPercent(value as number)}
+  //     </TableCell>
+  //   ),
+  //   sx: { fontSize: "11px", paddingX: 0.5 },
+  // },
+
   {
-    headerKey: "totalFatPrice",
-    headerName: "Total NF",
+    headerKey: "invoicingValue",
+    headerName: "$ NF",
     render: (value) => (
       <TableCell sx={{ fontSize: "10px", padding: 0.5 }}>
         {toLocaleString(value as number, 2)}
@@ -154,8 +166,8 @@ const getColumns = (): CustomTableColumn<SalesByInvoiceDetailsTableData>[] => [
     sx: { fontSize: "11px", padding: 0.5 },
   },
   {
-    headerKey: "totalTablePrice",
-    headerName: "Total Tab.",
+    headerKey: "tableValue",
+    headerName: "$ Tab.",
     render: (value) => (
       <TableCell sx={{ fontSize: "10px", padding: 0.5 }}>
         {toLocaleString(value as number, 2)}
@@ -164,11 +176,21 @@ const getColumns = (): CustomTableColumn<SalesByInvoiceDetailsTableData>[] => [
     sx: { fontSize: "11px", paddingX: 0.5 },
   },
   {
-    headerKey: "totalDifPrice",
-    headerName: "Total Desc.",
+    headerKey: "dif",
+    headerName: "$ Dif.",
     render: (value) => (
       <TableCell sx={{ fontSize: "10px", padding: 0.5 }}>
         {toLocaleString(value as number, 2)}
+      </TableCell>
+    ),
+    sx: { fontSize: "11px", paddingX: 0.5 },
+  },
+  {
+    headerKey: "difPercent",
+    headerName: "% Dif.",
+    render: (value) => (
+      <TableCell sx={{ fontSize: "10px", padding: 0.5 }}>
+        {toPercent(value as number)}
       </TableCell>
     ),
     sx: { fontSize: "11px", paddingX: 0.5 },

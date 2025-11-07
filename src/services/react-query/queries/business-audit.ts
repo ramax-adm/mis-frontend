@@ -9,6 +9,7 @@ import {
   GetBusinessAuditOverviewDataResponse,
   GetBusinessAuditReturnOccurrencesDataResponse,
   GetBusinessAuditSalesDataResponse,
+  GetOrderLineItem,
 } from "@/types/api/business-audit";
 import { GetFetch, urls } from "@/services/axios/api-base";
 import { useApiQuery } from "../react-query";
@@ -152,7 +153,7 @@ export const useGetBusinessAuditOrdersLinesData = ({
   startDate: string;
   endDate: string;
 }) => {
-  return useApiQuery<OrderLine[]>({
+  return useApiQuery<GetOrderLineItem[]>({
     queryKey: [
       queryKeys.BUSINESS_AUDIT.GET_BUSINESS_AUDIT_ORDERS_LINES_DATA,
       nfId,
