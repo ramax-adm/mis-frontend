@@ -1,4 +1,4 @@
-import * as React from "react";
+import { memo, ReactNode, useMemo } from "react";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -16,7 +16,7 @@ export interface PaginatedTableColumn<T> {
   minWidth?: number;
   align?: "right" | "left" | "center";
   format?: (value: any) => string;
-  render?: (value: T[keyof T], row: T) => React.ReactNode; // 👈 render customizado
+  render?: (value: T[keyof T], row: T) => ReactNode; // 👈 render customizado
   sx?: SxProps;
   cellSx?: SxProps;
 }
@@ -62,6 +62,38 @@ export default function PaginatedTable<T extends { [key: string]: any }>({
       rowsPerPage: +event.target.value,
     });
   };
+
+  const memoRows = useMemo(
+    () => rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage),
+    [rows, page, rowsPerPage]
+  );
+
+  const MemoizedTableRow = memo(
+    ({ row, columns }: { row: T; columns: PaginatedTableColumn<T>[] }) => (
+      <TableRow hover role='checkbox' tabIndex={-1}>
+        {columns.map((column) => {
+          const value = row[column.headerKey];
+          return (
+            <TableCell
+              key={String(column.headerKey)}
+              align={column.align}
+              sx={{
+                padding: 0.5,
+                fontSize: "10px",
+                ...column.cellSx,
+              }}
+            >
+              {column.render
+                ? column.render(value, row)
+                : column.format && typeof value === "number"
+                  ? column.format(value ?? 0)
+                  : value}
+            </TableCell>
+          );
+        })}
+      </TableRow>
+    )
+  );
 
   return (
     <Paper sx={{ width: "100%" }}>
@@ -112,33 +144,13 @@ export default function PaginatedTable<T extends { [key: string]: any }>({
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row, rowIndex) => (
-                <TableRow hover role='checkbox' tabIndex={-1} key={rowIndex}>
-                  {columns.map((column) => {
-                    const value = row[column.headerKey];
-
-                    return (
-                      <TableCell
-                        key={String(column.headerKey)}
-                        align={column.align}
-                        sx={{
-                          padding: 0.5,
-                          fontSize: "10px",
-                          ...column?.cellSx,
-                        }}
-                      >
-                        {column.render
-                          ? column.render(value, row) // 👈 se tiver render, usa
-                          : column.format && typeof value === "number"
-                            ? column.format(value ?? 0)
-                            : value}
-                      </TableCell>
-                    );
-                  })}
-                </TableRow>
-              ))}
+            {memoRows.map((row, rowIndex) => (
+              <MemoizedTableRow
+                key={`trow-${rowIndex}`}
+                columns={columns}
+                row={row}
+              />
+            ))}
           </TableBody>
         </Table>
       </TableContainer>

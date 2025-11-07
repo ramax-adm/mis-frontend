@@ -10,6 +10,7 @@ export type GetInvoicesItem = {
   date: Date;
   nfSituation: string;
   nfType: string;
+  nfDocumentType: string;
   clientTypeCode: string;
   clientTypeName: string;
   companyCode: string;
@@ -43,7 +44,7 @@ export interface GetAnalyticalInvoicesResponse {
 
 export interface PostExportSalesInvoicesXlsxRequest {
   filters: {
-    companyCode: string;
+    companyCodes: string;
     startDate?: string;
     endDate?: string;
     clientCode?: string;

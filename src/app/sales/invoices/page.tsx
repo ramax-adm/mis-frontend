@@ -29,6 +29,8 @@ import { LoadingOverlay } from "@/components/Loading/loadingSpinner";
 import { InvoicesNfTypesEnum } from "@/types/sales";
 import { getIso8601DateString } from "@/utils/date.utils";
 import { useGetUserCompanies } from "@/services/react-query/queries/user-company";
+import { COLORS } from "@/constants/styles/colors";
+import { MultipleSelectInputControlled } from "@/components/Inputs/Select/Multiple/controlled";
 
 export default function InvoicesPage() {
   const { user } = useAuthContext();
@@ -43,7 +45,7 @@ export default function InvoicesPage() {
   );
 
   const [globalStates, setGlobalStates] = useQueryStates({
-    companyCode: parseAsString.withDefault(""),
+    companyCodes: parseAsArrayOf(parseAsString, ",").withDefault([]),
     startDate: parseAsString.withDefault(getIso8601DateString(new Date())!),
     endDate: parseAsString.withDefault(getIso8601DateString(new Date())!),
   });
@@ -64,8 +66,23 @@ export default function InvoicesPage() {
     const rawString = getIso8601DateString(value);
     setGlobalStates({ endDate: rawString });
   };
-  const handleSelectCompany = (value: string) =>
-    setGlobalStates({ companyCode: value });
+  const handleSelectCompanies = (value: string[]) =>
+    setGlobalStates({ companyCodes: value });
+
+  const toogleCompanies = () => {
+    const companyCodes = globalStates.companyCodes;
+    if (!companyCodes) return;
+
+    const haveSomeSelectedProductLines = companyCodes?.length > 0;
+    if (haveSomeSelectedProductLines) {
+      return setGlobalStates({ companyCodes: [] });
+    }
+
+    return setGlobalStates({
+      companyCodes: companies?.map((i) => i.sensattaCode),
+    });
+  };
+
   const handleSelectTab = (value: string) => setSelectedTab(value);
 
   const { data: companies } = useGetUserCompanies({});
@@ -109,7 +126,6 @@ export default function InvoicesPage() {
 
   return (
     <PageContainer>
-      {(isSyncInvoices || isExportingInvoices) && <LoadingOverlay />}
       <Box
         sx={{
           width: "100%",
@@ -120,7 +136,7 @@ export default function InvoicesPage() {
         }}
       >
         <PageContainerHeader
-          title='Vendas - Notas Fiscais'
+          title='Vendas - Faturamento'
           sx={{ flexDirection: "column", alignItems: "flex-start", gap: 0 }}
         >
           <Typography variant='subtitle2' fontSize={"13px"}>
@@ -144,10 +160,10 @@ export default function InvoicesPage() {
             onClick={async () =>
               await exportInvoices({
                 filters: {
-                  companyCode: globalStates.companyCode,
+                  companyCodes: globalStates.companyCodes?.join(","),
                   startDate: globalStates.startDate,
                   endDate: globalStates.endDate,
-                  cfopCodes: sectionStates.cfopCodes.join(","),
+                  cfopCodes: sectionStates.cfopCodes?.join(","),
                   clientCode: sectionStates.clientCode,
                   nfNumber: sectionStates.nfNumber,
                   nfSituation: sectionStates.nfSituation,
@@ -168,19 +184,31 @@ export default function InvoicesPage() {
           </Typography>
         </Grid>
         <Grid item xs={12} sm={2}>
-          <ControlledSelect
-            id='companyCode'
+          <MultipleSelectInputControlled
             label='Empresa'
-            name='companyCode'
             size='small'
-            value={globalStates.companyCode}
-            onChange={handleSelectCompany}
-            options={companies?.map((item) => ({
-              label: `${item.sensattaCode} - ${item.name}`,
-              value: item.sensattaCode,
-              key: item.sensattaCode,
-            }))}
+            value={globalStates.companyCodes}
+            onChange={handleSelectCompanies}
+            options={
+              companies?.map((item) => ({
+                key: item.sensattaCode,
+                label: `${item.sensattaCode} - ${item.name}`,
+              })) ?? []
+            }
           />
+          <Typography
+            fontSize={"9px"}
+            sx={{
+              marginX: "auto",
+              "&:hover": {
+                color: COLORS.TEXTO,
+                cursor: "pointer",
+              },
+            }}
+            onClick={toogleCompanies}
+          >
+            Selecionar/Deselecionar tudo
+          </Typography>
         </Grid>
         <Grid item xs={12} sm={2}>
           <DateInputControlled
@@ -215,7 +243,7 @@ export default function InvoicesPage() {
           <Tabs.Panel tabName='analytical' ref={tabPanelRef}>
             <InvoicesAnalyticalSection
               ref={analyticalSectionRef}
-              companyCode={globalStates.companyCode}
+              companyCodes={globalStates.companyCodes}
               startDate={globalStates.startDate}
               endDate={globalStates.endDate}
             />
