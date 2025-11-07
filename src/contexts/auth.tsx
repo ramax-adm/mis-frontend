@@ -275,11 +275,8 @@ export default function AuthContextProvider({
 
     // checar se a pagina atual é uma rota autenticada
     const isCurrentPageAnAuthRoute = !!authRoutes?.find((i) => i === pathname);
-    if (!isCurrentPageAnAuthRoute) return;
-
-    if (profileError?.isUnauthorized()) {
-      console.log("profile error unauthorized");
-      return logoutUser();
+    if (!isCurrentPageAnAuthRoute) {
+      return;
     }
 
     // checar se tem algum usuario
@@ -288,6 +285,8 @@ export default function AuthContextProvider({
       console.log("haveSomeUserData not passed");
       return logoutUser();
     }
+
+    // validate user
 
     // checar se tem algum profile
     const currentPage = localWebpages.find((i) => i.page === pathname);
