@@ -43,14 +43,14 @@ const NF_TYPES = [
 export interface InvoicesAnalyticalSectionRef {}
 
 interface InvoicesAnalyticalSectionProps {
-  companyCode: string;
+  companyCodes: string[];
   startDate: string;
   endDate: string;
 }
 export const InvoicesAnalyticalSection = forwardRef<
   InvoicesAnalyticalSectionRef,
   InvoicesAnalyticalSectionProps
->(({ companyCode, startDate, endDate }, ref) => {
+>(({ companyCodes, startDate, endDate }, ref) => {
   const [sectionStates, setSectionStates] = useQueryStates({
     clientCode: parseAsString.withDefault(""),
     cfopCodes: parseAsArrayOf(parseAsString, ",").withDefault([]),
@@ -74,30 +74,22 @@ export const InvoicesAnalyticalSection = forwardRef<
   const handleNfType = (value: string) => setSectionStates({ nfType: value });
 
   // buscar clientes
-  const { data: cfops } = useGetCfopsInvoiceFilters({
-    companyCode,
+  const { data: cfops = [] } = useGetCfopsInvoiceFilters({});
+  const { data: clients = [] } = useGetClientsInvoiceFilters({
+    companyCodes: companyCodes.join(","),
     endDate,
     startDate,
   });
-  const { data: clients } = useGetClientsInvoiceFilters({
-    companyCode,
-    endDate,
-    startDate,
-  });
-  const { data: situations } = useGetNfSituationsInvoiceFilters({
-    companyCode,
-    endDate,
-    startDate,
-  });
+  const { data: situations = [] } = useGetNfSituationsInvoiceFilters({});
   const { data: invoices, isFetching: isFetchingInvoices } =
     useGetAnalyticalInvoices({
-      companyCode,
+      companyCodes: companyCodes?.join(","),
       endDate,
       startDate,
-      cfopCodes: sectionStates.cfopCodes.join(","),
+      cfopCodes: sectionStates.cfopCodes?.join(","),
       clientCode: sectionStates.clientCode,
       nfNumber: sectionStates.nfNumber,
-      nfSituations: sectionStates.nfSituations.join(","),
+      nfSituations: sectionStates.nfSituations?.join(","),
       nfType: sectionStates.nfType as InvoicesNfTypesEnum,
     });
 
@@ -125,39 +117,13 @@ export const InvoicesAnalyticalSection = forwardRef<
     return setSectionStates({ nfSituations: situations?.map((i) => i.key) });
   };
 
-  // use effect for pre-setting cfop codes
-  useEffect(() => {
-    if (!sectionStates.cfopCodes || sectionStates.cfopCodes?.length === 0) {
-      if (cfops) {
-        const allCfopCodes = cfops?.map((i) => i.key);
-        setSectionStates({ cfopCodes: allCfopCodes });
-      }
-    }
-  }, [cfops]);
-
-  useEffect(() => {
-    if (
-      !sectionStates.nfSituations ||
-      sectionStates.nfSituations?.length === 0
-    ) {
-      if (situations) {
-        const allNfSituations = situations?.map((i) => i.key);
-        setSectionStates({ nfSituations: allNfSituations });
-      }
-    }
-  }, [situations]);
-
   return (
     <>
-      {isFetchingInvoices && <LoadingOverlay />}
       <Grid container marginTop={0.1} spacing={1}>
         <Grid item xs={6} sm={2}>
           {/**fontSize: "12px",
           color: "#000",
           fontWeight: 700, */}
-          <Typography fontSize={"12px"} fontWeight={700}>
-            Cliente
-          </Typography>
           <ControlledSelect
             id='clientCode'
             label='Cliente'
@@ -170,9 +136,6 @@ export const InvoicesAnalyticalSection = forwardRef<
         </Grid>
 
         <Grid item xs={6} sm={2}>
-          <Typography fontSize={"12px"} fontWeight={700}>
-            Situação da NF
-          </Typography>
           <MultipleSelectInputControlled
             label='Situação NF'
             size='small'
@@ -200,9 +163,6 @@ export const InvoicesAnalyticalSection = forwardRef<
           </Typography>
         </Grid>
         <Grid item xs={6} sm={2}>
-          <Typography fontSize={"12px"} fontWeight={700}>
-            N° CFOP
-          </Typography>
           <MultipleSelectInputControlled
             label='CFOP'
             size='small'
@@ -231,9 +191,6 @@ export const InvoicesAnalyticalSection = forwardRef<
         </Grid>
 
         <Grid item xs={6} sm={2}>
-          <Typography fontSize={"12px"} fontWeight={700}>
-            N° NF
-          </Typography>
           <TextInputControlled
             label='N° NF'
             size='small'
@@ -241,7 +198,7 @@ export const InvoicesAnalyticalSection = forwardRef<
             setValue={handleNfNumber}
           />
         </Grid>
-        <Grid item xs={6} sm={3}>
+        <Grid item xs={6} sm={3} marginTop={{ sm: -2 }}>
           <RadioInputControlled
             emptyMessage='Sem opções'
             label='Tipo NF'
@@ -260,7 +217,10 @@ export const InvoicesAnalyticalSection = forwardRef<
       </Grid>
       <Grid container marginTop={0.5}>
         <Grid item xs={12}>
-          <AnalyticalInvoicesTable data={invoices?.data} />
+          <AnalyticalInvoicesTable
+            data={invoices?.data}
+            isFetching={isFetchingInvoices}
+          />
         </Grid>
       </Grid>
     </>

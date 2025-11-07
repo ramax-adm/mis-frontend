@@ -45,29 +45,27 @@ export const useGetCfopsInvoiceFilters = ({
     ],
     queryFn: async () =>
       await GetCfopsInvoiceFilters({ companyCode, startDate, endDate }),
-    enabled: !!companyCode,
   });
 };
 
 export const useGetClientsInvoiceFilters = ({
-  companyCode,
+  companyCodes,
   startDate,
   endDate,
 }: {
-  companyCode?: string;
+  companyCodes?: string;
   startDate?: string;
   endDate?: string;
 }) => {
   return useQuery<{ key: string; label: string; value: string }[]>({
     queryKey: [
       queryKeys.SALES.INVOICE.GET_CLIENTS_FILTERS,
-      companyCode,
+      companyCodes,
       startDate,
       endDate,
     ],
     queryFn: async () =>
-      await GetClientsInvoiceFilters({ companyCode, startDate, endDate }),
-    enabled: !!companyCode,
+      await GetClientsInvoiceFilters({ companyCodes, startDate, endDate }),
   });
 };
 
@@ -89,12 +87,11 @@ export const useGetNfSituationsInvoiceFilters = ({
     ],
     queryFn: async () =>
       await GetNfSituationsInvoiceFilters({ companyCode, startDate, endDate }),
-    enabled: !!companyCode,
   });
 };
 
 export const useGetAnalyticalInvoices = ({
-  companyCode,
+  companyCodes,
   startDate,
   endDate,
   cfopCodes,
@@ -103,7 +100,7 @@ export const useGetAnalyticalInvoices = ({
   nfSituations,
   nfType,
 }: {
-  companyCode: string;
+  companyCodes: string;
   startDate?: string;
   endDate?: string;
   clientCode?: string;
@@ -115,7 +112,7 @@ export const useGetAnalyticalInvoices = ({
   return useQuery<GetAnalyticalInvoicesResponse>({
     queryKey: [
       queryKeys.SALES.INVOICE.GET_ANALYTICAL_DATA,
-      companyCode,
+      companyCodes,
       startDate,
       endDate,
       cfopCodes,
@@ -126,7 +123,7 @@ export const useGetAnalyticalInvoices = ({
     ],
     queryFn: async () =>
       await GetAnalyticalInvoices({
-        companyCode,
+        companyCodes,
         startDate,
         endDate,
         cfopCodes,
@@ -135,6 +132,5 @@ export const useGetAnalyticalInvoices = ({
         nfSituations,
         nfType,
       }),
-    enabled: !!companyCode,
   });
 };

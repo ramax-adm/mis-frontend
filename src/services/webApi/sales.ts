@@ -25,16 +25,16 @@ export async function GetCfopsInvoiceFilters({
 }
 
 export async function GetClientsInvoiceFilters({
-  companyCode,
+  companyCodes,
   startDate,
   endDate,
 }: {
-  companyCode?: string;
+  companyCodes?: string;
   startDate?: string;
   endDate?: string;
 }) {
   const response = await GetFetch(urls.SALES.INVOICES.GET_CLIENTS_FILTERS, {
-    params: { companyCode, startDate, endDate },
+    params: { companyCodes, startDate, endDate },
   });
 
   return response.data;
@@ -60,7 +60,7 @@ export async function GetNfSituationsInvoiceFilters({
 }
 
 export async function GetAnalyticalInvoices({
-  companyCode,
+  companyCodes,
   startDate,
   endDate,
   cfopCodes,
@@ -69,7 +69,7 @@ export async function GetAnalyticalInvoices({
   nfSituations,
   nfType,
 }: {
-  companyCode: string;
+  companyCodes: string;
   startDate?: string;
   endDate?: string;
   clientCode?: string;
@@ -80,7 +80,7 @@ export async function GetAnalyticalInvoices({
 }) {
   const response = await GetFetch(urls.SALES.INVOICES.GET_ANALYTICAL_INVOICES, {
     params: {
-      companyCode,
+      companyCodes,
       startDate,
       endDate,
       cfopCodes,
