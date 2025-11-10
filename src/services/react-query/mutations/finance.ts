@@ -18,7 +18,7 @@ export const useExportFinanceXlsx = () => {
       filters: {
         startDate: string;
         endDate: string;
-        companyCode?: string;
+        companyCodes?: string;
         clientCode?: string;
         key?: string;
         status?: AccountReceivableStatusEnum;
