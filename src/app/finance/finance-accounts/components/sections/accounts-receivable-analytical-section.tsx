@@ -6,15 +6,12 @@ import {
   useAccountsReceivableClientsFilters,
   useGetAnalyticalAccountsReceivable,
 } from "@/services/react-query/queries/finance";
-import { useGetUserCompanies } from "@/services/react-query/queries/user-company";
 import {
-  AccountReceivableBucketSituationEnum,
   AccountReceivableStatusEnum,
   AccountReceivableVisualizationEnum,
 } from "@/types/finance";
 import { getIso8601DateString } from "@/utils/date.utils";
 import { Grid, Typography } from "@mui/material";
-import dayjs from "dayjs";
 import { useQueryStates, parseAsString, parseAsArrayOf } from "nuqs";
 import { ACCOUNT_RECEIVABLE_STATUS_OPTIONS } from "../../constants/account-receivable-status-options";
 import { AccountsReceivableTable } from "../tables/accounts-receivable-table";
@@ -26,7 +23,7 @@ import { AccountsReceivableTotals } from "../totals/accounts-receivable-totals";
 
 export function AccountsReceivableAnalyticalSection() {
   const [globalStates] = useQueryStates({
-    companyCode: parseAsString.withDefault(""),
+    companyCodes: parseAsArrayOf(parseAsString).withDefault([]),
     startDate: parseAsString.withDefault(getIso8601DateString(new Date())!),
     endDate: parseAsString.withDefault(getIso8601DateString(new Date())!),
   });
@@ -67,7 +64,7 @@ export function AccountsReceivableAnalyticalSection() {
     useGetAnalyticalAccountsReceivable({
       startDate: globalStates.startDate,
       endDate: globalStates.endDate,
-      companyCode: globalStates.companyCode,
+      companyCodes: globalStates.companyCodes.join(","),
       clientCode: sectionStates.clientCode,
       status: sectionStates.status as AccountReceivableStatusEnum,
       key: sectionStates.key,
@@ -79,7 +76,6 @@ export function AccountsReceivableAnalyticalSection() {
   const { data: clients } = useAccountsReceivableClientsFilters({
     startDate: globalStates.startDate,
     endDate: globalStates.endDate,
-    companyCode: globalStates.companyCode,
   });
 
   const handleToogleBucketSituations = () => {
@@ -87,10 +83,6 @@ export function AccountsReceivableAnalyticalSection() {
 
     const haveSomeSelectedBucketSituations =
       sectionStates.bucketSituations?.length > 0;
-    console.log({
-      haveSomeSelectedBucketSituations,
-      ACCOUNT_RECEIVABLE_BUCKET_SITUATIONS,
-    });
 
     if (haveSomeSelectedBucketSituations) {
       return setSectionStates({ bucketSituations: [] });
@@ -104,6 +96,34 @@ export function AccountsReceivableAnalyticalSection() {
   return (
     <>
       <Grid container marginTop={0.1} spacing={1}>
+        <Grid item xs={12} sm={2}>
+          <MultipleSelectInputControlled
+            size='small'
+            label='Status Bucket'
+            value={sectionStates.bucketSituations}
+            onChange={(value) => handleSelectBucketSituations(value)}
+            options={
+              ACCOUNT_RECEIVABLE_BUCKET_SITUATIONS?.map((i) => ({
+                key: i,
+                value: i,
+                label: i.split("_").join(" "),
+              })) ?? []
+            }
+          />
+          <Typography
+            fontSize={"9px"}
+            sx={{
+              marginX: "auto",
+              "&:hover": {
+                color: COLORS.TEXTO,
+                cursor: "pointer",
+              },
+            }}
+            onClick={handleToogleBucketSituations}
+          >
+            Selecionar/Deselecionar tudo
+          </Typography>
+        </Grid>
         <Grid item xs={12} sm={2}>
           <ControlledSelect
             id='clientCode'
@@ -123,34 +143,6 @@ export function AccountsReceivableAnalyticalSection() {
             value={sectionStates.key}
             setValue={handleSelectKey}
           />
-        </Grid>
-        <Grid item xs={12} sm={3}>
-          <MultipleSelectInputControlled
-            size='small'
-            label='Status Bucket'
-            value={sectionStates.bucketSituations}
-            onChange={(value) => handleSelectBucketSituations(value)}
-            options={
-              ACCOUNT_RECEIVABLE_BUCKET_SITUATIONS?.map((i) => ({
-                key: i,
-                value: i,
-                label: i,
-              })) ?? []
-            }
-          />
-          <Typography
-            fontSize={"9px"}
-            sx={{
-              marginX: "auto",
-              "&:hover": {
-                color: COLORS.TEXTO,
-                cursor: "pointer",
-              },
-            }}
-            onClick={handleToogleBucketSituations}
-          >
-            Selecionar/Deselecionar tudo
-          </Typography>
         </Grid>
 
         <Grid item xs={12} sm={2} marginTop={{ sm: -2.5 }}>
