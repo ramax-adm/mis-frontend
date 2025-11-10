@@ -21,17 +21,16 @@ export const useAccountsReceivableGetLastUpdatedAt = () => {
     },
   });
 };
+
 export const useAccountsReceivableClientsFilters = ({
   startDate,
   endDate,
-  companyCode,
   clientCode,
   key,
   status,
 }: {
   startDate: string;
   endDate: string;
-  companyCode: string;
   clientCode?: string;
   key?: string;
   status?: AccountReceivableStatusEnum;
@@ -41,7 +40,6 @@ export const useAccountsReceivableClientsFilters = ({
       queryKeys.FINANCE.ACCOUNTS_RECEIVABLE.GET_CLIENTS_FILTERS,
       startDate,
       endDate,
-      companyCode,
       clientCode,
       key,
       status,
@@ -53,7 +51,6 @@ export const useAccountsReceivableClientsFilters = ({
           params: {
             startDate,
             endDate,
-            companyCode,
             clientCode,
             key,
             status,
@@ -63,14 +60,14 @@ export const useAccountsReceivableClientsFilters = ({
 
       return response.data;
     },
-    enabled: !!startDate && !!endDate && !!companyCode,
+    enabled: !!startDate && !!endDate,
   });
 };
 
 export const useGetAnalyticalAccountsReceivable = ({
   startDate,
   endDate,
-  companyCode,
+  companyCodes,
   clientCode,
   key,
   status,
@@ -79,7 +76,7 @@ export const useGetAnalyticalAccountsReceivable = ({
 }: {
   startDate: string;
   endDate: string;
-  companyCode: string;
+  companyCodes?: string;
   clientCode?: string;
   key?: string;
   status?: AccountReceivableStatusEnum;
@@ -91,7 +88,7 @@ export const useGetAnalyticalAccountsReceivable = ({
       queryKeys.FINANCE.ACCOUNTS_RECEIVABLE.GET_ANALYTICAL_ACCOUNTS_RECEIVABLE,
       startDate,
       endDate,
-      companyCode,
+      companyCodes,
       clientCode,
       key,
       status,
@@ -105,7 +102,7 @@ export const useGetAnalyticalAccountsReceivable = ({
           params: {
             startDate,
             endDate,
-            companyCode,
+            companyCodes,
             clientCode,
             key,
             status,
@@ -117,6 +114,6 @@ export const useGetAnalyticalAccountsReceivable = ({
 
       return response.data;
     },
-    enabled: !!startDate && !!endDate && !!companyCode,
+    enabled: !!startDate && !!endDate,
   });
 };

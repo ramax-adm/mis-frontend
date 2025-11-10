@@ -34,10 +34,11 @@ import {
 } from "@/types/finance";
 import { FinanceReportTypeEnum } from "../_constants/finance-report-type";
 import { useSyncFinanceWithSensatta } from "@/services/react-query/mutations/sensatta";
+import { MultipleSelectInputControlled } from "@/components/Inputs/Select/Multiple/controlled";
+import { COLORS } from "@/constants/styles/colors";
 
 export default function FinanceAccountsPage() {
   const tabPanelRef = useRef<TabsPanelRef>(null);
-  // const resumeSectionRef = useRef<CattlePurchaseResumeSectionRef>(null);
 
   const [selectedTab, setSelectedTab] = useQueryState(
     "selectedTab",
@@ -47,10 +48,11 @@ export default function FinanceAccountsPage() {
   );
 
   const [globalStates, setGlobalStates] = useQueryStates({
-    companyCode: parseAsString.withDefault(""),
+    companyCodes: parseAsArrayOf(parseAsString).withDefault([]),
     startDate: parseAsString.withDefault(getIso8601DateString(new Date())!),
     endDate: parseAsString.withDefault(getIso8601DateString(new Date())!),
   });
+
   const [sectionStates] = useQueryStates({
     clientCode: parseAsString.withDefault(""),
     key: parseAsString.withDefault(""),
@@ -61,32 +63,54 @@ export default function FinanceAccountsPage() {
     bucketSituations: parseAsArrayOf(parseAsString).withDefault([]),
   });
 
-  const handleSelectStartDate = (value: Date) => {
-    const rawString = getIso8601DateString(value);
-    setGlobalStates({ startDate: rawString });
-  };
-  const handleSelectEndDate = (value: Date) => {
-    const rawString = getIso8601DateString(value);
-    setGlobalStates({ endDate: rawString });
-  };
-  const handleSelectCompany = (value: string) =>
-    setGlobalStates({ companyCode: value });
-  const handleSelectTab = (value: string) => setSelectedTab(value);
-
   const { data: companies } = useGetUserCompanies({});
+
   const { data: receivablesLastUpdatedAt } =
     useAccountsReceivableGetLastUpdatedAt();
 
   const { mutateAsync: syncFinance, isPending: isSyncFinance } =
     useSyncFinanceWithSensatta();
+
   const { mutateAsync: exportReport, isPending: isExportingReport } =
     useExportFinanceXlsx();
+
+  const handleSelectStartDate = (value: Date) => {
+    const rawString = getIso8601DateString(value);
+    setGlobalStates({ startDate: rawString });
+  };
+
+  const handleSelectEndDate = (value: Date) => {
+    const rawString = getIso8601DateString(value);
+    setGlobalStates({ endDate: rawString });
+  };
+
+  const handleSelectCompanyCodes = (value: string[]) => {
+    setGlobalStates({
+      companyCodes: value,
+    });
+  };
+
+  const toogleCompanyCodes = () => {
+    if (!companies) return;
+
+    const haveSomeSelectedCompanyCodes = globalStates.companyCodes?.length > 0;
+
+    if (haveSomeSelectedCompanyCodes) {
+      return setGlobalStates({ companyCodes: [] });
+    }
+
+    return setGlobalStates({
+      companyCodes: companies.map((company) => company.sensattaCode),
+    });
+  };
+
+  const handleSelectTab = (value: string) => setSelectedTab(value);
 
   const onExportReport = async (type: FinanceReportTypeEnum) => {
     const filtersPayload = {
       startDate: globalStates.startDate,
       endDate: globalStates.endDate,
-      companyCode: globalStates.companyCode,
+      companyCodes: globalStates.companyCodes.join(","),
       clientCode: sectionStates.clientCode,
       status: sectionStates.status as AccountReceivableStatusEnum,
       key: sectionStates.key,
@@ -158,19 +182,32 @@ export default function FinanceAccountsPage() {
           </Typography>
         </Grid>
         <Grid item xs={12} sm={2}>
-          <ControlledSelect
-            id='companyCode'
-            label='Empresa'
-            name='companyCode'
+          <MultipleSelectInputControlled
             size='small'
-            value={globalStates.companyCode}
-            onChange={handleSelectCompany}
-            options={companies?.map((item) => ({
-              label: `${item.sensattaCode} - ${item.name}`,
-              value: item.sensattaCode,
-              key: item.sensattaCode,
-            }))}
+            label='Empresas'
+            value={globalStates.companyCodes}
+            onChange={(value) => handleSelectCompanyCodes(value)}
+            options={
+              companies?.map((i) => ({
+                key: i.sensattaCode,
+                value: i.sensattaCode,
+                label: `${i.sensattaCode} - ${i.name}`,
+              })) ?? []
+            }
           />
+          <Typography
+            fontSize={"9px"}
+            sx={{
+              marginX: "auto",
+              "&:hover": {
+                color: COLORS.TEXTO,
+                cursor: "pointer",
+              },
+            }}
+            onClick={toogleCompanyCodes}
+          >
+            Selecionar/Deselecionar tudo
+          </Typography>
         </Grid>
         <Grid item xs={12} sm={2}>
           <DateInputControlled
