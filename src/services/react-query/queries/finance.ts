@@ -1,7 +1,10 @@
 import { GetFetch, urls } from "@/services/axios/api-base";
 import { queryKeys } from "../query-keys";
 import { useApiQuery } from "../react-query";
-import { AccountsReceivableGetAnalyticalDataResponseDto } from "@/types/api/finance";
+import {
+  AccountsReceivableGetAnalyticalDataResponseDto,
+  AccountsReceivableGetResumeDataResponse,
+} from "@/types/api/finance";
 import { FilterOptionItem } from "@/types/globals";
 import {
   AccountReceivableBucketSituationEnum,
@@ -54,6 +57,40 @@ export const useAccountsReceivableClientsFilters = ({
             clientCode,
             key,
             status,
+          },
+        }
+      );
+
+      return response.data;
+    },
+    enabled: !!startDate && !!endDate,
+  });
+};
+
+export const useGetResumeAccountsReceivable = ({
+  startDate,
+  endDate,
+  companyCodes,
+}: {
+  startDate: string;
+  endDate: string;
+  companyCodes?: string;
+}) => {
+  return useApiQuery<AccountsReceivableGetResumeDataResponse>({
+    queryKey: [
+      queryKeys.FINANCE.ACCOUNTS_RECEIVABLE.GET_RESUME_ACCOUNTS_RECEIVABLE,
+      startDate,
+      endDate,
+      companyCodes,
+    ],
+    queryFn: async () => {
+      const response = await GetFetch(
+        urls.FINANCE.ACCOUNTS_RECEIVABLE.GET_RESUME_ACCOUNTS_RECEIVABLE,
+        {
+          params: {
+            startDate,
+            endDate,
+            companyCodes,
           },
         }
       );
