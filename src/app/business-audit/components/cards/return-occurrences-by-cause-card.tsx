@@ -28,15 +28,12 @@ export function ReturnOccurrencesByCauseCard() {
     },
     [StorageKeysEnum.MONITORING_RETURN_OCCURRENCES_OCCURRENCE_NUMBER_FILTER]: {
       filters: occurrenceNumber,
-      setFilters: setOccurrenceNumber,
     },
     [StorageKeysEnum.MONITORING_RETURN_OCCURRENCES_CLIENT_FILTER]: {
       filters: clientCodes,
-      setFilters: setClientCodes,
     },
     [StorageKeysEnum.MONITORING_RETURN_OCCURRENCES_REPRESENTATIVE_FILTER]: {
       filters: representativeCodes,
-      setFilters: setRepresentativeCodes,
     },
   } = useAllFilters();
   const { data: businessData, isFetching } =

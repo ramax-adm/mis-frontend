@@ -60,6 +60,7 @@ export const urls = {
     ACCOUNTS_RECEIVABLE: {
       GET_LAST_UPDATED_AT: `${apiLocal}/api/finance/account-receivable/last-update`,
       GET_CLIENTS_FILTERS: `${apiLocal}/api/finance/account-receivable/filters/clients`,
+      GET_RESUME_ACCOUNTS_RECEIVABLE: `${apiLocal}/api/finance/account-receivable/resume`,
       GET_ANALYTICAL_ACCOUNTS_RECEIVABLE: `${apiLocal}/api/finance/account-receivable/analytical`,
     },
     POST_EXPORT_XLSX: `${apiLocal}/api/finance/export-xlsx/:type`,

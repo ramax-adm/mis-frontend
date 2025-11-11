@@ -28,6 +28,7 @@ type SideMenuItemProps = {
 
 type SideMenuSubitemsProps = {
   title: string;
+  path: string;
   subItems?: SideNavItem[];
   currentSubmenuPos: { top: number; left: number } | null;
 };
@@ -215,6 +216,7 @@ const SideMenuItem = ({ item }: SideMenuItemProps) => {
       {hasSubmenu && isSubmenuOpen && (
         <SideMenuSubitems
           title={item.title}
+          path={item.path}
           subItems={item?.subMenuItems}
           currentSubmenuPos={currentSubmenuPos}
         />
@@ -225,20 +227,32 @@ const SideMenuItem = ({ item }: SideMenuItemProps) => {
 
 const SideMenuSubitems = ({
   title,
+  path,
   subItems = [],
   currentSubmenuPos = { top: 0, left: 0 },
 }: SideMenuSubitemsProps) => {
+  const { NAV_ITEMS } = useAppContext();
   const { onRouterPush, pathname } = useSideMenuContext();
+
+  const lastMenuItem = NAV_ITEMS.slice(-1).at(0);
+  const isMenuLastItem = path === lastMenuItem?.path;
   return (
     <Portal>
       <Box
         className='submenu'
         sx={{
           position: "fixed",
-          top: currentSubmenuPos?.top,
           left: currentSubmenuPos?.left,
           zIndex: 9999, // ~1500
           transition: "opacity 0.15s ease, transform 0.15s ease",
+          // ✅ Alterna entre top e bottom
+          ...(isMenuLastItem
+            ? {
+                bottom: `calc(100vh - ${currentSubmenuPos?.top}px - 40px)`, // 40px = altura do item principal (ajuste fino)
+              }
+            : {
+                top: currentSubmenuPos?.top,
+              }),
         }}
       >
         <Box

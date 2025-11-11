@@ -1,7 +1,5 @@
 "use client";
-
 import { DateInputControlled } from "@/components/Inputs/DateInput/controlled";
-import { ControlledSelect } from "@/components/Inputs/Select/Customized";
 import { PageContainer } from "@/components/PageContainer";
 import { PageContainerHeader } from "@/components/PageContainer/header";
 import { Tabs } from "@/components/Tabs";
@@ -17,7 +15,6 @@ import {
   useQueryStates,
 } from "nuqs";
 import { useRef } from "react";
-import { AccountsReceivableAnalyticalSection } from "./components/sections/accounts-receivable-analytical-section";
 import { useAccountsReceivableGetLastUpdatedAt } from "@/services/react-query/queries/finance";
 import { FinanceAccountsTabSectionsEnum } from "./constants/finance-accounts-tab-sections.enum";
 import {
@@ -36,6 +33,8 @@ import { FinanceReportTypeEnum } from "../_constants/finance-report-type";
 import { useSyncFinanceWithSensatta } from "@/services/react-query/mutations/sensatta";
 import { MultipleSelectInputControlled } from "@/components/Inputs/Select/Multiple/controlled";
 import { COLORS } from "@/constants/styles/colors";
+import { AccountsReceivableAnalyticalSection } from "./components/sections/accounts-receivable-analytical-section";
+import { AccountsReceivableResumeSection } from "./components/sections/accounts-receivable-resume-section";
 
 export default function FinanceAccountsPage() {
   const tabPanelRef = useRef<TabsPanelRef>(null);
@@ -43,7 +42,7 @@ export default function FinanceAccountsPage() {
   const [selectedTab, setSelectedTab] = useQueryState(
     "selectedTab",
     parseAsString.withDefault(
-      FinanceAccountsTabSectionsEnum.ANALYTICAL_ACCOUNTS_RECEIVABLE_SECTION
+      FinanceAccountsTabSectionsEnum.RESUME_ACCOUNTS_RECEIVABLE_SECTION
     )
   );
 
@@ -230,8 +229,13 @@ export default function FinanceAccountsPage() {
 
       {/** Content */}
       <Tabs.Root defaultTab={selectedTab}>
-        <Tabs.Select sx={{ width: "250px" }} customHandler={handleSelectTab}>
-          {/* <Tab label='Resumo' value={"resume"} /> */}
+        <Tabs.Select customHandler={handleSelectTab}>
+          <Tab
+            label='Titulos a Receber - Resumo'
+            value={
+              FinanceAccountsTabSectionsEnum.RESUME_ACCOUNTS_RECEIVABLE_SECTION
+            }
+          />
           <Tab
             label='Titulos a Receber - Analitico'
             value={
@@ -241,9 +245,14 @@ export default function FinanceAccountsPage() {
         </Tabs.Select>
 
         <Tabs.Content>
-          {/* <Tabs.Panel tabName='resume' ref={tabPanelRef}>
-            <Typography>Resumo</Typography>
-          </Tabs.Panel> */}
+          <Tabs.Panel
+            tabName={
+              FinanceAccountsTabSectionsEnum.RESUME_ACCOUNTS_RECEIVABLE_SECTION
+            }
+            ref={tabPanelRef}
+          >
+            <AccountsReceivableResumeSection />
+          </Tabs.Panel>
           <Tabs.Panel
             tabName={
               FinanceAccountsTabSectionsEnum.ANALYTICAL_ACCOUNTS_RECEIVABLE_SECTION

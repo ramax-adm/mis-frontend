@@ -7,7 +7,6 @@ export function CardRoot(props: CardRootProps) {
     <Box
       {...props}
       sx={{
-        width: "300px",
         height: "260px",
         display: "flex",
         backgroundColor: "white",
