@@ -119,6 +119,8 @@ export const queryKeys = {
     ACCOUNTS_RECEIVABLE: {
       GET_LAST_UPDATED_AT: "finance-accounts-receivable-get-last-updated-at",
       GET_CLIENTS_FILTERS: "finance-accounts-receivable-get-clients-filters",
+      GET_RESUME_ACCOUNTS_RECEIVABLE:
+        "finance-accounts-receivable-get-resume-accounts-receivable",
       GET_ANALYTICAL_ACCOUNTS_RECEIVABLE:
         "finance-accounts-receivable-get-analytical-accounts-receivable",
     },

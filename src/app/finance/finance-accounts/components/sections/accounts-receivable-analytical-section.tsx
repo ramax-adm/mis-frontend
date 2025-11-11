@@ -14,7 +14,7 @@ import { getIso8601DateString } from "@/utils/date.utils";
 import { Grid, Typography } from "@mui/material";
 import { useQueryStates, parseAsString, parseAsArrayOf } from "nuqs";
 import { ACCOUNT_RECEIVABLE_STATUS_OPTIONS } from "../../constants/account-receivable-status-options";
-import { AccountsReceivableTable } from "../tables/accounts-receivable-table";
+import { AccountsReceivableTable } from "../tables/account-receivable-items-table";
 import { ACCOUNT_RECEIVABLE_VISUALIZATION_OPTIONS } from "../../constants/account-receivable-visualization-options";
 import { COLORS } from "@/constants/styles/colors";
 import { MultipleSelectInputControlled } from "@/components/Inputs/Select/Multiple/controlled";
