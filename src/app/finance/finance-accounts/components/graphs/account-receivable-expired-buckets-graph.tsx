@@ -70,8 +70,6 @@ export function AccountReceivableExpiredBucketsGraph({
           data={parsedData}
           margin={{
             top: 10,
-            left: -10,
-            right: 10,
           }}
         >
           <XAxis
@@ -81,7 +79,7 @@ export function AccountReceivableExpiredBucketsGraph({
             tick={{ fontSize: 10, fontFamily: "roboto" }}
           />
           <Tooltip content={<CustomTooltip />} />
-          <Bar dataKey='value' fill={indigo[500]} radius={6}>
+          <Bar dataKey='value' fill={indigo["A400"]} radius={6}>
             <LabelList
               dataKey='value'
               position='top'

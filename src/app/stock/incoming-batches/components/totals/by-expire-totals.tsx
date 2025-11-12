@@ -6,7 +6,7 @@ import { GetStockInconingBatchesResumeResponse } from "@/types/api/stock-incomin
 import { MarketEnum } from "@/types/sensatta";
 import { toLocaleString } from "@/utils/string.utils";
 import { Box, Grid, TableCell, Typography } from "@mui/material";
-import { green, orange, red } from "@mui/material/colors";
+import { green, grey, orange, red } from "@mui/material/colors";
 
 interface StockIncomingBatchesByExpireTotalsProps {
   data?: {
@@ -39,6 +39,7 @@ export function StockIncomingBatchesByExpireTotals({
         borderRadius: 1,
         paddingX: 0.5,
         paddingY: 0.2,
+        backgroundColor: grey["200"],
       }}
     >
       <Typography fontSize={"12px"} fontWeight={700}>

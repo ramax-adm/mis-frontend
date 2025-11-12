@@ -1,7 +1,7 @@
 import { GetStockInconingBatchesResumeResponse } from "@/types/api/stock-incoming-batches";
 import { toLocaleString } from "@/utils/string.utils";
 import { Box, Grid, TableCell, Typography } from "@mui/material";
-import { orange, red } from "@mui/material/colors";
+import { grey, orange, red } from "@mui/material/colors";
 
 interface StockIncomingBatchesByCompanyTotalsProps {
   data?: GetStockInconingBatchesResumeResponse["totals"];
@@ -22,7 +22,7 @@ export function StockIncomingBatchesByCompanyTotals({
         display: "flex",
         flexDirection: "column",
         gap: 0.5,
-        backgroundColor: "#BFBFBF",
+        backgroundColor: grey["A200"],
         borderRadius: 1,
         paddingX: 0.5,
         paddingY: 0.2,
