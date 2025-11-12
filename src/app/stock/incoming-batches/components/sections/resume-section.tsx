@@ -160,10 +160,10 @@ export function StockIncomingBatchesResumeSection() {
       </Grid>
       <Grid container marginTop={1}>
         <Grid xs={12}>
-          {isFetching && <LoadingOverlay />}
-          {!isFetching && (
-            <StockIncomingBatchesResumeTable data={incomingBatches?.data} />
-          )}
+          <StockIncomingBatchesResumeTable
+            data={incomingBatches?.data}
+            isFetching={isFetching}
+          />
         </Grid>
       </Grid>
     </>

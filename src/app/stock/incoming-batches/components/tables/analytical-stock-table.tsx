@@ -1,3 +1,4 @@
+import { LoaderIcon } from "@/components/Loading/loader-icon";
 import PaginatedTable, {
   PaginatedTableColumn,
 } from "@/components/Table/paginated-table";
@@ -7,7 +8,7 @@ import {
 } from "@/types/api/stock-incoming-batches";
 import { MarketEnum } from "@/types/sensatta";
 import { toLocaleString } from "@/utils/string.utils";
-import { Alert, TableCell, Typography } from "@mui/material";
+import { Alert, Box, TableCell, Typography } from "@mui/material";
 import { green, indigo, orange, red } from "@mui/material/colors";
 
 type StockAnalyticalParsedData = {
@@ -23,21 +24,33 @@ type StockAnalyticalParsedData = {
 
 interface StockIncomingBatchesAnalyticalTableProps {
   data?: GetStockInconingBatchesAnalyticalResponse["data"];
+  isFetching?: boolean;
 }
 export function StockIncomingBatchesAnalyticalTable({
   data,
+  isFetching,
 }: StockIncomingBatchesAnalyticalTableProps) {
   const columns = getColumns({ data });
   const titleGroups = getTitleGroups({ data });
   const parsedData = getData({ data });
 
   const haveSomeData = parsedData.length > 0;
+  if (isFetching) {
+    return (
+      <Box
+        sx={{
+          height: "calc(100vh - 250px);",
+          display: "grid",
+          placeContent: "center",
+        }}
+      >
+        <LoaderIcon />
+      </Box>
+    );
+  }
 
   return (
     <>
-      <Typography fontSize={"12px"} fontWeight={700}>
-        Produtos em estoque
-      </Typography>
       {!haveSomeData && <Alert severity='info'>Sem dados!</Alert>}
       {haveSomeData && (
         <PaginatedTable<StockAnalyticalParsedData>

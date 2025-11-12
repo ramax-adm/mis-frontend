@@ -190,10 +190,10 @@ export function StockIncomingBatchesAnalyticalSection() {
       </Grid>
       <Grid container marginTop={1}>
         <Grid xs={12}>
-          {isFetching && <LoadingOverlay />}
-          {!isFetching && (
-            <StockIncomingBatchesAnalyticalTable data={incomingBatches?.data} />
-          )}
+          <StockIncomingBatchesAnalyticalTable
+            data={incomingBatches?.data}
+            isFetching={isFetching}
+          />
         </Grid>
       </Grid>
     </>
