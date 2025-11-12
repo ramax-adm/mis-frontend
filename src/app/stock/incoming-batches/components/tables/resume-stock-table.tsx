@@ -5,7 +5,7 @@ import { GetStockInconingBatchesResumeResponse } from "@/types/api/stock-incomin
 import { MarketEnum } from "@/types/sensatta";
 import { toLocaleString } from "@/utils/string.utils";
 import { Alert, TableCell, Typography } from "@mui/material";
-import { green, orange, red } from "@mui/material/colors";
+import { green, indigo, orange, red } from "@mui/material/colors";
 
 interface StockIncomingBatchesResumeTableProps {
   data?: GetStockInconingBatchesResumeResponse["data"];
@@ -30,6 +30,8 @@ export function StockIncomingBatchesResumeTable({
           market: string;
           productLine: string;
           product: string;
+          basePriceCar: string;
+          totalPrice: string;
           totalWeightInKg: string;
           totalExpiredWeightInKg: string;
         }>
@@ -58,7 +60,7 @@ const getTitleGroups = ({ data }: StockIncomingBatchesResumeTableProps) => {
   return [
     {
       label: "Produto",
-      colSpan: 4,
+      colSpan: 6,
       sx: {
         backgroundColor: "#4D93D9",
         color: "white",
@@ -89,6 +91,8 @@ const getColumns = ({
   market: string;
   productLine: string;
   product: string;
+  basePriceCar: string;
+  totalPrice: string;
   totalWeightInKg: string;
   totalExpiredWeightInKg: string;
 }>[] => {
@@ -109,25 +113,27 @@ const getColumns = ({
       headerName: "Mercado",
       sx: {
         backgroundColor: "#A6C9EC",
+        fontSize: "9.5px",
       },
-      cellSx: { backgroundColor: "#E9F2FB" },
+      cellSx: { backgroundColor: "#E9F2FB", fontSize: "9px" },
     },
     {
       headerKey: "productLine",
       headerName: "Linha",
       sx: {
         backgroundColor: "#A6C9EC",
+        fontSize: "9.5px",
       },
-      cellSx: { backgroundColor: "#E9F2FB" },
+      cellSx: { backgroundColor: "#E9F2FB", fontSize: "9px" },
     },
     {
       headerKey: "product",
       headerName: "Produto",
-
       sx: {
         backgroundColor: "#A6C9EC",
+        fontSize: "9.5px",
       },
-      cellSx: { backgroundColor: "#E9F2FB" },
+      cellSx: { backgroundColor: "#E9F2FB", fontSize: "9px" },
     },
     {
       headerKey: "totalWeightInKg",
@@ -136,9 +142,36 @@ const getColumns = ({
       render: (value) => value ?? 0,
       sx: {
         backgroundColor: "#A6C9EC",
+        fontSize: "9.5px",
       },
-      cellSx: { backgroundColor: "#A6C9EC", fontWeight: 700 },
+      cellSx: { backgroundColor: "#A6C9EC", fontWeight: 700, fontSize: "9px" },
     },
+    {
+      headerKey: "basePriceCar",
+      headerName: "$/KG",
+      align: "center",
+      sx: {
+        backgroundColor: "#A6C9EC",
+        fontSize: "9.5px",
+      },
+      cellSx: { backgroundColor: "#A6C9EC", fontWeight: 700, fontSize: "9px" },
+    },
+    {
+      headerKey: "totalPrice",
+      headerName: "$ Total",
+      align: "center",
+      sx: {
+        backgroundColor: "#A6C9EC",
+        fontSize: "9.5px",
+      },
+      cellSx: {
+        backgroundColor: "#A6C9EC",
+        fontWeight: 700,
+        fontSize: "9px",
+        color: indigo["A700"],
+      },
+    },
+
     {
       headerKey: "totalExpiredWeightInKg",
       headerName: "Vencido",
@@ -147,11 +180,12 @@ const getColumns = ({
       sx: {
         backgroundColor: "#121212",
         color: "white",
+        fontSize: "9.5px",
       },
       cellSx: {
         backgroundColor: "#242424",
         color: "white",
-        fontSize: "10px",
+        fontSize: "9px",
         padding: 0.5,
       },
     },
@@ -163,11 +197,12 @@ const getColumns = ({
       sx: {
         backgroundColor: byExpireKeyColors[i] ?? "white",
         color: byExpireKeyColors[i] ? "white" : "black",
+        fontSize: "9.5px",
       },
       cellSx: {
         backgroundColor: byExpireKeyCellColors[i] ?? "white",
         color: byExpireKeyCellColors[i] ? "white" : "black",
-        fontSize: "10px",
+        fontSize: "9px",
         padding: 0.5,
       },
     })),
@@ -177,8 +212,9 @@ const getColumns = ({
       render: (value: any) => value ?? 0,
       sx: {
         backgroundColor: "#BFBFBF",
+        fontSize: "9.5px",
       },
-      cellSx: { backgroundColor: "#f5f5f5", fontSize: "10px", padding: 0.5 },
+      cellSx: { backgroundColor: "#f5f5f5", fontSize: "9px", padding: 0.5 },
     })),
   ];
 };
@@ -212,8 +248,12 @@ const getData = ({ data }: StockIncomingBatchesResumeTableProps) => {
       market: marketMap[item.market],
       productLine: `${item.productLineCode} - ${item.productLineName}`,
       product: `${item.productCode} - ${item.productName}`,
-      totalWeightInKg: toLocaleString(item.totals.weightInKg),
-      totalExpiredWeightInKg: toLocaleString(item.totals.expiredWeightInKg),
+      basePriceCar: toLocaleString(item.basePriceCar ?? 0, 2),
+      totalPrice: toLocaleString(item.totals.totalPrice ?? 0),
+      totalWeightInKg: toLocaleString(item.totals.weightInKg ?? 0),
+      totalExpiredWeightInKg: toLocaleString(
+        item.totals.expiredWeightInKg ?? 0
+      ),
       ...expireRangeFormatted,
       ...byCompanyFormatted,
     };
