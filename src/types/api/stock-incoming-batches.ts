@@ -1,6 +1,7 @@
 export interface GetStockInconingBatchesResumeResponse {
   totals: {
     weightInKg: number;
+    totalPrice: number;
     expiredWeightInKg: number;
     byExpireRange: Record<string, number>;
     byCompany: Record<string, number>;
@@ -13,8 +14,10 @@ export interface GetStockInconingBatchesResumeResponse {
       productLineName: string;
       productCode: string;
       productName: string;
+      basePriceCar: number;
       totals: {
         weightInKg: number;
+        totalPrice: number;
         expiredWeightInKg: number;
         byExpireRange: Record<string, number>;
         byCompany: Record<string, number>;
@@ -26,6 +29,7 @@ export interface GetStockInconingBatchesResumeResponse {
 export interface GetStockInconingBatchesAnalyticalResponse {
   totals: {
     weightInKg: number;
+    totalPrice: number;
     expiredWeightInKg: number;
     byExpireRange: Record<string, number>;
   };
@@ -39,8 +43,10 @@ export interface GetStockInconingBatchesAnalyticalResponse {
       productLineName: string;
       productCode: string;
       productName: string;
+      basePriceCar: number;
       totals: {
         weightInKg: number;
+        totalPrice: number;
         expiredWeightInKg: number;
         byExpireRange: Record<string, number>;
       };

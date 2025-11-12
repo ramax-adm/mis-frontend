@@ -186,11 +186,9 @@ const CustomLabel = ({
       dominantBaseline='central'
     >
       <tspan x={x} dy='-1em'>
-        {stringSubstr(payload?.company, 30)}
+        {stringSubstr(payload?.company, 30)} ({toPercent(payload.percent)})
       </tspan>
-      <tspan x={x} dy='1.1em'>
-        {toLocaleString(payload.value)} ({toPercent(payload.percent)})
-      </tspan>
+      {/* <tspan x={x} dy='1.1em'></tspan> */}
     </text>
   );
 };

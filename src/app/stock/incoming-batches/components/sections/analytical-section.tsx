@@ -168,7 +168,7 @@ export function StockIncomingBatchesAnalyticalSection() {
             Selecionar/Deselecionar tudo
           </Typography>
         </Grid>
-        <Grid item xs={12} sm={2}>
+        <Grid item xs={12} sm={"auto"}>
           <RadioInputControlled
             row
             name='market'
@@ -181,19 +181,19 @@ export function StockIncomingBatchesAnalyticalSection() {
             options={MARKET_OPTIONS}
           />
         </Grid>
-        <Grid item xs={12} sm={1}>
+        <Grid item xs={12} sm={"auto"}>
           <StockIncomingBatchesTotals data={incomingBatches?.totals} />
         </Grid>
-        <Grid item xs={12} sm={3}>
+        <Grid item xs={12} sm={"auto"}>
           <StockIncomingBatchesByExpireTotals data={incomingBatches?.totals} />
         </Grid>
       </Grid>
       <Grid container marginTop={1}>
         <Grid xs={12}>
-          {isFetching && <LoadingOverlay />}
-          {!isFetching && (
-            <StockIncomingBatchesAnalyticalTable data={incomingBatches?.data} />
-          )}
+          <StockIncomingBatchesAnalyticalTable
+            data={incomingBatches?.data}
+            isFetching={isFetching}
+          />
         </Grid>
       </Grid>
     </>
