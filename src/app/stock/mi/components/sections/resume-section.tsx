@@ -16,6 +16,7 @@ import { useSelectProductLinesFilters } from "../../hooks/use-select-product-lin
 import { storeStockProductLineFilters } from "../../utils/store-stock-product-line-filters";
 import { SelectedProductLinesByCompany, StockMarket } from "@/types/stock";
 import { LoaderIcon } from "@/app/stock/_components/customized/loader-icon";
+import { indigo } from "@mui/material/colors";
 
 // Ref Interface
 export interface ResumeSectionRef {
@@ -154,25 +155,40 @@ export const ResumeSection = forwardRef<ResumeSectionRef, ResumeSectionProps>(
 
                   <Box>
                     <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                      <DisplayItem
-                        title='Σ KG estoque'
-                        content={calculateTotalStockWeight(item.stockData)}
-                        headerFontSize='9px'
-                        contentFontSize='14px'
-                      />
-                      <DisplayItem
-                        title='Σ R$ estoque'
-                        content={calculateTotalStockPrice(item.stockData)}
-                        headerFontSize='9px'
-                        contentFontSize='14px'
+                      <Grid
+                        container
                         sx={{
-                          paddingX: "4px",
-                          paddingY: "2px",
-                          borderRadius: "8px",
-                          backgroundColor: COLORS.FUNDO_PRIMARIO,
-                          color: COLORS.TEXTO,
+                          columnGap: 1,
+                          backgroundColor: indigo["50"],
+                          color: indigo["A700"],
+                          p: 0.5,
+                          borderRadius: 1,
+                          width: "20%",
                         }}
-                      />
+                      >
+                        <Grid item xs={12}>
+                          <Typography fontSize={10}>Totais</Typography>
+                        </Grid>
+                        <Grid item>
+                          <DisplayItem
+                            title='KGs'
+                            content={calculateTotalStockWeight(item.stockData)}
+                            headerFontSize='9px'
+                            contentFontSize='14px'
+                          />
+                        </Grid>
+                        <Grid item>
+                          <DisplayItem
+                            title='$ Valor'
+                            content={calculateTotalStockPrice(item.stockData)}
+                            headerFontSize='9px'
+                            contentFontSize='14px'
+                            sx={{
+                              fontWeight: 700,
+                            }}
+                          />
+                        </Grid>
+                      </Grid>
 
                       <Box
                         sx={{

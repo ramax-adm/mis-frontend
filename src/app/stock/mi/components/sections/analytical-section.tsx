@@ -23,6 +23,8 @@ import { useHttpState } from "@/hooks/use-http-state";
 import { SelectedProductLinesByCompany, StockMarket } from "@/types/stock";
 import { useAuthContext } from "@/contexts/auth";
 import { useGetUserCompanies } from "@/services/react-query/queries/user-company";
+import { green, grey, indigo, orange, red } from "@mui/material/colors";
+import { calculateTotalStockPriceToExpires } from "@/app/stock/_utils/calculate-total-stock-price-to-expires";
 
 export interface AnalyticalSectionRef {
   getSelectedCompany: () => string | undefined;
@@ -191,33 +193,49 @@ export const AnalyticalSection = forwardRef<
                 variant='body2'
                 fontWeight={700}
                 color={"#3E63DD"}
-                fontSize={"14px"}
+                fontSize={12}
               >
-                Estoque
+                ESTOQUE
               </Typography>
             </Box>
 
             <Box>
               <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                <DisplayItem
-                  title='Σ KG estoque'
-                  content={calculateTotalStockWeight(filteredData?.stockData)}
-                  headerFontSize='9px'
-                  contentFontSize='14px'
-                />
-                <DisplayItem
-                  title='Σ R$ estoque'
-                  content={calculateTotalStockPrice(filteredData?.stockData)}
-                  headerFontSize='9px'
-                  contentFontSize='14px'
+                <Grid
+                  container
                   sx={{
-                    paddingX: "4px",
-                    paddingY: "2px",
-                    borderRadius: "8px",
-                    backgroundColor: COLORS.FUNDO_PRIMARIO,
-                    color: COLORS.TEXTO,
+                    columnGap: 1,
+                    backgroundColor: indigo["50"],
+                    color: indigo["A700"],
+                    p: 0.5,
+                    borderRadius: 1,
+                    width: "24%",
                   }}
-                />
+                >
+                  <Grid item xs={12}>
+                    <Typography fontSize={10}>Totais</Typography>
+                  </Grid>
+                  <Grid item>
+                    <DisplayItem
+                      title='KGs'
+                      content={calculateTotalStockWeight(
+                        filteredData?.stockData
+                      )}
+                      headerFontSize='9px'
+                      contentFontSize='14px'
+                    />
+                  </Grid>
+                  <Grid item>
+                    <DisplayItem
+                      title='$ Valor'
+                      content={calculateTotalStockPrice(
+                        filteredData?.stockData
+                      )}
+                      headerFontSize='9px'
+                      contentFontSize='14px'
+                    />
+                  </Grid>
+                </Grid>
 
                 <Box
                   sx={{
@@ -286,82 +304,173 @@ export const AnalyticalSection = forwardRef<
                 variant='body2'
                 fontWeight={700}
                 color={"#3E63DD"}
-                fontSize={"14px"}
+                fontSize={12}
               >
-                Vencimentos
+                VENCIMENTOS
               </Typography>
             </Box>
 
             <Box>
-              <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                <DisplayItem
-                  title='KGs vencidos'
-                  content={calculateTotalStockWeightToExpires(
-                    filteredData?.toExpiresData,
-                    -10000, // ficticio para ele pegar todos os fifos
-                    -1
-                  )}
-                  headerFontSize='9px'
-                  contentFontSize='14px'
+              <Box
+                sx={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  flexWrap: { xs: "wrap", sm: "nowrap" },
+                  gap: 1,
+                }}
+              >
+                <Grid
+                  container
                   sx={{
-                    paddingX: "4px",
-                    paddingY: "2px",
-                    borderRadius: "8px",
-                    backgroundColor: COLORS.INDICADORES.FUNDO_PRETO,
+                    columnGap: 1,
+                    backgroundColor: grey["900"],
                     color: "#fff",
+                    borderRadius: 1,
+                    p: 0.5,
                   }}
-                />
-                <DisplayItem
-                  title='KGs FIFO 0-15 Dias'
-                  content={calculateTotalStockWeightToExpires(
-                    filteredData?.toExpiresData,
-                    0,
-                    15
-                  )}
-                  headerFontSize='9px'
-                  contentFontSize='14px'
+                >
+                  <Grid item xs={12}>
+                    <Typography fontSize={10}>Vencido</Typography>
+                  </Grid>
+                  <Grid item>
+                    <DisplayItem
+                      title='KGs'
+                      content={calculateTotalStockWeightToExpires(
+                        filteredData?.toExpiresData,
+                        -10000, // ficticio para ele pegar todos os fifos
+                        -1
+                      )}
+                      headerFontSize='9px'
+                      contentFontSize='14px'
+                    />
+                  </Grid>
+                  <Grid item>
+                    <DisplayItem
+                      title='$ Valor'
+                      content={calculateTotalStockPriceToExpires(
+                        filteredData?.toExpiresData,
+                        -10000, // ficticio para ele pegar todos os fifos
+                        -1
+                      )}
+                      headerFontSize='9px'
+                      contentFontSize='14px'
+                    />
+                  </Grid>
+                </Grid>
+                <Grid
+                  container
                   sx={{
-                    paddingX: "4px",
-                    paddingY: "2px",
-                    borderRadius: "8px",
-                    backgroundColor: COLORS.INDICADORES.FUNDO_VERMELHO,
+                    columnGap: 1,
+                    backgroundColor: red["900"],
                     color: "#fff",
+                    borderRadius: 1,
+                    p: 0.5,
                   }}
-                />
-                <DisplayItem
-                  title='KGs Alerta 16-30 Dias'
-                  content={calculateTotalStockWeightToExpires(
-                    filteredData?.toExpiresData,
-                    16,
-                    30
-                  )}
-                  headerFontSize='9px'
-                  contentFontSize='14px'
+                >
+                  <Grid item xs={12}>
+                    <Typography fontSize={10}>FIFO 0-15 dias</Typography>
+                  </Grid>
+                  <Grid item>
+                    <DisplayItem
+                      title='KGs'
+                      content={calculateTotalStockWeightToExpires(
+                        filteredData?.toExpiresData,
+                        0,
+                        15
+                      )}
+                      headerFontSize='9px'
+                      contentFontSize='14px'
+                    />
+                  </Grid>
+                  <Grid item>
+                    <DisplayItem
+                      title='$ Valor'
+                      content={calculateTotalStockPriceToExpires(
+                        filteredData?.toExpiresData,
+                        0,
+                        15
+                      )}
+                      headerFontSize='9px'
+                      contentFontSize='14px'
+                    />
+                  </Grid>
+                </Grid>
+                <Grid
+                  container
                   sx={{
-                    paddingX: "4px",
-                    paddingY: "2px",
-                    borderRadius: "8px",
-                    backgroundColor: COLORS.INDICADORES.FUNDO_AMARELO,
+                    columnGap: 1,
+                    backgroundColor: orange["700"],
                     color: "#fff",
+                    borderRadius: 1,
+                    p: 0.5,
                   }}
-                />
-                <DisplayItem
-                  title='KGs +30 Dias'
-                  content={calculateTotalStockWeightToExpires(
-                    filteredData?.toExpiresData,
-                    31,
-                    10000 // ficticio só para nao ficar vazio
-                  )}
-                  headerFontSize='9px'
-                  contentFontSize='14px'
+                >
+                  <Grid item xs={12}>
+                    <Typography fontSize={10}>Alerta 16-30 dias</Typography>
+                  </Grid>
+                  <Grid item>
+                    <DisplayItem
+                      title='KGs'
+                      content={calculateTotalStockWeightToExpires(
+                        filteredData?.toExpiresData,
+                        16,
+                        30
+                      )}
+                      headerFontSize='9px'
+                      contentFontSize='14px'
+                    />
+                  </Grid>
+                  <Grid item>
+                    <DisplayItem
+                      title='$ Valor'
+                      content={calculateTotalStockPriceToExpires(
+                        filteredData?.toExpiresData,
+                        16,
+                        30
+                      )}
+                      headerFontSize='9px'
+                      contentFontSize='14px'
+                    />
+                  </Grid>
+                </Grid>
+                <Grid
+                  container
                   sx={{
-                    paddingX: "4px",
-                    paddingY: "2px",
-                    borderRadius: "8px",
-                    backgroundColor: COLORS.INDICADORES.FUNDO_VERDE,
+                    columnGap: 1,
+                    backgroundColor: green["700"],
                     color: "#fff",
+                    borderRadius: 1,
+                    p: 0.5,
                   }}
-                />
+                >
+                  <Grid item xs={12}>
+                    <Typography fontSize={10}>OK +30 dias</Typography>
+                  </Grid>
+                  <Grid item>
+                    <DisplayItem
+                      title='KGs'
+                      content={calculateTotalStockWeightToExpires(
+                        filteredData?.toExpiresData,
+                        31,
+                        10000 // ficticio só para nao ficar vazio
+                      )}
+                      headerFontSize='9px'
+                      contentFontSize='14px'
+                    />
+                  </Grid>
+                  <Grid item>
+                    <DisplayItem
+                      title='$ Valor'
+                      content={calculateTotalStockPriceToExpires(
+                        filteredData?.toExpiresData,
+                        31,
+                        10000 // ficticio só para nao ficar vazio
+                      )}
+                      headerFontSize='9px'
+                      contentFontSize='14px'
+                    />
+                  </Grid>
+                </Grid>
               </Box>
             </Box>
             <AnalyticalStockToExpiresTable
