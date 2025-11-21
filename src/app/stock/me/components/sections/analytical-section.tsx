@@ -23,6 +23,8 @@ import { AnalyticalStockToExpiresTable } from "@/app/stock/_components/tables/an
 import { storeStockProductLineFilters } from "../../utils/store-stock-product-line-filters";
 import { useAuthContext } from "@/contexts/auth";
 import { useGetUserCompanies } from "@/services/react-query/queries/user-company";
+import { calculateTotalStockPriceToExpires } from "@/app/stock/_utils/calculate-total-stock-price-to-expires";
+import { grey, red, orange, green, indigo } from "@mui/material/colors";
 
 export interface AnalyticalSectionRef {
   getSelectedCompany: () => string | undefined;
@@ -142,7 +144,7 @@ export const AnalyticalSection = forwardRef<
         marginTop: 1,
       }}
     >
-      {isFetching && <LoadingOverlay />}
+      {/* {isFetching && <LoadingOverlay />} */}
       <Box sx={{ width: "200px" }}>
         <ControlledSelect
           id='company'
@@ -161,216 +163,328 @@ export const AnalyticalSection = forwardRef<
         />
       </Box>
 
-      {filteredData && (
+      <Grid
+        key={filteredData?.companyCode.concat("section")}
+        container
+        spacing={1}
+        columns={16}
+        marginTop={1}
+      >
         <Grid
-          key={filteredData.companyCode.concat("section")}
-          container
-          spacing={1}
-          columns={16}
-          marginTop={1}
+          key={filteredData?.companyCode.concat("stock")}
+          item
+          xs={16}
+          lg={8}
         >
-          <Grid
-            key={filteredData.companyCode.concat("stock")}
-            item
-            xs={16}
-            lg={8}
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              backgroundColor: "white",
+              padding: 1,
+              border: `1px solid ${COLORS.BORDAS}`,
+              borderRadius: 3,
+            }}
           >
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                backgroundColor: "white",
-                padding: 1,
-                border: `1px solid ${COLORS.BORDAS}`,
-                borderRadius: 3,
-              }}
-            >
-              <Box>
-                <Typography
-                  variant='body2'
-                  fontWeight={700}
-                  color={"#3E63DD"}
-                  fontSize={"14px"}
+            <Box>
+              <Typography
+                variant='body2'
+                fontWeight={700}
+                color={"#3E63DD"}
+                fontSize={12}
+              >
+                ESTOQUE
+              </Typography>
+            </Box>
+
+            <Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 1,
+                  marginBottom: 1,
+                }}
+              >
+                <Grid
+                  container
+                  sx={{
+                    columnGap: 1,
+                    backgroundColor: indigo["50"],
+                    color: indigo["A700"],
+                    p: 0.5,
+                    borderRadius: 1,
+                    width: "24%",
+                  }}
                 >
-                  Estoque
-                </Typography>
-              </Box>
-
-              <Box>
-                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                  <DisplayItem
-                    title='Σ KG estoque'
-                    content={calculateTotalStockWeight(filteredData.stockData)}
-                    headerFontSize='9px'
-                    contentFontSize='14px'
-                  />
-                  <DisplayItem
-                    title='Σ R$ estoque'
-                    content={calculateTotalStockPrice(filteredData.stockData)}
-                    headerFontSize='9px'
-                    contentFontSize='14px'
-                    sx={{
-                      paddingX: "4px",
-                      paddingY: "2px",
-                      borderRadius: "8px",
-                      backgroundColor: COLORS.FUNDO_PRIMARIO,
-                      color: COLORS.TEXTO,
-                    }}
-                  />
-
-                  <Box
-                    sx={{
-                      width: "200px",
-                      marginLeft: "auto",
-                      display: "flex",
-                      flexDirection: "column",
-                    }}
-                  >
-                    <MultipleSelectInputControlled
-                      size='small'
-                      options={
-                        productLines?.map((item) => ({
-                          key: item.acronym,
-                          label: item.name,
-                        })) ?? []
-                      }
-                      companyCode={selectedCompany ?? ""}
-                      selectedCategoryByCompany={selectedProductLinesByCompany}
-                      setSelectedCategoryByCompany={
-                        handleUpdateSelectedProductLines
-                      }
-                      label='Classificações'
+                  <Grid item xs={12}>
+                    <Typography fontSize={10}>Totais</Typography>
+                  </Grid>
+                  <Grid item>
+                    <DisplayItem
+                      title='KGs'
+                      content={calculateTotalStockWeight(
+                        filteredData?.stockData
+                      )}
+                      headerFontSize='9px'
+                      contentFontSize='14px'
                     />
-                    <Typography
-                      fontSize={"12px"}
-                      sx={{
-                        marginX: "auto",
-                        "&:hover": {
-                          color: COLORS.TEXTO,
-                          cursor: "pointer",
-                        },
-                      }}
-                      onClick={() => handleProductLineFilter(selectedCompany)}
-                    >
-                      Selecionar/Deselecionar tudo
-                    </Typography>
-                  </Box>
-                </Box>
-              </Box>
-              <AnalyticalStockTable
-                isFetching={isFetching}
-                data={filteredData?.stockData}
-              />
-            </Box>
-          </Grid>
-          <Grid
-            key={filteredData.companyCode.concat("to-expires")}
-            item
-            xs={16}
-            lg={8}
-          >
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                gap: 0.5,
-                backgroundColor: "white",
-                padding: 1,
-                border: `1px solid ${COLORS.BORDAS}`,
-                borderRadius: 3,
-              }}
-            >
-              <Box>
-                <Typography
-                  variant='body2'
-                  fontWeight={700}
-                  color={"#3E63DD"}
-                  fontSize={"14px"}
-                >
-                  Vencimentos
-                </Typography>
-              </Box>
+                  </Grid>
+                  <Grid item>
+                    <DisplayItem
+                      title='$ Valor'
+                      content={calculateTotalStockPrice(
+                        filteredData?.stockData
+                      )}
+                      headerFontSize='9px'
+                      contentFontSize='14px'
+                    />
+                  </Grid>
+                </Grid>
 
-              <Box>
-                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                  <DisplayItem
-                    title='KGs vencidos'
-                    content={calculateTotalStockWeightToExpires(
-                      filteredData.toExpiresData,
-                      -10000, // ficticio para ele pegar todos os fifos
-                      -1
-                    )}
-                    headerFontSize='9px'
-                    contentFontSize='14px'
-                    sx={{
-                      paddingX: "4px",
-                      paddingY: "2px",
-                      borderRadius: "8px",
-                      backgroundColor: COLORS.INDICADORES.FUNDO_PRETO,
-                      color: "#fff",
-                    }}
+                <Box
+                  sx={{
+                    width: "200px",
+                    marginLeft: "auto",
+                    display: "flex",
+                    flexDirection: "column",
+                  }}
+                >
+                  <MultipleSelectInputControlled
+                    size='small'
+                    options={
+                      productLines?.map((item) => ({
+                        key: item.acronym,
+                        label: item.name,
+                      })) ?? []
+                    }
+                    companyCode={selectedCompany ?? ""}
+                    selectedCategoryByCompany={selectedProductLinesByCompany}
+                    setSelectedCategoryByCompany={
+                      handleUpdateSelectedProductLines
+                    }
+                    label='Classificações'
                   />
-                  <DisplayItem
-                    title='KGs FIFO 0-15 Dias'
-                    content={calculateTotalStockWeightToExpires(
-                      filteredData.toExpiresData,
-                      0,
-                      15
-                    )}
-                    headerFontSize='9px'
-                    contentFontSize='14px'
+                  <Typography
+                    fontSize={"12px"}
                     sx={{
-                      paddingX: "4px",
-                      paddingY: "2px",
-                      borderRadius: "8px",
-                      backgroundColor: COLORS.INDICADORES.FUNDO_VERMELHO,
-                      color: "#fff",
+                      marginX: "auto",
+                      "&:hover": {
+                        color: COLORS.TEXTO,
+                        cursor: "pointer",
+                      },
                     }}
-                  />
-                  <DisplayItem
-                    title='KGs Alerta 16-30 Dias'
-                    content={calculateTotalStockWeightToExpires(
-                      filteredData.toExpiresData,
-                      16,
-                      30
-                    )}
-                    headerFontSize='9px'
-                    contentFontSize='14px'
-                    sx={{
-                      paddingX: "4px",
-                      paddingY: "2px",
-                      borderRadius: "8px",
-                      backgroundColor: COLORS.INDICADORES.FUNDO_AMARELO,
-                      color: "#fff",
-                    }}
-                  />
-                  <DisplayItem
-                    title='KGs +30 Dias'
-                    content={calculateTotalStockWeightToExpires(
-                      filteredData.toExpiresData,
-                      31,
-                      10000 // ficticio só para nao ficar vazio
-                    )}
-                    headerFontSize='9px'
-                    contentFontSize='14px'
-                    sx={{
-                      paddingX: "4px",
-                      paddingY: "2px",
-                      borderRadius: "8px",
-                      backgroundColor: COLORS.INDICADORES.FUNDO_VERDE,
-                      color: "#fff",
-                    }}
-                  />
+                    onClick={() => handleProductLineFilter(selectedCompany)}
+                  >
+                    Selecionar/Deselecionar tudo
+                  </Typography>
                 </Box>
               </Box>
-              <AnalyticalStockToExpiresTable
-                isFetching={isFetching}
-                data={filteredData?.toExpiresData}
-              />
             </Box>
-          </Grid>
+            <AnalyticalStockTable
+              isFetching={isFetching}
+              data={filteredData?.stockData}
+            />
+          </Box>
         </Grid>
-      )}
+        <Grid
+          key={filteredData?.companyCode.concat("to-expires")}
+          item
+          xs={16}
+          lg={8}
+        >
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              gap: 0.5,
+              backgroundColor: "white",
+              padding: 1,
+              border: `1px solid ${COLORS.BORDAS}`,
+              borderRadius: 3,
+            }}
+          >
+            <Box>
+              <Typography
+                variant='body2'
+                fontWeight={700}
+                color={"#3E63DD"}
+                fontSize={12}
+              >
+                VENCIMENTOS
+              </Typography>
+            </Box>
+
+            <Box>
+              <Box
+                sx={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  flexWrap: { xs: "wrap", sm: "nowrap" },
+                  gap: 1,
+                }}
+              >
+                <Grid
+                  container
+                  sx={{
+                    columnGap: 1,
+                    backgroundColor: grey["900"],
+                    color: "#fff",
+                    borderRadius: 1,
+                    p: 0.5,
+                  }}
+                >
+                  <Grid item xs={12}>
+                    <Typography fontSize={10}>Vencido</Typography>
+                  </Grid>
+                  <Grid item>
+                    <DisplayItem
+                      title='KGs'
+                      content={calculateTotalStockWeightToExpires(
+                        filteredData?.toExpiresData,
+                        -10000, // ficticio para ele pegar todos os fifos
+                        -1
+                      )}
+                      headerFontSize='9px'
+                      contentFontSize='14px'
+                    />
+                  </Grid>
+                  <Grid item>
+                    <DisplayItem
+                      title='$ Valor'
+                      content={calculateTotalStockPriceToExpires(
+                        filteredData?.toExpiresData,
+                        -10000, // ficticio para ele pegar todos os fifos
+                        -1
+                      )}
+                      headerFontSize='9px'
+                      contentFontSize='14px'
+                    />
+                  </Grid>
+                </Grid>
+                <Grid
+                  container
+                  sx={{
+                    columnGap: 1,
+                    backgroundColor: red["900"],
+                    color: "#fff",
+                    borderRadius: 1,
+                    p: 0.5,
+                  }}
+                >
+                  <Grid item xs={12}>
+                    <Typography fontSize={10}>FIFO 0-15 dias</Typography>
+                  </Grid>
+                  <Grid item>
+                    <DisplayItem
+                      title='KGs'
+                      content={calculateTotalStockWeightToExpires(
+                        filteredData?.toExpiresData,
+                        0,
+                        15
+                      )}
+                      headerFontSize='9px'
+                      contentFontSize='14px'
+                    />
+                  </Grid>
+                  <Grid item>
+                    <DisplayItem
+                      title='$ Valor'
+                      content={calculateTotalStockPriceToExpires(
+                        filteredData?.toExpiresData,
+                        0,
+                        15
+                      )}
+                      headerFontSize='9px'
+                      contentFontSize='14px'
+                    />
+                  </Grid>
+                </Grid>
+                <Grid
+                  container
+                  sx={{
+                    columnGap: 1,
+                    backgroundColor: orange["700"],
+                    color: "#fff",
+                    borderRadius: 1,
+                    p: 0.5,
+                  }}
+                >
+                  <Grid item xs={12}>
+                    <Typography fontSize={10}>Alerta 16-30 dias</Typography>
+                  </Grid>
+                  <Grid item>
+                    <DisplayItem
+                      title='KGs'
+                      content={calculateTotalStockWeightToExpires(
+                        filteredData?.toExpiresData,
+                        16,
+                        30
+                      )}
+                      headerFontSize='9px'
+                      contentFontSize='14px'
+                    />
+                  </Grid>
+                  <Grid item>
+                    <DisplayItem
+                      title='$ Valor'
+                      content={calculateTotalStockPriceToExpires(
+                        filteredData?.toExpiresData,
+                        16,
+                        30
+                      )}
+                      headerFontSize='9px'
+                      contentFontSize='14px'
+                    />
+                  </Grid>
+                </Grid>
+                <Grid
+                  container
+                  sx={{
+                    columnGap: 1,
+                    backgroundColor: green["700"],
+                    color: "#fff",
+                    borderRadius: 1,
+                    p: 0.5,
+                  }}
+                >
+                  <Grid item xs={12}>
+                    <Typography fontSize={10}>OK +30 dias</Typography>
+                  </Grid>
+                  <Grid item>
+                    <DisplayItem
+                      title='KGs'
+                      content={calculateTotalStockWeightToExpires(
+                        filteredData?.toExpiresData,
+                        31,
+                        10000 // ficticio só para nao ficar vazio
+                      )}
+                      headerFontSize='9px'
+                      contentFontSize='14px'
+                    />
+                  </Grid>
+                  <Grid item>
+                    <DisplayItem
+                      title='$ Valor'
+                      content={calculateTotalStockPriceToExpires(
+                        filteredData?.toExpiresData,
+                        31,
+                        10000 // ficticio só para nao ficar vazio
+                      )}
+                      headerFontSize='9px'
+                      contentFontSize='14px'
+                    />
+                  </Grid>
+                </Grid>
+              </Box>
+            </Box>
+            <AnalyticalStockToExpiresTable
+              isFetching={isFetching}
+              data={filteredData?.toExpiresData}
+            />
+          </Box>
+        </Grid>
+      </Grid>
     </Box>
   );
 });

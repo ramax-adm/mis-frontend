@@ -113,13 +113,19 @@ export default function StockPage() {
           </Typography> */}
         </PageContainerHeader>
         <Box sx={{ display: "flex", flexDirection: "row", gap: 1 }}>
-          <Button variant='contained' size='small' onClick={syncStock}>
+          <Button
+            variant='contained'
+            size='small'
+            onClick={syncStock}
+            disabled={isSyncStockWithSensatta}
+          >
             Atualizar c/ SENSATTA
           </Button>
           <Button
             variant='contained'
             size='small'
             onClick={handleExportStockReport}
+            disabled={isExportingStockReport}
           >
             Exportar XLSX
           </Button>
@@ -134,9 +140,9 @@ export default function StockPage() {
        *
        * Estilização da tab
        */}
-      {(isSyncStockWithSensatta || isExportingStockReport) && (
+      {/* {(isSyncStockWithSensatta || isExportingStockReport) && (
         <LoadingOverlay />
-      )}
+      )} */}
       <Tabs.Root defaultTab={selectedTab} sx={{ marginTop: -1 }}>
         <Tabs.Select customHandler={setSelectedTab}>
           <Tab label='Resumo' value={StockTabSectionsEnum.RESUME} />
