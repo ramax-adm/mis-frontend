@@ -29,7 +29,7 @@ export function AnalyticalStockToExpiresTable({
       <Box
         sx={{
           display: "grid",
-          height: "calc(100vh - 230px)",
+          height: "calc(100vh - 280px)",
           bgcolor: "background.paper",
           placeContent: "center",
         }}
@@ -42,7 +42,7 @@ export function AnalyticalStockToExpiresTable({
   return (
     <CustomTable<ParsedDataItem>
       tableStyles={{
-        height: "calc(100vh - 230px)",
+        height: "calc(100vh - 280px)",
         width: "100%",
       }}
       columns={columns}

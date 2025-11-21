@@ -7,6 +7,59 @@
 }
 
 .linkButton:hover {
-  background-color: "#3E63DD";
+  background-color: "#304ffe";
   color: "white";
+}
+
+/* custom blue scrollbar */
+/* GLOBAL */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #304ffe #e6eeff; /* Firefox */
+}
+
+/* Webkit (Chrome, Edge, etc.) */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: #e6eeff;
+  border-radius: 12px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #304ffe;
+  border-radius: 10px;
+  border: 4px solid #e6eeff;
+  background-clip: padding-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #3352b8;
+}
+
+/* 🔽 Esconde totalmente os botões de seta */
+::-webkit-scrollbar-button {
+  width: 0;
+  height: 0;
+  display: none;
+  background: transparent;
+}
+
+/* Alguns navegadores precisam desses seletores mais específicos */
+::-webkit-scrollbar-button:single-button:vertical:decrement,
+::-webkit-scrollbar-button:single-button:vertical:increment,
+::-webkit-scrollbar-button:single-button:horizontal:decrement,
+::-webkit-scrollbar-button:single-button:horizontal:increment {
+  width: 0;
+  height: 0;
+  display: none;
+  background: transparent;
+  border: none;
+}
+
+::-webkit-scrollbar-corner {
+  background: #e6eeff;
 }
