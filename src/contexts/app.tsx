@@ -180,6 +180,10 @@ export default function AppProvider({ children }: AppContextProviderProps) {
           path: PageRoutes.invoices(),
           title: "Notas Fiscais",
         },
+        {
+          path: PageRoutes.returnOccurrences(),
+          title: "Devoluções",
+        },
       ],
     },
     {

@@ -76,6 +76,9 @@ export const queryKeys = {
       GET_NF_SITUATIONS_FILTERS: "sales-invoice-nf-situations-filters",
       GET_ANALYTICAL_DATA: "sales-invoice-analytical-data",
     },
+    RETURN_OCCURRENCES: {
+      GET_ANALYTICAL_DATA: "sales-return-occurrences-analytical-data",
+    },
   },
 
   SENSATTA: {

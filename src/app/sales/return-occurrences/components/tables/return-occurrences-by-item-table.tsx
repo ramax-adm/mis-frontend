@@ -47,7 +47,7 @@ export function ReturnOccurrencesTable({
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          height: "250px",
+          height: "300px",
         }}
       >
         <LoaderIcon />
@@ -59,7 +59,7 @@ export function ReturnOccurrencesTable({
     <PaginatedTable<ReturnOccurrencesTableData>
       columns={columns}
       rows={parsedData}
-      tableStyles={{ height: "215px" }}
+      tableStyles={{ height: "220px" }}
     />
   );
 }
@@ -83,14 +83,14 @@ const getData = ({
 
 const getColumns = (): PaginatedTableColumn<ReturnOccurrencesTableData>[] => [
   {
-    headerKey: "invoiceDateFormated",
-    headerName: "Dt. Fat",
+    headerKey: "dateFormated",
+    headerName: "Data",
     sx: { fontSize: "9.5px", paddingX: 0.5 },
     cellSx: { fontSize: "9px" },
   },
   {
-    headerKey: "dateFormated",
-    headerName: "Dt. Dev.",
+    headerKey: "invoiceDateFormated",
+    headerName: "Data NF",
     sx: { fontSize: "9.5px", paddingX: 0.5 },
     cellSx: { fontSize: "9px" },
   },

@@ -1,3 +1,4 @@
+import { ReturnOccurrence } from "../business-audit";
 import { InvoicesNfTypesEnum } from "../sales";
 
 export interface GetSalesInvoicesUpdatedAtResponse {
@@ -40,6 +41,17 @@ export interface GetAnalyticalInvoicesResponse {
     totalPrice: number;
   };
   data: GetInvoicesItem[];
+}
+
+export interface GetAnalyticalReturnOccurrencesResponse {
+  totals: {
+    count: number;
+    fatValue: number;
+    returnValue: number;
+    returnWeightInKg: number;
+    returnQuantity: number;
+  };
+  data: ReturnOccurrence[];
 }
 
 export interface PostExportSalesInvoicesXlsxRequest {

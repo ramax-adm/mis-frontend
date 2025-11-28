@@ -125,6 +125,10 @@ export const urls = {
       POST_SYNC_INVOICES: `${apiLocal}/api/sales/invoice/sync`,
       POST_EXPORT_XLSX: `${apiLocal}/api/sales/invoice/export-xlsx`,
     },
+    RETURN_OCCURRENCES: {
+      GET_RESUME_DATA: `${apiLocal}/api/sales/return-occurrences/resume`,
+      GET_ANALYTICAL_DATA: `${apiLocal}/api/sales/return-occurrences/analytical`,
+    },
   },
   STOCK: {
     GET_LAST_UPDATED_AT: `${apiLocal}/api/stock/last-update`,
