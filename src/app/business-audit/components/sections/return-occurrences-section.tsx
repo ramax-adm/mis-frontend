@@ -11,43 +11,43 @@ import { ReturnOccurrencesByProductCard } from "../cards/return-occurrences-by-p
 export function BusinessAuditReturnOccurrencesSection() {
   return (
     <>
-      <Grid container marginTop={0.1} spacing={1}>
+      <Grid container marginTop={-0.5} spacing={1}>
         {/** Tabela de listagem das devoluções */}
-        <Grid item xs={12} md={7.14}>
+        <Grid item xs={12} md={7.2}>
           <ReturnOccurrencesByItemCard />
         </Grid>
         {/** Grafico pizza para devoluções p/ tipo */}
-        <Grid item xs={12} md={2.38}>
+        <Grid item xs={12} md={2.4}>
           <ReturnOccurrencesByTypeCard />
         </Grid>
         {/** Grafico linha para devoluções p/ dia */}
-        <Grid item xs={12} md={2.38}>
+        <Grid item xs={12} md={2.4}>
           <ReturnOccurrencesByDayCard />
         </Grid>
       </Grid>
       <Grid container marginTop={0.1} spacing={1}>
         {/** Card p/ fabrica */}
-        <Grid item xs={12} md={2.38}>
+        <Grid item xs={12} md={2.4}>
           <ReturnOccurrencesByCompanyCard />
         </Grid>
 
         {/** Card p/ Motivo */}
-        <Grid item xs={12} md={2.38}>
+        <Grid item xs={12} md={2.4}>
           <ReturnOccurrencesByCauseCard />
         </Grid>
 
         {/** Card p/ Representante */}
-        <Grid item xs={12} md={2.38}>
+        <Grid item xs={12} md={2.4}>
           <ReturnOccurrencesByRepresentativeCard />
         </Grid>
 
         {/** Card p/ Cliente */}
-        <Grid item xs={12} md={2.38}>
+        <Grid item xs={12} md={2.4}>
           <ReturnOccurrencesByClientCard />
         </Grid>
 
         {/** Card p/ Produto */}
-        <Grid item xs={12} md={2.38}>
+        <Grid item xs={12} md={2.4}>
           <ReturnOccurrencesByProductCard />
         </Grid>
       </Grid>

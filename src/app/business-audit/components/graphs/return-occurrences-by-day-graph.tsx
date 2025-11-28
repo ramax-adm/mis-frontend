@@ -38,7 +38,7 @@ export function ReturnOccurrencesByDayGraph({
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          height: "340px",
+          height: "295px",
         }}
       >
         <LoaderIcon />

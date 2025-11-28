@@ -118,27 +118,6 @@ export function ReturnOccurrencesSectionFilters() {
         item
         marginTop={{
           xs: 0,
-          sm: -2,
-        }}
-        xs={12}
-        sm={2.5}
-      >
-        <RadioInputControlled
-          row
-          name='returnType'
-          label='Tipo devolução'
-          emptyMessage='Sem Opções'
-          value={returnType}
-          onChange={
-            handleSelectReturnType as (value: string | number | Date) => void
-          }
-          options={RETURN_TYPE_OPTIONS}
-        />
-      </Grid>
-      <Grid
-        item
-        marginTop={{
-          xs: 0,
         }}
         xs={12}
         sm={2.5}
@@ -167,6 +146,27 @@ export function ReturnOccurrencesSectionFilters() {
         >
           Selecionar/Deselecionar tudo
         </Typography>
+      </Grid>
+      <Grid
+        item
+        marginTop={{
+          xs: 0,
+          sm: -2,
+        }}
+        xs={12}
+        sm={2.5}
+      >
+        <RadioInputControlled
+          row
+          name='returnType'
+          label='Tipo devolução'
+          emptyMessage='Sem Opções'
+          value={returnType}
+          onChange={
+            handleSelectReturnType as (value: string | number | Date) => void
+          }
+          options={RETURN_TYPE_OPTIONS}
+        />
       </Grid>
     </>
   );

@@ -47,7 +47,7 @@ export function ReturnOccurrencesTable({
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          height: "300px",
+          height: "250px",
         }}
       >
         <LoaderIcon />
@@ -59,7 +59,7 @@ export function ReturnOccurrencesTable({
     <PaginatedTable<ReturnOccurrencesTableData>
       columns={columns}
       rows={parsedData}
-      tableStyles={{ height: "220px" }}
+      tableStyles={{ height: "215px" }}
     />
   );
 }
