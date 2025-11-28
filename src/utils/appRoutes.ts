@@ -110,6 +110,9 @@ export class PageRoutes {
   static invoices() {
     return `/sales/invoices`;
   }
+  static returnOccurrences() {
+    return `/sales/return-occurrences`;
+  }
 
   // humanResources
   static humanResources() {
