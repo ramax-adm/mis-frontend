@@ -10,6 +10,10 @@ import { useGetUserCompanies } from "@/services/react-query/queries/user-company
 import { ReturnOccurrenceReturnTypeEnum } from "@/types/business-audit";
 import { Grid, Typography } from "@mui/material";
 import { parseAsArrayOf, parseAsString, useQueryStates } from "nuqs";
+import { RETURN_TYPE_OPTIONS } from "../../constants/return-types";
+import { DateInputControlled } from "@/components/Inputs/DateInput/controlled";
+import dayjs from "dayjs";
+import { getIso8601DateString } from "@/utils/date.utils";
 
 /**
   occurrenceNumber?: string; => OK
@@ -18,68 +22,76 @@ import { parseAsArrayOf, parseAsString, useQueryStates } from "nuqs";
   occurrenceCauses?: string; => 
  */
 
-const RETURN_TYPE_OPTIONS = [
-  {
-    label: "Todos",
-    key: ReturnOccurrenceReturnTypeEnum.NONE,
-    value: ReturnOccurrenceReturnTypeEnum.NONE,
-  },
-  {
-    label: "Integral",
-    key: ReturnOccurrenceReturnTypeEnum.FULL,
-    value: ReturnOccurrenceReturnTypeEnum.FULL,
-  },
-  {
-    label: "Parcial",
-    key: ReturnOccurrenceReturnTypeEnum.PARTIAL,
-    value: ReturnOccurrenceReturnTypeEnum.PARTIAL,
-  },
-];
-
 export function ReturnOccurrencesSectionFilters() {
   const { data: companies = [] } = useGetUserCompanies({});
   const { data: causes = [] } = useGetBusinessAuditReturnOccurrencesCauses();
 
-  const { filters: companyCodes, setFilters: setCompanyCodes } = useFilter<
-    string[]
-  >(StorageKeysEnum.MONITORING_RETURN_OCCURRENCES_COMPANIES_FILTER);
-  const { filters: returnType, setFilters: setReturnType } = useFilter<string>(
-    StorageKeysEnum.MONITORING_RETURN_OCCURRENCES_RETURN_TYPES_FILTER
-  );
-  const { filters: occurrenceCauses, setFilters: setOccurrenceCauses } =
-    useFilter<string[]>(
-      StorageKeysEnum.MONITORING_RETURN_OCCURRENCES_CAUSES_FILTER
-    );
+  const [filterStates, setFilterStates] = useQueryStates({
+    startDate: parseAsString.withDefault(
+      new Date().toISOString().split("T")[0]
+    ),
+    endDate: parseAsString.withDefault(new Date().toISOString().split("T")[0]),
+    companyCodes: parseAsArrayOf(parseAsString).withDefault([]),
+    returnType: parseAsString.withDefault(""),
+    occurrenceCauses: parseAsArrayOf(parseAsString).withDefault([]),
+  });
+
+  const handleSelectStartDate = (value: Date) =>
+    setFilterStates({ startDate: getIso8601DateString(value) });
+  const handleSelectEndDate = (value: Date) =>
+    setFilterStates({ endDate: getIso8601DateString(value) });
 
   const handleToogleCompanyCodes = () => {
-    if (!companyCodes) return;
+    if (!filterStates.companyCodes) return;
 
-    const haveSomeSelectedCompanyCodes = companyCodes?.length > 0;
+    const haveSomeSelectedCompanyCodes = filterStates.companyCodes?.length > 0;
     if (haveSomeSelectedCompanyCodes) {
-      return setCompanyCodes([]);
+      return setFilterStates({ companyCodes: [] });
     }
 
-    return setCompanyCodes(companies?.map((i) => i.sensattaCode));
+    return setFilterStates({
+      companyCodes: companies?.map((i) => i.sensattaCode),
+    });
   };
 
   const handleToogleOccurrenceCauses = () => {
-    if (!occurrenceCauses) return;
+    if (!filterStates.occurrenceCauses) return;
 
-    const haveSomeSelectedOccurrenceCauses = occurrenceCauses?.length > 0;
+    const haveSomeSelectedOccurrenceCauses =
+      filterStates.occurrenceCauses?.length > 0;
     if (haveSomeSelectedOccurrenceCauses) {
-      return setOccurrenceCauses([]);
+      return setFilterStates({ occurrenceCauses: [] });
     }
 
-    return setOccurrenceCauses(causes?.map((i) => i.value));
+    return setFilterStates({ occurrenceCauses: causes?.map((i) => i.value) });
   };
 
-  const handleSelectReturnType = (value: string) => setReturnType(value);
+  const handleSelectReturnType = (value: string) =>
+    setFilterStates({ returnType: value });
   const handleSelectOccurrenceCauses = (value: string[]) =>
-    setOccurrenceCauses(value);
-  const handleSelectCompanyCode = (value: string[]) => setCompanyCodes(value);
+    setFilterStates({ occurrenceCauses: value });
+  const handleSelectCompanyCode = (value: string[]) =>
+    setFilterStates({ companyCodes: value });
 
   return (
     <>
+      <Grid item xs={12} sm={2}>
+        <DateInputControlled
+          label='Dt. Inicio'
+          size='small'
+          value={dayjs(filterStates.startDate)}
+          setValue={handleSelectStartDate}
+        />
+      </Grid>
+
+      <Grid item xs={12} sm={2}>
+        <DateInputControlled
+          label='Dt. Fim'
+          size='small'
+          value={dayjs(filterStates.endDate)}
+          setValue={handleSelectEndDate}
+        />
+      </Grid>
       <Grid
         item
         marginTop={{
@@ -92,7 +104,7 @@ export function ReturnOccurrencesSectionFilters() {
         <MultipleSelectInputControlled
           label='Empresas'
           size='small'
-          value={companyCodes}
+          value={filterStates.companyCodes}
           onChange={handleSelectCompanyCode}
           options={companies.map((i) => ({
             label: `${i.sensattaCode} - ${i.name}`,
@@ -125,7 +137,7 @@ export function ReturnOccurrencesSectionFilters() {
         <MultipleSelectInputControlled
           label='Motivos'
           size='small'
-          value={occurrenceCauses}
+          value={filterStates.occurrenceCauses}
           onChange={handleSelectOccurrenceCauses}
           options={causes.map((i) => ({
             label: i.label,
@@ -161,7 +173,7 @@ export function ReturnOccurrencesSectionFilters() {
           name='returnType'
           label='Tipo devolução'
           emptyMessage='Sem Opções'
-          value={returnType}
+          value={filterStates.returnType}
           onChange={
             handleSelectReturnType as (value: string | number | Date) => void
           }

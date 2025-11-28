@@ -10,9 +10,12 @@ import {
 import { InvoicesNfTypesEnum } from "@/types/sales";
 import {
   GetAnalyticalInvoicesResponse,
+  GetAnalyticalReturnOccurrencesResponse,
   GetInvoicesItem,
   GetSalesInvoicesUpdatedAtResponse,
 } from "@/types/api/sales";
+import { GetFetch, urls } from "@/services/axios/api-base";
+import { useApiQuery } from "../react-query";
 
 export const useGetSalesInvoicesLastUpdatedAt = () => {
   return useQuery<GetSalesInvoicesUpdatedAtResponse>({
@@ -110,17 +113,7 @@ export const useGetAnalyticalInvoices = ({
   nfSituations?: string;
 }) => {
   return useQuery<GetAnalyticalInvoicesResponse>({
-    queryKey: [
-      queryKeys.SALES.INVOICE.GET_ANALYTICAL_DATA,
-      companyCodes,
-      startDate,
-      endDate,
-      cfopCodes,
-      clientCode,
-      nfNumber,
-      nfSituations,
-      nfType,
-    ],
+    queryKey: [queryKeys.SALES.INVOICE.GET_ANALYTICAL_DATA],
     queryFn: async () =>
       await GetAnalyticalInvoices({
         companyCodes,
@@ -132,5 +125,71 @@ export const useGetAnalyticalInvoices = ({
         nfSituations,
         nfType,
       }),
+  });
+};
+
+export const useGetAnalyticalReturnOccurrences = ({
+  companyCodes,
+  startDate,
+  endDate,
+  clientCode,
+  representativeCode,
+  occurrenceNumber,
+  returnType,
+  occurrenceCauses,
+}: {
+  companyCodes?: string;
+  startDate?: string;
+  endDate?: string;
+  clientCode?: string;
+  representativeCode?: string;
+  occurrenceNumber?: string;
+  returnType?: string;
+  occurrenceCauses?: string;
+}) => {
+  return useApiQuery<GetAnalyticalReturnOccurrencesResponse>({
+    queryKey: [
+      queryKeys.SALES.RETURN_OCCURRENCES.GET_ANALYTICAL_DATA,
+      {
+        companyCodes,
+        startDate,
+        endDate,
+        clientCode,
+        representativeCode,
+        occurrenceNumber,
+        returnType,
+        occurrenceCauses,
+      },
+    ],
+    queryFn: async () => {
+      const response = await GetFetch(
+        urls.SALES.RETURN_OCCURRENCES.GET_ANALYTICAL_DATA,
+        {
+          params: {
+            companyCodes,
+            startDate,
+            endDate,
+            clientCode,
+            representativeCode,
+            occurrenceNumber,
+            returnType,
+            occurrenceCauses,
+          },
+        }
+      );
+
+      console.log("useGetAnalyticalReturnOccurrences", {
+        companyCodes,
+        startDate,
+        endDate,
+        clientCode,
+        representativeCode,
+        occurrenceNumber,
+        returnType,
+        occurrenceCauses,
+      });
+
+      return response.data;
+    },
   });
 };

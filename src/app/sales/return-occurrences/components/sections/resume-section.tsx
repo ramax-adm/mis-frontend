@@ -1,14 +1,14 @@
-import { Grid, Typography } from "@mui/material";
+import { Grid } from "@mui/material";
 import { ReturnOccurrencesByItemCard } from "../cards/return-occurrences-by-item-card";
-import { ReturnOccurrencesByTypeCard } from "../cards/return-occurrences-by-type-card";
-import { ReturnOccurrencesByDayCard } from "../cards/return-occurrences-by-day-card";
-import { ReturnOccurrencesByCompanyCard } from "../cards/return-occurrences-by-company-card";
 import { ReturnOccurrencesByCauseCard } from "../cards/return-occurrences-by-cause-card";
-import { ReturnOccurrencesByRepresentativeCard } from "../cards/return-occurrences-by-representative-card";
 import { ReturnOccurrencesByClientCard } from "../cards/return-occurrences-by-client-card";
+import { ReturnOccurrencesByCompanyCard } from "../cards/return-occurrences-by-company-card";
+import { ReturnOccurrencesByDayCard } from "../cards/return-occurrences-by-day-card";
 import { ReturnOccurrencesByProductCard } from "../cards/return-occurrences-by-product-card";
+import { ReturnOccurrencesByRepresentativeCard } from "../cards/return-occurrences-by-representative-card";
+import { ReturnOccurrencesByTypeCard } from "../cards/return-occurrences-by-type-card";
 
-export function BusinessAuditReturnOccurrencesSection() {
+export function ReturnOccurrencesResumeSection() {
   return (
     <>
       <Grid container marginTop={-0.5} spacing={1}>
