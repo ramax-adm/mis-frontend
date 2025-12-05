@@ -75,50 +75,53 @@ export function SalesByInvoiceDetailsModal({
         gap: 1,
       }}
     >
-      <Grid container gap={2}>
-        <Grid item xs={3} md={0.5}>
+      <Grid container gap={3}>
+        <Grid item>
           <DisplayItem title='NF' content={ordersData?.[0].nfNumber} />
         </Grid>
-        <Grid item xs={3} md={1}>
+        <Grid item>
           <DisplayItem title='Data' content={formatedBillingDate} />
         </Grid>
-        <Grid item xs={3} md={0.5}>
+        <Grid item>
           <DisplayItem title='N° Pedido' content={ordersData?.[0].orderId} />
         </Grid>
-        <Grid item xs={3} md={2}>
+        <Grid item>
+          <DisplayItem title='Categoria' content={ordersData?.[0].category} />
+        </Grid>
+        <Grid item>
           <DisplayItem
             title='Empresa'
             content={`${ordersData?.[0].companyCode} - ${ordersData?.[0].companyName}`}
           />
         </Grid>
-        <Grid item xs={3} md={1}>
+        <Grid item>
           <DisplayItem title='Qtd.' content={toLocaleString(totalQtd ?? 0)} />
         </Grid>
-        <Grid item xs={3} md={1}>
+        <Grid item>
           <DisplayItem
             title='Peso KG'
             content={toLocaleString(totalWeightInKg ?? 0)}
           />
         </Grid>
-        <Grid item xs={3} md={1}>
+        <Grid item>
           <DisplayItem
             title='Valor $'
             content={toLocaleString(totalNfValue ?? 0, 2)}
           />
         </Grid>
-        <Grid item xs={3} md={1}>
+        <Grid item>
           <DisplayItem
             title='Tabela $'
             content={toLocaleString(totalTableValue ?? 0, 2)}
           />
         </Grid>
-        <Grid item xs={3} md={1}>
+        <Grid item>
           <DisplayItem
             title='Dif $'
             content={toLocaleString(totalDiscount, 2)}
           />
         </Grid>
-        <Grid item xs={3} md={1}>
+        <Grid item>
           <DisplayItem title='Dif %' content={toPercent(percentValue)} />
         </Grid>
       </Grid>

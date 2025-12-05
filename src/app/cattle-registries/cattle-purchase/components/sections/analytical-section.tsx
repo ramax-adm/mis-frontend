@@ -130,7 +130,7 @@ export const CattlePurchaseAnalyticalSection = forwardRef<
       {(isFetching || isFetchingCattlePurchasesAggregated) && (
         <LoadingOverlay />
       )}
-      <Grid container columnSpacing={1}>
+      <Grid container spacing={1}>
         <Grid item xs={12}>
           <Typography fontSize={"12px"} fontWeight={700}>
             Filtros Analitico
@@ -181,7 +181,7 @@ export const CattlePurchaseAnalyticalSection = forwardRef<
             size='small'
           />
         </Grid>
-        <Grid item xs={12} sm={2} marginTop={-2} marginLeft={1}>
+        <Grid item xs={12} sm={2} marginTop={{ xs: 0, sm: -2 }} marginLeft={1}>
           <RadioInputControlled
             row
             name='dataVisualization'
@@ -202,7 +202,7 @@ export const CattlePurchaseAnalyticalSection = forwardRef<
           <CattlePurchaseAnalyticalTotalsIndicator data={purchaseTotals} />
         </Grid>
       </Grid>
-      <Grid container>
+      <Grid container marginTop={1}>
         <Grid item xs={12}>
           {selectedDataVisualization === "aggregated-analytical" && (
             <AnalyticalAggregatedCattlePurchasesTable

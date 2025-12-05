@@ -1,192 +1,172 @@
-import {
-  GetCattlePurchaseAggregatedAnalyticalDataItem,
-  GetCattlePurchaseAggregatedAnalyticalDataResponse,
-  GetCattlePurchaseAnalyticalParsedItem,
-} from "@/types/api/purchase";
+import { GetCattlePurchaseAggregatedAnalyticalDataItem } from "@/types/api/purchase";
 import { Alert, Box } from "@mui/material";
-import { CattlePurchaseCustomizedCard } from "../customized/card";
-import { Column, CustomizedTable } from "@/components/Table/normal-table/body";
+import PaginatedTable from "@/components/Table/paginated-table";
+import CustomTable, {
+  CustomTableColumn,
+} from "@/components/Table/custom-table";
 import { formatToDate } from "@/utils/formatToDate";
 import { toLocaleString } from "@/utils/string.utils";
+import { LoaderIcon } from "@/components/Loading/loader-icon";
+
+// ------------------------------------------------------
+// ✅ TIPAGEM DA LINHA DA TABELA
+// ------------------------------------------------------
+type AnalyticalAggregatedCattlePurchasesTableData = {
+  purchaseCattleOrderId: string;
+  slaughterDate: string;
+  cattleOwnerCode: string;
+  cattleOwnerName: string;
+  companyCode: string;
+  companyName: string;
+  cattleAdvisorCode: string;
+  cattleAdvisorName: string;
+  cattleQuantityFormated: string;
+  freightPriceFormated: string;
+  purchasePriceFormated: string;
+  commissionPriceFormated: string;
+  totalValueFormated: string;
+};
 
 interface AnalyticalAggregatedCattlePurchasesTableProps {
   data?: GetCattlePurchaseAggregatedAnalyticalDataItem;
+  isFetching?: boolean;
 }
+
+// ------------------------------------------------------
+// ✅ COMPONENTE PADRONIZADO
+// ------------------------------------------------------
 export function AnalyticalAggregatedCattlePurchasesTable({
   data,
+  isFetching = false,
 }: AnalyticalAggregatedCattlePurchasesTableProps) {
-  const haveSomeData = data && Object.values(data).length > 0 ? true : false;
   const parsedData = getData({ data });
   const columns = getColumns();
+  const haveSomeData = parsedData.length > 0;
+
+  if (isFetching) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "calc(100vh - 270px)",
+        }}
+      >
+        <LoaderIcon />
+      </Box>
+    );
+  }
 
   if (!haveSomeData) {
-    return null;
+    return <Alert severity='info'>Sem Dados</Alert>;
   }
 
   return (
-    <Box sx={{ marginTop: 1 }}>
-      <CustomizedTable<any>
-        tableStyles={{
-          height: "calc(100vh - 270px);",
-          width: "100%",
-        }}
-        cellStyles={{
-          paddingX: 1,
-          fontSize: "10px",
-          paddingY: 0.2,
-        }}
-        headCellStyles={{
-          paddingX: 1,
-          fontSize: "11px",
-        }}
-        columns={columns}
-        data={parsedData}
-      />
-    </Box>
+    <PaginatedTable<AnalyticalAggregatedCattlePurchasesTableData>
+      columns={columns}
+      rows={parsedData}
+      tableStyles={{ height: "calc(100vh - 270px)" }}
+    />
   );
 }
 
-const getData = ({ data }: AnalyticalAggregatedCattlePurchasesTableProps) => {
-  if (!data) {
-    return [];
-  }
+// ------------------------------------------------------
+// 🔧 MAPEAMENTO + FORMATAÇÃO DOS DADOS
+// ------------------------------------------------------
+const getData = ({
+  data,
+}: {
+  data?: GetCattlePurchaseAggregatedAnalyticalDataItem;
+}): AnalyticalAggregatedCattlePurchasesTableData[] => {
+  if (!data) return [];
 
-  const response: {
-    purchaseCattleOrderId: string;
-    slaughterDate: Date;
-    cattleOwnerCode: string;
-    cattleOwnerName: string;
-    companyCode: string;
-    companyName: string;
-    cattleAdvisorCode: string;
-    cattleAdvisorName: string;
-    cattleQuantity: string;
-    freightPrice: string;
-    purchasePrice: string;
-    commissionPrice: string;
-    totalValue: string;
-  }[] = [];
   const keys = Object.keys(data);
 
-  for (const key of keys) {
-    response.push({
-      purchaseCattleOrderId: key,
-      slaughterDate: data[key].slaughterDate,
-      cattleOwnerCode: data[key].cattleOwnerCode,
-      cattleOwnerName: data[key].cattleOwnerName,
-      companyCode: data[key].companyCode,
-      companyName: data[key].companyName,
-      cattleAdvisorCode: data[key].cattleAdvisorCode,
-      cattleAdvisorName: data[key].cattleAdvisorName,
-      cattleQuantity: toLocaleString(data[key].cattleQuantity, 0),
-      freightPrice: toLocaleString(data[key].freightPrice, 2),
-      purchasePrice: toLocaleString(data[key].purchasePrice, 2),
-      commissionPrice: toLocaleString(data[key].commissionPrice, 2),
-      totalValue: toLocaleString(data[key].totalValue, 2),
-    });
-  }
+  return keys
+    .map((key) => {
+      const i = data[key];
 
-  return response
-    .sort(
-      (a, b) =>
-        new Date(a.slaughterDate).getTime() -
-        new Date(b.slaughterDate).getTime()
-    )
-    .map((i) => ({ ...i, slaughterDate: formatToDate(i.slaughterDate) }));
+      return {
+        purchaseCattleOrderId: key,
+        slaughterDate: i.slaughterDate ? formatToDate(i.slaughterDate) : "",
+        cattleOwnerCode: i.cattleOwnerCode,
+        cattleOwnerName: i.cattleOwnerName,
+        companyCode: i.companyCode,
+        companyName: i.companyName,
+        cattleAdvisorCode: i.cattleAdvisorCode,
+        cattleAdvisorName: i.cattleAdvisorName,
+        cattleQuantityFormated: toLocaleString(i.cattleQuantity ?? 0, 0),
+        freightPriceFormated: toLocaleString(i.freightPrice ?? 0, 2),
+        purchasePriceFormated: toLocaleString(i.purchasePrice ?? 0, 2),
+        commissionPriceFormated: toLocaleString(i.commissionPrice ?? 0, 2),
+        totalValueFormated: toLocaleString(i.totalValue ?? 0, 2),
+      };
+    })
+    .sort((a, b) => {
+      const da = new Date(a.slaughterDate).getTime();
+      const db = new Date(b.slaughterDate).getTime();
+      return da - db;
+    });
 };
 
+// ------------------------------------------------------
+// 🧩 DEFINIÇÃO DAS COLUNAS (PADRÃO ANALÍTICO)
+// ------------------------------------------------------
 const getColumns =
-  (): Column<GetCattlePurchaseAggregatedAnalyticalDataItem>[] => {
-    return [
-      {
-        headerName: "Dt. Abate",
-        maxWidth: "100px",
-        type: "string",
-        value: {
-          first: {
-            value: "slaughterDate",
-          },
-        },
-      },
-      {
-        headerName: "Cod. OC",
-        // maxWidth: '80px',
-        type: "string",
-        value: {
-          first: {
-            value: "purchaseCattleOrderId",
-          },
-        },
-      },
-      {
-        headerName: "Pecuarista",
-        maxWidth: "40px",
-        type: "string",
-        value: {
-          first: {
-            value: "cattleOwnerName",
-          },
-        },
-      },
-      {
-        headerName: "Assessor",
-        maxWidth: "40px",
-        type: "string",
-        value: {
-          first: {
-            value: "cattleAdvisorName",
-          },
-        },
-      },
-      {
-        headerName: "Cbs",
-        type: "string",
-        value: {
-          first: {
-            value: "cattleQuantity",
-          },
-        },
-      },
-
-      {
-        headerName: "R$ Frete",
-        maxWidth: "50px",
-        type: "string",
-        value: {
-          first: {
-            value: "freightPrice",
-          },
-        },
-      },
-      {
-        headerName: "R$ Comissão",
-        maxWidth: "50px",
-        type: "string",
-        value: {
-          first: {
-            value: "commissionPrice",
-          },
-        },
-      },
-      {
-        headerName: "R$ Compra",
-        maxWidth: "50px",
-        type: "string",
-        value: {
-          first: {
-            value: "purchasePrice",
-          },
-        },
-      },
-      {
-        headerName: "R$ Total",
-        maxWidth: "50px",
-        type: "string",
-        value: {
-          first: {
-            value: "totalValue",
-          },
-        },
-      },
-    ];
-  };
+  (): CustomTableColumn<AnalyticalAggregatedCattlePurchasesTableData>[] => [
+    {
+      headerKey: "slaughterDate",
+      headerName: "Dt. Abate",
+      sx: { fontSize: "9.5px", paddingX: 0.5 },
+      cellSx: { fontSize: "9px" },
+    },
+    {
+      headerKey: "purchaseCattleOrderId",
+      headerName: "Cod. OC",
+      sx: { fontSize: "9.5px", paddingX: 0.5 },
+      cellSx: { fontSize: "9px" },
+    },
+    {
+      headerKey: "cattleOwnerName",
+      headerName: "Pecuarista",
+      sx: { fontSize: "9.5px", paddingX: 0.5 },
+      cellSx: { fontSize: "9px" },
+    },
+    {
+      headerKey: "cattleAdvisorName",
+      headerName: "Assessor",
+      sx: { fontSize: "9.5px", paddingX: 0.5 },
+      cellSx: { fontSize: "9px" },
+    },
+    {
+      headerKey: "cattleQuantityFormated",
+      headerName: "Cbs",
+      sx: { fontSize: "9.5px", paddingX: 0.5 },
+      cellSx: { fontSize: "9px" },
+    },
+    {
+      headerKey: "freightPriceFormated",
+      headerName: "R$ Frete",
+      sx: { fontSize: "9.5px", paddingX: 0.5 },
+      cellSx: { fontSize: "9px" },
+    },
+    {
+      headerKey: "commissionPriceFormated",
+      headerName: "R$ Comissão",
+      sx: { fontSize: "9.5px", paddingX: 0.5 },
+      cellSx: { fontSize: "9px" },
+    },
+    {
+      headerKey: "purchasePriceFormated",
+      headerName: "R$ Compra",
+      sx: { fontSize: "9.5px", paddingX: 0.5 },
+      cellSx: { fontSize: "9px" },
+    },
+    {
+      headerKey: "totalValueFormated",
+      headerName: "R$ Total",
+      sx: { fontSize: "9.5px", paddingX: 0.5 },
+      cellSx: { fontSize: "9px" },
+    },
+  ];

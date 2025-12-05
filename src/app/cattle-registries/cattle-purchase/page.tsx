@@ -22,6 +22,7 @@ import {
   CattlePurchaseResumeSection,
   CattlePurchaseResumeSectionRef,
 } from "./components/sections/resume-section";
+import { useGetUserCompanies } from "@/services/react-query/queries/user-company";
 
 export default function CattlePurchase() {
   const tabPanelRef = useRef<TabsPanelRef>(null);
@@ -44,7 +45,7 @@ export default function CattlePurchase() {
     setSelectedTab(value as "analytical");
 
   const { data: purchaseLastUpdatedAt } = useGetPurchaseLastUpdatedAt();
-  const { data: companies } = useGetCompanies({ token: "" });
+  const { data: companies } = useGetUserCompanies({});
 
   const { mutateAsync: syncPurchase, isPending: isSyncPurchase } =
     useSyncPurchaseWithSensatta();
@@ -142,7 +143,7 @@ export default function CattlePurchase() {
             value={selectedCompany}
             onChange={handleSelectCompany}
             options={companies?.map((item) => ({
-              label: item.name,
+              label: `${item.sensattaCode} - ${item.name}`,
               value: item.sensattaCode,
               key: item.sensattaCode,
             }))}
@@ -169,7 +170,7 @@ export default function CattlePurchase() {
 
       {/** Content */}
       <Tabs.Root defaultTab='resume'>
-        <Tabs.Select sx={{ width: "250px" }} customHandler={handleSelectTab}>
+        <Tabs.Select customHandler={handleSelectTab}>
           <Tab label='Resumo' value={"resume"} />
           <Tab label='Analitico' value={"analytical"} />
         </Tabs.Select>

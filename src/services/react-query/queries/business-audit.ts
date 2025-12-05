@@ -48,6 +48,7 @@ export const useGetBusinessAuditSalesData = ({
   priceConsideration,
   companyCodes,
   market,
+  nfNumber,
   clientCodes,
   salesRepresentativeCodes,
 }: {
@@ -55,6 +56,7 @@ export const useGetBusinessAuditSalesData = ({
   endDate: string;
   priceConsideration?: OrderPriceConsiderationEnum;
   market?: MarketEnum;
+  nfNumber?: string;
   companyCodes?: string;
   clientCodes?: string;
   salesRepresentativeCodes?: string;
@@ -67,6 +69,7 @@ export const useGetBusinessAuditSalesData = ({
       priceConsideration,
       companyCodes,
       market,
+      nfNumber,
       clientCodes,
       salesRepresentativeCodes,
     ],
@@ -80,6 +83,7 @@ export const useGetBusinessAuditSalesData = ({
             priceConsideration,
             companyCodes,
             market,
+            nfNumber,
             clientCodes,
             salesRepresentativeCodes,
           },
