@@ -6,7 +6,6 @@ import {
   useQuery,
   UseQueryOptions,
 } from "@tanstack/react-query";
-import { AxiosError } from "axios";
 
 export const queryClient = new QueryClient({
   defaultOptions: {
@@ -21,6 +20,7 @@ export const queryClient = new QueryClient({
         }
         return true;
       },
+      refetchOnWindowFocus: false,
     },
     mutations: {},
   },

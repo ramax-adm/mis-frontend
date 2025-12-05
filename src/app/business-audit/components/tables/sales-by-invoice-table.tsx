@@ -24,6 +24,7 @@ type SalesByInvoiceTableData = {
   formatedDate: string;
   nfNumber: string;
   orderNumber: string;
+  orderCategory: string;
   cfop: string;
   nfId: string;
   market: string;
@@ -112,6 +113,7 @@ const getData = ({
       formatedDate: item.date ? formatToDate(item.date) : "S/ Data",
       nfNumber: item.nfNumber ?? "N/D",
       orderNumber: item.orderNumber ?? "N/D",
+      orderCategory: item.orderCategory ?? "N/D",
       nfId: key,
       cfop: `${item.cfopCode} - ${item.cfopDescription}`,
       market: marketMap[item.market ?? ""] ?? "N/A",
@@ -176,6 +178,12 @@ const getColumns = ({
   {
     headerKey: "salesCount",
     headerName: "NF Itens",
+    sx: { fontSize: "9.5px", paddingX: 0.5 },
+    cellSx: { fontSize: "9px" },
+  },
+  {
+    headerKey: "orderCategory",
+    headerName: "Categoria",
     sx: { fontSize: "9.5px", paddingX: 0.5 },
     cellSx: { fontSize: "9px" },
   },

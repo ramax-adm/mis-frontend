@@ -71,6 +71,9 @@ export interface GetCattlePurchaseAnalyticalParsedItem {
   freightPrice: string;
   purchasePrice: string;
   commissionPrice: string;
+  arrobaPrice: string;
+  headPrice: string;
+  kgPrice: string;
   totalValue: string;
 }
 
@@ -99,6 +102,9 @@ export interface GetCattlePurchaseAnalyticalTotalsItem {
   purchaseValue: string;
   commissionValue: string;
   finalValue: string;
+  arrobaPrice: string;
+  headPrice: string;
+  kgPrice: string;
 }
 export interface GetCattlePurchaseAnalyticalDataResponse {
   parsedData: GetCattlePurchaseAnalyticalParsedItem[];
