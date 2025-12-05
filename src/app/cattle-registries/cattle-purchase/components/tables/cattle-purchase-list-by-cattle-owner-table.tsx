@@ -21,12 +21,12 @@ export function CattlePurchaseListByCattleOwnerTable({
         }}
         cellStyles={{
           paddingX: 1,
-          fontSize: "10px",
+          fontSize: "9px",
           paddingY: 0.2,
         }}
         headCellStyles={{
           paddingX: 1,
-          fontSize: "11px",
+          fontSize: "9.5px",
         }}
         columns={columns}
         data={parsedData}

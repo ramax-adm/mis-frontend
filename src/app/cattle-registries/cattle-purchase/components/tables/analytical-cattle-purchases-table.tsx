@@ -1,163 +1,154 @@
 import { GetCattlePurchaseAnalyticalParsedItem } from "@/types/api/purchase";
-import { Column, CustomizedTable } from "@/components/Table/normal-table/body";
-import { Box } from "@mui/material";
+import { Alert, Box } from "@mui/material";
+import PaginatedTable from "@/components/Table/paginated-table";
+import CustomTable, {
+  CustomTableColumn,
+} from "@/components/Table/custom-table";
+import { formatToDate } from "@/utils/formatToDate";
+import { toLocaleString } from "@/utils/string.utils";
+import { LoaderIcon } from "@/components/Loading/loader-icon";
+
+// ------------------------------------------------------
+// ✅ TIPAGEM DA LINHA DA TABELA
+// ------------------------------------------------------
+type AnalyticalCattlePurchasesTableData = GetCattlePurchaseAnalyticalParsedItem;
 
 interface AnalyticalCattlePurchasesTableProps {
   data?: GetCattlePurchaseAnalyticalParsedItem[];
+  isFetching?: boolean;
 }
+
+// ------------------------------------------------------
+// ✅ COMPONENTE PADRONIZADO
+// ------------------------------------------------------
 export function AnalyticalCattlePurchasesTable({
   data = [],
+  isFetching = false,
 }: AnalyticalCattlePurchasesTableProps) {
-  const haveSomeData = data.length > 0;
   const columns = getColumns();
+  const haveSomeData = data.length > 0;
+
+  if (isFetching) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "calc(100vh - 270px)",
+        }}
+      >
+        <LoaderIcon />
+      </Box>
+    );
+  }
 
   if (!haveSomeData) {
-    return null;
+    return <Alert severity='info'>Sem Dados</Alert>;
   }
 
   return (
-    <Box sx={{ marginTop: 1 }}>
-      <CustomizedTable<any>
-        tableStyles={{
-          height: "calc(100vh - 270px);",
-          width: "100%",
-        }}
-        cellStyles={{
-          paddingX: 1,
-          fontSize: "10px",
-          paddingY: 0.2,
-        }}
-        headCellStyles={{
-          paddingX: 1,
-          fontSize: "11px",
-        }}
-        columns={columns}
-        data={data}
-      />
-    </Box>
+    <PaginatedTable<AnalyticalCattlePurchasesTableData>
+      columns={columns}
+      rows={data}
+      tableStyles={{ height: "calc(100vh - 270px)" }}
+    />
   );
 }
 
-const getColumns = (): Column<GetCattlePurchaseAnalyticalParsedItem>[] => {
-  return [
+// ------------------------------------------------------
+// 🧩 DEFINIÇÃO DAS COLUNAS (PADRÃO ANALÍTICO)
+// ------------------------------------------------------
+const getColumns =
+  (): CustomTableColumn<AnalyticalCattlePurchasesTableData>[] => [
     {
+      headerKey: "slaughterDate",
       headerName: "Dt. Abate",
-      maxWidth: "100px",
-      type: "string",
-      value: {
-        first: {
-          value: "slaughterDate",
-        },
-      },
+      sx: { fontSize: "9.5px", paddingX: 0.5 },
+      cellSx: { fontSize: "9px" },
     },
     {
+      headerKey: "purchaseCattleOrderId",
       headerName: "Cod. OC",
-      // maxWidth: '80px',
-      type: "string",
-      value: {
-        first: {
-          value: "purchaseCattleOrderId",
-        },
-      },
+      sx: { fontSize: "9.5px", paddingX: 0.5 },
+      cellSx: { fontSize: "9px" },
     },
     {
+      headerKey: "cattleOwnerName",
       headerName: "Pecuarista",
-      maxWidth: "40px",
-      type: "string",
-      value: {
-        first: {
-          value: "cattleOwnerName",
-        },
-      },
+      sx: { fontSize: "9.5px", paddingX: 0.5 },
+      cellSx: { fontSize: "9px" },
     },
     {
+      headerKey: "cattleAdvisorName",
       headerName: "Assessor",
-      maxWidth: "40px",
-      type: "string",
-      value: {
-        first: {
-          value: "cattleAdvisorName",
-        },
-      },
+      sx: { fontSize: "9.5px", paddingX: 0.5 },
+      cellSx: { fontSize: "9px" },
     },
     {
+      headerKey: "cattleQuantity",
       headerName: "Cbs",
-      type: "string",
-      value: {
-        first: {
-          value: "cattleQuantity",
-        },
-      },
+      sx: { fontSize: "9.5px", paddingX: 0.5 },
+      cellSx: { fontSize: "9px" },
     },
     {
+      headerKey: "cattleClassification",
       headerName: "Classif.",
-      maxWidth: "50px",
-      type: "string",
-      value: {
-        first: {
-          value: "cattleClassification",
-        },
-      },
+      sx: { fontSize: "9.5px", paddingX: 0.5 },
+      cellSx: { fontSize: "9px" },
     },
     {
+      headerKey: "cattleWeightInArroba",
       headerName: "Peso @",
-      maxWidth: "50px",
-      type: "string",
-      value: {
-        first: {
-          value: "cattleWeightInArroba",
-        },
-      },
+      sx: { fontSize: "9.5px", paddingX: 0.5 },
+      cellSx: { fontSize: "9px" },
     },
     {
+      headerKey: "paymentTerm",
       headerName: "Prazo",
-      maxWidth: "50px",
-      type: "string",
-      value: {
-        first: {
-          value: "paymentTerm",
-        },
-      },
+      sx: { fontSize: "9.5px", paddingX: 0.5 },
+      cellSx: { fontSize: "9px" },
     },
     {
+      headerKey: "freightPrice",
       headerName: "R$ Frete",
-      maxWidth: "50px",
-      type: "string",
-      value: {
-        first: {
-          value: "freightPrice",
-        },
-      },
+      sx: { fontSize: "9.5px", paddingX: 0.5 },
+      cellSx: { fontSize: "9px" },
     },
     {
+      headerKey: "commissionPrice",
       headerName: "R$ Comissão",
-      maxWidth: "50px",
-      type: "string",
-      value: {
-        first: {
-          value: "commissionPrice",
-        },
-      },
+      sx: { fontSize: "9.5px", paddingX: 0.5 },
+      cellSx: { fontSize: "9px" },
     },
     {
+      headerKey: "purchasePrice",
       headerName: "R$ Compra",
-      maxWidth: "50px",
-      type: "string",
-      value: {
-        first: {
-          value: "purchasePrice",
-        },
-      },
+      sx: { fontSize: "9.5px", paddingX: 0.5 },
+      cellSx: { fontSize: "9px" },
     },
     {
+      headerKey: "headPrice",
+      headerName: "$/Cab",
+      sx: { fontSize: "9.5px", paddingX: 0.5 },
+      cellSx: { fontSize: "9px" },
+    },
+    {
+      headerKey: "arrobaPrice",
+      headerName: "$/@",
+      sx: { fontSize: "9.5px", paddingX: 0.5 },
+      cellSx: { fontSize: "9px" },
+    },
+    {
+      headerKey: "kgPrice",
+      headerName: "$/KG",
+      sx: { fontSize: "9.5px", paddingX: 0.5 },
+      cellSx: { fontSize: "9px" },
+    },
+    {
+      headerKey: "totalValue",
       headerName: "R$ Total",
-      maxWidth: "50px",
-      type: "string",
-      value: {
-        first: {
-          value: "totalValue",
-        },
-      },
+      sx: { fontSize: "9.5px", paddingX: 0.5 },
+      cellSx: { fontSize: "9px" },
     },
   ];
-};

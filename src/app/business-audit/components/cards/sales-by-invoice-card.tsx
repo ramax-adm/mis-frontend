@@ -21,6 +21,7 @@ import { MultipleSelectInputControlled } from "@/components/Inputs/Select/Multip
 import { COLORS } from "@/constants/styles/colors";
 import { usePersistedFilters } from "@/hooks/use-persisted-filters";
 import { useFilter } from "@/contexts/persisted-filters";
+import { TextInputControlled } from "@/components/Inputs/TextInput/controlled";
 
 /**
  * Nesta pagina em especial, usamos o persisted filters, que se comunica
@@ -37,23 +38,23 @@ export function SalesByInvoiceCard() {
     endDate: parseAsString.withDefault(new Date().toISOString().split("T")[0]),
   });
 
-  const [, setSectionStates] = useQueryStates({
+  const [sectionStates, setSectionStates] = useQueryStates({
+    nfNumber: parseAsString.withDefault(""),
     nfId: parseAsString.withDefault(""),
     salesByInvoiceModalOpen: parseAsBoolean.withDefault(false),
   });
 
-  const { filters: companyCodes, setFilters: setCompanyCodes } = useFilter<
-    string[]
-  >(StorageKeysEnum.MONITORING_SALES_COMPANIES_FILTER);
+  const { filters: companyCodes } = useFilter<string[]>(
+    StorageKeysEnum.MONITORING_SALES_COMPANIES_FILTER
+  );
 
-  const { filters: market, setFilters: setMarket } = useFilter<string>(
+  const { filters: market } = useFilter<string>(
     StorageKeysEnum.MONITORING_SALES_MARKET_FILTER
   );
 
-  const { filters: priceConsideration, setFilters: setPriceConsideration } =
-    useFilter<string>(
-      StorageKeysEnum.MONITORING_SALES_PRICE_CONSIDERATION_FILTER
-    );
+  const { filters: priceConsideration } = useFilter<string>(
+    StorageKeysEnum.MONITORING_SALES_PRICE_CONSIDERATION_FILTER
+  );
 
   const { filters: clientCodes, setFilters: setClientCodes } = useFilter<
     string[]
@@ -66,6 +67,7 @@ export function SalesByInvoiceCard() {
     startDate: globalStates.startDate,
     endDate: globalStates.endDate,
     market: market as MarketEnum,
+    nfNumber: sectionStates.nfNumber,
     companyCodes: companyCodes.join(","),
     priceConsideration: priceConsideration as OrderPriceConsiderationEnum,
     clientCodes: clientCodes.join(","),
@@ -113,15 +115,24 @@ export function SalesByInvoiceCard() {
           display: "flex",
           flexDirection: {
             xs: "column",
-            sm: "row",
+            md: "row",
           },
           gap: 1,
         }}
       >
-        <Box sx={{ width: { sm: "80%" } }}>
+        <Box sx={{ width: { md: "80%" } }}>
           <SalesTotals data={sales?.salesByInvoice.totals} />
         </Box>
-        <Box sx={{ width: "250px" }}>
+        <Box sx={{ width: { md: "250px" } }}>
+          <TextInputControlled
+            id='nfNumber'
+            label='N° NF'
+            setValue={(value) => setSectionStates({ nfNumber: value })}
+            value={sectionStates.nfNumber}
+            size='small'
+          />
+        </Box>
+        <Box sx={{ width: { md: "250px" } }}>
           <MultipleSelectInputControlled
             size='small'
             label='Cliente'
@@ -149,7 +160,7 @@ export function SalesByInvoiceCard() {
             Selecionar/Deselecionar tudo
           </Typography>
         </Box>
-        <Box sx={{ width: "250px" }}>
+        <Box sx={{ width: { md: "250px" } }}>
           <MultipleSelectInputControlled
             size='small'
             label='Representante'

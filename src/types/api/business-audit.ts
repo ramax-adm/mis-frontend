@@ -126,6 +126,7 @@ export type GetBusinessAuditSalesDataTotals = {
   totalFatValue: number;
   totalTableValue: number;
   totalDiff: number;
+  totalDiffPercent: number;
   totalAdditionValue: number;
   totalDiscountValue: number;
 };
@@ -136,6 +137,7 @@ export type GetBusinessAuditSalesInvoiceAgg = {
   date?: Date;
   nfNumber?: string;
   orderNumber?: string;
+  orderCategory?: string;
   cfopCode?: string;
   cfopDescription?: string;
   clientCode?: string;

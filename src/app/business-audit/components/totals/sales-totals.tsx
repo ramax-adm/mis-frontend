@@ -1,6 +1,6 @@
 import { COLORS } from "@/constants/styles/colors";
 import { GetBusinessAuditSalesDataTotals } from "@/types/api/business-audit";
-import { toLocaleString } from "@/utils/string.utils";
+import { toLocaleString, toPercent } from "@/utils/string.utils";
 import { Box, Typography } from "@mui/material";
 import { green, indigo, red } from "@mui/material/colors";
 
@@ -77,6 +77,18 @@ export function SalesTotals({ data }: SalesTotalsProps) {
           </Typography>
           <Typography fontSize={"11px"} fontWeight={700} color={indigo["A700"]}>
             {toLocaleString(data?.totalDiff ?? 0)}
+          </Typography>
+        </Box>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 0.3 }}>
+          <Typography
+            fontSize={"9.5px"}
+            color={indigo["A700"]}
+            fontWeight={700}
+          >
+            % Dif.
+          </Typography>
+          <Typography fontSize={"11px"} fontWeight={700} color={indigo["A700"]}>
+            {toPercent(data?.totalDiffPercent)}
           </Typography>
         </Box>
       </Box>
