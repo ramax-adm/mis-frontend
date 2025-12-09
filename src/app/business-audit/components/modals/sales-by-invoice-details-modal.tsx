@@ -118,7 +118,7 @@ export function SalesByInvoiceDetailsModal({
         <Grid item>
           <DisplayItem
             title='Dif $'
-            content={toLocaleString(totalDiscount, 2)}
+            content={toLocaleString(totalDiscount ?? 0, 2)}
           />
         </Grid>
         <Grid item>
