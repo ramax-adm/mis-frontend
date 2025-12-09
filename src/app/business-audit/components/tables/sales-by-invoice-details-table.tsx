@@ -103,7 +103,7 @@ const getColumns = (): CustomTableColumn<SalesByInvoiceDetailsTableData>[] => [
     headerName: "KGs",
     render: (value) => (
       <TableCell sx={{ fontSize: "10px", padding: 0.5 }}>
-        {toLocaleString(value as number)}
+        {toLocaleString((value ?? 0) as number)}
       </TableCell>
     ),
     sx: { fontSize: "11px", paddingX: 0.5 },
