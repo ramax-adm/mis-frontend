@@ -113,7 +113,17 @@ export const useGetAnalyticalInvoices = ({
   nfSituations?: string;
 }) => {
   return useQuery<GetAnalyticalInvoicesResponse>({
-    queryKey: [queryKeys.SALES.INVOICE.GET_ANALYTICAL_DATA],
+    queryKey: [
+      queryKeys.SALES.INVOICE.GET_ANALYTICAL_DATA,
+      companyCodes,
+      startDate,
+      endDate,
+      cfopCodes,
+      clientCode,
+      nfNumber,
+      nfSituations,
+      nfType,
+    ],
     queryFn: async () =>
       await GetAnalyticalInvoices({
         companyCodes,

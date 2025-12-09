@@ -7,7 +7,13 @@ import { useGetUserCompanies } from "@/services/react-query/queries/user-company
 import { OrderPriceConsiderationEnum } from "@/types/business-audit";
 import { MarketEnum } from "@/types/sensatta";
 import { Grid, Typography } from "@mui/material";
+
 const MARKET_OPTIONS = [
+  {
+    label: "Todos",
+    key: "",
+    value: "",
+  },
   {
     label: "ME",
     key: MarketEnum.ME,
@@ -105,7 +111,7 @@ export function SalesSectionFilters() {
           sm: -2.5,
         }}
         xs={12}
-        sm={1.5}
+        sm={"auto"}
       >
         <RadioInputControlled
           row
@@ -126,7 +132,7 @@ export function SalesSectionFilters() {
           sm: -2.5,
         }}
         xs={12}
-        sm={4}
+        sm={"auto"}
       >
         <RadioInputControlled
           label='Tipo consideração preço'
