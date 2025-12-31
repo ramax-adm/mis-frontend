@@ -1,4 +1,3 @@
-import { GetCattlePurchaseResumedTotalsItem } from "@/types/api/purchase";
 import { GetAnalyticalInvoicesResponse } from "@/types/api/sales";
 import { toLocaleString } from "@/utils/string.utils";
 import { Box, Typography } from "@mui/material";

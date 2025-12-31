@@ -14,17 +14,19 @@ import { LoaderIcon } from "@/components/Loading/loader-icon";
 type AnalyticalAggregatedCattlePurchasesTableData = {
   purchaseCattleOrderId: string;
   slaughterDate: string;
-  cattleOwnerCode: string;
-  cattleOwnerName: string;
-  companyCode: string;
-  companyName: string;
-  cattleAdvisorCode: string;
-  cattleAdvisorName: string;
+  cattleOwner: string;
+  company: string;
+  cattleAdvisor: string;
   cattleQuantityFormated: string;
+  weightInArrobaFormated: string;
+  weightInKgFormated: string;
   freightPriceFormated: string;
   purchasePriceFormated: string;
   commissionPriceFormated: string;
   totalValueFormated: string;
+  arrobaPriceFormated: string;
+  headPriceFormated: string;
+  kgPriceFormated: string;
 };
 
 interface AnalyticalAggregatedCattlePurchasesTableProps {
@@ -90,17 +92,19 @@ const getData = ({
       return {
         purchaseCattleOrderId: key,
         slaughterDate: i.slaughterDate ? formatToDate(i.slaughterDate) : "",
-        cattleOwnerCode: i.cattleOwnerCode,
-        cattleOwnerName: i.cattleOwnerName,
-        companyCode: i.companyCode,
-        companyName: i.companyName,
-        cattleAdvisorCode: i.cattleAdvisorCode,
-        cattleAdvisorName: i.cattleAdvisorName,
+        cattleOwner: `${i.cattleOwnerCode} - ${i.cattleOwnerName}`,
+        company: `${i.companyCode} - ${i.companyName}`,
+        cattleAdvisor: `${i.cattleAdvisorCode} - ${i.cattleAdvisorName}`,
         cattleQuantityFormated: toLocaleString(i.cattleQuantity ?? 0, 0),
+        weightInArrobaFormated: toLocaleString(i.weightInArroba ?? 0, 2),
+        weightInKgFormated: toLocaleString(i.weightInKg ?? 0, 2),
         freightPriceFormated: toLocaleString(i.freightPrice ?? 0, 2),
         purchasePriceFormated: toLocaleString(i.purchasePrice ?? 0, 2),
         commissionPriceFormated: toLocaleString(i.commissionPrice ?? 0, 2),
         totalValueFormated: toLocaleString(i.totalValue ?? 0, 2),
+        arrobaPriceFormated: toLocaleString(i.arrobaPrice ?? 0, 2),
+        headPriceFormated: toLocaleString(i.headPrice ?? 0, 2),
+        kgPriceFormated: toLocaleString(i.kgPrice ?? 0, 2),
       };
     })
     .sort((a, b) => {
@@ -128,44 +132,80 @@ const getColumns =
       cellSx: { fontSize: "9px" },
     },
     {
-      headerKey: "cattleOwnerName",
+      headerKey: "company",
+      headerName: "Empresa",
+      sx: { fontSize: "9.5px", paddingX: 0.5 },
+      cellSx: { fontSize: "9px" },
+    },
+    {
+      headerKey: "cattleOwner",
       headerName: "Pecuarista",
       sx: { fontSize: "9.5px", paddingX: 0.5 },
       cellSx: { fontSize: "9px" },
     },
     {
-      headerKey: "cattleAdvisorName",
+      headerKey: "cattleAdvisor",
       headerName: "Assessor",
       sx: { fontSize: "9.5px", paddingX: 0.5 },
       cellSx: { fontSize: "9px" },
     },
     {
       headerKey: "cattleQuantityFormated",
-      headerName: "Cbs",
+      headerName: "Cabeças",
+      sx: { fontSize: "9.5px", paddingX: 0.5 },
+      cellSx: { fontSize: "9px" },
+    },
+    {
+      headerKey: "weightInArrobaFormated",
+      headerName: "Peso @",
+      sx: { fontSize: "9.5px", paddingX: 0.5 },
+      cellSx: { fontSize: "9px" },
+    },
+    {
+      headerKey: "weightInKgFormated",
+      headerName: "Peso KG",
       sx: { fontSize: "9.5px", paddingX: 0.5 },
       cellSx: { fontSize: "9px" },
     },
     {
       headerKey: "freightPriceFormated",
-      headerName: "R$ Frete",
+      headerName: "$ Frete",
       sx: { fontSize: "9.5px", paddingX: 0.5 },
       cellSx: { fontSize: "9px" },
     },
     {
       headerKey: "commissionPriceFormated",
-      headerName: "R$ Comissão",
+      headerName: "$ Comissão",
       sx: { fontSize: "9.5px", paddingX: 0.5 },
       cellSx: { fontSize: "9px" },
     },
     {
       headerKey: "purchasePriceFormated",
-      headerName: "R$ Compra",
+      headerName: "$ Compra",
+      sx: { fontSize: "9.5px", paddingX: 0.5 },
+      cellSx: { fontSize: "9px" },
+    },
+    {
+      headerKey: "headPriceFormated",
+      headerName: "$/Cab",
+      sx: { fontSize: "9.5px", paddingX: 0.5 },
+      cellSx: { fontSize: "9px" },
+    },
+    {
+      headerKey: "arrobaPriceFormated",
+      headerName: "$/@",
+      sx: { fontSize: "9.5px", paddingX: 0.5 },
+      cellSx: { fontSize: "9px" },
+    },
+    {
+      headerKey: "kgPriceFormated",
+      headerName: "$/KG",
       sx: { fontSize: "9.5px", paddingX: 0.5 },
       cellSx: { fontSize: "9px" },
     },
     {
       headerKey: "totalValueFormated",
-      headerName: "R$ Total",
+      headerName: "$ Total",
       sx: { fontSize: "9.5px", paddingX: 0.5 },
       cellSx: { fontSize: "9px" },
     },

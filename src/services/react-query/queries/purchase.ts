@@ -25,24 +25,21 @@ export const useGetPurchaseLastUpdatedAt = () => {
 };
 
 export const useGetCattlePurchaseCattleOwner = ({
-  companyCode,
   startDate,
   endDate,
 }: {
-  companyCode: string;
-  startDate?: Date | null;
-  endDate?: Date | null;
+  startDate?: string | null;
+  endDate?: string | null;
 }) => {
   return useQuery<{ cattleOwnerName: string }[]>({
     queryKey: [
       queryKeys.PURCHASE.GET_CATTLE_PURCHASE_CATTLE_OWNER,
-      companyCode,
+
       startDate,
       endDate,
     ],
     queryFn: async () => {
       return await GetCattlePurchaseCattleOwner({
-        companyCode,
         startDate,
         endDate,
       });
@@ -51,24 +48,21 @@ export const useGetCattlePurchaseCattleOwner = ({
 };
 
 export const useGetCattlePurchaseCattleClassification = ({
-  companyCode,
   startDate,
   endDate,
 }: {
-  companyCode: string;
-  startDate?: Date | null;
-  endDate?: Date | null;
+  startDate?: string | null;
+  endDate?: string | null;
 }) => {
   return useQuery<{ cattleClassification: string }[]>({
     queryKey: [
       queryKeys.PURCHASE.GET_CATTLE_PURCHASE_CATTLE_CLASSIFICATION,
-      companyCode,
+
       startDate,
       endDate,
     ],
     queryFn: async () => {
       return await GetCattlePurchaseCattleClassification({
-        companyCode,
         startDate,
         endDate,
       });
@@ -77,24 +71,21 @@ export const useGetCattlePurchaseCattleClassification = ({
 };
 
 export const useGetCattlePurchaseCattleAdvisor = ({
-  companyCode,
   startDate,
   endDate,
 }: {
-  companyCode: string;
-  startDate?: Date | null;
-  endDate?: Date | null;
+  startDate?: string | null;
+  endDate?: string | null;
 }) => {
   return useQuery<{ cattleAdvisorName: string }[]>({
     queryKey: [
       queryKeys.PURCHASE.GET_CATTLE_PURCHASE_CATTLE_ADVISOR,
-      companyCode,
+
       startDate,
       endDate,
     ],
     queryFn: async () => {
       return await GetCattlePurchaseCattleAdvisor({
-        companyCode,
         startDate,
         endDate,
       });
@@ -103,26 +94,38 @@ export const useGetCattlePurchaseCattleAdvisor = ({
 };
 
 export const useGetCattlePurchaseResumedData = ({
-  companyCode,
+  companyCodes,
   startDate,
   endDate,
+  cattleAdvisorName,
+  cattleClassification,
+  cattleOwnerName,
 }: {
-  companyCode: string;
-  startDate?: Date | null;
-  endDate?: Date | null;
+  companyCodes: string;
+  startDate?: string | null;
+  endDate?: string | null;
+  cattleOwnerName?: string;
+  cattleAdvisorName?: string;
+  cattleClassification?: string;
 }) => {
   return useQuery<GetCattlePurchaseResumedDataResponse>({
     queryKey: [
       queryKeys.PURCHASE.GET_CATTLE_PURCHASE_RESUMED_DATA,
-      companyCode,
+      companyCodes,
       startDate,
       endDate,
+      cattleAdvisorName,
+      cattleClassification,
+      cattleOwnerName,
     ],
     queryFn: async () => {
       const response = await GetCattlePurchaseResumedData({
-        companyCode,
+        companyCodes,
         startDate,
         endDate,
+        cattleAdvisorName,
+        cattleClassification,
+        cattleOwnerName,
       });
 
       return response;
@@ -132,37 +135,41 @@ export const useGetCattlePurchaseResumedData = ({
 
 export const useGetCattlePurchaseAnalyticalData = ({
   dataVisualization,
-  companyCode,
+  companyCodes,
   cattleAdvisorName,
   cattleOwnerName,
   cattleClassification,
+  purchaseCattleOrderId,
   endDate,
   startDate,
 }: {
   dataVisualization: "aggregated-analytical" | "analytical";
-  companyCode: string;
+  companyCodes: string;
   cattleOwnerName?: string;
   cattleAdvisorName?: string;
   cattleClassification?: string;
-  startDate?: Date | null;
-  endDate?: Date | null;
+  purchaseCattleOrderId?: string;
+  startDate?: string | null;
+  endDate?: string | null;
 }) => {
   return useQuery<GetCattlePurchaseAnalyticalDataResponse>({
     queryKey: [
       queryKeys.PURCHASE.GET_CATTLE_PURCHASE_ANALYTICAL_DATA,
-      companyCode,
+      companyCodes,
       cattleAdvisorName,
       cattleOwnerName,
       cattleClassification,
+      purchaseCattleOrderId,
       endDate,
       startDate,
     ],
     queryFn: async () => {
       return await GetCattlePurchaseAnalyticalData({
-        companyCode,
+        companyCodes,
         cattleAdvisorName,
         cattleOwnerName,
         cattleClassification,
+        purchaseCattleOrderId,
         endDate,
         startDate,
       });
@@ -173,38 +180,42 @@ export const useGetCattlePurchaseAnalyticalData = ({
 
 export const useGetCattlePurchaseAggregatedAnalyticalData = ({
   dataVisualization,
-  companyCode,
+  companyCodes,
   startDate,
   endDate,
   cattleAdvisorName,
   cattleClassification,
+  purchaseCattleOrderId,
   cattleOwnerName,
 }: {
   dataVisualization: "aggregated-analytical" | "analytical";
-  companyCode: string;
-  startDate: Date | null;
-  endDate: Date | null;
+  companyCodes: string;
+  startDate: string | null;
+  endDate: string | null;
   cattleAdvisorName: string;
   cattleClassification: string;
+  purchaseCattleOrderId: string;
   cattleOwnerName: string;
 }) => {
   return useQuery<GetCattlePurchaseAggregatedAnalyticalDataResponse>({
     queryKey: [
       queryKeys.PURCHASE.GET_CATTLE_PURCHASE_AGGREGATED_ANALYTICAL_DATA,
-      companyCode,
+      companyCodes,
       startDate,
       endDate,
       cattleAdvisorName,
       cattleClassification,
+      purchaseCattleOrderId,
       cattleOwnerName,
     ],
     queryFn: async () => {
       return await GetCattlePurchaseAggregatedAnalyticalData({
-        companyCode,
+        companyCodes,
         startDate,
         endDate,
         cattleAdvisorName,
         cattleClassification,
+        purchaseCattleOrderId,
         cattleOwnerName,
       });
     },

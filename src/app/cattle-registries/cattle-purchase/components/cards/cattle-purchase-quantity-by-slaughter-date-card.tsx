@@ -11,6 +11,7 @@ import { formatToDateMinified } from "@/utils/formatToDate";
 import { toLocaleString } from "@/utils/string.utils";
 import { CattlePurchaseCustomizedCard } from "../customized/card";
 import dayjs from "dayjs";
+import { indigo } from "@mui/material/colors";
 
 interface CattlePurchaseQuantityBySlaughterDateCardProps {
   data?: Record<string, number>;
@@ -32,9 +33,10 @@ export function CattlePurchaseQuantityBySlaughterDateCard({
           <AreaChart
             data={dataTransposed}
             margin={{
-              top: 20,
+              top: 10,
+              bottom: 0,
               left: -30,
-              right: 10,
+              right: 20,
             }}
           >
             <XAxis
@@ -44,6 +46,20 @@ export function CattlePurchaseQuantityBySlaughterDateCard({
               fontWeight={500}
               tickLine={false}
               axisLine={false}
+              tick={({ x, y, payload }) => (
+                <text
+                  x={x}
+                  y={y}
+                  dy={6}
+                  dx={-2}
+                  fontSize={8}
+                  fontFamily='roboto'
+                  textAnchor='end'
+                  transform={`rotate(-45 ${x} ${y})`}
+                >
+                  {payload.value}
+                </text>
+              )}
             />
             <YAxis
               dataKey='cattleQuantity'
@@ -54,8 +70,16 @@ export function CattlePurchaseQuantityBySlaughterDateCard({
             />
             <defs>
               <linearGradient id='fillDesktop' x1='0' y1='0' x2='0' y2='1'>
-                <stop offset='5%' stopColor='#0B2B5E' stopOpacity={0.9} />
-                <stop offset='95%' stopColor='#0B2B5E' stopOpacity={0.2} />
+                <stop
+                  offset='5%'
+                  stopColor={indigo["A700"]}
+                  stopOpacity={0.9}
+                />
+                <stop
+                  offset='95%'
+                  stopColor={indigo["A700"]}
+                  stopOpacity={0.2}
+                />
               </linearGradient>
             </defs>
             {/* <YAxis dataKey='cattleQuantity' /> */}
@@ -66,7 +90,7 @@ export function CattlePurchaseQuantityBySlaughterDateCard({
               dataKey='cattleQuantity'
               dot={{ r: 1 }}
               activeDot={{ r: 4 }}
-              stroke={"#0B2B5E"}
+              stroke={"#4F46E5"}
               fill='url(#fillDesktop)'
               fillOpacity={0.4}
               strokeWidth={1.5}

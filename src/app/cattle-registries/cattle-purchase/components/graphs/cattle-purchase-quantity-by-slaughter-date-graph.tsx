@@ -1,6 +1,7 @@
 import { formatToDateMinified } from "@/utils/formatToDate";
 import { toLocaleString } from "@/utils/string.utils";
 import { Box, Typography } from "@mui/material";
+import { indigo } from "@mui/material/colors";
 import {
   ResponsiveContainer,
   AreaChart,
@@ -44,8 +45,8 @@ export function CattlePurchaseQuantityBySlaughterDateGraph({
         />
         <defs>
           <linearGradient id='fillDesktop' x1='0' y1='0' x2='0' y2='1'>
-            <stop offset='5%' stopColor='#0B2B5E' stopOpacity={0.9} />
-            <stop offset='95%' stopColor='#0B2B5E' stopOpacity={0.2} />
+            <stop offset='5%' stopColor={indigo["A700"]} stopOpacity={0.9} />
+            <stop offset='95%' stopColor={indigo["A700"]} stopOpacity={0.2} />
           </linearGradient>
         </defs>
         {/* <YAxis dataKey='cattleQuantity' /> */}
@@ -56,7 +57,7 @@ export function CattlePurchaseQuantityBySlaughterDateGraph({
           dataKey='cattleQuantity'
           dot={{ r: 1 }}
           activeDot={{ r: 4 }}
-          stroke={"#0B2B5E"}
+          stroke={"#4F46E5"}
           fill='url(#fillDesktop)'
           fillOpacity={0.4}
           strokeWidth={1.5}

@@ -1,7 +1,19 @@
+import CustomTable, {
+  CustomTableColumn,
+} from "@/components/Table/custom-table";
 import { CustomizedTable } from "@/components/Table/normal-table/body";
 import { GetCattlePurchaseResumedDataResponse } from "@/types/api/purchase";
 import { toLocaleString } from "@/utils/string.utils";
 import { Box } from "@mui/material";
+
+type CattlePurchaseByOwnerTableData =
+  GetCattlePurchaseResumedDataResponse["cattlePurchaseByCattleOwnerList"][number] & {
+    cattleOwner: string;
+    freightPriceFormated: string;
+    purchasePriceFormated: string;
+    commissionPriceFormated: string;
+    totalValueFormated: string;
+  };
 
 interface CattlePurchaseListByCattleOwnerTableProps {
   data: GetCattlePurchaseResumedDataResponse["cattlePurchaseByCattleOwnerList"];
@@ -14,100 +26,65 @@ export function CattlePurchaseListByCattleOwnerTable({
 
   return (
     <Box sx={{ marginTop: 1 }}>
-      <CustomizedTable<any>
-        tableStyles={{
-          height: "calc(100vh - 530px);",
-          width: "100%",
-        }}
-        cellStyles={{
-          paddingX: 1,
-          fontSize: "9px",
-          paddingY: 0.2,
-        }}
-        headCellStyles={{
-          paddingX: 1,
-          fontSize: "9.5px",
-        }}
+      <CustomTable<CattlePurchaseByOwnerTableData>
         columns={columns}
-        data={parsedData}
+        rows={parsedData}
+        tableStyles={{ height: "200px" }}
       />
     </Box>
   );
 }
 
-const getData = ({ data }: CattlePurchaseListByCattleOwnerTableProps) => {
-  return data
+const getData = ({
+  data,
+}: CattlePurchaseListByCattleOwnerTableProps): CattlePurchaseByOwnerTableData[] => {
+  return [...data]
     .sort((a, b) => b.totalValue - a.totalValue)
-    .map((i) => ({
-      ...i,
-      freightPrice: toLocaleString(i.freightPrice),
-      purchasePrice: toLocaleString(i.purchasePrice),
-      commissionPrice: toLocaleString(i.commissionPrice),
-      totalValue: toLocaleString(i.totalValue),
+    .map((item) => ({
+      ...item,
+      cattleOwner: `${item.cattleOwnerCode} - ${item.cattleOwnerName}`,
+      freightPriceFormated: toLocaleString(item.freightPrice),
+      purchasePriceFormated: toLocaleString(item.purchasePrice),
+      commissionPriceFormated: toLocaleString(item.commissionPrice),
+      totalValueFormated: toLocaleString(item.totalValue),
     }));
 };
 
-const getColumns = () => {
-  return [
-    {
-      headerName: "Pecuarista",
-      // maxWidth: "80px",
-      type: "string",
-      value: {
-        first: {
-          value: "cattleOwnerName",
-        },
-      },
-    },
-    {
-      headerName: "Cbs",
-      // maxWidth: '80px',
-      type: "string",
-      value: {
-        first: {
-          value: "cattleQuantity",
-        },
-      },
-    },
-    {
-      headerName: "R$ Compra",
-      // maxWidth: "40px",
-      type: "string",
-      value: {
-        first: {
-          value: "purchasePrice",
-        },
-      },
-    },
-    {
-      headerName: "R$ Frete",
-      // maxWidth: "40px",
-      type: "string",
-      value: {
-        first: {
-          value: "freightPrice",
-        },
-      },
-    },
-    {
-      headerName: "R$ Comissão",
-      type: "string",
-      value: {
-        first: {
-          value: "commissionPrice",
-        },
-      },
-    },
-
-    {
-      headerName: "R$ Total",
-      // maxWidth: "50px",
-      type: "string",
-      value: {
-        first: {
-          value: "totalValue",
-        },
-      },
-    },
-  ];
-};
+const getColumns = (): CustomTableColumn<CattlePurchaseByOwnerTableData>[] => [
+  {
+    headerKey: "cattleOwner",
+    headerName: "Pecuarista",
+    sx: { fontSize: "9.5px", px: 1 },
+    cellSx: { fontSize: "9px" },
+  },
+  {
+    headerKey: "cattleQuantity",
+    headerName: "Cabeças",
+    sx: { fontSize: "9.5px", px: 0.5 },
+    cellSx: { fontSize: "9px" },
+  },
+  {
+    headerKey: "purchasePriceFormated",
+    headerName: "$ Compra",
+    sx: { fontSize: "9.5px", px: 0.5 },
+    cellSx: { fontSize: "9px" },
+  },
+  {
+    headerKey: "freightPriceFormated",
+    headerName: "$ Frete",
+    sx: { fontSize: "9.5px", px: 0.5 },
+    cellSx: { fontSize: "9px" },
+  },
+  {
+    headerKey: "commissionPriceFormated",
+    headerName: "$ Comissão",
+    sx: { fontSize: "9.5px", px: 0.5 },
+    cellSx: { fontSize: "9px" },
+  },
+  {
+    headerKey: "totalValueFormated",
+    headerName: "$ Total",
+    sx: { fontSize: "9.5px", px: 0.5 },
+    cellSx: { fontSize: "9px", fontWeight: 600 },
+  },
+];

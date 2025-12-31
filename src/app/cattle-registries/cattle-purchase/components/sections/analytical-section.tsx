@@ -6,13 +6,20 @@ import {
   useGetCattlePurchaseCattleOwner,
 } from "@/services/react-query/queries/purchase";
 import { Grid, Typography } from "@mui/material";
-import { CattlePurchaseAnalyticalTotalsIndicator } from "../customized/analytical-totals-indicator";
+import { CattlePurchaseTotalsIndicator } from "../customized/totals-indicator";
 import { LoadingOverlay } from "@/components/Loading/loadingSpinner";
 import { AnalyticalCattlePurchasesTable } from "../tables/analytical-cattle-purchases-table";
 import { ControlledSelect } from "@/components/Inputs/Select/Customized";
 import { forwardRef, useImperativeHandle, useState } from "react";
 import { RadioInputControlled } from "@/components/Inputs/RadioInput/controlled";
 import { AnalyticalAggregatedCattlePurchasesTable } from "../tables/analytical-aggregated-cattle-purchases-table";
+import {
+  parseAsArrayOf,
+  parseAsString,
+  parseAsStringEnum,
+  useQueryStates,
+} from "nuqs";
+import { TextInputControlled } from "@/components/Inputs/TextInput/controlled";
 
 const DATA_VISUALIZATION_OPTIONS = [
   {
@@ -27,11 +34,7 @@ const DATA_VISUALIZATION_OPTIONS = [
   },
 ];
 
-interface CattlePurchaseAnalyticalSectionProps {
-  companyCode: string;
-  startDate: Date | null;
-  endDate: Date | null;
-}
+interface CattlePurchaseAnalyticalSectionProps {}
 
 export interface CattlePurchaseAnalyticalSectionRef {
   getFilterOptions: () => {
@@ -44,71 +47,62 @@ export interface CattlePurchaseAnalyticalSectionRef {
 export const CattlePurchaseAnalyticalSection = forwardRef<
   CattlePurchaseAnalyticalSectionRef,
   CattlePurchaseAnalyticalSectionProps
->(({ companyCode, endDate, startDate }, ref) => {
-  const [selectedDataVisualization, setSelectedDataVisualization] = useState<
-    "aggregated-analytical" | "analytical"
-  >("aggregated-analytical");
+>(({}, ref) => {
+  const [globalStates] = useQueryStates({
+    companyCodes: parseAsArrayOf(parseAsString).withDefault([]),
+    startDate: parseAsString.withDefault(
+      new Date().toISOString().split("T")[0]
+    ),
+    endDate: parseAsString.withDefault(new Date().toISOString().split("T")[0]),
+    cattleOwner: parseAsString.withDefault(""),
+    cattleAdvisor: parseAsString.withDefault(""),
+    cattleClassification: parseAsString.withDefault(""),
+  });
 
-  const [selectedCattleOwner, setSelectedCattleOwner] = useState<string>("");
-  const [selectedCattleClassification, setSelectedCattleClassification] =
-    useState<string>("");
-  const [selectedCattleAdvisor, setSelectedCattleAdvisor] =
-    useState<string>("");
+  const [sectionStates, setSectionStates] = useQueryStates({
+    dataVisualization: parseAsStringEnum([
+      "aggregated-analytical",
+      "analytical",
+    ]).withDefault("aggregated-analytical"),
+    purchaseCattleOrderId: parseAsString.withDefault(""),
+  });
 
-  const handleSelectCattleOwner = (value: string) =>
-    setSelectedCattleOwner(value);
-  const handleSelectCattleClassification = (value: string) =>
-    setSelectedCattleClassification(value);
-  const handleSelectCattleAdvisor = (value: string) =>
-    setSelectedCattleAdvisor(value);
+  const handleSelectPurchaseCattleOrderId = (value: string | null) =>
+    setSectionStates({ purchaseCattleOrderId: value });
+
   const handleSelectDataVisualization = (value: string) =>
-    setSelectedDataVisualization(
-      value as "aggregated-analytical" | "analytical"
-    );
+    setSectionStates({
+      dataVisualization: value as "aggregated-analytical" | "analytical",
+    });
 
   const { data: cattlePurchases, isFetching } =
     useGetCattlePurchaseAnalyticalData({
-      dataVisualization: selectedDataVisualization,
-      companyCode,
-      cattleOwnerName: selectedCattleOwner,
-      cattleAdvisorName: selectedCattleAdvisor,
-      cattleClassification: selectedCattleClassification,
-      startDate,
-      endDate,
+      dataVisualization: sectionStates.dataVisualization,
+      companyCodes: globalStates.companyCodes.join(","),
+      cattleOwnerName: globalStates.cattleOwner,
+      cattleAdvisorName: globalStates.cattleAdvisor,
+      cattleClassification: globalStates.cattleClassification,
+      purchaseCattleOrderId: sectionStates.purchaseCattleOrderId,
+      startDate: globalStates.startDate,
+      endDate: globalStates.endDate,
     });
 
   const {
     data: cattlePurchasesAggregated,
     isFetching: isFetchingCattlePurchasesAggregated,
   } = useGetCattlePurchaseAggregatedAnalyticalData({
-    dataVisualization: selectedDataVisualization,
-    companyCode,
-    cattleOwnerName: selectedCattleOwner,
-    cattleAdvisorName: selectedCattleAdvisor,
-    cattleClassification: selectedCattleClassification,
-    startDate,
-    endDate,
-  });
-
-  const { data: cattleOwners } = useGetCattlePurchaseCattleOwner({
-    companyCode,
-    startDate,
-    endDate,
-  });
-  const { data: cattleClassifications } =
-    useGetCattlePurchaseCattleClassification({
-      companyCode,
-      startDate,
-      endDate,
-    });
-  const { data: cattleAdvisors } = useGetCattlePurchaseCattleAdvisor({
-    companyCode,
-    startDate,
-    endDate,
+    dataVisualization: sectionStates.dataVisualization,
+    companyCodes: globalStates.companyCodes.join(","),
+    cattleOwnerName: globalStates.cattleOwner,
+    cattleAdvisorName: globalStates.cattleAdvisor,
+    cattleClassification: globalStates.cattleClassification,
+    purchaseCattleOrderId: sectionStates.purchaseCattleOrderId,
+    startDate: globalStates.startDate,
+    endDate: globalStates.endDate,
   });
 
   const purchaseTotals =
-    selectedDataVisualization === "aggregated-analytical"
+    sectionStates.dataVisualization === "aggregated-analytical"
       ? cattlePurchasesAggregated?.totals
       : cattlePurchases?.totals;
 
@@ -117,12 +111,16 @@ export const CattlePurchaseAnalyticalSection = forwardRef<
     ref,
     () => ({
       getFilterOptions: () => ({
-        selectedCattleOwner,
-        selectedCattleAdvisor,
-        selectedCattleClassification,
+        selectedCattleOwner: globalStates.cattleOwner,
+        selectedCattleAdvisor: globalStates.cattleAdvisor,
+        selectedCattleClassification: globalStates.cattleClassification,
       }),
     }),
-    [selectedCattleOwner, selectedCattleAdvisor, selectedCattleClassification]
+    [
+      globalStates.cattleOwner,
+      globalStates.cattleAdvisor,
+      globalStates.cattleClassification,
+    ]
   );
 
   return (
@@ -131,63 +129,15 @@ export const CattlePurchaseAnalyticalSection = forwardRef<
         <LoadingOverlay />
       )}
       <Grid container spacing={1}>
-        <Grid item xs={12}>
-          <Typography fontSize={"12px"} fontWeight={700}>
-            Filtros Analitico
-          </Typography>
-        </Grid>
-        <Grid item xs={12} sm={2}>
-          <ControlledSelect
-            id='cattleOwnerName'
-            label='Pecuarista'
-            name='cattleOwnerName'
-            value={selectedCattleOwner}
-            onChange={handleSelectCattleOwner}
-            options={cattleOwners?.map((i) => ({
-              label: i.cattleOwnerName,
-              value: i.cattleOwnerName,
-              key: i.cattleOwnerName,
-            }))}
-            size='small'
-          />
-        </Grid>
-        <Grid item xs={12} sm={2}>
-          <ControlledSelect
-            id='cattleAdvisorName'
-            label='Assessor'
-            name='cattleAdvisorName'
-            value={selectedCattleAdvisor}
-            onChange={handleSelectCattleAdvisor}
-            options={cattleAdvisors?.map((i) => ({
-              label: i.cattleAdvisorName,
-              value: i.cattleAdvisorName,
-              key: i.cattleAdvisorName,
-            }))}
-            size='small'
-          />
-        </Grid>
-        <Grid item xs={12} sm={2}>
-          <ControlledSelect
-            id='cattleClassification'
-            label='Classificação do gado'
-            name='cattleClassification'
-            value={selectedCattleClassification}
-            onChange={handleSelectCattleClassification}
-            options={cattleClassifications?.map((i) => ({
-              label: i.cattleClassification,
-              value: i.cattleClassification,
-              key: i.cattleClassification,
-            }))}
-            size='small'
-          />
-        </Grid>
-        <Grid item xs={12} sm={2} marginTop={{ xs: 0, sm: -2 }} marginLeft={1}>
+        <Grid item xs={12} />
+
+        <Grid item xs={12} sm={2} marginTop={{ xs: 0, sm: -1 }} marginLeft={1}>
           <RadioInputControlled
             row
             name='dataVisualization'
             label='Visualização'
             emptyMessage='Sem Opções'
-            value={selectedDataVisualization}
+            value={sectionStates.dataVisualization}
             onChange={
               handleSelectDataVisualization as (
                 value: string | number | Date
@@ -196,21 +146,28 @@ export const CattlePurchaseAnalyticalSection = forwardRef<
             options={DATA_VISUALIZATION_OPTIONS}
           />
         </Grid>
+        <Grid item marginTop={1}>
+          <TextInputControlled
+            label='Cod OC'
+            value={sectionStates.purchaseCattleOrderId}
+            setValue={handleSelectPurchaseCattleOrderId}
+          />
+        </Grid>
       </Grid>
       <Grid container>
         <Grid item xs={12}>
-          <CattlePurchaseAnalyticalTotalsIndicator data={purchaseTotals} />
+          <CattlePurchaseTotalsIndicator data={purchaseTotals} />
         </Grid>
       </Grid>
       <Grid container marginTop={1}>
         <Grid item xs={12}>
-          {selectedDataVisualization === "aggregated-analytical" && (
+          {sectionStates.dataVisualization === "aggregated-analytical" && (
             <AnalyticalAggregatedCattlePurchasesTable
               data={cattlePurchasesAggregated?.data}
             />
           )}
 
-          {selectedDataVisualization === "analytical" &&
+          {sectionStates.dataVisualization === "analytical" &&
             cattlePurchases?.parsedData && (
               <AnalyticalCattlePurchasesTable
                 data={cattlePurchases?.parsedData}

@@ -1,3 +1,6 @@
+import CustomTable, {
+  CustomTableColumn,
+} from "@/components/Table/custom-table";
 import { stringSubstr, toLocaleString, toPercent } from "@/utils/string.utils";
 import { Typography, Box, TableCell } from "@mui/material";
 import { useState } from "react";
@@ -24,14 +27,7 @@ const COLORS = [
   "#E0E7FF", // Indigo 100
 ];
 
-type LegendTableRow = {
-  color: string;
-  name: string;
-  totalValue: number;
-  percent: number;
-};
-
-interface CattlePurchaseByCattleAdvisorGraphProps {
+interface CattlePurchaseByCattleOwnerGraphProps {
   data: Record<
     string,
     {
@@ -44,17 +40,18 @@ interface CattlePurchaseByCattleAdvisorGraphProps {
     }
   >;
 }
-export function CattlePurchaseByCattleAdvisorGraph({
+export function CattlePurchaseByCattleOwnerGraph({
   data,
-}: CattlePurchaseByCattleAdvisorGraphProps) {
+}: CattlePurchaseByCattleOwnerGraphProps) {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const dataTransposed = getData({ data });
 
   return (
     <>
       <Typography fontSize={12} fontWeight={700}>
-        Top 10 Assessores
+        Top 10 pecuaristas
       </Typography>
+
       <ResponsiveContainer width='100%' height={230}>
         <PieChart style={{ fontSize: 12, fontFamily: "roboto" }}>
           <Pie
@@ -119,14 +116,14 @@ export function CattlePurchaseByCattleAdvisorGraph({
   );
 }
 
-const getData = ({ data }: CattlePurchaseByCattleAdvisorGraphProps) => {
+const getData = ({ data }: CattlePurchaseByCattleOwnerGraphProps) => {
   const entries = Object.entries(data).map(([name, value]) => ({
     name,
     percent: value.percent,
     totalValue: value.totalValue,
   }));
 
-  // Ordena do maior para o menor percentual
+  // Ordena do maior para o menor
   const sorted = entries.sort((a, b) => b.percent - a.percent);
 
   // Top 10
@@ -151,7 +148,6 @@ const getData = ({ data }: CattlePurchaseByCattleAdvisorGraphProps) => {
       percent: 0,
     }
   );
-
   return [...top10];
 };
 

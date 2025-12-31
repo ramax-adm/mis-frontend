@@ -1,15 +1,51 @@
 /********************** RESUMED DATA ************************************/
-export interface GetCattlePurchaseResumedTotalsItem {
-  weightInArroba: number;
+export interface GetCattlePurchaseTotals {
   cattleQuantity: number;
-  freightPrice: number;
-  purchasePrice: number;
-  commissionPrice: number;
-  totalValue: number;
+  weightInArroba: number;
+  weightInKg: number;
+  freightValue: number;
+  purchaseValue: number;
+  commissionValue: number;
+  finalValue: number;
+  arrobaPrice: number;
+  headPrice: number;
+  kgPrice: number;
+  count: number;
 }
+export type GetCattlePurchaseKpis = {
+  headPrice: number;
+  arrobaPrice: number;
+  kgPrice: number;
+  priceDeviation: number;
+  freightPercentOverTotal: number;
+  commissionPercentOverTotal: number;
+};
+
 export interface GetCattlePurchaseResumedDataResponse {
-  totals: GetCattlePurchaseResumedTotalsItem;
+  totals: GetCattlePurchaseTotals;
+  kpis: GetCattlePurchaseKpis;
+  cattlePurchaseByCompany: Record<
+    string,
+    {
+      companyCode: string;
+      companyName: string;
+      cattleQuantity: number;
+      totalValue: number;
+      percent: number;
+    }
+  >;
   cattlePurchaseQuantityBySlaughterDate: Record<string, number>;
+  cattlePurchaseByCattleClassification: Record<
+    string,
+    {
+      cattleQuantity: number;
+      freightPrice: number;
+      purchasePrice: number;
+      commissionPrice: number;
+      totalValue: number;
+      percent: number;
+    }
+  >;
   cattlePurchaseByCattleAdvisor: Record<
     string,
     {
@@ -39,7 +75,7 @@ export interface GetCattlePurchaseResumedDataResponse {
       purchasePrice: number;
       commissionPrice: number;
       totalValue: number;
-      percent?: number;
+      percent: number;
     }
   >;
   cattlePurchaseByCattleOwnerList: {
@@ -58,15 +94,19 @@ export interface GetCattlePurchaseResumedDataResponse {
 export interface GetCattlePurchaseAnalyticalParsedItem {
   slaughterDate: string;
   purchaseCattleOrderId: string;
+  company: string;
+  cattleOwner: string;
   cattleOwnerCode: string;
   cattleOwnerName: string;
   companyCode: string;
   companyName: string;
+  cattleAdvisor: string;
   cattleAdvisorCode: string;
   cattleAdvisorName: string;
   cattleQuantity: string;
   cattleClassification: string;
-  cattleWeightInArroba: string;
+  cattleWeightInArroba: number;
+  cattleWeightInKg: number;
   paymentTerm: string;
   freightPrice: string;
   purchasePrice: string;
@@ -89,6 +129,7 @@ export interface GetCattlePurchaseAnalyticalItem {
   cattleQuantity: number;
   cattleClassification: string;
   cattleWeightInArroba: number;
+  cattleWeightInKg: number;
   paymentTerm: number;
   freightPrice: number;
   purchasePrice: number;
@@ -109,7 +150,7 @@ export interface GetCattlePurchaseAnalyticalTotalsItem {
 export interface GetCattlePurchaseAnalyticalDataResponse {
   parsedData: GetCattlePurchaseAnalyticalParsedItem[];
   originalData: GetCattlePurchaseAnalyticalItem[];
-  totals: GetCattlePurchaseAnalyticalTotalsItem;
+  totals: GetCattlePurchaseTotals;
 }
 
 export type GetCattlePurchaseAggregatedAnalyticalDataItem = Record<
@@ -122,26 +163,33 @@ export type GetCattlePurchaseAggregatedAnalyticalDataItem = Record<
     companyName: string;
     cattleAdvisorCode: string;
     cattleAdvisorName: string;
+    weightInArroba: number;
+    weightInKg: number;
     cattleQuantity: number;
     freightPrice: number;
     purchasePrice: number;
     commissionPrice: number;
     totalValue: number;
+    arrobaPrice: number;
+    headPrice: number;
+    kgPrice: number;
+    count: number;
   }
 >;
 export interface GetCattlePurchaseAggregatedAnalyticalDataResponse {
-  totals: GetCattlePurchaseAnalyticalTotalsItem;
+  totals: GetCattlePurchaseTotals;
   data: GetCattlePurchaseAggregatedAnalyticalDataItem;
 }
 
 /************************ XLSX ******************************/
 export interface PostExportCattlePurchaseXlsxRequest {
   filters: {
-    companyCode: string;
+    companyCodes: string;
     cattleOwnerName?: string;
     cattleAdvisorName?: string;
     cattleClassification?: string;
-    startDate?: Date | null;
-    endDate?: Date | null;
+    startDate?: string | null;
+    endDate?: string | null;
+    purchaseCattleOrderId?: string;
   };
 }
