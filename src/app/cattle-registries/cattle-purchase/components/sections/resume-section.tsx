@@ -8,7 +8,7 @@ import { CattlePurchaseTotalsIndicator } from "../customized/totals-indicator";
 import { CattlePurchaseByCattleOwnerCard } from "../cards/cattle-purchase-by-cattle-owner-card";
 import { parseAsArrayOf, parseAsString, useQueryStates } from "nuqs";
 import { CattlePurchaseKpiIndicator } from "../customized/kpi-indicator";
-import { toCurrency, toPercent } from "@/utils/string.utils";
+import { toCurrency, toLocaleString, toPercent } from "@/utils/string.utils";
 import { CattlePurchaseByCompanyCard } from "../cards/cattle-purchase-by-company-card";
 import { CattlePurchaseByCattleClassificationCard } from "../cards/cattle-purchase-by-cattle-classification-card";
 
@@ -77,8 +77,8 @@ export const CattlePurchaseResumeSection = forwardRef<
             value={toCurrency(cattleResumedData?.kpis.kgPrice)}
           />
           <CattlePurchaseKpiIndicator
-            label='Desvio preço médio'
-            value={"N/D"}
+            label='Qtd Compras'
+            value={toLocaleString(cattleResumedData?.kpis.purchasesCount ?? 0)}
           />
           <CattlePurchaseKpiIndicator
             label='% Frete Pago'

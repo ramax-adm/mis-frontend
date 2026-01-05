@@ -19,6 +19,7 @@ export type GetCattlePurchaseKpis = {
   priceDeviation: number;
   freightPercentOverTotal: number;
   commissionPercentOverTotal: number;
+  purchasesCount: number;
 };
 
 export interface GetCattlePurchaseResumedDataResponse {
