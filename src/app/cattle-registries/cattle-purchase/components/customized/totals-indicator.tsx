@@ -1,14 +1,16 @@
-import { GetCattlePurchaseResumedTotalsItem } from "@/types/api/purchase";
-import { toLocaleString } from "@/utils/string.utils";
+import {
+  GetCattlePurchaseAnalyticalTotalsItem,
+  GetCattlePurchaseTotals,
+} from "@/types/api/purchase";
 import { Box, Typography } from "@mui/material";
 import { indigo } from "@mui/material/colors";
 
-interface CattlePurchaseResumedTotalsIndicatorProps {
-  data?: GetCattlePurchaseResumedTotalsItem;
+interface CattlePurchaseTotalsIndicatorProps {
+  data?: GetCattlePurchaseTotals;
 }
-export function CattlePurchaseResumedTotalsIndicator({
+export function CattlePurchaseTotalsIndicator({
   data,
-}: CattlePurchaseResumedTotalsIndicatorProps) {
+}: CattlePurchaseTotalsIndicatorProps) {
   return (
     <Box
       sx={{
@@ -39,9 +41,9 @@ export function CattlePurchaseResumedTotalsIndicator({
               gap: 0.5,
             }}
           >
-            <Typography fontSize={"8px"}>Cabeças</Typography>
+            <Typography fontSize={"8px"}>Cbs</Typography>
             <Typography fontSize={"12px"} fontWeight={700}>
-              {toLocaleString(data?.cattleQuantity ?? 0)}
+              {data?.cattleQuantity}
             </Typography>
           </Box>
           <Box
@@ -52,9 +54,22 @@ export function CattlePurchaseResumedTotalsIndicator({
               gap: 0.5,
             }}
           >
-            <Typography fontSize={"8px"}>Peso @</Typography>
+            <Typography fontSize={"8px"}>Peso/@</Typography>
             <Typography fontSize={"12px"} fontWeight={700}>
-              {toLocaleString(data?.weightInArroba ?? 0)}
+              {data?.weightInArroba}
+            </Typography>
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              gap: 0.5,
+            }}
+          >
+            <Typography fontSize={"8px"}>Peso/KG</Typography>
+            <Typography fontSize={"12px"} fontWeight={700}>
+              {data?.weightInKg}
             </Typography>
           </Box>
           <Box
@@ -67,7 +82,7 @@ export function CattlePurchaseResumedTotalsIndicator({
           >
             <Typography fontSize={"8px"}>$ Frete</Typography>
             <Typography fontSize={"12px"} fontWeight={700}>
-              {toLocaleString(data?.freightPrice ?? 0)}
+              {data?.freightValue}
             </Typography>
           </Box>
           <Box
@@ -80,7 +95,7 @@ export function CattlePurchaseResumedTotalsIndicator({
           >
             <Typography fontSize={"8px"}>$ Comissão</Typography>
             <Typography fontSize={"12px"} fontWeight={700}>
-              {toLocaleString(data?.commissionPrice ?? 0)}
+              {data?.commissionValue}
             </Typography>
           </Box>
           <Box
@@ -93,10 +108,48 @@ export function CattlePurchaseResumedTotalsIndicator({
           >
             <Typography fontSize={"8px"}>$ Compra</Typography>
             <Typography fontSize={"12px"} fontWeight={700}>
-              {toLocaleString(data?.purchasePrice ?? 0)}
+              {data?.purchaseValue}
             </Typography>
           </Box>
-
+          {/* <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              gap: 0.5,
+            }}
+          >
+            <Typography fontSize={"8px"}>$/Cab</Typography>
+            <Typography fontSize={"12px"} fontWeight={700}>
+              {data?.headPrice}
+            </Typography>
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              gap: 0.5,
+            }}
+          >
+            <Typography fontSize={"8px"}>$/@</Typography>
+            <Typography fontSize={"12px"} fontWeight={700}>
+              {data?.arrobaPrice}
+            </Typography>
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              gap: 0.5,
+            }}
+          >
+            <Typography fontSize={"8px"}>$/KG</Typography>
+            <Typography fontSize={"12px"} fontWeight={700}>
+              {data?.kgPrice}
+            </Typography>
+          </Box> */}
           <Box
             sx={{
               display: "flex",
@@ -107,7 +160,7 @@ export function CattlePurchaseResumedTotalsIndicator({
           >
             <Typography fontSize={"8px"}>$ Total</Typography>
             <Typography fontSize={"12px"} fontWeight={700}>
-              {toLocaleString(data?.totalValue ?? 0)}
+              {data?.finalValue}
             </Typography>
           </Box>
         </Box>

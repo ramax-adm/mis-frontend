@@ -1,15 +1,10 @@
+import CustomTable, {
+  CustomTableColumn,
+} from "@/components/Table/custom-table";
 import { stringSubstr, toLocaleString, toPercent } from "@/utils/string.utils";
 import { Typography, Box, TableCell } from "@mui/material";
 import { useState } from "react";
-import {
-  ResponsiveContainer,
-  PieChart,
-  Pie,
-  Cell,
-  Tooltip,
-  Legend,
-  LegendProps,
-} from "recharts";
+import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip } from "recharts";
 
 const COLORS = [
   "#1E1B4B", // Indigo 950
@@ -24,14 +19,7 @@ const COLORS = [
   "#E0E7FF", // Indigo 100
 ];
 
-type LegendTableRow = {
-  color: string;
-  name: string;
-  totalValue: number;
-  percent: number;
-};
-
-interface CattlePurchaseByCattleAdvisorGraphProps {
+interface CattlePurchaseByCattleClassificationGraphProps {
   data: Record<
     string,
     {
@@ -44,16 +32,16 @@ interface CattlePurchaseByCattleAdvisorGraphProps {
     }
   >;
 }
-export function CattlePurchaseByCattleAdvisorGraph({
+export function CattlePurchaseByCattleClassificationGraph({
   data,
-}: CattlePurchaseByCattleAdvisorGraphProps) {
+}: CattlePurchaseByCattleClassificationGraphProps) {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const dataTransposed = getData({ data });
 
   return (
     <>
       <Typography fontSize={12} fontWeight={700}>
-        Top 10 Assessores
+        Tipos de gado
       </Typography>
       <ResponsiveContainer width='100%' height={230}>
         <PieChart style={{ fontSize: 12, fontFamily: "roboto" }}>
@@ -119,40 +107,14 @@ export function CattlePurchaseByCattleAdvisorGraph({
   );
 }
 
-const getData = ({ data }: CattlePurchaseByCattleAdvisorGraphProps) => {
+const getData = ({ data }: CattlePurchaseByCattleClassificationGraphProps) => {
   const entries = Object.entries(data).map(([name, value]) => ({
     name,
     percent: value.percent,
     totalValue: value.totalValue,
   }));
 
-  // Ordena do maior para o menor percentual
-  const sorted = entries.sort((a, b) => b.percent - a.percent);
-
-  // Top 10
-  const top10 = sorted.slice(0, 10);
-
-  // Restante → "Outros"
-  const others = sorted.slice(10);
-
-  if (others.length === 0) {
-    return top10;
-  }
-
-  const othersAgg = others.reduce(
-    (acc, cur) => {
-      acc.totalValue += cur.totalValue;
-      acc.percent += cur.percent;
-      return acc;
-    },
-    {
-      name: "Outros",
-      totalValue: 0,
-      percent: 0,
-    }
-  );
-
-  return [...top10];
+  return entries.sort((a, b) => b.percent - a.percent);
 };
 
 const CustomTooltip = ({ active, payload, label }: any) => {

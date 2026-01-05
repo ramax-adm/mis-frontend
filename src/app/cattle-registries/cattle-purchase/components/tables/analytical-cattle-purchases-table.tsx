@@ -1,5 +1,5 @@
 import { GetCattlePurchaseAnalyticalParsedItem } from "@/types/api/purchase";
-import { Alert, Box } from "@mui/material";
+import { Alert, Box, TableCell } from "@mui/material";
 import PaginatedTable from "@/components/Table/paginated-table";
 import CustomTable, {
   CustomTableColumn,
@@ -74,20 +74,26 @@ const getColumns =
       cellSx: { fontSize: "9px" },
     },
     {
-      headerKey: "cattleOwnerName",
+      headerKey: "company",
+      headerName: "Empresa",
+      sx: { fontSize: "9.5px", paddingX: 0.5 },
+      cellSx: { fontSize: "9px" },
+    },
+    {
+      headerKey: "cattleOwner",
       headerName: "Pecuarista",
       sx: { fontSize: "9.5px", paddingX: 0.5 },
       cellSx: { fontSize: "9px" },
     },
     {
-      headerKey: "cattleAdvisorName",
+      headerKey: "cattleAdvisor",
       headerName: "Assessor",
       sx: { fontSize: "9.5px", paddingX: 0.5 },
       cellSx: { fontSize: "9px" },
     },
     {
       headerKey: "cattleQuantity",
-      headerName: "Cbs",
+      headerName: "Cabeças",
       sx: { fontSize: "9.5px", paddingX: 0.5 },
       cellSx: { fontSize: "9px" },
     },
@@ -98,32 +104,38 @@ const getColumns =
       cellSx: { fontSize: "9px" },
     },
     {
+      headerKey: "paymentTerm",
+      headerName: "Prazo (Dias)",
+      sx: { fontSize: "9.5px", paddingX: 0.5 },
+      cellSx: { fontSize: "9px" },
+    },
+    {
       headerKey: "cattleWeightInArroba",
       headerName: "Peso @",
       sx: { fontSize: "9.5px", paddingX: 0.5 },
       cellSx: { fontSize: "9px" },
     },
     {
-      headerKey: "paymentTerm",
-      headerName: "Prazo",
+      headerKey: "cattleWeightInKg",
+      headerName: "Peso KG",
       sx: { fontSize: "9.5px", paddingX: 0.5 },
       cellSx: { fontSize: "9px" },
     },
     {
       headerKey: "freightPrice",
-      headerName: "R$ Frete",
+      headerName: "$ Frete",
       sx: { fontSize: "9.5px", paddingX: 0.5 },
       cellSx: { fontSize: "9px" },
     },
     {
       headerKey: "commissionPrice",
-      headerName: "R$ Comissão",
+      headerName: "$ Comissão",
       sx: { fontSize: "9.5px", paddingX: 0.5 },
       cellSx: { fontSize: "9px" },
     },
     {
       headerKey: "purchasePrice",
-      headerName: "R$ Compra",
+      headerName: "$ Compra",
       sx: { fontSize: "9.5px", paddingX: 0.5 },
       cellSx: { fontSize: "9px" },
     },
@@ -147,7 +159,7 @@ const getColumns =
     },
     {
       headerKey: "totalValue",
-      headerName: "R$ Total",
+      headerName: "$ Total",
       sx: { fontSize: "9.5px", paddingX: 0.5 },
       cellSx: { fontSize: "9px" },
     },
