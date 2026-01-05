@@ -1,10 +1,9 @@
 import { CattlePurchaseCustomizedCard } from "../customized/card";
 import { Alert, Box } from "@mui/material";
-import { CattlePurchaseByCattleAdvisorGraph } from "../graphs/cattle-purchase-by-cattle-advisor-graph";
-import { CattlePurchaseListByCattleAdvisorTable } from "../tables/cattle-purchase-list-by-cattle-advisor-table";
-import { GetCattlePurchaseResumedDataResponse } from "@/types/api/purchase";
+import { CattlePurchaseByCattleClassificationGraph } from "../graphs/cattle-purchase-by-cattle-classification-graph";
+import { CattlePurchaseListByCattleClassificationTable } from "../tables/cattle-purchase-list-by-cattle-classification-table";
 
-interface CattlePurchaseByCattleAdvisorCardProps {
+interface CattlePurchaseByCattleClassificationCardProps {
   data?: Record<
     string,
     {
@@ -16,18 +15,16 @@ interface CattlePurchaseByCattleAdvisorCardProps {
       percent: number;
     }
   >;
-  list?: GetCattlePurchaseResumedDataResponse["cattlePurchaseByCattleAdvisorList"];
 }
-export function CattlePurchaseByCattleAdvisorCard({
+export function CattlePurchaseByCattleClassificationCard({
   data,
-  list = [],
-}: CattlePurchaseByCattleAdvisorCardProps) {
+}: CattlePurchaseByCattleClassificationCardProps) {
   const haveSomeData =
     data && Object.values(data).some((item) => item.totalValue > 0);
 
   return (
     <CattlePurchaseCustomizedCard
-      cardTitle='Concentração p/ assessor'
+      cardTitle='Concentração p/ tipo de gado'
       sx={{ height: "500px", padding: 0.5 }}
     >
       {haveSomeData && (
@@ -39,8 +36,8 @@ export function CattlePurchaseByCattleAdvisorCard({
             height: "95%",
           }}
         >
-          <CattlePurchaseByCattleAdvisorGraph data={data} />
-          <CattlePurchaseListByCattleAdvisorTable data={list} />
+          <CattlePurchaseByCattleClassificationGraph data={data} />
+          <CattlePurchaseListByCattleClassificationTable data={data} />
         </Box>
       )}
 

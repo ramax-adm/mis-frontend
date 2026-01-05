@@ -8,84 +8,82 @@ export async function GetPurchaseLastUpdatedAt() {
 }
 
 export async function GetCattlePurchaseCattleOwner({
-  companyCode,
   startDate,
   endDate,
 }: {
-  companyCode: string;
-  startDate?: Date | null;
-  endDate?: Date | null;
+  startDate?: string | null;
+  endDate?: string | null;
 }) {
   const response = await GetFetch(
     urls.PURCHASE.GET_CATTLE_PURCHASE_CATTLE_OWNER,
     {
-      params: { companyCode, startDate, endDate },
+      params: { startDate, endDate },
     }
   );
   return response.data;
 }
 
 export async function GetCattlePurchaseCattleClassification({
-  companyCode,
   startDate,
   endDate,
 }: {
-  companyCode: string;
-  startDate?: Date | null;
-  endDate?: Date | null;
+  startDate?: string | null;
+  endDate?: string | null;
 }) {
   const response = await GetFetch(
     urls.PURCHASE.GET_CATTLE_PURCHASE_CATTLE_CLASSIFICATION,
     {
-      params: { companyCode, startDate, endDate },
+      params: { startDate, endDate },
     }
   );
   return response.data;
 }
 
 export async function GetCattlePurchaseCattleAdvisor({
-  companyCode,
   startDate,
   endDate,
 }: {
-  companyCode: string;
-  startDate?: Date | null;
-  endDate?: Date | null;
+  startDate?: string | null;
+  endDate?: string | null;
 }) {
   const response = await GetFetch(
     urls.PURCHASE.GET_CATTLE_PURCHASE_CATTLE_ADVISOR,
     {
-      params: { companyCode, startDate, endDate },
+      params: { startDate, endDate },
     }
   );
   return response.data;
 }
 
 export async function GetCattlePurchaseAnalyticalData({
-  companyCode,
+  companyCodes,
   cattleAdvisorName,
   cattleOwnerName,
   cattleClassification,
+  purchaseCattleOrderId,
   endDate,
   startDate,
 }: {
-  companyCode: string;
+  companyCodes: string;
   cattleOwnerName?: string;
   cattleAdvisorName?: string;
   cattleClassification?: string;
-  startDate?: Date | null;
-  endDate?: Date | null;
+  purchaseCattleOrderId?: string;
+
+  startDate?: string | null;
+  endDate?: string | null;
 }) {
   const response = await GetFetch(
     urls.PURCHASE.GET_CATTLE_PURCHASE_ANALYTICAL_DATA,
     {
       params: {
-        companyCode,
+        companyCodes,
         cattleAdvisorName,
         cattleOwnerName,
         cattleClassification,
         endDate,
         startDate,
+        purchaseCattleOrderId,
       },
     }
   );
@@ -94,21 +92,30 @@ export async function GetCattlePurchaseAnalyticalData({
 }
 
 export async function GetCattlePurchaseResumedData({
-  companyCode,
+  companyCodes,
   endDate,
   startDate,
+  cattleAdvisorName,
+  cattleClassification,
+  cattleOwnerName,
 }: {
-  companyCode: string;
-  startDate?: Date | null;
-  endDate?: Date | null;
+  companyCodes: string;
+  startDate?: string | null;
+  endDate?: string | null;
+  cattleOwnerName?: string;
+  cattleAdvisorName?: string;
+  cattleClassification?: string;
 }) {
   const response = await GetFetch(
     urls.PURCHASE.GET_CATTLE_PURCHASE_RESUMED_DATA,
     {
       params: {
-        companyCode,
+        companyCodes,
         endDate,
         startDate,
+        cattleAdvisorName,
+        cattleClassification,
+        cattleOwnerName,
       },
     }
   );
@@ -117,30 +124,33 @@ export async function GetCattlePurchaseResumedData({
 }
 
 export async function GetCattlePurchaseAggregatedAnalyticalData({
-  companyCode,
+  companyCodes,
   startDate,
   endDate,
   cattleAdvisorName,
   cattleClassification,
   cattleOwnerName,
+  purchaseCattleOrderId,
 }: {
-  companyCode: string;
+  companyCodes: string;
   cattleOwnerName?: string;
   cattleAdvisorName?: string;
   cattleClassification?: string;
-  startDate?: Date | null;
-  endDate?: Date | null;
+  purchaseCattleOrderId?: string;
+  startDate?: string | null;
+  endDate?: string | null;
 }) {
   const response = await GetFetch(
     urls.PURCHASE.GET_CATTLE_PURCHASE_AGGREGATED_ANALYTICAL_DATA,
     {
       params: {
-        companyCode,
+        companyCodes,
         startDate,
         endDate,
         cattleAdvisorName,
         cattleClassification,
         cattleOwnerName,
+        purchaseCattleOrderId,
       },
     }
   );

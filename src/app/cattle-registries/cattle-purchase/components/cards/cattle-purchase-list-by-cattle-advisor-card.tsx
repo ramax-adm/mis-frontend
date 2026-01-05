@@ -14,7 +14,7 @@ export function CattlePurchaseListByCattleAdvisorCard({
   return (
     <CattlePurchaseCustomizedCard
       cardTitle='Ranking por assessor'
-      sx={{ height: "calc(100vh - 500px);", padding: 0.5 }}
+      sx={{ height: "400px", padding: 0.5 }}
     >
       {haveSomeData && <CattlePurchaseListByCattleAdvisorTable data={data} />}
 
