@@ -57,6 +57,10 @@ export const urls = {
     EXPORT_XLSX: `${apiLocal}/api/cash-flow/export-xlsx/champion-cattle`,
   },
   FINANCE: {
+    ACCOUNTS_PAYABLE: {
+      GET_LAST_UPDATED_AT: `${apiLocal}/api/finance/account-payable/last-update`,
+      GET_ANALYTICAL_ACCOUNTS_PAYABLE: `${apiLocal}/api/finance/account-payable/analytical`,
+    },
     ACCOUNTS_RECEIVABLE: {
       GET_LAST_UPDATED_AT: `${apiLocal}/api/finance/account-receivable/last-update`,
       GET_CLIENTS_FILTERS: `${apiLocal}/api/finance/account-receivable/filters/clients`,

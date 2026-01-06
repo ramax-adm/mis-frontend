@@ -119,6 +119,11 @@ export const queryKeys = {
     FIND_BY_TYPE: "find-by-type-upload-files-",
   },
   FINANCE: {
+    ACCOUNTS_PAYABLE: {
+      GET_LAST_UPDATED_AT: "finance-accounts-payable-get-last-updated-at",
+      GET_ANALYTICAL_ACCOUNTS_PAYABLE:
+        "finance-accounts-payable-get-analytical-accounts-payable",
+    },
     ACCOUNTS_RECEIVABLE: {
       GET_LAST_UPDATED_AT: "finance-accounts-receivable-get-last-updated-at",
       GET_CLIENTS_FILTERS: "finance-accounts-receivable-get-clients-filters",

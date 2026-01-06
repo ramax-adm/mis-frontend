@@ -2,6 +2,7 @@ import { GetFetch, urls } from "@/services/axios/api-base";
 import { queryKeys } from "../query-keys";
 import { useApiQuery } from "../react-query";
 import {
+  AccountsPayableGetAnalyticalDataResponseDto,
   AccountsReceivableGetAnalyticalDataResponseDto,
   AccountsReceivableGetResumeDataResponse,
 } from "@/types/api/finance";
@@ -145,6 +146,40 @@ export const useGetAnalyticalAccountsReceivable = ({
             status,
             visualizationType,
             bucketSituations,
+          },
+        }
+      );
+
+      return response.data;
+    },
+    enabled: !!startDate && !!endDate,
+  });
+};
+
+export const useGetAnalyticalAccountsPayable = ({
+  startDate,
+  endDate,
+  companyCodes,
+}: {
+  startDate: string;
+  endDate: string;
+  companyCodes?: string;
+}) => {
+  return useApiQuery<AccountsPayableGetAnalyticalDataResponseDto>({
+    queryKey: [
+      queryKeys.FINANCE.ACCOUNTS_PAYABLE.GET_ANALYTICAL_ACCOUNTS_PAYABLE,
+      startDate,
+      endDate,
+      companyCodes,
+    ],
+    queryFn: async () => {
+      const response = await GetFetch(
+        urls.FINANCE.ACCOUNTS_PAYABLE.GET_ANALYTICAL_ACCOUNTS_PAYABLE,
+        {
+          params: {
+            startDate,
+            endDate,
+            companyCodes,
           },
         }
       );
