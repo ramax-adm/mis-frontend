@@ -59,3 +59,42 @@ export enum AccountReceivableBucketSituationEnum {
   VENCIDOS_181_360 = "VENCIDOS_181_360",
   VENCIDOS_MAIOR_360 = "VENCIDOS_MAIOR_360",
 }
+
+export type AccountPayableItem = {
+  id?: string;
+  baseDate?: Date;
+  sensattaId?: string;
+  key?: string;
+  companyCode?: string;
+  companyName?: string;
+  paymentNumber?: string;
+  issueDate?: Date;
+  dueDate?: Date;
+  liquidationDate?: Date;
+  status?: string;
+  supplyCode?: string;
+  supplyName?: string;
+  recognitionTypeCode?: string;
+  recognitionType?: string;
+  accountingAccount?: string;
+  accountingClassification?: string;
+  accountingAccountName?: string;
+  clientCode?: string;
+  clientName?: string;
+  salesRepresentativeCode?: string;
+  salesRepresentativeName?: string;
+  nfId?: string;
+  nfNumber?: string;
+  cfopCode?: string;
+  cfopDescription?: string;
+  currency?: string;
+  value: number;
+  payedValue: number;
+  additionalValue: number;
+  sensattaCreatedBy?: string;
+  sensattaViewedBy?: string;
+  sensattaApprovedBy?: string;
+  sensattaLiquidatedBy?: string;
+  observation?: string;
+  createdAt: Date;
+};

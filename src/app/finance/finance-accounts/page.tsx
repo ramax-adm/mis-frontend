@@ -35,6 +35,7 @@ import { MultipleSelectInputControlled } from "@/components/Inputs/Select/Multip
 import { COLORS } from "@/constants/styles/colors";
 import { AccountsReceivableAnalyticalSection } from "./components/sections/accounts-receivable-analytical-section";
 import { AccountsReceivableResumeSection } from "./components/sections/accounts-receivable-resume-section";
+import { AccountsPayableAnalyticalSection } from "./components/sections/accounts-payable-analytical-section";
 
 export default function FinanceAccountsPage() {
   const tabPanelRef = useRef<TabsPanelRef>(null);
@@ -242,6 +243,12 @@ export default function FinanceAccountsPage() {
               FinanceAccountsTabSectionsEnum.ANALYTICAL_ACCOUNTS_RECEIVABLE_SECTION
             }
           />
+          <Tab
+            label='Titulos a Pagar - Analitico'
+            value={
+              FinanceAccountsTabSectionsEnum.ANALYTICAL_ACCOUNTS_PAYABLE_SECTION
+            }
+          />
         </Tabs.Select>
 
         <Tabs.Content>
@@ -260,6 +267,14 @@ export default function FinanceAccountsPage() {
             ref={tabPanelRef}
           >
             <AccountsReceivableAnalyticalSection />
+          </Tabs.Panel>
+          <Tabs.Panel
+            tabName={
+              FinanceAccountsTabSectionsEnum.ANALYTICAL_ACCOUNTS_PAYABLE_SECTION
+            }
+            ref={tabPanelRef}
+          >
+            <AccountsPayableAnalyticalSection />
           </Tabs.Panel>
         </Tabs.Content>
       </Tabs.Root>
