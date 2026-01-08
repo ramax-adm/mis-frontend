@@ -96,7 +96,7 @@ export function AccountsReceivableAnalyticalSection() {
   return (
     <>
       <Grid container marginTop={0.1} spacing={1}>
-        <Grid item xs={12} sm={2}>
+        <Grid item xs={12} sm={2} marginTop={{ sm: 2.5 }}>
           <MultipleSelectInputControlled
             size='small'
             label='Status Bucket'
@@ -124,7 +124,7 @@ export function AccountsReceivableAnalyticalSection() {
             Selecionar/Deselecionar tudo
           </Typography>
         </Grid>
-        <Grid item xs={12} sm={2}>
+        <Grid item xs={12} sm={2} marginTop={{ sm: 2.5 }}>
           <ControlledSelect
             id='clientCode'
             name='clientCode'
@@ -135,7 +135,7 @@ export function AccountsReceivableAnalyticalSection() {
             options={clients}
           />
         </Grid>
-        <Grid item xs={12} sm={2}>
+        <Grid item xs={12} sm={2} marginTop={{ sm: 2.5 }}>
           <TextInputControlled
             id='key'
             label='Chave'
@@ -145,7 +145,7 @@ export function AccountsReceivableAnalyticalSection() {
           />
         </Grid>
 
-        <Grid item xs={12} sm={2} marginTop={{ sm: -2.5 }}>
+        <Grid item xs={12} sm={2} marginTop={{ sm: 0 }}>
           <RadioInputControlled
             row
             name='visualizationType'
@@ -165,7 +165,7 @@ export function AccountsReceivableAnalyticalSection() {
           xs={12}
           sm={3}
           marginTop={{
-            sm: -2.5,
+            sm: 0,
           }}
         >
           <RadioInputControlled

@@ -1,4 +1,4 @@
-import { AccountReceivableItem } from "../finance";
+import { AccountPayableItem, AccountReceivableItem } from "../finance";
 
 export interface AccountsReceivableGetAnalyticalDataResponseDto {
   data: AccountReceivableItem[];
@@ -52,4 +52,12 @@ export interface AccountsReceivableGetResumeDataResponse {
   accountReceivableByClient: Record<string, AccountReceivableResumeAgg>;
   openValueByClient: Record<string, AccountReceivableOpenValueByClientAgg>;
   lossByClient: Record<string, AccountReceivableLossByClientAgg>;
+}
+
+export interface AccountsPayableGetAnalyticalDataResponseDto {
+  data: AccountPayableItem[];
+  totals: {
+    quantity: number;
+    value: number;
+  };
 }
