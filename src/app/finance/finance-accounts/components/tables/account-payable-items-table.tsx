@@ -4,17 +4,19 @@ import CustomTable, {
 import { Alert, Box } from "@mui/material";
 import { AccountPayableItem, AccountReceivableItem } from "@/types/finance";
 import { LoaderIcon } from "@/components/Loading/loader-icon";
-import { formatDateToDDMMYYYY, formatToDate } from "@/utils/formatToDate";
+import { formatToDate } from "@/utils/formatToDate";
 import { toLocaleString } from "@/utils/string.utils";
 import PaginatedTable from "@/components/Table/paginated-table";
 
 type AccountsPayableTableData = AccountPayableItem & {
   company: string;
   client: string;
+  supply: string;
   baseDateFormated: string;
   issueDateFormated: string;
   dueDateFormated: string;
   valueFormated: string;
+  additionalValueFormated: string;
 };
 
 interface AccountsPayableTableProps {
@@ -67,11 +69,12 @@ const getData = ({
       ...i,
       company: `${i.companyCode} - ${i.companyName}`,
       client: `${i.clientCode} - ${i.clientName}`,
+      supply: `${i.supplyCode} - ${i.supplyName}`,
       baseDateFormated: i.baseDate ? formatToDate(i.baseDate) : "",
       issueDateFormated: i.issueDate ? formatToDate(i.issueDate) : "",
       dueDateFormated: i.dueDate ? formatToDate(i.dueDate) : "",
-
       valueFormated: toLocaleString(i.value ?? 0, 2),
+      additionalValueFormated: toLocaleString(i.additionalValue ?? 0, 2),
     }))
     .sort((a, b) => {
       if (a.issueDate && b.issueDate) {
@@ -91,14 +94,20 @@ const getColumns = (): CustomTableColumn<AccountsPayableTableData>[] => [
   //   cellSx: { fontSize: "10px" },
   // },
   {
+    headerKey: "issueDateFormated",
+    headerName: "Dt. Emissão",
+    sx: { fontSize: "11px", paddingX: 0.5 },
+    cellSx: { fontSize: "10px" },
+  },
+  {
     headerKey: "company",
     headerName: "Empresa",
     sx: { fontSize: "11px", paddingX: 0.5 },
     cellSx: { fontSize: "10px" },
   },
   {
-    headerKey: "client",
-    headerName: "Cliente",
+    headerKey: "supply",
+    headerName: "Fornecedor",
     sx: { fontSize: "11px", paddingX: 0.5 },
     cellSx: { fontSize: "10px" },
   },
@@ -114,12 +123,7 @@ const getColumns = (): CustomTableColumn<AccountsPayableTableData>[] => [
     sx: { fontSize: "11px", paddingX: 0.5 },
     cellSx: { fontSize: "10px" },
   },
-  {
-    headerKey: "issueDateFormated",
-    headerName: "Dt. Emissão",
-    sx: { fontSize: "11px", paddingX: 0.5 },
-    cellSx: { fontSize: "10px" },
-  },
+
   {
     headerKey: "dueDateFormated",
     headerName: "Dt. Venc.",
@@ -129,6 +133,12 @@ const getColumns = (): CustomTableColumn<AccountsPayableTableData>[] => [
   {
     headerKey: "valueFormated",
     headerName: "$ Valor",
+    sx: { fontSize: "11px", paddingX: 0.5 },
+    cellSx: { fontSize: "10px" },
+  },
+  {
+    headerKey: "additionalValueFormated",
+    headerName: "$ Adicional",
     sx: { fontSize: "11px", paddingX: 0.5 },
     cellSx: { fontSize: "10px" },
   },
