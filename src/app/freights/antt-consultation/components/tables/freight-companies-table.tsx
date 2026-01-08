@@ -79,8 +79,12 @@ export function FreightCompaniesTable() {
 
 const getData = ({ data }: { data: GetFreightCompaniesResponseDataItem[] }) => {
   return data
-    .sort((a, b) => a.name.localeCompare(b.name))
-    .map((i) => ({ ...i, parsedVerifiedAt: formatToDate(i.verifiedAt) }));
+    .map((i) => ({
+      ...i,
+      name: i.name ?? "",
+      parsedVerifiedAt: formatToDate(i.verifiedAt),
+    }))
+    .sort((a, b) => a.name.localeCompare(b.name));
 };
 
 const getColumns = ({}: {}): CustomTableColumn<
