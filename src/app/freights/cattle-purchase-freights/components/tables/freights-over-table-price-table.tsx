@@ -105,7 +105,7 @@ const getColumns = (): Column<FreightOverPriceTableItem>[] => {
       },
     },
     {
-      headerName: "Cod OC",
+      headerName: "OC",
       // maxWidth: '80px',
       type: "string",
       value: {
@@ -145,7 +145,7 @@ const getColumns = (): Column<FreightOverPriceTableItem>[] => {
       },
     },
     {
-      headerName: "R$ Pago",
+      headerName: "$ Pago",
       maxWidth: "40px",
       type: "string",
       value: {
@@ -155,7 +155,7 @@ const getColumns = (): Column<FreightOverPriceTableItem>[] => {
       },
     },
     {
-      headerName: "R$ Tabela",
+      headerName: "$ Tab.",
       maxWidth: "40px",
       type: "string",
       value: {
@@ -165,7 +165,7 @@ const getColumns = (): Column<FreightOverPriceTableItem>[] => {
       },
     },
     {
-      headerName: "Dif. R$",
+      headerName: "$ Dif.",
       type: "string",
       value: {
         first: {

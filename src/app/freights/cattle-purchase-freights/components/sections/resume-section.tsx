@@ -48,7 +48,7 @@ export function CattlePurchaseFreightsResumeSection({
         <Grid
           item
           xs={12}
-          md={2.5}
+          md={3}
           sx={{
             display: "flex",
             flexDirection: "column",
@@ -75,7 +75,7 @@ export function CattlePurchaseFreightsResumeSection({
             <Typography fontWeight={700} fontSize={"10px"}>
               Fretes em aberto
             </Typography>
-            <Box sx={{ display: "inline-flex", gap: 2 }}>
+            <Box sx={{ display: "inline-flex", gap: 1 }}>
               <Box sx={{ display: "flex", flexDirection: "column" }}>
                 <Typography fontSize={"8px"}>Qtd.</Typography>
                 <Typography fontSize={"10px"} fontWeight={700}>
@@ -114,7 +114,7 @@ export function CattlePurchaseFreightsResumeSection({
             <Typography fontWeight={700} fontSize={"10px"}>
               Sem Fretes
             </Typography>
-            <Box sx={{ display: "inline-flex", gap: 2 }}>
+            <Box sx={{ display: "inline-flex", gap: 1 }}>
               <Box sx={{ display: "flex", flexDirection: "column" }}>
                 <Typography fontSize={"8px"}>Qtd.</Typography>
                 <Typography fontSize={"10px"} fontWeight={700}>
@@ -146,7 +146,7 @@ export function CattlePurchaseFreightsResumeSection({
             <Typography fontWeight={700} fontSize={"10px"}>
               Fretes Fechados
             </Typography>
-            <Box sx={{ display: "inline-flex", gap: 2 }}>
+            <Box sx={{ display: "inline-flex", gap: 1, flexWrap: "wrap" }}>
               <Box sx={{ display: "flex", flexDirection: "column" }}>
                 <Typography fontSize={"8px"}>Qtd.</Typography>
                 <Typography fontSize={"10px"} fontWeight={700}>
@@ -162,21 +162,39 @@ export function CattlePurchaseFreightsResumeSection({
                 </Typography>
               </Box>
               <Box sx={{ display: "flex", flexDirection: "column" }}>
-                <Typography fontSize={"8px"}>Σ R$ Tabela</Typography>
+                <Typography fontSize={"8px"}>$ Tabela</Typography>
                 <Typography fontSize={"10px"} fontWeight={700}>
                   {toLocaleString(resumedFreights.totals.tablePrice)}
                 </Typography>
               </Box>
               <Box sx={{ display: "flex", flexDirection: "column" }}>
-                <Typography fontSize={"8px"}>Σ R$ Base</Typography>
+                <Typography fontSize={"8px"}>$ Base</Typography>
                 <Typography fontSize={"10px"} fontWeight={700}>
                   {toLocaleString(resumedFreights.totals.basePrice)}
                 </Typography>
               </Box>
               <Box sx={{ display: "flex", flexDirection: "column" }}>
-                <Typography fontSize={"8px"}>R$ DIF</Typography>
+                <Typography fontSize={"8px"}>$ Dif</Typography>
                 <Typography fontSize={"10px"} fontWeight={700}>
                   {toLocaleString(resumedFreights.totals.difPrice)}
+                </Typography>
+              </Box>
+              <Box sx={{ display: "flex", flexDirection: "column" }}>
+                <Typography fontSize={"8px"}>$ Outros</Typography>
+                <Typography fontSize={"10px"} fontWeight={700}>
+                  {toLocaleString(resumedFreights.totals.otherPrice)}
+                </Typography>
+              </Box>
+              <Box sx={{ display: "flex", flexDirection: "column" }}>
+                <Typography fontSize={"8px"}>$ Total</Typography>
+                <Typography fontSize={"10px"} fontWeight={700}>
+                  {toLocaleString(resumedFreights.totals.totalPrice)}
+                </Typography>
+              </Box>
+              <Box sx={{ display: "flex", flexDirection: "column" }}>
+                <Typography fontSize={"8px"}>$/Cab</Typography>
+                <Typography fontSize={"10px"} fontWeight={700}>
+                  {toLocaleString(resumedFreights.totals.headPrice, 2)}
                 </Typography>
               </Box>
             </Box>
@@ -196,7 +214,7 @@ export function CattlePurchaseFreightsResumeSection({
             <Typography fontWeight={700} fontSize={"10px"}>
               Totais
             </Typography>
-            <Box sx={{ display: "inline-flex", gap: 2 }}>
+            <Box sx={{ display: "inline-flex", gap: 1 }}>
               <Box sx={{ display: "flex", flexDirection: "column" }}>
                 <Typography fontSize={"8px"}>Qtd.</Typography>
                 <Typography fontSize={"10px"} fontWeight={700}>
@@ -212,7 +230,7 @@ export function CattlePurchaseFreightsResumeSection({
             </Box>
           </Box>
         </Grid>
-        <Grid item xs={12} md={2.5}>
+        <Grid item xs={12} md={2}>
           <QuantityFreightsByStatusCard data={resumedFreights.status} />
         </Grid>
         <Grid item xs={12} md={3.5}>

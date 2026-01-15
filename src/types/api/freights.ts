@@ -89,6 +89,7 @@ export interface GetAnalyticalCattlePurchaseFreightsResponse {
       difPrice: number;
       otherPrices: number;
       totalPrice: number;
+      headPrice: number;
     };
     quantity: number;
     cattleQuantity: number;
@@ -133,8 +134,14 @@ export interface ResumeFreightTotals {
   negotiatedPrice: number;
   basePrice: number;
   tablePrice: number;
+  headPrice: number;
   openDays: number;
   difPrice: number;
+  additionalPrice: number;
+  tollPrice: number;
+  discountPrice: number;
+  otherPrice: number;
+  totalPrice: number;
   maxOutTablePrice: number;
   minOutTablePrice: number;
 }
