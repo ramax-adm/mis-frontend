@@ -177,8 +177,8 @@ export default function AppProvider({ children }: AppContextProviderProps) {
       submenu: true,
       subMenuItems: [
         {
-          path: PageRoutes.invoices(),
-          title: "Notas Fiscais",
+          path: PageRoutes.invoicings(),
+          title: "Faturamentos",
         },
         {
           path: PageRoutes.returnOccurrences(),

@@ -7,15 +7,17 @@ import {
   GetNfSituationsInvoiceFilters,
   GetSalesInvoicesLastUpdatedAt,
 } from "@/services/webApi/sales";
-import { InvoicesNfTypesEnum } from "@/types/sales";
+import { InvoicesNfTypesEnum, OrderLine } from "@/types/sales";
 import {
   GetAnalyticalInvoicesResponse,
+  GetAnalyticalOrdersResponse,
   GetAnalyticalReturnOccurrencesResponse,
   GetInvoicesItem,
   GetSalesInvoicesUpdatedAtResponse,
 } from "@/types/api/sales";
 import { GetFetch, urls } from "@/services/axios/api-base";
 import { useApiQuery } from "../react-query";
+import { FilterOptionItem } from "@/types/globals";
 
 export const useGetSalesInvoicesLastUpdatedAt = () => {
   return useQuery<GetSalesInvoicesUpdatedAtResponse>({
@@ -135,6 +137,68 @@ export const useGetAnalyticalInvoices = ({
         nfSituations,
         nfType,
       }),
+  });
+};
+
+export const useGetAnalyticalOrders = ({
+  companyCodes,
+  startDate,
+  endDate,
+  situations,
+  orderId,
+}: {
+  companyCodes?: string;
+  startDate?: string;
+  endDate?: string;
+  situations?: string;
+  orderId?: string;
+}) => {
+  return useApiQuery<GetAnalyticalOrdersResponse>({
+    queryKey: [
+      queryKeys.SALES.ORDERS.GET_ANALYTICAL_ORDERS,
+      {
+        companyCodes,
+        startDate,
+        endDate,
+        situations,
+        orderId,
+      },
+    ],
+    queryFn: async () => {
+      const response = await GetFetch(urls.SALES.ORDERS.GET_ANALYTICAL_ORDERS, {
+        params: {
+          companyCodes,
+          startDate,
+          endDate,
+          situations,
+          orderId,
+        },
+      });
+      return response.data;
+    },
+  });
+};
+
+export const useGetOrderLine = ({ orderId = "" }: { orderId?: string }) => {
+  return useApiQuery<OrderLine[]>({
+    queryKey: [queryKeys.SALES.ORDERS.GET_ONE.concat(orderId)],
+    queryFn: async () => {
+      const response = await GetFetch(
+        urls.SALES.ORDERS.GET_ONE.replace(":id", orderId)
+      );
+      return response.data;
+    },
+    enabled: !!orderId,
+  });
+};
+
+export const useGetOrdersSituation = () => {
+  return useApiQuery<FilterOptionItem[]>({
+    queryKey: [queryKeys.SALES.ORDERS.GET_SITUATIONS_FILTERS],
+    queryFn: async () => {
+      const response = await GetFetch(urls.SALES.ORDERS.GET_SITUATIONS_FILTERS);
+      return response.data;
+    },
   });
 };
 
