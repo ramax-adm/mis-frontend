@@ -129,6 +129,12 @@ export const urls = {
       POST_SYNC_INVOICES: `${apiLocal}/api/sales/invoice/sync`,
       POST_EXPORT_XLSX: `${apiLocal}/api/sales/invoice/export-xlsx`,
     },
+    ORDERS: {
+      GET_ANALYTICAL_ORDERS: `${apiLocal}/api/sales/orders/analytical`,
+      GET_ONE: `${apiLocal}/api/sales/orders/:id`,
+      GET_LAST_UPDATED_AT: `${apiLocal}/api/sales/orders/last-update`,
+      GET_SITUATIONS_FILTERS: `${apiLocal}/api/sales/orders/filters/situations`,
+    },
     RETURN_OCCURRENCES: {
       GET_RESUME_DATA: `${apiLocal}/api/sales/return-occurrences/resume`,
       GET_ANALYTICAL_DATA: `${apiLocal}/api/sales/return-occurrences/analytical`,

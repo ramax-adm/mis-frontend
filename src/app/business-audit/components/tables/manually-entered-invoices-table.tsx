@@ -43,7 +43,7 @@ export function ManuallyEnteredInvoicesTable({
   const columns = getColumns();
 
   const handleAction = (row: GetDataResponseItem) => {
-    const destinyUrl = PageRoutes.invoices()
+    const destinyUrl = PageRoutes.invoicings()
       .concat("?")
       .concat(`companyCode=${row.companyCode}`)
       .concat("&")
