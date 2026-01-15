@@ -17,8 +17,8 @@ import {
   useQueryStates,
 } from "nuqs";
 import { forwardRef, useEffect } from "react";
-import { AnalyticalInvoicesTable } from "../tables/analytical-invoices-table";
-import { AnalyticalInvoicesTotals } from "../totals/analytical-invoices-totals";
+import { AnalyticalInvoicesTable } from "../tables/invoices-table";
+import { AnalyticalInvoicesTotals } from "../totals/invoices-totals";
 import { MultipleSelectInputControlled } from "@/components/Inputs/Select/Multiple/controlled";
 import { COLORS } from "@/constants/styles/colors";
 

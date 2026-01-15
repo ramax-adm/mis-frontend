@@ -17,7 +17,7 @@ import { useGetCompanies } from "@/services/react-query/queries/sensatta";
 import {
   InvoicesAnalyticalSection,
   InvoicesAnalyticalSectionRef,
-} from "./components/sections/analytical-section";
+} from "./components/sections/invoices-analytical-section";
 import { DateInputControlled } from "@/components/Inputs/DateInput/controlled";
 import dayjs from "dayjs";
 import { useGetSalesInvoicesLastUpdatedAt } from "@/services/react-query/queries/sales";
@@ -31,17 +31,15 @@ import { getIso8601DateString } from "@/utils/date.utils";
 import { useGetUserCompanies } from "@/services/react-query/queries/user-company";
 import { COLORS } from "@/constants/styles/colors";
 import { MultipleSelectInputControlled } from "@/components/Inputs/Select/Multiple/controlled";
+import { OrdersAnalyticalSection } from "./components/sections/orders-analytical-section";
 
-export default function InvoicesPage() {
-  const { user } = useAuthContext();
-
+export default function InvoicingsPage() {
   const tabPanelRef = useRef<TabsPanelRef>(null);
-  // const resumeSectionRef = useRef<CattlePurchaseResumeSectionRef>(null);
   const analyticalSectionRef = useRef<InvoicesAnalyticalSectionRef>(null);
 
   const [selectedTab, setSelectedTab] = useQueryState(
     "selectedTab",
-    parseAsString.withDefault("analytical")
+    parseAsString.withDefault("orders-analytical")
   );
 
   const [globalStates, setGlobalStates] = useQueryStates({
@@ -50,7 +48,7 @@ export default function InvoicesPage() {
     endDate: parseAsString.withDefault(getIso8601DateString(new Date())!),
   });
 
-  const [sectionStates] = useQueryStates({
+  const [invoicesAnalyticalSectionStates] = useQueryStates({
     clientCode: parseAsString.withDefault(""),
     cfopCodes: parseAsArrayOf(parseAsString, ",").withDefault([]),
     nfType: parseAsString.withDefault(""),
@@ -100,7 +98,7 @@ export default function InvoicesPage() {
 
   //   const selectedTab = tabPanelRef.current.getCurrentTabName() as
   //     | "resume"
-  //     | "analytical";
+  //     | "invoices-";
 
   //   switch (selectedTab) {
   //     case "resume": {
@@ -163,11 +161,13 @@ export default function InvoicesPage() {
                   companyCodes: globalStates.companyCodes?.join(","),
                   startDate: globalStates.startDate,
                   endDate: globalStates.endDate,
-                  cfopCodes: sectionStates.cfopCodes?.join(","),
-                  clientCode: sectionStates.clientCode,
-                  nfNumber: sectionStates.nfNumber,
-                  nfSituation: sectionStates.nfSituation,
-                  nfType: sectionStates.nfType as InvoicesNfTypesEnum,
+                  cfopCodes:
+                    invoicesAnalyticalSectionStates.cfopCodes?.join(","),
+                  clientCode: invoicesAnalyticalSectionStates.clientCode,
+                  nfNumber: invoicesAnalyticalSectionStates.nfNumber,
+                  nfSituation: invoicesAnalyticalSectionStates.nfSituation,
+                  nfType:
+                    invoicesAnalyticalSectionStates.nfType as InvoicesNfTypesEnum,
                 },
               })
             }
@@ -177,7 +177,7 @@ export default function InvoicesPage() {
         </Box>
       </Box>
 
-      <Grid container marginTop={1} spacing={1}>
+      <Grid container marginTop={0.5} spacing={1}>
         <Grid item xs={12}>
           <Typography fontSize={"12px"} fontWeight={600}>
             Filtros Globais
@@ -230,17 +230,24 @@ export default function InvoicesPage() {
       </Grid>
 
       {/** Content */}
-      <Tabs.Root defaultTab='analytical'>
-        <Tabs.Select sx={{ width: "250px" }} customHandler={handleSelectTab}>
+      <Tabs.Root defaultTab={selectedTab}>
+        <Tabs.Select customHandler={handleSelectTab}>
           {/* <Tab label='Resumo' value={"resume"} /> */}
-          <Tab label='Analitico' value={"analytical"} />
+          <Tab label='Analitico - Pedidos' value={"orders-analytical"} />
+          <Tab
+            label='Analitico - Notas Fiscais'
+            value={"invoices-analytical"}
+          />
         </Tabs.Select>
 
         <Tabs.Content>
           {/* <Tabs.Panel tabName='resume' ref={tabPanelRef}>
             <Typography>Resumo</Typography>
           </Tabs.Panel> */}
-          <Tabs.Panel tabName='analytical' ref={tabPanelRef}>
+          <Tabs.Panel tabName='orders-analytical' ref={tabPanelRef}>
+            <OrdersAnalyticalSection />
+          </Tabs.Panel>
+          <Tabs.Panel tabName='invoices-analytical' ref={tabPanelRef}>
             <InvoicesAnalyticalSection
               ref={analyticalSectionRef}
               companyCodes={globalStates.companyCodes}

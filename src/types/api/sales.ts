@@ -1,5 +1,6 @@
 import { ReturnOccurrence } from "../business-audit";
-import { InvoicesNfTypesEnum } from "../sales";
+import { InvoicesNfTypesEnum, OrderLine } from "../sales";
+import { MarketEnum } from "../sensatta";
 
 export interface GetSalesInvoicesUpdatedAtResponse {
   parsedUpdatedAt: string;
@@ -31,6 +32,37 @@ export type GetInvoicesItem = {
   createdAt: Date;
 };
 
+export type GetOrdersTotals = {
+  count: number;
+  quantity: number;
+  weightInKg: number;
+  totalValue: number;
+  tableValue: number;
+  difValue: number;
+};
+
+export type GetOrdersItem = {
+  billingDate: Date;
+  issueDate: Date;
+  companyCode: string;
+  companyName: string;
+  orderId: string;
+  market: MarketEnum;
+  situation: string;
+  clientCode: string;
+  clientName: string;
+  salesRepresentativeCode: string;
+  salesRepresentativeName: string;
+  nfId: string;
+  nfNumber: string;
+  weightInKg: number;
+  saleUnitValue: number;
+  referenceTableUnitValue: number;
+  totalValue: number;
+  tableValue: number;
+  difValue: number;
+};
+
 export interface GetAnalyticalInvoicesResponse {
   totals: {
     quantity: number;
@@ -41,6 +73,11 @@ export interface GetAnalyticalInvoicesResponse {
     totalPrice: number;
   };
   data: GetInvoicesItem[];
+}
+
+export interface GetAnalyticalOrdersResponse {
+  totals: GetOrdersTotals;
+  data: Record<string, GetOrdersItem>;
 }
 
 export interface GetAnalyticalReturnOccurrencesResponse {

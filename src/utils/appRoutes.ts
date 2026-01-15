@@ -107,8 +107,8 @@ export class PageRoutes {
   static sales() {
     return `/sales`;
   }
-  static invoices() {
-    return `/sales/invoices`;
+  static invoicings() {
+    return `/sales/invoicings`;
   }
   static returnOccurrences() {
     return `/sales/return-occurrences`;

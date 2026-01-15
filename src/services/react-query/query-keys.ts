@@ -76,6 +76,12 @@ export const queryKeys = {
       GET_NF_SITUATIONS_FILTERS: "sales-invoice-nf-situations-filters",
       GET_ANALYTICAL_DATA: "sales-invoice-analytical-data",
     },
+    ORDERS: {
+      GET_ANALYTICAL_ORDERS: "sales-orders-analytical-data",
+      GET_ONE: "sales-order-line-",
+      GET_LAST_UPDATED_AT: "sales-orders-last-updated-at",
+      GET_SITUATIONS_FILTERS: "sales-orders-situations-filters",
+    },
     RETURN_OCCURRENCES: {
       GET_ANALYTICAL_DATA: "sales-return-occurrences-analytical-data",
     },
