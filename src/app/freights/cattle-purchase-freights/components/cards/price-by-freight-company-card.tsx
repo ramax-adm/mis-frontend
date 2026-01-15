@@ -13,6 +13,7 @@ import {
 import { FreightsCustomizedCard } from "../customized/card";
 import { Alert, Box, Typography } from "@mui/material";
 import { toLocaleString } from "@/utils/string.utils";
+import { indigo } from "@mui/material/colors";
 
 interface PriceByFreightCompanyCardProps {
   data: Record<string, number>;
@@ -74,9 +75,9 @@ export function PriceByFreightCompanyCard({
 
             <Tooltip content={<CustomTooltip />} />
             <CartesianGrid horizontal={false} />
-            <Bar dataKey='price' fill='#0B2B5E'>
+            <Bar dataKey='price' fill={indigo["A700"]}>
               {dataTransposed.map((d) => (
-                <Cell key={d.price} fill={"#0B2B5E"} radius={2} />
+                <Cell key={d.price} fill={indigo["A700"]} radius={4} />
               ))}
             </Bar>
           </BarChart>

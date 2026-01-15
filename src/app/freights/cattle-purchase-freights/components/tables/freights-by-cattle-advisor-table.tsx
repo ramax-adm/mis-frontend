@@ -64,7 +64,7 @@ const getColumns = (): Column<FreightByCattleAdvisorItem>[] => {
       },
     },
     {
-      headerName: "R$ Frete",
+      headerName: "$ Frete",
       maxWidth: "40px",
       type: "string",
       value: {
@@ -74,7 +74,7 @@ const getColumns = (): Column<FreightByCattleAdvisorItem>[] => {
       },
     },
     {
-      headerName: "R$ Tabela",
+      headerName: "$ Tab.",
       maxWidth: "40px",
       type: "string",
       value: {
@@ -84,7 +84,7 @@ const getColumns = (): Column<FreightByCattleAdvisorItem>[] => {
       },
     },
     {
-      headerName: "Dif. R$",
+      headerName: "$ Dif.",
       type: "string",
       value: {
         first: {

@@ -158,7 +158,7 @@ const getColumns = (): Column<FreightOverCapacityTableItem>[] => {
       },
     },
     {
-      headerName: "Dif",
+      headerName: "Dif.",
       type: "string",
       value: {
         first: {
