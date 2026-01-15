@@ -66,7 +66,7 @@ export function CattleFreightsTable({
           <Typography fontWeight={700} fontSize={"10px"}>
             Fretes em aberto
           </Typography>
-          <Box sx={{ display: "inline-flex", gap: 2 }}>
+          <Box sx={{ display: "inline-flex", gap: 1 }}>
             <Box sx={{ display: "flex", flexDirection: "column" }}>
               <Typography fontSize={"9px"}>Qtd.</Typography>
               <Typography fontSize={"10px"} fontWeight={700}>
@@ -101,7 +101,7 @@ export function CattleFreightsTable({
           <Typography fontWeight={700} fontSize={"10px"}>
             Sem Fretes
           </Typography>
-          <Box sx={{ display: "inline-flex", gap: 2 }}>
+          <Box sx={{ display: "inline-flex", gap: 1 }}>
             <Box sx={{ display: "flex", flexDirection: "column" }}>
               <Typography fontSize={"9px"}>Qtd.</Typography>
               <Typography fontSize={"10px"} fontWeight={700}>
@@ -130,7 +130,7 @@ export function CattleFreightsTable({
           <Typography fontWeight={700} fontSize={"10px"}>
             Fretes Fechados
           </Typography>
-          <Box sx={{ display: "inline-flex", flexWrap: "wrap", gap: 2 }}>
+          <Box sx={{ display: "inline-flex", flexWrap: "wrap", gap: 1 }}>
             <Box sx={{ display: "flex", flexDirection: "column" }}>
               <Typography fontSize={"9px"}>Qtd.</Typography>
               <Typography fontSize={"10px"} fontWeight={700}>
@@ -144,36 +144,43 @@ export function CattleFreightsTable({
               </Typography>
             </Box>
             <Box sx={{ display: "flex", flexDirection: "column" }}>
-              <Typography fontSize={"9px"}>Σ R$ Base</Typography>
+              <Typography fontSize={"9px"}>$ Base</Typography>
               <Typography fontSize={"10px"} fontWeight={700}>
                 {cattleFreights.totals.closedFreights.price}
               </Typography>
             </Box>
             <Box sx={{ display: "flex", flexDirection: "column" }}>
-              <Typography fontSize={"9px"}>Σ R$ Tabela</Typography>
+              <Typography fontSize={"9px"}>$ Tabela</Typography>
               <Typography fontSize={"10px"} fontWeight={700}>
                 {cattleFreights.totals.closedFreights.tablePrice}
               </Typography>
             </Box>
 
             <Box sx={{ display: "flex", flexDirection: "column" }}>
-              <Typography fontSize={"9px"}>R$ DIF</Typography>
+              <Typography fontSize={"9px"}>$ Dif</Typography>
               <Typography fontSize={"10px"} fontWeight={700}>
                 {cattleFreights.totals.closedFreights.difPrice}
               </Typography>
             </Box>
 
             <Box sx={{ display: "flex", flexDirection: "column" }}>
-              <Typography fontSize={"9px"}>R$ Outros</Typography>
+              <Typography fontSize={"9px"}>$ Outros</Typography>
               <Typography fontSize={"10px"} fontWeight={700}>
                 {cattleFreights.totals.closedFreights.otherPrices}
               </Typography>
             </Box>
 
             <Box sx={{ display: "flex", flexDirection: "column" }}>
-              <Typography fontSize={"9px"}>R$ TOTAL</Typography>
+              <Typography fontSize={"9px"}>$ Total</Typography>
               <Typography fontSize={"10px"} fontWeight={700}>
                 {cattleFreights.totals.closedFreights.totalPrice}
+              </Typography>
+            </Box>
+
+            <Box sx={{ display: "flex", flexDirection: "column" }}>
+              <Typography fontSize={"9px"}>$/Cab</Typography>
+              <Typography fontSize={"10px"} fontWeight={700}>
+                {cattleFreights.totals.closedFreights.headPrice}
               </Typography>
             </Box>
           </Box>
@@ -192,7 +199,7 @@ export function CattleFreightsTable({
           <Typography fontWeight={700} fontSize={"10px"}>
             Totais
           </Typography>
-          <Box sx={{ display: "inline-flex", gap: 2 }}>
+          <Box sx={{ display: "inline-flex", gap: 1 }}>
             <Box sx={{ display: "flex", flexDirection: "column" }}>
               <Typography fontSize={"8px"}>Qtd.</Typography>
               <Typography fontSize={"10px"} fontWeight={700}>

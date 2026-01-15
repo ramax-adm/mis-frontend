@@ -1,5 +1,6 @@
 import { toPercent } from "@/utils/string.utils";
 import { Typography, Box } from "@mui/material";
+import { indigo } from "@mui/material/colors";
 import { useState } from "react";
 import {
   ResponsiveContainer,
@@ -12,14 +13,14 @@ import {
 } from "recharts";
 
 const COLORS = [
-  "#0B2B5E", // Azul 800
-  "#0F3775", // Azul 700
-  "#1E478D", // Azul 600
-  "#2D5AA1", // Azul 500
-  "#4D7FC9", // Azul 400
-  "#7BA0D6", // Azul 300
-  "#A9C0E4", // Azul 200
-  "#D6E1F1", // Azul 100
+  indigo["800"], // Azul 800
+  indigo["700"], // Azul 700
+  indigo["600"], // Azul 600
+  indigo["500"], // Azul 500
+  indigo["400"], // Azul 400
+  indigo["300"], // Azul 300
+  indigo["200"], // Azul 200
+  indigo["100"], // Azul 100
 ];
 
 interface QuantityFreightsOpenByFreightCompanyGraphProps {

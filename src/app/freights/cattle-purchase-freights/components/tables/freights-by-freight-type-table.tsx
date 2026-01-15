@@ -47,7 +47,7 @@ export function FreightByFreightTypeTable({
 const getColumns = (): Column<FreightByFreightTypeItem>[] => {
   return [
     {
-      headerName: "Tipo Transporte",
+      headerName: "Tipo",
       maxWidth: "80px",
       type: "string",
       value: {
@@ -67,7 +67,7 @@ const getColumns = (): Column<FreightByFreightTypeItem>[] => {
       },
     },
     {
-      headerName: "R$ Frete",
+      headerName: "$ Frete",
       maxWidth: "40px",
       type: "string",
       value: {
@@ -77,7 +77,7 @@ const getColumns = (): Column<FreightByFreightTypeItem>[] => {
       },
     },
     {
-      headerName: "R$ Tabela",
+      headerName: "$ Tab.",
       maxWidth: "40px",
       type: "string",
       value: {
@@ -87,7 +87,7 @@ const getColumns = (): Column<FreightByFreightTypeItem>[] => {
       },
     },
     {
-      headerName: "Dif. R$",
+      headerName: "$ Dif.",
       type: "string",
       value: {
         first: {
