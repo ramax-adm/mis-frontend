@@ -1,4 +1,4 @@
-import { Alert, Box } from "@mui/material";
+import { Alert, Box, TableCell } from "@mui/material";
 import PaginatedTable from "@/components/Table/paginated-table";
 import { LoaderIcon } from "@/components/Loading/loader-icon";
 import CustomTable, {
@@ -7,6 +7,7 @@ import CustomTable, {
 import { GetInvoicesItem } from "@/types/api/sales";
 import { formatToDate } from "@/utils/formatToDate";
 import { toLocaleString } from "@/utils/string.utils";
+import { SquareArrowOutUpRight } from "lucide-react";
 
 type AnalyticalInvoicesTableData = GetInvoicesItem & {
   company: string;
@@ -17,6 +18,7 @@ type AnalyticalInvoicesTableData = GetInvoicesItem & {
   valueFormated: string;
   weightFormated: string;
   unitPriceFormated: string;
+  details: "";
 };
 
 interface AnalyticalInvoicesTableProps {
@@ -77,6 +79,7 @@ const getData = ({
       weightFormated: toLocaleString(i.weightInKg ?? 0),
       unitPriceFormated: toLocaleString(i.unitPrice ?? 0, 2),
       valueFormated: toLocaleString(i.totalPrice ?? 0, 2),
+      details: "" as "",
     }))
     .sort((a, b) => {
       if (a.date && b.date) {
@@ -143,12 +146,12 @@ const getColumns = (): CustomTableColumn<AnalyticalInvoicesTableData>[] => [
     sx: { fontSize: "11px", paddingX: 0.5 },
     cellSx: { fontSize: "10px" },
   },
-  {
-    headerKey: "boxAmount",
-    headerName: "Caixas",
-    sx: { fontSize: "11px", paddingX: 0.5 },
-    cellSx: { fontSize: "10px" },
-  },
+  // {
+  //   headerKey: "boxAmount",
+  //   headerName: "Caixas",
+  //   sx: { fontSize: "11px", paddingX: 0.5 },
+  //   cellSx: { fontSize: "10px" },
+  // },
   {
     headerKey: "weightFormated",
     headerName: "Peso (Kg)",
