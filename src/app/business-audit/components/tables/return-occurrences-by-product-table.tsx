@@ -75,7 +75,7 @@ const getData = ({
       weightInKgFormated: toLocaleString(data[key].weightInKg),
     });
   }
-  return response.sort((a, b) => b.count - a.count);
+  return response.sort((a, b) => b.value - a.value);
 };
 
 const getColumns =

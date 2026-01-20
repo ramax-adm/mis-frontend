@@ -66,6 +66,7 @@ const getData = ({
       cause: key,
       count: data[key].count,
       value: data[key].value,
+      percentValue: data[key].percentValue,
       quantity: data[key].quantity,
       weightInKg: data[key].weightInKg,
       valueFormated: toLocaleString(data[key].value),
@@ -73,7 +74,7 @@ const getData = ({
       weightInKgFormated: toLocaleString(data[key].weightInKg),
     });
   }
-  return response.sort((a, b) => b.count - a.count);
+  return response.sort((a, b) => b.value - a.value);
 };
 
 const getColumns =

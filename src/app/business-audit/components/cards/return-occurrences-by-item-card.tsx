@@ -85,9 +85,8 @@ export function ReturnOccurrencesByItemCard() {
     return setRepresentativeCodes(representatives?.map((i) => i.value) ?? []);
   };
 
-  const haveSomeData =
-    businessData?.returnOccurrences &&
-    businessData?.returnOccurrences.data.length > 0;
+  const haveSomeData = businessData?.occurrences;
+  // &&    Object.values(businessData?.occurrences.data).length > 0;
 
   return (
     <BusinessAuditCustomizedCard cardTitle='Relação de devoluções'>
@@ -102,9 +101,7 @@ export function ReturnOccurrencesByItemCard() {
         }}
       >
         <Box sx={{ width: "400px" }}>
-          <ReturnOccurrencesTotals
-            data={businessData?.returnOccurrences.totals}
-          />
+          <ReturnOccurrencesTotals data={businessData?.occurrences.totals} />
         </Box>
         <Box sx={{ width: "100px" }}>
           <TextInputControlled
@@ -177,7 +174,7 @@ export function ReturnOccurrencesByItemCard() {
       ) : (
         <Box sx={{ display: "flex", flexDirection: "column", gap: 0.5 }}>
           <ReturnOccurrencesTable
-            data={businessData?.returnOccurrences.data}
+            data={businessData?.occurrences.data}
             isFetching={isFetching}
           />
         </Box>

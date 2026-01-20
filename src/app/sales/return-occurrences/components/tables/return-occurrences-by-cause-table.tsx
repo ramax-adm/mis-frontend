@@ -68,6 +68,7 @@ const getData = ({
       value: data[key].value,
       quantity: data[key].quantity,
       weightInKg: data[key].weightInKg,
+      percentValue: data[key].percentValue,
       valueFormated: toLocaleString(data[key].value),
       quantityFormated: toLocaleString(data[key].quantity),
       weightInKgFormated: toLocaleString(data[key].weightInKg),
