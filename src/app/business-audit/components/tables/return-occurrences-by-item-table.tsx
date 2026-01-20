@@ -3,6 +3,7 @@ import CustomTable, {
 } from "@/components/Table/custom-table";
 import { useGetBusinessAuditSalesData } from "@/services/react-query/queries/business-audit";
 import {
+  GetBusinessAuditReturnOccurrenceAgg,
   GetBusinessAuditSalesDataResponse,
   GetBusinessAuditSalesInvoiceAgg,
 } from "@/types/api/business-audit";
@@ -18,8 +19,9 @@ import { MarketEnum } from "@/types/sensatta";
 import PaginatedTable, {
   PaginatedTableColumn,
 } from "@/components/Table/paginated-table";
+import { SquareArrowOutUpRight } from "lucide-react";
 
-type ReturnOccurrencesTableData = ReturnOccurrences & {
+type ReturnOccurrencesTableData = GetBusinessAuditReturnOccurrenceAgg & {
   dateFormated: string;
   invoiceDateFormated: string;
   company: string;
@@ -30,16 +32,25 @@ type ReturnOccurrencesTableData = ReturnOccurrences & {
 };
 
 interface ReturnOccurrencesTableProps {
-  data?: ReturnOccurrences[];
+  data?: Record<string, GetBusinessAuditReturnOccurrenceAgg>;
   isFetching: boolean;
 }
 export function ReturnOccurrencesTable({
   data,
   isFetching,
 }: ReturnOccurrencesTableProps) {
+  const [, setSectionStates] = useQueryStates({
+    detailsOccurrenceNumber: parseAsString.withDefault(""),
+    occurrenceModalOpen: parseAsBoolean.withDefault(false),
+  });
+  const handleOpenDetailsModal = (occurrenceNumber: string) => {
+    setSectionStates({
+      detailsOccurrenceNumber: occurrenceNumber,
+      occurrenceModalOpen: true,
+    });
+  };
   const parsedData = getData({ data });
-  const columns = getColumns();
-
+  const columns = getColumns({ handleOpenDetailsModal });
   if (isFetching) {
     return (
       <Box
@@ -47,7 +58,7 @@ export function ReturnOccurrencesTable({
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          height: "250px",
+          height: "200px",
         }}
       >
         <LoaderIcon />
@@ -59,17 +70,17 @@ export function ReturnOccurrencesTable({
     <PaginatedTable<ReturnOccurrencesTableData>
       columns={columns}
       rows={parsedData}
-      tableStyles={{ height: "215px" }}
+      tableStyles={{ height: "185px" }}
     />
   );
 }
 
 const getData = ({
-  data = [],
+  data = {},
 }: {
-  data?: ReturnOccurrences[];
+  data?: Record<string, GetBusinessAuditReturnOccurrenceAgg>;
 }): ReturnOccurrencesTableData[] => {
-  return data.map((i) => ({
+  const response = Object.values(data).map((i) => ({
     ...i,
     invoiceDateFormated: formatToDate(i.invoiceDate!),
     dateFormated: formatToDate(i.date!),
@@ -79,9 +90,22 @@ const getData = ({
     fatValue: toLocaleString(i.invoiceValue ?? 0),
     returnValueFormated: toLocaleString(i.returnValue ?? 0),
   }));
+  return response.sort(
+    (a, b) => Number(b.occurrenceNumber) - Number(a.occurrenceNumber)
+  );
 };
 
-const getColumns = (): PaginatedTableColumn<ReturnOccurrencesTableData>[] => [
+const getColumns = ({
+  handleOpenDetailsModal,
+}: {
+  handleOpenDetailsModal: (occurrenceNumber: string) => void;
+}): PaginatedTableColumn<ReturnOccurrencesTableData>[] => [
+  {
+    headerKey: "occurrenceNumber",
+    headerName: "B.O",
+    sx: { fontSize: "9.5px", paddingX: 0.5 },
+    cellSx: { fontSize: "9px" },
+  },
   {
     headerKey: "invoiceDateFormated",
     headerName: "Dt. Fat",
@@ -94,9 +118,10 @@ const getColumns = (): PaginatedTableColumn<ReturnOccurrencesTableData>[] => [
     sx: { fontSize: "9.5px", paddingX: 0.5 },
     cellSx: { fontSize: "9px" },
   },
+
   {
-    headerKey: "occurrenceNumber",
-    headerName: "B.O",
+    headerKey: "returnType",
+    headerName: "Tipo",
     sx: { fontSize: "9.5px", paddingX: 0.5 },
     cellSx: { fontSize: "9px" },
   },
@@ -107,13 +132,13 @@ const getColumns = (): PaginatedTableColumn<ReturnOccurrencesTableData>[] => [
     cellSx: { fontSize: "9px" },
   },
   {
-    headerKey: "invoiceNf",
+    headerKey: "invoiceNfNumber",
     headerName: "NF Fat.",
     sx: { fontSize: "9.5px", paddingX: 0.5 },
     cellSx: { fontSize: "9px" },
   },
   {
-    headerKey: "returnNf",
+    headerKey: "returnNfNumber",
     headerName: "NF Dev.",
     sx: { fontSize: "9.5px", paddingX: 0.5 },
     cellSx: { fontSize: "9px" },
@@ -131,8 +156,14 @@ const getColumns = (): PaginatedTableColumn<ReturnOccurrencesTableData>[] => [
     cellSx: { fontSize: "9px" },
   },
   {
+    headerKey: "invoiceQuantity",
+    headerName: "Qtd Fat.",
+    sx: { fontSize: "9.5px", paddingX: 0.5 },
+    cellSx: { fontSize: "9px" },
+  },
+  {
     headerKey: "returnQuantity",
-    headerName: "Qtd. itens",
+    headerName: "Qtd Dev.",
     sx: { fontSize: "9.5px", paddingX: 0.5 },
     cellSx: { fontSize: "9px" },
   },
@@ -155,9 +186,23 @@ const getColumns = (): PaginatedTableColumn<ReturnOccurrencesTableData>[] => [
     cellSx: { fontSize: "9px" },
   },
   {
-    headerKey: "returnType",
-    headerName: "Tipo",
-    sx: { fontSize: "9.5px", paddingX: 0.5 },
-    cellSx: { fontSize: "9px" },
+    headerKey: "occurrenceNumber",
+    headerName: "Detalhes",
+    align: "center",
+    sx: { paddingY: 0.5, paddingX: 1, fontSize: 9.5 },
+    cellSx: { fontSize: 12, paddingX: 1 },
+    render: (value, row) => (
+      <Box
+        onClick={() => handleOpenDetailsModal(row.occurrenceNumber)}
+        sx={{
+          "&:hover": {
+            color: grey["700"],
+            cursor: "pointer",
+          },
+        }}
+      >
+        <SquareArrowOutUpRight size={12} />
+      </Box>
+    ),
   },
 ];

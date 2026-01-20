@@ -15,7 +15,10 @@ import { GetFetch, urls } from "@/services/axios/api-base";
 import { useApiQuery } from "../react-query";
 import { OrderLine } from "@/types/sales";
 import { MarketEnum } from "@/types/sensatta";
-import { OrderPriceConsiderationEnum } from "@/types/business-audit";
+import {
+  OrderPriceConsiderationEnum,
+  ReturnOccurrence,
+} from "@/types/business-audit";
 import { FilterOptionItem } from "@/types/globals";
 
 export const useGetBusinessAuditOverviewData = ({
@@ -145,6 +148,29 @@ export const useGetBusinessAuditReturnOccurrencesData = ({
 
       return response.data;
     },
+  });
+};
+export const useGetOneBusinessAuditReturnOccurrence = ({
+  occurrenceNumber = "",
+}: {
+  occurrenceNumber?: string;
+}) => {
+  return useApiQuery<ReturnOccurrence[]>({
+    queryKey: [
+      queryKeys.BUSINESS_AUDIT.GET_ONE_BUSINESS_AUDIT_RETURN_OCCURRENCE.concat(
+        occurrenceNumber
+      ),
+    ],
+    queryFn: async () => {
+      const response = await GetFetch(
+        urls.BUSINESS_AUDIT.RETURN_OCCURRENCES.GET_ONE_BUSINESS_AUDIT_RETURN_OCCURRENCE.replace(
+          ":occurrenceNumber",
+          occurrenceNumber
+        )
+      );
+      return response.data;
+    },
+    enabled: !!occurrenceNumber,
   });
 };
 

@@ -76,6 +76,21 @@ export default function BusinessAudit() {
     [StorageKeysEnum.MONITORING_RETURN_OCCURRENCES_COMPANIES_FILTER]: {
       filters: returnOccurrencesCompanyCodes,
     },
+    [StorageKeysEnum.MONITORING_RETURN_OCCURRENCES_CAUSES_FILTER]: {
+      filters: occurrenceCauses,
+    },
+    [StorageKeysEnum.MONITORING_RETURN_OCCURRENCES_RETURN_TYPES_FILTER]: {
+      filters: returnType,
+    },
+    [StorageKeysEnum.MONITORING_RETURN_OCCURRENCES_OCCURRENCE_NUMBER_FILTER]: {
+      filters: occurrenceNumber,
+    },
+    [StorageKeysEnum.MONITORING_RETURN_OCCURRENCES_CLIENT_FILTER]: {
+      filters: returnOccurrencesClientCodes,
+    },
+    [StorageKeysEnum.MONITORING_RETURN_OCCURRENCES_REPRESENTATIVE_FILTER]: {
+      filters: returnOccurrencesRepresentativeCodes,
+    },
   } = useAllFilters();
 
   const {
@@ -113,6 +128,12 @@ export default function BusinessAudit() {
       case BusinessAuditTabSectionsEnum.RETURN_OCCURRENCES_SECTION: {
         Object.assign(payload, {
           companyCodes: returnOccurrencesCompanyCodes.join(","),
+          clientCodes: returnOccurrencesClientCodes.join(","),
+          salesRepresentativeCodes:
+            returnOccurrencesRepresentativeCodes.join(","),
+          occurrenceCauses: occurrenceCauses.join(","),
+          occurrenceNumber: occurrenceNumber,
+          returnType: returnType,
         });
         break;
       }

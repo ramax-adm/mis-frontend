@@ -229,6 +229,28 @@ export interface GetBusinessAuditSalesDataResponse {
   };
 }
 
+export type GetBusinessAuditReturnOccurrenceAgg = {
+  occurrenceNumber: string;
+  date: Date;
+  invoiceDate: Date;
+  occurrenceCause: string;
+  returnType: string;
+  companyCode: string;
+  companyName: string;
+  invoiceNfNumber: string;
+  returnNfNumber: string;
+  clientCode: string;
+  clientName: string;
+  salesRepresentativeCode: string;
+  salesRepresentativeName: string;
+  returnQuantity: number;
+  invoiceQuantity: number;
+  returnWeightInKg: number;
+  invoiceWeightInKg: number;
+  returnValue: number;
+  invoiceValue: number;
+};
+
 export type GetBusinessAuditReturnOccurrenceByCompanyAgg = {
   count: number;
   quantity: number;
@@ -241,6 +263,7 @@ export type GetBusinessAuditReturnOccurrenceByCauseAgg = {
   quantity: number;
   weightInKg: number;
   value: number;
+  percentValue: number;
 };
 
 export type GetBusinessAuditReturnOccurrenceByRepresentativeAgg = {
@@ -312,8 +335,8 @@ export interface GetBusinessAuditReturnOccurrencesDataResponse {
     data: Record<string, GetBusinessAuditReturnOccurrenceByDayAgg>;
   };
   occurrencesByType?: Record<string, GetBusinessAuditReturnOccurrenceByTypeAgg>;
-  returnOccurrences: {
-    data: ReturnOccurrence[];
+  occurrences: {
+    data: Record<string, GetBusinessAuditReturnOccurrenceAgg>;
     totals: BusinessAuditReturnOccurrencesDataTotals;
   };
 }

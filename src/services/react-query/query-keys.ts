@@ -20,6 +20,8 @@ export const queryKeys = {
     GET_BUSINESS_AUDIT_ORDERS_LINES_DATA: "business-audit-orders-lines-data",
 
     // return occurrences
+    GET_ONE_BUSINESS_AUDIT_RETURN_OCCURRENCE:
+      "business-audit-return-occurrence-",
     GET_BUSINESS_AUDIT_RETURN_OCCURRENCES: "business-audit-return-occurrences",
     GET_RETURN_OCCURRENCES_CAUSES_FILTERS:
       "business-audit-filters-return-occurrences-causes",

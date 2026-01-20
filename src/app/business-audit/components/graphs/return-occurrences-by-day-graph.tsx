@@ -3,6 +3,7 @@ import { Box, Typography } from "@mui/material";
 import {
   Area,
   AreaChart,
+  CartesianGrid,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -11,6 +12,7 @@ import {
 import { LoaderIcon } from "../customized/loader-icon";
 import { GetBusinessAuditReturnOccurrenceByDayAgg } from "@/types/api/business-audit";
 import { formatToDate } from "@/utils/formatToDate";
+import { grey, indigo } from "@mui/material/colors";
 
 type ParsedDataItem = {
   date: Date;
@@ -38,7 +40,7 @@ export function ReturnOccurrencesByDayGraph({
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          height: "295px",
+          height: "185px",
         }}
       >
         <LoaderIcon />
@@ -47,7 +49,7 @@ export function ReturnOccurrencesByDayGraph({
   }
 
   return (
-    <ResponsiveContainer width='100%' height={295}>
+    <ResponsiveContainer width='100%' height={185}>
       <AreaChart
         data={parsedData}
         margin={{
@@ -63,7 +65,7 @@ export function ReturnOccurrencesByDayGraph({
           fontWeight={500}
           tickLine={false}
           axisLine={false}
-          interval={4}
+          // interval={4}
         />
         <YAxis
           dataKey='count'
@@ -75,18 +77,23 @@ export function ReturnOccurrencesByDayGraph({
         />
         <defs>
           <linearGradient id='fillDesktop' x1='0' y1='0' x2='0' y2='1'>
-            <stop offset='5%' stopColor='#4338CA' stopOpacity={0.9} />
-            <stop offset='95%' stopColor='#4338CA' stopOpacity={0.2} />
+            <stop offset='5%' stopColor={indigo["A700"]} stopOpacity={0.9} />
+            <stop offset='95%' stopColor={indigo["A700"]} stopOpacity={0.2} />
           </linearGradient>
         </defs>
         <Tooltip content={<CustomTooltip />} />
+        <CartesianGrid
+          strokeDasharray='3 3'
+          stroke={grey["200"]}
+          vertical={false}
+        />
 
         <Area
           type='monotone'
           dataKey='count'
           dot={{ r: 1 }}
           activeDot={{ r: 4 }}
-          stroke={"#4338CA"}
+          stroke={"#4F46E5"}
           fill='url(#fillDesktop)'
           fillOpacity={0.4}
           strokeWidth={1.5}
