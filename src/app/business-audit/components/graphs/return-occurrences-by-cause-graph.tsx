@@ -18,10 +18,13 @@ import { LoaderIcon } from "../customized/loader-icon";
 import CustomTable, {
   CustomTableColumn,
 } from "@/components/Table/custom-table";
-import { GetBusinessAuditReturnOccurrenceByTypeAgg } from "@/types/api/business-audit";
+import {
+  GetBusinessAuditReturnOccurrenceByCauseAgg,
+  GetBusinessAuditReturnOccurrenceByTypeAgg,
+} from "@/types/api/business-audit";
 
 type ParsedDataItem = {
-  type: string;
+  cause: string;
   quantity: number;
   value: number;
   weightInKg: number;
@@ -41,14 +44,14 @@ const COLORS_TOP_10 = [
   "#E0E7FF", // Indigo 100
 ];
 
-interface ReturnOccurrencesByTypeGraphProps {
-  data?: Record<string, GetBusinessAuditReturnOccurrenceByTypeAgg>;
+interface ReturnOccurrencesByCauseGraphProps {
+  data?: Record<string, GetBusinessAuditReturnOccurrenceByCauseAgg>;
   isFetching?: boolean;
 }
-export function ReturnOccurrencesByTypeGraph({
+export function ReturnOccurrencesByCauseGraph({
   data = {},
   isFetching,
-}: ReturnOccurrencesByTypeGraphProps) {
+}: ReturnOccurrencesByCauseGraphProps) {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   const parsedData = getData({ data });
@@ -100,13 +103,13 @@ export function ReturnOccurrencesByTypeGraph({
   );
 }
 
-const getData = ({ data = {} }: ReturnOccurrencesByTypeGraphProps) => {
+const getData = ({ data = {} }: ReturnOccurrencesByCauseGraphProps) => {
   const response: ParsedDataItem[] = [];
 
   const keys = Object.keys(data);
   for (const key of keys) {
     response.push({
-      type: key,
+      cause: key,
       quantity: data[key].quantity,
       value: data[key].value,
       weightInKg: data[key].weightInKg,
@@ -114,7 +117,7 @@ const getData = ({ data = {} }: ReturnOccurrencesByTypeGraphProps) => {
     });
   }
 
-  return response;
+  return response.sort((a, b) => b.value - a.value);
 };
 
 const CustomTooltip = ({ active, payload, label }: any) => {
@@ -133,7 +136,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
         {payload.map((item: any) => {
           return (
             <>
-              <Typography variant='caption'>{`${item.payload.type}`}</Typography>
+              <Typography variant='caption'>{`${item.payload.cause}`}</Typography>
               <Typography variant='body2'>{`Faturamento $: ${toLocaleString(item.value)} - ${toPercent(item.payload.percentValue)}`}</Typography>
             </>
           );
@@ -172,14 +175,11 @@ const CustomLabel = ({
       dominantBaseline='central'
     >
       <tspan x={x} dy='-1em'>
-        {stringSubstr(payload?.type ?? "", 30)}
+        {stringSubstr(payload?.cause ?? "", 15)}
       </tspan>
-      <tspan x={x} dy='1.1em'>
+      {/* <tspan x={x} dy='1.1em'>
         {`${toLocaleString(payload.value)}`}
-      </tspan>
-      <tspan x={x} dy='1.1em'>
-        {`${toPercent(payload.percentValue)}`}
-      </tspan>
+      </tspan> */}
     </text>
   );
 };

@@ -1,12 +1,14 @@
 import { Alert, Box } from "@mui/material";
 import { BusinessAuditCustomizedCard } from "../customized/card";
 import { useQueryStates, parseAsString, parseAsArrayOf } from "nuqs";
+import { ReturnOccurrencesByCauseTable } from "../tables/return-occurrences-by-cause-table";
 import { useGetBusinessAuditReturnOccurrencesData } from "@/services/react-query/queries/business-audit";
-import { ReturnOccurrencesByDayGraph } from "../graphs/return-occurrences-by-day-graph";
 import { StorageKeysEnum } from "@/constants/app/storage";
 import { useAllFilters } from "@/contexts/persisted-filters";
+import { ReturnOccurrencesTotals } from "../totals/return-occurrences-totals";
+import { ReturnOccurrencesByCauseGraph } from "../graphs/return-occurrences-by-cause-graph";
 
-export function ReturnOccurrencesByDayCard() {
+export function ReturnOccurrencesByCauseGraphCard() {
   const [globalStates] = useQueryStates({
     startDate: parseAsString.withDefault(
       new Date().toISOString().split("T")[0]
@@ -46,24 +48,23 @@ export function ReturnOccurrencesByDayCard() {
       clientCodes: clientCodes.join(","),
       representativeCodes: representativeCodes.join(","),
     });
-  const haveSomeData = businessData?.occurrencesByDay
-    ? Object.values(businessData.occurrencesByDay).some(
+
+  const haveSomeData = businessData?.occurrencesByCause
+    ? Object.values(businessData.occurrencesByCause).some(
         (item: any) => (item?.count ?? 0) > 0
       )
     : false;
 
   return (
-    <BusinessAuditCustomizedCard cardTitle='Devoluções p/ dia'>
-      {/* <SalesTotals data={sales?.salesByClient.totals} /> */}
-
+    <BusinessAuditCustomizedCard cardTitle='Devoluções p/ Motivo'>
       {!haveSomeData && !isFetching ? (
         <Box sx={{ display: "grid", placeContent: "center", height: "140px" }}>
           <Alert severity='info'>Sem Dados</Alert>
         </Box>
       ) : (
         <Box sx={{ display: "flex", flexDirection: "column", gap: 0.5 }}>
-          <ReturnOccurrencesByDayGraph
-            data={businessData?.occurrencesByDay?.data}
+          <ReturnOccurrencesByCauseGraph
+            data={businessData?.occurrencesByCause?.data}
             isFetching={isFetching}
           />
         </Box>

@@ -66,9 +66,7 @@ export function ReturnOccurrencesByItemCard() {
   //   return setRepresentativeCodes(representatives?.map((i) => i.value) ?? []);
   // };
 
-  const haveSomeData =
-    businessData?.returnOccurrences &&
-    businessData?.returnOccurrences.data.length > 0;
+  const haveSomeData = businessData?.occurrences;
 
   return (
     <ReturnOccurrencesCustomizedCard cardTitle='Relação de devoluções'>
@@ -83,9 +81,7 @@ export function ReturnOccurrencesByItemCard() {
         }}
       >
         <Box sx={{ width: "400px" }}>
-          <ReturnOccurrencesTotals
-            data={businessData?.returnOccurrences.totals}
-          />
+          <ReturnOccurrencesTotals data={businessData?.occurrences.totals} />
         </Box>
         {/* <Box sx={{ width: "100px" }}>
           <TextInputControlled
@@ -157,10 +153,10 @@ export function ReturnOccurrencesByItemCard() {
         </Box>
       ) : (
         <Box sx={{ display: "flex", flexDirection: "column", gap: 0.5 }}>
-          <ReturnOccurrencesTable
-            data={businessData?.returnOccurrences.data}
+          {/* <ReturnOccurrencesTable
+            data={businessData?.occurrences.data}
             isFetching={isFetching}
-          />
+          /> */}
         </Box>
       )}
     </ReturnOccurrencesCustomizedCard>

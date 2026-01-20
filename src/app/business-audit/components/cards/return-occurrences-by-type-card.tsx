@@ -2,7 +2,7 @@ import { Alert, Box } from "@mui/material";
 import { BusinessAuditCustomizedCard } from "../customized/card";
 import { useQueryStates, parseAsString } from "nuqs";
 import { useGetBusinessAuditReturnOccurrencesData } from "@/services/react-query/queries/business-audit";
-import { ReturnOccurrencesByProductGraph } from "../graphs/return-occurrences-by-type-graph";
+import { ReturnOccurrencesByTypeGraph } from "../graphs/return-occurrences-by-type-graph";
 import { LoaderIcon } from "../customized/loader-icon";
 import { StorageKeysEnum } from "@/constants/app/storage";
 import { useAllFilters } from "@/contexts/persisted-filters";
@@ -64,12 +64,12 @@ export function ReturnOccurrencesByTypeCard() {
       {/* <SalesTotals data={sales?.salesByClient.totals} /> */}
 
       {!haveSomeData && !isFetching ? (
-        <Box sx={{ display: "grid", placeContent: "center", height: "340px" }}>
+        <Box sx={{ display: "grid", placeContent: "center", height: "140px" }}>
           <Alert severity='info'>Sem Dados</Alert>
         </Box>
       ) : (
         <Box sx={{ display: "flex", flexDirection: "column", gap: 0.5 }}>
-          <ReturnOccurrencesByProductGraph
+          <ReturnOccurrencesByTypeGraph
             data={businessData?.occurrencesByType}
             isFetching={isFetching}
           />
