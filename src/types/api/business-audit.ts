@@ -121,6 +121,7 @@ export type GetOrderLineItem = OrderLine & {
 };
 
 export type GetBusinessAuditSalesDataTotals = {
+  invoiceQuantity: number;
   count: number;
   totalKg: number;
   totalFatValue: number;
