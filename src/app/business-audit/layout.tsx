@@ -77,6 +77,21 @@ const PageConfig = ({ children }: { children: ReactNode }) => {
       storageKey:
         StorageKeysEnum.MONITORING_RETURN_OCCURRENCES_REPRESENTATIVE_FILTER,
     },
+
+    {
+      defaultFilters: [],
+      storageKey:
+        StorageKeysEnum.MONITORING_INVOICE_TRACEABILITY_COMPANIES_FILTER,
+    },
+    {
+      defaultFilters: [],
+      storageKey: StorageKeysEnum.MONITORING_INVOICE_TRACEABILITY_CLIENT_FILTER,
+    },
+    {
+      defaultFilters: [],
+      storageKey:
+        StorageKeysEnum.MONITORING_INVOICE_TRACEABILITY_REPRESENTATIVE_FILTER,
+    },
   ];
   return <FiltersProvider configs={filtersConfig}>{children}</FiltersProvider>;
 };

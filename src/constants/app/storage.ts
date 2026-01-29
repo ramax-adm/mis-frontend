@@ -18,4 +18,8 @@ export enum StorageKeysEnum {
   MONITORING_RETURN_OCCURRENCES_CAUSES_FILTER = "m.monitoring.return-occurrences.causes-filter",
   MONITORING_RETURN_OCCURRENCES_CLIENT_FILTER = "m.monitoring.return-occurrences.client-filter",
   MONITORING_RETURN_OCCURRENCES_REPRESENTATIVE_FILTER = "m.monitoring.return-occurrences.representatives-filter",
+
+  MONITORING_INVOICE_TRACEABILITY_COMPANIES_FILTER = "m.monitoring.invoice-traceability.companies-filter",
+  MONITORING_INVOICE_TRACEABILITY_CLIENT_FILTER = "m.monitoring.invoice-traceability.client-filter",
+  MONITORING_INVOICE_TRACEABILITY_REPRESENTATIVE_FILTER = "m.monitoring.invoice-traceability.representatives-filter",
 }

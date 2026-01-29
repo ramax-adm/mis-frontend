@@ -40,6 +40,11 @@ export const urls = {
       GET_RETURN_OCCURRENCES_CLIENTS_FILTERS: `${apiLocal}/api/business-audit/return-occurrences/filters/clients`,
       GET_RETURN_OCCURRENCES_REPRESENTATIVE_FILTERS: `${apiLocal}/api/business-audit/return-occurrences/filters/sales-representatives`,
     },
+
+    // invoice traceability
+    INVOICE_TRACEABILITY: {
+      GET_BUSINESS_AUDIT_INVOICE_TRACEABILITY: `${apiLocal}/api/business-audit/invoice-traceability`,
+    },
   },
   BUSINESS_SUMMARY: {
     GET_OPERATION_FINANCE_SUMMARY: `${apiLocal}/business-summary/operation-finance/summary`,
