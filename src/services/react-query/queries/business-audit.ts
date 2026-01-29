@@ -6,6 +6,7 @@ import {
   GetBusinessAuditOverviewData,
 } from "@/services/webApi/business-audit-api";
 import {
+  GetBusinessAuditInvoiceTraceabilityDataResponse,
   GetBusinessAuditOverviewDataResponse,
   GetBusinessAuditReturnOccurrencesDataResponse,
   GetBusinessAuditSalesDataResponse,
@@ -90,7 +91,7 @@ export const useGetBusinessAuditSalesData = ({
             clientCodes,
             salesRepresentativeCodes,
           },
-        }
+        },
       );
       return response.data;
     },
@@ -143,13 +144,56 @@ export const useGetBusinessAuditReturnOccurrencesData = ({
             clientCodes,
             representativeCodes,
           },
-        }
+        },
       );
 
       return response.data;
     },
   });
 };
+
+export const useGetBusinessAuditInvoiceTraceabilityData = ({
+  startDate,
+  endDate,
+  companyCodes,
+  clientCodes,
+  representativeCodes,
+}: {
+  startDate: string;
+  endDate: string;
+  companyCodes?: string;
+  clientCodes?: string;
+  representativeCodes?: string;
+}) => {
+  return useApiQuery<GetBusinessAuditInvoiceTraceabilityDataResponse>({
+    queryKey: [
+      queryKeys.BUSINESS_AUDIT.GET_BUSINESS_AUDIT_INVOICE_TRACEABILITY,
+      startDate,
+      endDate,
+      companyCodes,
+      clientCodes,
+      representativeCodes,
+    ],
+    queryFn: async () => {
+      const response = await GetFetch(
+        urls.BUSINESS_AUDIT.INVOICE_TRACEABILITY
+          .GET_BUSINESS_AUDIT_INVOICE_TRACEABILITY,
+        {
+          params: {
+            startDate,
+            endDate,
+            companyCodes,
+            clientCodes,
+            representativeCodes,
+          },
+        },
+      );
+
+      return response.data;
+    },
+  });
+};
+
 export const useGetOneBusinessAuditReturnOccurrence = ({
   occurrenceNumber = "",
 }: {
@@ -158,15 +202,15 @@ export const useGetOneBusinessAuditReturnOccurrence = ({
   return useApiQuery<ReturnOccurrence[]>({
     queryKey: [
       queryKeys.BUSINESS_AUDIT.GET_ONE_BUSINESS_AUDIT_RETURN_OCCURRENCE.concat(
-        occurrenceNumber
+        occurrenceNumber,
       ),
     ],
     queryFn: async () => {
       const response = await GetFetch(
         urls.BUSINESS_AUDIT.RETURN_OCCURRENCES.GET_ONE_BUSINESS_AUDIT_RETURN_OCCURRENCE.replace(
           ":occurrenceNumber",
-          occurrenceNumber
-        )
+          occurrenceNumber,
+        ),
       );
       return response.data;
     },
@@ -193,13 +237,14 @@ export const useGetBusinessAuditOrdersLinesData = ({
     queryFn: async () => {
       const response = await GetFetch(
         urls.BUSINESS_AUDIT.SALES.GET_BUSINESS_AUDIT_ORDERS_LINES_DATA,
-        { params: { nfId, startDate, endDate } }
+        { params: { nfId, startDate, endDate } },
       );
       return response.data;
     },
   });
 };
 
+// FILTERS
 export const useGetBusinessAuditSalesClientFilters = ({
   startDate,
   endDate,
@@ -241,7 +286,7 @@ export const useGetBusinessAuditSalesClientFilters = ({
             clientCode,
             salesRepresentativeCode,
           },
-        }
+        },
       );
 
       return response.data;
@@ -290,7 +335,7 @@ export const useGetBusinessAuditSalesRepresentativeFilters = ({
             clientCode,
             salesRepresentativeCode,
           },
-        }
+        },
       );
 
       return response.data;
@@ -326,7 +371,7 @@ export const useGetBusinessAuditReturnOccurrencesCauses = () => {
     queryFn: async () => {
       const response = await GetFetch(
         urls.BUSINESS_AUDIT.RETURN_OCCURRENCES
-          .GET_RETURN_OCCURRENCES_CAUSES_FILTERS
+          .GET_RETURN_OCCURRENCES_CAUSES_FILTERS,
       );
 
       return response.data;
@@ -340,7 +385,7 @@ export const useGetBusinessAuditReturnOccurrencesClients = () => {
     queryFn: async () => {
       const response = await GetFetch(
         urls.BUSINESS_AUDIT.RETURN_OCCURRENCES
-          .GET_RETURN_OCCURRENCES_CLIENTS_FILTERS
+          .GET_RETURN_OCCURRENCES_CLIENTS_FILTERS,
       );
 
       return response.data;
@@ -356,7 +401,7 @@ export const useGetBusinessAuditReturnOccurrencesRepresentatives = () => {
     queryFn: async () => {
       const response = await GetFetch(
         urls.BUSINESS_AUDIT.RETURN_OCCURRENCES
-          .GET_RETURN_OCCURRENCES_REPRESENTATIVE_FILTERS
+          .GET_RETURN_OCCURRENCES_REPRESENTATIVE_FILTERS,
       );
 
       return response.data;

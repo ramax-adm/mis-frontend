@@ -43,16 +43,18 @@ import { BusinessAuditReturnOccurrencesSection } from "./components/sections/ret
 import { SalesSectionFilters } from "./components/filters/sales-section-filters";
 import { ReturnOccurrencesSectionFilters } from "./components/filters/return-occurrences-filters";
 import { BusinessAuditTabSectionsEnum } from "./constants/business-audit-tab-sections.enum";
+import { BusinessAuditInvoiceTraceabilitySection } from "./components/sections/invoice-traceability-section";
+import { InvoiceTraceabilitySectionFilters } from "./components/filters/invoice-traceability-section-filters";
 
 export default function BusinessAudit() {
   const tabPanelRef = useRef<TabsPanelRef>(null);
 
   const [globalStates, setGlobalStates] = useQueryStates({
     selectedTab: parseAsString.withDefault(
-      BusinessAuditTabSectionsEnum.OVERVIEW_SECTION
+      BusinessAuditTabSectionsEnum.OVERVIEW_SECTION,
     ),
     startDate: parseAsString.withDefault(
-      new Date().toISOString().split("T")[0]
+      new Date().toISOString().split("T")[0],
     ),
     endDate: parseAsString.withDefault(new Date().toISOString().split("T")[0]),
   });
@@ -91,13 +93,22 @@ export default function BusinessAudit() {
     [StorageKeysEnum.MONITORING_RETURN_OCCURRENCES_REPRESENTATIVE_FILTER]: {
       filters: returnOccurrencesRepresentativeCodes,
     },
+    [StorageKeysEnum.MONITORING_INVOICE_TRACEABILITY_COMPANIES_FILTER]: {
+      filters: invoiceTraceabilityCompanyCodes,
+    },
+    [StorageKeysEnum.MONITORING_INVOICE_TRACEABILITY_CLIENT_FILTER]: {
+      filters: invoiceTraceabilityClientCodes,
+    },
+    [StorageKeysEnum.MONITORING_INVOICE_TRACEABILITY_REPRESENTATIVE_FILTER]: {
+      filters: invoiceTraceabilityRepresentativeCodes,
+    },
   } = useAllFilters();
 
   const {
     mutateAsync: exportBusinessAuditReport,
     isPending: isExportingBusinessAuditReport,
   } = useExportBusinessAuditXlsx(
-    globalStates.selectedTab as BusinessAuditTabSectionsEnum
+    globalStates.selectedTab as BusinessAuditTabSectionsEnum,
   );
 
   const handleSelectStartDate = (value: Date) =>
@@ -134,6 +145,15 @@ export default function BusinessAudit() {
           occurrenceCauses: occurrenceCauses.join(","),
           occurrenceNumber: occurrenceNumber,
           returnType: returnType,
+        });
+        break;
+      }
+      case BusinessAuditTabSectionsEnum.INVOICE_TRACEABILITY_SECTION: {
+        Object.assign(payload, {
+          companyCodes: invoiceTraceabilityCompanyCodes.join(","),
+          clientCodes: invoiceTraceabilityClientCodes.join(","),
+          salesRepresentativeCodes:
+            invoiceTraceabilityRepresentativeCodes.join(","),
         });
         break;
       }
@@ -206,6 +226,11 @@ export default function BusinessAudit() {
         )}
 
         {globalStates.selectedTab ===
+          BusinessAuditTabSectionsEnum.INVOICE_TRACEABILITY_SECTION && (
+          <InvoiceTraceabilitySectionFilters />
+        )}
+
+        {globalStates.selectedTab ===
           BusinessAuditTabSectionsEnum.OVERVIEW_SECTION && (
           <Grid item>
             <Alert
@@ -245,6 +270,10 @@ export default function BusinessAudit() {
             label='Devoluções'
             value={BusinessAuditTabSectionsEnum.RETURN_OCCURRENCES_SECTION}
           />
+          <Tab
+            label='Refaturamentos'
+            value={BusinessAuditTabSectionsEnum.INVOICE_TRACEABILITY_SECTION}
+          />
         </Tabs.Select>
 
         <Tabs.Content>
@@ -265,6 +294,12 @@ export default function BusinessAudit() {
             ref={tabPanelRef}
           >
             <BusinessAuditReturnOccurrencesSection />
+          </Tabs.Panel>
+          <Tabs.Panel
+            tabName={BusinessAuditTabSectionsEnum.INVOICE_TRACEABILITY_SECTION}
+            ref={tabPanelRef}
+          >
+            <BusinessAuditInvoiceTraceabilitySection />
           </Tabs.Panel>
         </Tabs.Content>
       </Tabs.Root>

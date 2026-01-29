@@ -44,3 +44,59 @@ export interface ReturnOccurrence {
   reInvoicingValue?: number;
   createdAt: Date;
 }
+
+export interface ReinvoicingHistoryItem {
+  companyCode: string;
+  companyName: string;
+  date: Date;
+  nfNumber: string;
+  category: string;
+  clientCode: string;
+  clientName: string;
+  salesRepresentativeCode: string;
+  salesRepresentativeName: string;
+  productCode: string;
+  productName: string;
+  weightInKg: number;
+  saleUnitPrice: number;
+  tableUnitPrice: number;
+  invoicingValue: number;
+  tableValue: number;
+  reInvoicingDate: Date;
+  reInvoicingNfNumber: string;
+  reInvoicingNfSituation: string;
+  reInvoicingCategory: string;
+  reInvoicingProductCode: string;
+  reInvoicingProductName: string;
+  reInvoicingClientCode: string;
+  reInvoicingClientName: string;
+  reInvoicingWeightInKg: number;
+  reInvoicingUnitPrice: number;
+  reInvoicingTableUnitPrice: number;
+  reInvoicingValue: number;
+  reInvoicingTableValue: number;
+  reInvoicingDif: number;
+  difDays: number;
+  difWeightInKg: number;
+  difWeightInKgProportional: number;
+  difSaleUnitPrice: number;
+  difValue: number;
+  difValuePercent: number;
+
+  occurrenceNumber: string;
+  occurrenceCause: string;
+  occurrenceNf: string;
+  occurrenceNfProductId: string;
+  returnWeightInKg: number;
+  returnValue: number;
+  reinvoicingSequence: number;
+  returnType: string;
+  observation: string;
+
+  invoicingValueProportional: number;
+  testFinalValue: number;
+
+  aggDateReinvoicing: Date;
+  aggProductReinvoicing: string;
+  aggWeightInKgReinvoicing: number;
+}

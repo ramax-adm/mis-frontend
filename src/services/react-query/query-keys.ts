@@ -29,6 +29,10 @@ export const queryKeys = {
       "business-audit-filters-return-occurrences-clients",
     GET_RETURN_OCCURRENCES_REPRESENTATIVES_FILTERS:
       "business-audit-filters-return-occurrences-representatives",
+
+    // invoice traceability
+    GET_BUSINESS_AUDIT_INVOICE_TRACEABILITY:
+      "business-audit-invoice-traceability",
   },
   BUSINESS_SUMMARY: {
     GET_OPERATION_FINANCE_SUMMARY:

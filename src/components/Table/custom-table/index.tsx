@@ -59,25 +59,23 @@ export default function CustomTable<T extends { [key: string]: any }>({
           <TableBody>
             {rows.map((row, rowIndex) => (
               <TableRow hover role='checkbox' tabIndex={-1} key={rowIndex}>
-                {columns.map((column, idx) => {
+                {columns.map((column) => {
                   const value = row[column.headerKey];
-                  if (column.render) {
-                    return column.render(value, row);
-                  }
-
                   return (
                     <TableCell
-                      key={`tbody-${String(column.headerKey)}-${idx}`}
+                      key={String(column.headerKey)}
                       align={column.align}
                       sx={{
                         padding: 0.5,
                         fontSize: "10px",
-                        ...column?.cellSx,
+                        ...column.cellSx,
                       }}
                     >
-                      {column.format && typeof value === "number"
-                        ? column.format(value ?? 0)
-                        : value}
+                      {column.render
+                        ? column.render(value, row)
+                        : column.format && typeof value === "number"
+                          ? column.format(value ?? 0)
+                          : value}
                     </TableCell>
                   );
                 })}

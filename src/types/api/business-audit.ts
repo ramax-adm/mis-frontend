@@ -1,4 +1,4 @@
-import { ReturnOccurrence } from "../business-audit";
+import { ReinvoicingHistoryItem, ReturnOccurrence } from "../business-audit";
 import { OrderLine } from "../sales";
 import { MarketEnum } from "../sensatta";
 
@@ -161,6 +161,12 @@ export type GetBusinessAuditSalesInvoiceAgg = {
   discountValue: number;
   percentValue: number;
   totalKg: number;
+};
+export type GetBusinessAuditSalesInvoiceTotals = {
+  weightInKg: number;
+  totalFatValue: number;
+  totalTableValue: number;
+  totalDiff: number;
 };
 
 export type GetBusinessAuditSalesProductAgg = {
@@ -339,5 +345,68 @@ export interface GetBusinessAuditReturnOccurrencesDataResponse {
   occurrences: {
     data: Record<string, GetBusinessAuditReturnOccurrenceAgg>;
     totals: BusinessAuditReturnOccurrencesDataTotals;
+  };
+}
+
+export interface GetBusinessAuditInvoiceTraceabilityDataResponse {
+  salesByInvoice: {
+    totals: GetBusinessAuditSalesInvoiceTotals;
+    data: Record<string, GetBusinessAuditSalesInvoiceAgg>;
+  };
+  reInvoicings: {
+    totals: GetBusinessAuditSalesInvoiceTotals;
+    data: Record<string, GetBusinessAuditSalesInvoiceAgg>;
+  };
+  reinvoicingsTraceability: ReinvoicingHistoryItem[];
+  salesByCompany: {
+    totals: {
+      quantity: number;
+      quantityPercent: number;
+      invoiceValue: number;
+      referenceTableValue: number;
+      difValue: number;
+      difPercent: number;
+    };
+    data: Record<
+      string,
+      {
+        companyCode: string;
+        companyName: string;
+        quantity: number;
+        quantityPercent: number;
+        invoiceValue: number;
+        referenceTableValue: number;
+        difValue: number;
+        difPercent: number;
+      }
+    >;
+  };
+  kpis: {
+    invoiceQuantity: number;
+    initialFatValue: number;
+    initialTableValue: number;
+    returnOccurrencesValue: number;
+    reInvoicingsValue: number;
+    finalFatValue: number;
+  };
+  reInvoicingsTotals: {
+    reInvoicingQuantity: number;
+    reInvoicingQuantityPercent: number;
+    invoicesValue: number;
+    invoicesProportionalValue: number;
+    reInvoicingsValue: number;
+    finalValue: number;
+    difValue: number;
+    difPercent: number;
+  };
+  totals: {
+    quantityNf: number;
+    finalValue: number;
+    initialDifValue: number;
+    initialDifPercent: number;
+    reInvoicingDifValue: number;
+    reInvoicingDifPercent: number;
+    totalDifValue: number;
+    totalDifPercent: number;
   };
 }
