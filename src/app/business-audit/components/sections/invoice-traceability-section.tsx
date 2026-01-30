@@ -33,11 +33,11 @@ const INVOICES_VISUALIZATION_OPTIONS = [
     key: InvoicesVisualizationEnum.BY_SALE,
     value: InvoicesVisualizationEnum.BY_SALE,
   },
-  {
-    label: "P/ Refaturamento",
-    key: InvoicesVisualizationEnum.BY_REINVOICING,
-    value: InvoicesVisualizationEnum.BY_REINVOICING,
-  },
+  // {
+  //   label: "P/ Refaturamento",
+  //   key: InvoicesVisualizationEnum.BY_REINVOICING,
+  //   value: InvoicesVisualizationEnum.BY_REINVOICING,
+  // },
 ];
 
 export function BusinessAuditInvoiceTraceabilitySection() {
@@ -115,7 +115,8 @@ export function BusinessAuditInvoiceTraceabilitySection() {
       <Grid container marginTop={0.1} spacing={1}>
         <Grid
           item
-          xs={2}
+          xs={12}
+          sm={2}
           marginTop={{
             xs: 0,
             sm: 2,
@@ -150,7 +151,8 @@ export function BusinessAuditInvoiceTraceabilitySection() {
         </Grid>
         <Grid
           item
-          xs={2}
+          xs={12}
+          sm={2}
           marginTop={{
             xs: 0,
             sm: 2,
@@ -202,7 +204,7 @@ export function BusinessAuditInvoiceTraceabilitySection() {
          * SECTION PARA OS KPIS
          * TOTAIS
          */}
-        <Grid item xs={3.5}>
+        <Grid item xs={12} md={3.5}>
           <InvoiceTraceabilityKpisTotals data={data?.kpis} />
           <InvoiceTraceabilityReInvoicingsTotals
             data={data?.reInvoicingsTotals}
@@ -212,10 +214,10 @@ export function BusinessAuditInvoiceTraceabilitySection() {
         {/**
          * P/ empresa
          */}
-        <Grid item xs={4.25}>
+        <Grid item xs={12} md={4.25}>
           <InvoiceTraceabilitySalesByCompanyCard />
         </Grid>
-        <Grid item xs={4.25}>
+        <Grid item xs={12} md={4.25}>
           {sectionStates.invoicesVisualization ===
             InvoicesVisualizationEnum.BY_SALE && (
             <InvoiceTraceabilitySalesByInvoiceCard />

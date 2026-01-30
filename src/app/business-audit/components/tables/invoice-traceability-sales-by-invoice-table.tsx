@@ -61,7 +61,7 @@ export function InvoiceTraceabilitySalesByInvoiceTable({
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          height: "255px",
+          height: "290px",
         }}
       >
         <LoaderIcon />

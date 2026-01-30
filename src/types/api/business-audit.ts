@@ -263,6 +263,7 @@ export type GetBusinessAuditReturnOccurrenceByCompanyAgg = {
   quantity: number;
   weightInKg: number;
   value: number;
+  invoiceValue: number;
 };
 
 export type GetBusinessAuditReturnOccurrenceByCauseAgg = {
@@ -270,6 +271,7 @@ export type GetBusinessAuditReturnOccurrenceByCauseAgg = {
   quantity: number;
   weightInKg: number;
   value: number;
+  invoiceValue: number;
   percentValue: number;
 };
 
@@ -278,6 +280,7 @@ export type GetBusinessAuditReturnOccurrenceByRepresentativeAgg = {
   quantity: number;
   weightInKg: number;
   value: number;
+  invoiceValue: number;
 };
 
 export type GetBusinessAuditReturnOccurrenceByClientAgg = {
@@ -285,6 +288,7 @@ export type GetBusinessAuditReturnOccurrenceByClientAgg = {
   quantity: number;
   weightInKg: number;
   value: number;
+  invoiceValue: number;
 };
 
 export type GetBusinessAuditReturnOccurrenceByProductAgg = {
@@ -292,6 +296,7 @@ export type GetBusinessAuditReturnOccurrenceByProductAgg = {
   quantity: number;
   weightInKg: number;
   value: number;
+  invoiceValue: number;
 };
 
 export type GetBusinessAuditReturnOccurrenceByDayAgg = {
@@ -299,6 +304,7 @@ export type GetBusinessAuditReturnOccurrenceByDayAgg = {
   quantity: number;
   weightInKg: number;
   value: number;
+  invoiceValue: number;
 };
 
 export type GetBusinessAuditReturnOccurrenceByTypeAgg = {
@@ -306,6 +312,7 @@ export type GetBusinessAuditReturnOccurrenceByTypeAgg = {
   quantity: number;
   weightInKg: number;
   value: number;
+  invoiceValue: number;
   percentValue: number;
 };
 
@@ -314,6 +321,7 @@ export type BusinessAuditReturnOccurrencesDataTotals = {
   quantity: number;
   weightInKg: number;
   value: number;
+  invoiceValue: number;
 };
 
 export interface GetBusinessAuditReturnOccurrencesDataResponse {
