@@ -29,6 +29,7 @@ type ReturnOccurrencesTableData = GetBusinessAuditReturnOccurrenceAgg & {
   representative: string;
   fatValue: string;
   returnValueFormated: string;
+  returnWeightInKgFormated: string;
 };
 
 interface ReturnOccurrencesTableProps {
@@ -89,9 +90,10 @@ const getData = ({
     representative: `${i.salesRepresentativeCode} - ${i.salesRepresentativeName}`,
     fatValue: toLocaleString(i.invoiceValue ?? 0),
     returnValueFormated: toLocaleString(i.returnValue ?? 0),
+    returnWeightInKgFormated: toLocaleString(i.returnWeightInKg ?? 0),
   }));
   return response.sort(
-    (a, b) => Number(b.occurrenceNumber) - Number(a.occurrenceNumber)
+    (a, b) => Number(b.occurrenceNumber) - Number(a.occurrenceNumber),
   );
 };
 
@@ -164,6 +166,12 @@ const getColumns = ({
   {
     headerKey: "returnQuantity",
     headerName: "Qtd Dev.",
+    sx: { fontSize: "9.5px", paddingX: 0.5 },
+    cellSx: { fontSize: "9px" },
+  },
+  {
+    headerKey: "returnWeightInKgFormated",
+    headerName: "KG Dev.",
     sx: { fontSize: "9.5px", paddingX: 0.5 },
     cellSx: { fontSize: "9px" },
   },

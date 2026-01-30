@@ -68,6 +68,7 @@ const getData = ({
       valueFormated: toLocaleString(data[key].value),
       quantityFormated: toLocaleString(data[key].quantity),
       weightInKgFormated: toLocaleString(data[key].weightInKg),
+      invoiceValue: data[key].invoiceValue,
     });
   }
   return response.sort((a, b) => b.count - a.count);

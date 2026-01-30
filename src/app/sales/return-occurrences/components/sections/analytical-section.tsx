@@ -9,7 +9,7 @@ import { useCallback } from "react";
 export function ReturnOccurrencesAnalyticalSection() {
   const [filterStates] = useQueryStates({
     startDate: parseAsString.withDefault(
-      new Date().toISOString().split("T")[0]
+      new Date().toISOString().split("T")[0],
     ),
     endDate: parseAsString.withDefault(new Date().toISOString().split("T")[0]),
     companyCodes: parseAsArrayOf(parseAsString).withDefault([]),
@@ -40,6 +40,7 @@ export function ReturnOccurrencesAnalyticalSection() {
       quantity: 0,
       value: 0,
       weightInKg: 0,
+      invoiceValue: 0,
     };
 
     if (returnOccurences?.totals) {
@@ -47,6 +48,7 @@ export function ReturnOccurrencesAnalyticalSection() {
       totals.quantity = returnOccurences?.totals.returnQuantity;
       totals.value = returnOccurences?.totals.returnValue;
       totals.weightInKg = returnOccurences?.totals.returnWeightInKg;
+      // totals.invoiceValue = returnOccurences?.totals.;
     }
 
     return totals;
