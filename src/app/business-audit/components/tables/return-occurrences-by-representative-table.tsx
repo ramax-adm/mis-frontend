@@ -15,6 +15,7 @@ type ReturnOccurrencesByRepresentativeTableData =
     valueFormated: string;
     quantityFormated: string;
     weightInKgFormated: string;
+    invoiceValueFormated: string;
   };
 
 interface ReturnOccurrencesByRepresentativeTableProps {
@@ -71,6 +72,8 @@ const getData = ({
       valueFormated: toLocaleString(data[key].value),
       quantityFormated: toLocaleString(data[key].quantity),
       weightInKgFormated: toLocaleString(data[key].weightInKg),
+      invoiceValue: data[key].invoiceValue,
+      invoiceValueFormated: toLocaleString(data[key].invoiceValue),
     });
   }
   return response.sort((a, b) => b.value - a.value);
@@ -86,19 +89,25 @@ const getColumns =
     },
     {
       headerKey: "count",
-      headerName: "Qtd Dev.",
+      headerName: "# Dev.",
       sx: { fontSize: "9.5px", paddingX: 0.5 },
       cellSx: { fontSize: "9px" },
     },
     {
       headerKey: "quantityFormated",
-      headerName: "Qtd. Itens",
+      headerName: "Qtd Dev.",
+      sx: { fontSize: "9.5px", paddingX: 0.5 },
+      cellSx: { fontSize: "9px" },
+    },
+    {
+      headerKey: "invoiceValueFormated",
+      headerName: "$ Fat.",
       sx: { fontSize: "9.5px", paddingX: 0.5 },
       cellSx: { fontSize: "9px" },
     },
     {
       headerKey: "valueFormated",
-      headerName: "$ Fat.",
+      headerName: "$ Dev.",
       sx: { fontSize: "9.5px", paddingX: 0.5 },
       cellSx: { fontSize: "9px" },
     },

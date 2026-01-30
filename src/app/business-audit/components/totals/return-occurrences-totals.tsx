@@ -30,19 +30,25 @@ export function ReturnOccurrencesTotals({
       </Typography>
       <Box sx={{ display: "inline-flex", flexWrap: "wrap", gap: 2 }}>
         <Box sx={{ display: "flex", alignItems: "center", gap: 0.3 }}>
-          <Typography fontSize={"9px"}>Qtd. Dev</Typography>
+          <Typography fontSize={"9px"}># B.Os</Typography>
           <Typography fontSize={"11px"} fontWeight={700}>
             {data?.count ?? 0}
           </Typography>
         </Box>
-        <Box sx={{ display: "flex", alignItems: "center", gap: 0.3 }}>
+        {/* <Box sx={{ display: "flex", alignItems: "center", gap: 0.3 }}>
           <Typography fontSize={"9.5px"}>Qtd. Itens</Typography>
           <Typography fontSize={"11px"} fontWeight={700}>
             {toLocaleString(data?.quantity ?? 0)}
           </Typography>
-        </Box>
+        </Box> */}
         <Box sx={{ display: "flex", alignItems: "center", gap: 0.3 }}>
           <Typography fontSize={"9.5px"}>$ Fat.</Typography>
+          <Typography fontSize={"11px"} fontWeight={700}>
+            {toLocaleString(data?.invoiceValue ?? 0)}
+          </Typography>
+        </Box>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 0.3 }}>
+          <Typography fontSize={"9.5px"}>$ Dev.</Typography>
           <Typography fontSize={"11px"} fontWeight={700}>
             {toLocaleString(data?.value ?? 0)}
           </Typography>
