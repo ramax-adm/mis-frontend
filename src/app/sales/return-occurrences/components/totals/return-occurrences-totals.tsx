@@ -44,7 +44,7 @@ export function ReturnOccurrencesTotals({
         <Box sx={{ display: "flex", alignItems: "center", gap: 0.3 }}>
           <Typography fontSize={"9.5px"}>$ Fat.</Typography>
           <Typography fontSize={"11px"} fontWeight={700}>
-            {toLocaleString(data?.value ?? 0)}
+            {toLocaleString(data?.totalSalesFatValue ?? 0)}
           </Typography>
         </Box>
         <Box sx={{ display: "flex", alignItems: "center", gap: 0.3 }}>

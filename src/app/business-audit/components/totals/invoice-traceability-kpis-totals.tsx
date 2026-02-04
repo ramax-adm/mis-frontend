@@ -28,7 +28,7 @@ export function InvoiceTraceabilityKpisTotals({
       }}
     >
       <Typography fontWeight={700} fontSize={"12px"} color={indigo["A700"]}>
-        KPIs
+        FATURAMENTO DO PERIODO
       </Typography>
       <Box sx={{ display: "inline-flex", gap: 1, flexWrap: "wrap" }}>
         <BusinessAuditInvoiceTraceabilityKpiIndicator
@@ -41,10 +41,15 @@ export function InvoiceTraceabilityKpisTotals({
           value={`R$ ${toLocaleString(data?.initialFatValue ?? 0)}`}
         />
         <BusinessAuditInvoiceTraceabilityKpiIndicator
-          label='$Tab'
+          label='$ Tab'
           value={`R$ ${toLocaleString(data?.initialTableValue ?? 0)}`}
         />
         <BusinessAuditInvoiceTraceabilityKpiIndicator
+          label='$ Desc. tabela'
+          value={`R$ ${toLocaleString(data?.initialDifValue ?? 0)}`}
+          isImportant
+        />
+        {/* <BusinessAuditInvoiceTraceabilityKpiIndicator
           label='$ Devoluções'
           value={`R$ ${toLocaleString(data?.returnOccurrencesValue ?? 0)}`}
         />
@@ -55,7 +60,8 @@ export function InvoiceTraceabilityKpisTotals({
         <BusinessAuditInvoiceTraceabilityKpiIndicator
           label='$ Fat. Final'
           value={`R$ ${toLocaleString(data?.finalFatValue ?? 0)}`}
-        />
+          isImportant
+        /> */}
       </Box>
     </Box>
   );

@@ -9,11 +9,11 @@ import { MarketEnum } from "@/types/sensatta";
 import { Grid, Typography } from "@mui/material";
 
 const MARKET_OPTIONS = [
-  {
-    label: "Todos",
-    key: "",
-    value: "",
-  },
+  // {
+  //   label: "Todos",
+  //   key: "",
+  //   value: "",
+  // },
   {
     label: "ME",
     key: MarketEnum.ME,
@@ -45,12 +45,12 @@ export function SalesSectionFilters() {
   >(StorageKeysEnum.MONITORING_SALES_COMPANIES_FILTER);
 
   const { filters: market, setFilters: setMarket } = useFilter<string>(
-    StorageKeysEnum.MONITORING_SALES_MARKET_FILTER
+    StorageKeysEnum.MONITORING_SALES_MARKET_FILTER,
   );
 
   const { filters: priceConsideration, setFilters: setPriceConsideration } =
     useFilter<string>(
-      StorageKeysEnum.MONITORING_SALES_PRICE_CONSIDERATION_FILTER
+      StorageKeysEnum.MONITORING_SALES_PRICE_CONSIDERATION_FILTER,
     );
 
   const handleToogleCompanyCodes = () => {
@@ -141,7 +141,7 @@ export function SalesSectionFilters() {
           value={priceConsideration}
           onChange={
             handleSelectPriceConsideration as (
-              value: string | number | Date
+              value: string | number | Date,
             ) => void
           }
           options={PRICE_CONSIDERATION_OPTIONS}

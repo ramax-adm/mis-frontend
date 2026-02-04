@@ -204,7 +204,7 @@ export function BusinessAuditInvoiceTraceabilitySection() {
          * SECTION PARA OS KPIS
          * TOTAIS
          */}
-        <Grid item xs={12} md={3.5}>
+        <Grid item xs={12} md={6}>
           <InvoiceTraceabilityKpisTotals data={data?.kpis} />
           <InvoiceTraceabilityReInvoicingsTotals
             data={data?.reInvoicingsTotals}
@@ -214,10 +214,10 @@ export function BusinessAuditInvoiceTraceabilitySection() {
         {/**
          * P/ empresa
          */}
-        <Grid item xs={12} md={4.25}>
+        {/* <Grid item xs={12} md={4.25}>
           <InvoiceTraceabilitySalesByCompanyCard />
-        </Grid>
-        <Grid item xs={12} md={4.25}>
+        </Grid> */}
+        <Grid item xs={12} md={6}>
           {sectionStates.invoicesVisualization ===
             InvoicesVisualizationEnum.BY_SALE && (
             <InvoiceTraceabilitySalesByInvoiceCard />
