@@ -1,13 +1,15 @@
 import { Box, Typography } from "@mui/material";
-import { indigo, orange, red } from "@mui/material/colors";
+import { grey, indigo, orange, red } from "@mui/material/colors";
 
 interface BusinessAuditInvoiceTraceabilityTotalsIndicatorProps {
   label: string;
   value?: string | number;
+  isImportant?: boolean;
 }
 export function BusinessAuditInvoiceTraceabilityTotalsIndicator({
   label,
   value = "N/D",
+  isImportant = false,
 }: BusinessAuditInvoiceTraceabilityTotalsIndicatorProps) {
   return (
     <Box
@@ -15,20 +17,29 @@ export function BusinessAuditInvoiceTraceabilityTotalsIndicator({
         display: "flex",
         flexDirection: "column",
         gap: 0.5,
-        backgroundColor: indigo["A400"],
+        backgroundColor: isImportant ? indigo["A700"] : indigo["50"],
         borderRadius: 0.5,
         py: 0.2,
         px: 0.5,
-        width: "150px",
+        width: "120px",
       }}
     >
       <Typography
-        sx={{ fontSize: 10, fontWeight: 400, color: indigo["50"] }}
-        color={indigo["50"]}
+        sx={{
+          fontSize: 9.5,
+          fontWeight: isImportant ? 700 : 400,
+          color: isImportant ? indigo["50"] : indigo["A400"],
+        }}
       >
         {label}
       </Typography>
-      <Typography sx={{ fontSize: 14, fontWeight: 700, color: indigo["50"] }}>
+      <Typography
+        sx={{
+          fontSize: 12.5,
+          fontWeight: 700,
+          color: isImportant ? indigo["50"] : indigo["A400"],
+        }}
+      >
         {value}
       </Typography>
     </Box>

@@ -39,6 +39,8 @@ export function ReturnOccurrencesAnalyticalSection() {
       count: 0,
       quantity: 0,
       value: 0,
+      totalSalesFatValue: 0,
+      percentFatValue: 0,
       weightInKg: 0,
       invoiceValue: 0,
     };
