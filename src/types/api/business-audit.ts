@@ -322,6 +322,8 @@ export type BusinessAuditReturnOccurrencesDataTotals = {
   weightInKg: number;
   value: number;
   invoiceValue: number;
+  totalSalesFatValue: number;
+  percentFatValue: number;
 };
 
 export interface GetBusinessAuditReturnOccurrencesDataResponse {
@@ -393,6 +395,7 @@ export interface GetBusinessAuditInvoiceTraceabilityDataResponse {
     invoiceQuantity: number;
     initialFatValue: number;
     initialTableValue: number;
+    initialDifValue: number;
     returnOccurrencesValue: number;
     reInvoicingsValue: number;
     finalFatValue: number;
@@ -401,6 +404,8 @@ export interface GetBusinessAuditInvoiceTraceabilityDataResponse {
     reInvoicingQuantity: number;
     reInvoicingQuantityPercent: number;
     invoicesValue: number;
+    tableValue: number;
+    tableDifValue: number;
     invoicesProportionalValue: number;
     reInvoicingsValue: number;
     finalValue: number;

@@ -19,6 +19,7 @@ export function InvoiceTraceabilityReInvoicingsTotals({
       sx={{
         display: "inline-flex", // <- muda para inline-flex
         flexDirection: "column",
+        justifyContent: "center",
         gap: 0,
         padding: "2px",
         borderRadius: "4px",
@@ -27,34 +28,61 @@ export function InvoiceTraceabilityReInvoicingsTotals({
         marginTop: 1,
       }}
     >
-      <Typography fontWeight={700} fontSize={"12px"} color={red["A700"]}>
-        REFATURAMENTOS
+      <Typography fontWeight={700} fontSize={"12px"} color={indigo["A700"]}>
+        DEVOLUÇÕES C/ REFATURAMENTOS
       </Typography>
-      <Box sx={{ display: "inline-flex", gap: 1, flexWrap: "wrap" }}>
+      <Box
+        sx={{
+          display: "inline-flex",
+          alignItems: "center",
+          gap: 1,
+          flexWrap: "wrap",
+          marginTop: -1,
+        }}
+      >
         <BusinessAuditInvoiceTraceabilityReInvoicingIndicator
           label='Qtd.'
           value={`${toLocaleString(data?.reInvoicingQuantity ?? 0)} | ${toPercent(data?.reInvoicingQuantityPercent)}`}
         />
         <BusinessAuditInvoiceTraceabilityReInvoicingIndicator
-          label='$ Fat. C1'
+          label='$ Fat.'
           value={`R$ ${toLocaleString(data?.invoicesValue ?? 0)}`}
         />
         <BusinessAuditInvoiceTraceabilityReInvoicingIndicator
-          label='$ Fat. C1 reteve'
-          value={`R$ ${toLocaleString(data?.invoicesProportionalValue ?? 0)}`}
+          label='$ Tab.'
+          value={`R$ ${toLocaleString(data?.tableValue ?? 0)}`}
         />
         <BusinessAuditInvoiceTraceabilityReInvoicingIndicator
-          label='$ Refat. C2'
-          value={`R$ ${toLocaleString(data?.reInvoicingsValue ?? 0)}`}
+          label='$ Desc. tabela'
+          value={`R$ ${toLocaleString(data?.tableDifValue ?? 0)}`}
         />
+        <Box sx={{ display: "flex", flexDirection: "column", gap: 0.1 }}>
+          <BusinessAuditInvoiceTraceabilityReInvoicingIndicator
+            label='$ Fat. C1 reteve'
+            value={`R$ ${toLocaleString(data?.invoicesProportionalValue ?? 0)}`}
+            py={0}
+            fontSize={8}
+            cellFontSize={10.5}
+          />
+          <BusinessAuditInvoiceTraceabilityReInvoicingIndicator
+            label='$ Refat. C2'
+            value={`R$ ${toLocaleString(data?.reInvoicingsValue ?? 0)}`}
+            py={0}
+            fontSize={8}
+            cellFontSize={10.5}
+          />
+        </Box>
         <BusinessAuditInvoiceTraceabilityReInvoicingIndicator
           label='$ REFAT. FINAL'
           value={`R$ ${toLocaleString(data?.finalValue ?? 0)}`}
+          isImportant
         />
-        <BusinessAuditInvoiceTraceabilityReInvoicingIndicator
+        {/* <BusinessAuditInvoiceTraceabilityReInvoicingIndicator
           label='$ Desc'
-          value={`R$ ${toLocaleString(data?.difValue ?? 0)} | ${toPercent(data?.difPercent)}`}
-        />
+          // value={`R$ ${toLocaleString(data?.difValue ?? 0)} | ${toPercent(data?.difPercent)}`}
+          value={`R$ ${toLocaleString(data?.difValue ?? 0)}`}
+          isImportant
+        /> */}
       </Box>
     </Box>
   );

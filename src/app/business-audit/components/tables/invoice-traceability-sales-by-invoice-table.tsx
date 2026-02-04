@@ -61,7 +61,7 @@ export function InvoiceTraceabilitySalesByInvoiceTable({
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          height: "290px",
+          height: "170px",
         }}
       >
         <LoaderIcon />
@@ -73,7 +73,7 @@ export function InvoiceTraceabilitySalesByInvoiceTable({
     <PaginatedTable<InvoiceTraceabilitySalesByInvoiceTableData>
       columns={columns}
       rows={parsedData}
-      tableStyles={{ height: "255px" }}
+      tableStyles={{ height: "135px" }}
     />
   );
 }

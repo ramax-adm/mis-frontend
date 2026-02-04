@@ -57,7 +57,7 @@ export function InvoiceTraceabilitySalesByInvoiceCard() {
   return (
     <BusinessAuditCustomizedCard cardTitle='Notas Fiscais - Venda'>
       {!haveSomeData && !isFetching ? (
-        <Box sx={{ display: "grid", placeContent: "center", height: "270px" }}>
+        <Box sx={{ display: "grid", placeContent: "center", height: "150px" }}>
           <Alert severity='info'>Sem Dados</Alert>
         </Box>
       ) : (

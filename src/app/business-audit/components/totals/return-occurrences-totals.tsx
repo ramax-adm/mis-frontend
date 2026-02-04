@@ -3,7 +3,7 @@ import {
   BusinessAuditReturnOccurrencesDataTotals,
   GetBusinessAuditSalesDataTotals,
 } from "@/types/api/business-audit";
-import { toLocaleString } from "@/utils/string.utils";
+import { toLocaleString, toPercent } from "@/utils/string.utils";
 import { Box, Typography } from "@mui/material";
 
 interface ReturnOccurrencesTotalsProps {
@@ -44,13 +44,19 @@ export function ReturnOccurrencesTotals({
         <Box sx={{ display: "flex", alignItems: "center", gap: 0.3 }}>
           <Typography fontSize={"9.5px"}>$ Fat.</Typography>
           <Typography fontSize={"11px"} fontWeight={700}>
-            {toLocaleString(data?.invoiceValue ?? 0)}
+            {toLocaleString(data?.totalSalesFatValue ?? 0)}
           </Typography>
         </Box>
         <Box sx={{ display: "flex", alignItems: "center", gap: 0.3 }}>
           <Typography fontSize={"9.5px"}>$ Dev.</Typography>
           <Typography fontSize={"11px"} fontWeight={700}>
             {toLocaleString(data?.value ?? 0)}
+          </Typography>
+        </Box>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 0.3 }}>
+          <Typography fontSize={"9.5px"}>% Dev</Typography>
+          <Typography fontSize={"11px"} fontWeight={700}>
+            {toPercent(data?.percentFatValue ?? 0)}
           </Typography>
         </Box>
         <Box sx={{ display: "flex", alignItems: "center", gap: 0.3 }}>

@@ -17,7 +17,7 @@ import { COLORS } from "@/constants/styles/colors";
 export function ReturnOccurrencesByItemCard() {
   const [globalStates] = useQueryStates({
     startDate: parseAsString.withDefault(
-      new Date().toISOString().split("T")[0]
+      new Date().toISOString().split("T")[0],
     ),
     endDate: parseAsString.withDefault(new Date().toISOString().split("T")[0]),
   });
@@ -100,7 +100,7 @@ export function ReturnOccurrencesByItemCard() {
           gap: 1,
         }}
       >
-        <Box sx={{ width: "400px" }}>
+        <Box sx={{ width: "500px" }}>
           <ReturnOccurrencesTotals data={businessData?.occurrences.totals} />
         </Box>
         <Box sx={{ width: "100px" }}>
