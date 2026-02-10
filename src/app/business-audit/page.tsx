@@ -270,10 +270,10 @@ export default function BusinessAudit() {
             label='Devoluções'
             value={BusinessAuditTabSectionsEnum.RETURN_OCCURRENCES_SECTION}
           />
-          <Tab
+          {/*<Tab
             label='Refaturamentos'
             value={BusinessAuditTabSectionsEnum.INVOICE_TRACEABILITY_SECTION}
-          />
+          />*/}
         </Tabs.Select>
 
         <Tabs.Content>
@@ -295,12 +295,12 @@ export default function BusinessAudit() {
           >
             <BusinessAuditReturnOccurrencesSection />
           </Tabs.Panel>
-          <Tabs.Panel
+          {/* <Tabs.Panel
             tabName={BusinessAuditTabSectionsEnum.INVOICE_TRACEABILITY_SECTION}
             ref={tabPanelRef}
           >
             <BusinessAuditInvoiceTraceabilitySection />
-          </Tabs.Panel>
+          </Tabs.Panel> */}
         </Tabs.Content>
       </Tabs.Root>
     </PageContainer>
