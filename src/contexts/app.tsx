@@ -128,18 +128,18 @@ export default function AppProvider({ children }: AppContextProviderProps) {
           path: PageRoutes.meStock(),
           title: "Produtos ME",
         },
-        {
-          path: PageRoutes.incomingBatches(),
-          title: "Etiquetas",
-        },
-        {
-          path: PageRoutes.stockBalance(),
-          title: "Saldo Estoque",
-        },
-        {
-          path: PageRoutes.inventory(),
-          title: "Inventário",
-        },
+        // {
+        //   path: PageRoutes.incomingBatches(),
+        //   title: "Etiquetas",
+        // },
+        // {
+        //   path: PageRoutes.stockBalance(),
+        //   title: "Saldo Estoque",
+        // },
+        // {
+        //   path: PageRoutes.inventory(),
+        //   title: "Inventário",
+        // },
       ],
     },
     {
@@ -160,10 +160,10 @@ export default function AppProvider({ children }: AppContextProviderProps) {
       icon: MdLocalShipping,
       submenu: true,
       subMenuItems: [
-        {
-          path: PageRoutes.anttConsultation(),
-          title: "Consulta ANTT",
-        },
+        // {
+        //   path: PageRoutes.anttConsultation(),
+        //   title: "Consulta ANTT",
+        // },
         {
           path: PageRoutes.cattlePurchaseFreights(),
           title: "Compra Gado",
@@ -180,24 +180,24 @@ export default function AppProvider({ children }: AppContextProviderProps) {
           path: PageRoutes.invoicings(),
           title: "Faturamentos",
         },
-        {
-          path: PageRoutes.returnOccurrences(),
-          title: "Devoluções",
-        },
+        // {
+        //   path: PageRoutes.returnOccurrences(),
+        //   title: "Devoluções",
+        // },
       ],
     },
-    {
-      title: "RH",
-      path: PageRoutes.humanResources(),
-      icon: IoPeople,
-      submenu: true,
-      subMenuItems: [
-        {
-          path: PageRoutes.humanResourcesHours(),
-          title: "Horas Extras",
-        },
-      ],
-    },
+    // {
+    //   title: "RH",
+    //   path: PageRoutes.humanResources(),
+    //   icon: IoPeople,
+    //   submenu: true,
+    //   subMenuItems: [
+    //     {
+    //       path: PageRoutes.humanResourcesHours(),
+    //       title: "Horas Extras",
+    //     },
+    //   ],
+    // },
     {
       title: "Outros",
       path: PageRoutes.others(),
@@ -274,10 +274,10 @@ export default function AppProvider({ children }: AppContextProviderProps) {
   }) => {
     const isUserAdmin = user.role === UserRoleEnum.Admin;
     const isUserHasWebpage = user?.userWebpages?.find(
-      (i) => i.page.page === item.path
+      (i) => i.page.page === item.path,
     );
     const isPublicPage = webpages.find(
-      (i) => i.page === item.path && i.isPublic
+      (i) => i.page === item.path && i.isPublic,
     );
 
     return !!isUserHasWebpage || !!isPublicPage || !!isUserAdmin;
